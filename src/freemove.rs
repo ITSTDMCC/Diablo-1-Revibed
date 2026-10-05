@@ -48,6 +48,8 @@ pub struct FreeMoveState {
     cur_off: (f32, f32),
     /// The exact ground point under the cursor (in tiles), set by `CheckCursMove`.
     pub cursor_point: Option<(f32, f32)>,
+    /// The destination of the walk in progress (`go_to`'s target and `endspace`).
+    goal: Option<(Point, bool)>,
 }
 
 /// Free movement applies to this player now.
@@ -71,23 +73,40 @@ fn tile_f(t: Point) -> (f32, f32) {
     (t.x as f32, t.y as f32)
 }
 
-/// The sprite's facing for a movement in tiles: the nearest of the eight screen directions.
-fn facing(d: (f32, f32)) -> Direction {
+const FACINGS: [Direction; 8] = [
+    Direction::East,
+    Direction::NorthEast,
+    Direction::North,
+    Direction::NorthWest,
+    Direction::West,
+    Direction::SouthWest,
+    Direction::South,
+    Direction::SouthEast,
+];
+
+/// A movement's angle on the ground plane seen from above (screen y doubled undoes the
+/// isometric squash), 0 = screen right, counter-clockwise, in degrees.
+fn ground_angle(d: (f32, f32)) -> f32 {
     let s = world_to_screen(d);
-    // angle on the ground plane seen from above (screen y doubled undoes the isometric
-    // squash), 0 = screen right, counter-clockwise
-    let angle = (-2.0 * s.1).atan2(s.0).to_degrees();
+    (-2.0 * s.1).atan2(s.0).to_degrees()
+}
+
+/// The sprite's facing for a movement: the nearest of the eight directions, but the current
+/// facing is kept until the movement is clearly closer to another one, so a path that zigzags
+/// between two directions does not flip the sprite back and forth.
+fn facing(d: (f32, f32), current: Option<Direction>) -> Direction {
+    let angle = ground_angle(d);
+    if let Some(cur) = current {
+        if let Some(i) = FACINGS.iter().position(|&f| f == cur) {
+            let centre = i as f32 * 45.0;
+            let diff = ((angle - centre + 540.0) % 360.0 - 180.0).abs();
+            if diff <= 22.5 + 15.0 {
+                return cur;
+            }
+        }
+    }
     let sector = (((angle + 360.0 + 22.5) % 360.0) / 45.0) as usize;
-    [
-        Direction::East,
-        Direction::NorthEast,
-        Direction::North,
-        Direction::NorthWest,
-        Direction::West,
-        Direction::SouthWest,
-        Direction::South,
-        Direction::SouthEast,
-    ][sector.min(7)]
+    FACINGS[sector.min(7)]
 }
 
 /// The tile can be stood on (`PosOkPlayer`), or is the player's own.
@@ -138,60 +157,109 @@ fn reset_to_tile(ctx: &mut Ctx, pnum: usize) {
     s.tile = t;
     s.waypoints.clear();
     s.stop_next_to = None;
+    s.goal = None;
     s.prev_off = (0.0, 0.0);
     s.cur_off = (0.0, 0.0);
 }
 
+/// Tiles searched at most for one path (the original's `FindPath` gives up after 25 steps).
+const MAX_SEARCH: usize = 12_000;
+
+/// A* over the tiles the player may enter, eight directions (diagonals may not cut a solid
+/// corner). Returns the tiles to walk through, ending at `to`, or when `to` cannot be reached at
+/// the reachable tile closest to it (an empty path when that is where the player stands).
+fn find_route(ctx: &Ctx, pnum: usize, from: Point, to: Point) -> Vec<Point> {
+    use crate::levels::gendung::{MAXDUNX, MAXDUNY};
+    use std::cmp::Reverse;
+    use std::collections::BinaryHeap;
+    let idx = |p: Point| p.x as usize * MAXDUNY + p.y as usize;
+    let h = |p: Point| {
+        let (dx, dy) = ((p.x - to.x).abs(), (p.y - to.y).abs());
+        10 * (dx + dy) - 6 * dx.min(dy)
+    };
+    let mut g = vec![i32::MAX; MAXDUNX * MAXDUNY];
+    let mut parent = vec![u32::MAX; MAXDUNX * MAXDUNY];
+    let mut open = BinaryHeap::new();
+    g[idx(from)] = 0;
+    open.push(Reverse((h(from), 0, from.x, from.y)));
+    let mut best = from;
+    let mut expanded = 0;
+    while let Some(Reverse((_, cost, x, y))) = open.pop() {
+        let cur = Point::new(x, y);
+        if cost > g[idx(cur)] {
+            continue;
+        }
+        if (h(cur), g[idx(cur)]) < (h(best), g[idx(best)]) {
+            best = cur;
+        }
+        if cur == to {
+            break;
+        }
+        expanded += 1;
+        if expanded > MAX_SEARCH {
+            break;
+        }
+        for dir in Direction::ALL8 {
+            let next = cur + dir;
+            if next.x < 0 || next.y < 0 || next.x >= MAXDUNX as i32 || next.y >= MAXDUNY as i32 {
+                continue;
+            }
+            if !step_ok(ctx, pnum, cur, next) {
+                continue;
+            }
+            let diagonal = next.x != cur.x && next.y != cur.y;
+            let ng = cost + if diagonal { 14 } else { 10 };
+            if ng < g[idx(next)] {
+                g[idx(next)] = ng;
+                parent[idx(next)] = idx(cur) as u32;
+                open.push(Reverse((ng + h(next), ng, next.x, next.y)));
+            }
+        }
+    }
+    let mut route = Vec::new();
+    let mut t = best;
+    while t != from {
+        route.push(t);
+        let pi = parent[idx(t)] as usize;
+        t = Point::new((pi / MAXDUNY) as i32, (pi % MAXDUNY) as i32);
+    }
+    route.reverse();
+    route
+}
+
 /// Instead of `MakePlrPath`: walk to `target` (onto it, or up to it when `endspace` is false,
 /// as the original's path would end next to it). A ground click walks to the exact point under
-/// the cursor.
+/// the cursor; a target that cannot be reached is walked toward as far as possible.
 pub fn go_to(ctx: &mut Ctx, pnum: usize, target: Point, endspace: bool) {
     if ctx.freemove.tile != ctx.players.Players[pnum].position.tile {
         reset_to_tile(ctx, pnum);
     }
     let from = ctx.players.Players[pnum].position.tile;
-    let mut waypoints = Vec::new();
-    let mut walkpath = [WALK_NONE as i8; crate::engine::path::MaxPathLength];
-    let steps = crate::engine::path::find_path(ctx, &|ctx, pos| crate::player::pos_ok_player(ctx, pnum, pos), from, target, &mut walkpath);
-    let mut t = from;
-    for &code in walkpath.iter().take(steps.max(0) as usize) {
-        let d = match code as i32 {
-            WALK_N => Direction::North,
-            WALK_NE => Direction::NorthEast,
-            WALK_E => Direction::East,
-            WALK_SE => Direction::SouthEast,
-            WALK_S => Direction::South,
-            WALK_SW => Direction::SouthWest,
-            WALK_W => Direction::West,
-            WALK_NW => Direction::NorthWest,
-            _ => break,
-        };
-        t = t + d;
-        waypoints.push(tile_f(t));
+    let exact = if endspace { ctx.freemove.cursor_point.filter(|&p| rounded(p) == target) } else { None };
+    // Same destination as the walk in progress: keep its route (re-planning every tick makes
+    // the hero waver between equally short routes), only the exact end point follows the cursor.
+    if ctx.freemove.goal == Some((target, endspace)) && !ctx.freemove.waypoints.is_empty() {
+        if let (Some(p), Some(last)) = (exact, ctx.freemove.waypoints.last_mut()) {
+            if rounded(*last) == target {
+                *last = p;
+            }
+        }
+        ctx.freemove.stick = None;
+        return;
+    }
+    let route = find_route(ctx, pnum, from, target);
+    let mut waypoints: Vec<(f32, f32)> = route.iter().map(|&t| tile_f(t)).collect();
+    let reached = route.last().copied().unwrap_or(from) == target;
+    if endspace && reached {
+        let end = exact.unwrap_or(tile_f(target));
+        match waypoints.last_mut() {
+            Some(last) => *last = end,
+            None => waypoints.push(end), // a spot in the tile the player stands on
+        }
     }
     let s = &mut ctx.freemove;
-    if endspace {
-        // the exact point under the cursor when this is a click on the ground there
-        let exact = s.cursor_point.filter(|&p| rounded(p) == target);
-        match waypoints.last_mut() {
-            Some(last) if rounded(*last) == target => {
-                if let Some(p) = exact {
-                    *last = p;
-                }
-            }
-            Some(_) => {}
-            None if steps <= 0 && (target.x - from.x).abs() <= 1 && (target.y - from.y).abs() <= 1 => {
-                waypoints.push(exact.unwrap_or(tile_f(target)));
-            }
-            None => {}
-        }
-        s.stop_next_to = None;
-    } else {
-        if waypoints.is_empty() {
-            waypoints.push(tile_f(target));
-        }
-        s.stop_next_to = Some(target);
-    }
+    s.stop_next_to = if endspace { None } else { Some(target) };
+    s.goal = Some((target, endspace));
     s.waypoints = waypoints;
     s.stick = None;
 }
@@ -358,7 +426,9 @@ pub fn tick(ctx: &mut Ctx, pnum: usize) {
 
     match moved {
         Some(s) => {
-            let dir = facing(s);
+            // the overall heading (toward the next point, not this tick's small step)
+            let heading = ctx.freemove.waypoints.first().map(|w| (w.0 - pos.0, w.1 - pos.1)).filter(|h| h.0.abs() + h.1.abs() > 0.3).unwrap_or(s);
+            let dir = facing(heading, ctx.freemove.walk_anim);
             let p = &ctx.players.Players[pnum];
             let walking_anim = p.AnimInfo.numberOfFrames == p._pWFrames;
             if ctx.freemove.walk_anim != Some(dir) || !walking_anim {
@@ -377,6 +447,7 @@ pub fn tick(ctx: &mut Ctx, pnum: usize) {
             }
         }
         None => {
+            ctx.freemove.goal = None;
             if ctx.freemove.walk_anim.take().is_some() {
                 let d = ctx.players.Players[pnum]._pdir;
                 crate::player::new_plr_anim(ctx, pnum, player_graphic::Stand, d, AnimationDistributionFlags::None, 0, 0);
@@ -397,7 +468,7 @@ pub fn tick(ctx: &mut Ctx, pnum: usize) {
             }
         }
         eprintln!("FREEMOVE near={:?} hp={}", near, ctx.players.Players[pnum]._pHitPoints >> 6);
-        eprintln!("FREEMOVE pos=({:.2},{:.2}) tile=({},{}) wp={:?} cursor={:?} curs=({},{}) da={} mode={}", s.pos.0, s.pos.1, s.tile.x, s.tile.y, s.waypoints.first(), s.cursor_point, ctx.cursor.cursPosition.x, ctx.cursor.cursPosition.y, ctx.players.Players[pnum].destAction, ctx.players.Players[pnum]._pmode);
+        eprintln!("FREEMOVE pos=({:.2},{:.2}) tile=({},{}) wp={:?} cursor={:?} curs=({},{}) da={} mode={} face={:?}", s.pos.0, s.pos.1, s.tile.x, s.tile.y, s.waypoints.first(), s.cursor_point, ctx.cursor.cursPosition.x, ctx.cursor.cursPosition.y, ctx.players.Players[pnum].destAction, ctx.players.Players[pnum]._pmode, s.walk_anim);
     }
     let off = (ctx.freemove.pos.0 - ctx.freemove.tile.x as f32, ctx.freemove.pos.1 - ctx.freemove.tile.y as f32);
     ctx.freemove.cur_off = world_to_screen(off);

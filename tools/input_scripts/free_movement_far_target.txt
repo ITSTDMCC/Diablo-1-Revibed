@@ -1,0 +1,8 @@
+300 key 13
+500 key 13
+700 text Mover
+710 key 13
+900 key 13
+1190 move 330 20
+1200 press 330 20
+2400 release 330 20

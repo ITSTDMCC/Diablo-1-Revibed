@@ -90,9 +90,13 @@ run the normal build, still pass byte for byte).
   sprite and camera are offset by the difference, interpolated between ticks.
 - While moving the player stays in `PM_STAND` with the walk animation, facing the nearest of the
   eight directions; attacks, spells and hits interrupt it as they interrupt standing.
-- `MakePlrPath` for the local player becomes a walk through the path's tiles, cutting corners
-  where a straight line is clear (`line_clear`), ending at the exact cursor point for ground
-  clicks. Walking up to a monster/player/item/object stops when the player's tile is next to it;
+- `MakePlrPath` for the local player becomes a walk through a route found by the port's own A*
+  search (`find_route`: up to 12000 tiles searched, where the original's `FindPath` stops at 25
+  steps), cutting corners where a straight line is clear (`line_clear`), ending at the exact
+  cursor point for ground clicks. A destination that cannot be reached (a roof, a wall) is walked
+  toward as far as possible. A walk keeps its route while the destination tile is unchanged.
+- The facing keeps its current direction until the heading is more than 37.5 degrees from it,
+  so routes that zigzag do not flip the sprite. Walking up to a monster/player/item/object stops when the player's tile is next to it;
   `CheckNewPath` waits until then and starts the original action.
 - Collision: a tile may be entered if `PosOkPlayer` allows it; diagonal steps may not cut a solid
   corner. Blocked moves slide along one axis or stop at the edge of the current tile.
