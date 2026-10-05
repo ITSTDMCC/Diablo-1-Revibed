@@ -524,7 +524,7 @@ controls/plrctrls.cpp|devilution::CtrlUseInvItem(),ported,,,src/controls/plrctrl
 controls/plrctrls.cpp|devilution::CtrlUseStashItem(),ported,,,src/controls/plrctrls.rs
 controls/plrctrls.cpp|devilution::PerformSecondaryAction(),ported,,,src/controls/plrctrls.rs
 controls/plrctrls.cpp|devilution::QuickCast(size_t slot),ported,,,src/controls/plrctrls.rs
-controls/remap_keyboard.h|devilution::remap_keyboard_key(SDL_Keycode *sym),pending,,,
+controls/remap_keyboard.h|devilution::remap_keyboard_key(SDL_Keycode *sym),ported,,,src/controls/mod.rs
 "controls/touch/event_handlers.cpp|devilution::ScaleToScreenCoordinates(float x, float y)",replaced,none,touch-screen controls for mobile builds; not a target platform,
 controls/touch/event_handlers.cpp|devilution::SimulateMouseMovement(const SDL_Event &event),replaced,none,touch-screen controls for mobile builds; not a target platform,
 controls/touch/event_handlers.cpp|devilution::HandleGameMenuInteraction(const SDL_Event &event),replaced,none,touch-screen controls for mobile builds; not a target platform,
@@ -1363,8 +1363,8 @@ engine/render/clx_render.cpp|devilution::ClxMeasureSolidHorizontalBounds(ClxSpri
 "engine/render/clx_render.cpp|devilution::ClxDrawOutlineSkipColorZero(const Surface &out, uint8_t col, Point position, ClxSprite clx)",ported,,,src/engine/render/clx_render.rs
 "engine/render/clx_render.hpp|devilution::RenderClxSprite(const Surface &out, ClxSprite clx, Point position)",ported,,,src/engine/render/text_render.rs
 "engine/render/clx_render.hpp|devilution::RenderClxSpriteWithTRN(const Surface &out, ClxSprite clx, Point position, const uint8_t *trn)",ported,,,src/engine/render/text_render.rs
-"engine/render/clx_render.hpp|devilution::ClxDrawLight(const Surface &out, Point position, ClxSprite clx)",pending,,,
-"engine/render/clx_render.hpp|devilution::ClxDrawLightBlended(const Surface &out, Point position, ClxSprite clx)",pending,,,
+"engine/render/clx_render.hpp|devilution::ClxDrawLight(const Surface &out, Point position, ClxSprite clx)",ported,,,src/engine/render/scrollrt.rs
+"engine/render/clx_render.hpp|devilution::ClxDrawLightBlended(const Surface &out, Point position, ClxSprite clx)",ported,,,src/engine/render/scrollrt.rs
 engine/render/dun_render.cpp|devilution::GetTileHeight(TileType tile),ported,,,src/engine/render/dun_render.rs
 engine/render/dun_render.cpp|devilution::InitPrefix(),pending,,,
 engine/render/dun_render.cpp|devilution::InitPrefix(int8_t y),pending,,,
@@ -2412,13 +2412,13 @@ misdat.cpp|devilution::MissileFileData::animLen(uint8_t dir),ported,,,src/missil
 misdat.cpp|devilution::MissileFileData::LoadGFX(),ported,,,src/missiles.rs
 misdat.cpp|devilution::InitMissileGFX(bool loadHellfireGraphics),ported,,,src/missiles.rs
 misdat.cpp|devilution::FreeMissileGFX(),ported,,,src/missiles.rs
-misdat.h|devilution::MissileData::isDrawn(),pending,,,
-misdat.h|devilution::MissileData::isArrow(),pending,,,
-misdat.h|devilution::MissileData::damageType(),pending,,,
+misdat.h|devilution::MissileData::isDrawn(),ported,,,src/missiles.rs
+misdat.h|devilution::MissileData::isArrow(),ported,,,src/missiles.rs
+misdat.h|devilution::MissileData::damageType(),ported,,,src/missiles.rs
 misdat.h|devilution::MissileFileData::FreeGFX(),ported,,,src/missiles.rs
 misdat.h|devilution::MissileFileData::spritesForDirection(size_t direction),pending,,,
-misdat.h|devilution::GetMissileData(MissileID missileId),pending,,,
-misdat.h|devilution::GetMissileSpriteData(MissileGraphicID graphicId),pending,,,
+misdat.h|devilution::GetMissileData(MissileID missileId),ported,,,src/missiles.rs
+misdat.h|devilution::GetMissileSpriteData(MissileGraphicID graphicId),ported,,,src/missiles.rs
 "missiles.cpp|devilution::AddClassHealingBonus(int hp, HeroClass heroClass)",ported,,,src/missiles.rs
 "missiles.cpp|devilution::ScaleSpellEffect(int base, int spellLevel)",ported,,,src/missiles.rs
 "missiles.cpp|devilution::GenerateRndSum(int range, int iterations)",ported,,,src/missiles.rs
@@ -3881,9 +3881,9 @@ sha.cpp|devilution::SHA1ProcessMessageBlock(SHA1Context *context),ported,,,src/s
 spelldat.h|devilution::SpellData::type(),pending,,,
 spelldat.h|devilution::SpellData::bookCost(),pending,,,
 spelldat.h|devilution::SpellData::staffCost(),pending,,,
-spelldat.h|devilution::SpellData::isTargeted(),pending,,,
-spelldat.h|devilution::SpellData::isAllowedInTown(),pending,,,
-spelldat.h|devilution::GetSpellData(SpellID spellId),pending,,,
+spelldat.h|devilution::SpellData::isTargeted(),ported,,,src/spells.rs
+spelldat.h|devilution::SpellData::isAllowedInTown(),ported,,,src/spells.rs
+spelldat.h|devilution::GetSpellData(SpellID spellId),ported,,,src/items.rs
 spells.cpp|devilution::IsReadiedSpellValid(const Player &player),ported,,,src/spells.rs
 spells.cpp|devilution::ClearReadiedSpell(Player &player),ported,,,src/spells.rs
 spells.cpp|devilution::IsValidSpell(SpellID spl),ported,,,src/spells.rs

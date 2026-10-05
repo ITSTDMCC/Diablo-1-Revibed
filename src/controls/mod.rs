@@ -47,6 +47,7 @@ pub struct ControlsState {
 
 /// `remap_keyboard_key` (controls/remap_keyboard.h): no remapping unless REMAP_KEYBOARD_KEYS
 /// (not defined for Windows).
+// @port controls/remap_keyboard.h|devilution::remap_keyboard_key(SDL_Keycode *sym) sha=267147c5bb5a
 pub fn remap_keyboard_key(sym: i32) -> i32 {
     sym
 }

@@ -92,20 +92,24 @@ pub struct MissileData {
 
 impl MissileData {
     /// `isDrawn`
+    // @port misdat.h|devilution::MissileData::isDrawn() sha=f0044e1f16f7
     pub fn is_drawn(&self) -> bool {
         (self.flags.0 & MissileDataFlags::Invisible.0) == 0
     }
     /// `isArrow`
+    // @port misdat.h|devilution::MissileData::isArrow() sha=086b04386186
     pub fn is_arrow(&self) -> bool {
         (self.flags.0 & MissileDataFlags::Arrow.0) != 0
     }
     /// `damageType`
+    // @port misdat.h|devilution::MissileData::damageType() sha=f300ad9de99c
     pub fn damage_type(&self) -> DamageType {
         DamageType::from_raw(self.flags.0 & 0b111)
     }
 }
 
 /// `GetMissileData` (misdat.h)
+// @port misdat.h|devilution::GetMissileData(MissileID missileId) sha=08505e02f174
 pub fn get_missile_data(missile_id: MissileID) -> &'static MissileData {
     &crate::tables::misdat::MissilesData[missile_id as usize]
 }
@@ -209,6 +213,7 @@ pub fn init_missile_gfx(ctx: &mut Ctx, load_hellfire_graphics: bool) {
 }
 
 /// `GetMissileSpriteData` (misdat.h)
+// @port misdat.h|devilution::GetMissileSpriteData(MissileGraphicID graphicId) sha=3d7565a747ec
 pub fn get_missile_sprite_data(ctx: &Ctx, graphic_id: MissileGraphicID) -> &MissileFileData {
     &ctx.missiles.missile_sprite_data[graphic_id as usize]
 }

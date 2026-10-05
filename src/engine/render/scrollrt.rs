@@ -61,6 +61,7 @@ fn light_table(ctx: &Ctx) -> &[u8; 256] {
 }
 
 /// `ClxDrawLight` (engine/render/clx_render.hpp)
+// @port engine/render/clx_render.hpp|devilution::ClxDrawLight(const Surface &out, Point position, ClxSprite clx) sha=07dd8f3dacd7
 pub fn clx_draw_light(ctx: &Ctx, out: &Surface, position: Point, clx: &ClxSprite) {
     if ctx.scrollrt.LightTableIndex != 0 {
         clx_draw_trn(out, p(position), clx, light_table(ctx));
@@ -70,6 +71,7 @@ pub fn clx_draw_light(ctx: &Ctx, out: &Surface, position: Point, clx: &ClxSprite
 }
 
 /// `ClxDrawLightBlended` (engine/render/clx_render.hpp)
+// @port engine/render/clx_render.hpp|devilution::ClxDrawLightBlended(const Surface &out, Point position, ClxSprite clx) sha=6e43982d3d3d
 pub fn clx_draw_light_blended(ctx: &Ctx, out: &Surface, position: Point, clx: &ClxSprite) {
     clx_draw_blended_trn(out, p(position), clx, light_table(ctx), &ctx.dx.pal.palette_transparency_lookup);
 }

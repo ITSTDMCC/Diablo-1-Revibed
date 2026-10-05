@@ -366,6 +366,7 @@ impl Item {
 }
 
 /// `GetSpellData`
+// @port spelldat.h|devilution::GetSpellData(SpellID spellId) sha=5ee6571a059e
 pub fn get_spell_data(spell_id: SpellID) -> &'static crate::tables::spelldat::SpellData {
     &SpellsData[spell_id as i8 as usize]
 }

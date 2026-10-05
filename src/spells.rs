@@ -316,11 +316,13 @@ pub fn can_use_staff(ctx: &Ctx, pnum: usize, spell: SpellID) -> bool {
 
 impl crate::tables::spelldat::SpellData {
     /// `SpellData::isTargeted`
+    // @port spelldat.h|devilution::SpellData::isTargeted() sha=8387f15e8b1a
     pub fn is_targeted(&self) -> bool {
         (self.flags.0 & SpellDataFlags::Targeted.0) == SpellDataFlags::Targeted.0
     }
 
     /// `SpellData::isAllowedInTown`
+    // @port spelldat.h|devilution::SpellData::isAllowedInTown() sha=5b91bc60d474
     pub fn is_allowed_in_town(&self) -> bool {
         (self.flags.0 & SpellDataFlags::AllowedInTown.0) == SpellDataFlags::AllowedInTown.0
     }
