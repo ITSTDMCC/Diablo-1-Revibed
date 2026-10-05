@@ -40,8 +40,13 @@ Rules in `port/replace_rules.csv` (applied when a function first enters the mani
 
 Third-party libraries the game depends on are reimplemented from their format rules, not linked:
 MPQ archives (libmpq in DevilutionX), PKWARE DCL implode/explode (save files and MPQ sectors),
-Smacker video, SHA-1 (save password hash, `sha.cpp` is game code). Each needs an ask before adding
-a crate instead.
+Smacker video (libsmackerdec), SHA-1 (save password hash, `sha.cpp` is game code). Each needs an
+ask before adding a crate instead.
+
+After the first pass every remaining manifest row was classified with `tools/classify.py` and
+`port/classify_rules.csv` (regex -> status, replaced_by, reason). Ports that exist under another
+name were tagged with `tools/auto_tag.py` (snake_case name match) and `tools/manual_tags.py`
+(`port/manual_tags.csv`, hand-checked pairs).
 
 ## Data tables
 
@@ -68,17 +73,71 @@ binary addresses unnamed.
 
 ## Known differences from the original
 
-- **Config and save folder:** `%APPDATA%\diablo1_rs` instead of DevilutionX's folder, so the owner's
-  real `diablo.ini` and saves are never touched.
+Behaviour the owner would notice:
+
+- **Config and save folder:** `%APPDATA%\diablo1_rs\devilution` instead of DevilutionX's folder, so
+  the owner's real `diablo.ini` and saves are never touched. Screenshots (PrintScreen, PCX) go there too.
+- **Not ported yet:** network multiplayer (TCP; ZeroTier stays off as an outside service), gamepad
+  devices (keyboard and mouse only; the gamepad code paths exist but no device is read), and demo
+  recording/playback (`--record`/`--demo`). `port/manifest.csv` lists every such function as
+  `pending` with this reason.
 - **Audio:** WAV sounds are fully decoded on load and mixed with linear resampling (cpal output);
-  DevilutionX streams some sounds and uses SDL_audiolib's resampler. MP3 music replacements are
-  not supported (the shipped data is WAV).
-- **No gamepad backend yet:** the controller code paths exist, but no device input is read.
-- **Movies:** not played yet (the Smacker decoder is still to be written); run with `-n`.
+  DevilutionX streams some sounds and uses SDL_audiolib's Speex resampler. Mute is immediate (Aulib
+  fades). MP3 music replacements are not supported (the shipped data is WAV). The audio device
+  option offers the system default device only.
+- **Movies:** played by the port's own Smacker decoder (`src/storm/smacker.rs`), written from the
+  format description because libsmackerdec is not in the 1.5.3 source tree. Checked by decoding
+  every frame of logo, intro, ending and the Hellfire intro (`examples/smk_probe.rs`): pictures are
+  clean and the audio length matches the video length. Frames are shown at the video's size and
+  letterboxed by the window, like DevilutionX's renderer path; the movie's own frame timing is
+  used without an extra vsync wait.
+- **In-game error dialogs** (`UiErrorOkDialog` while the game window is active) are ported but were
+  not triggered in a test run. The overloads that draw a list of items behind the dialog are not
+  used: "Unable to create character" shows over a black screen instead of over the hero screen.
+- **Window events:** Bevy reports minimise/restore as window occlusion; it is mapped to
+  `SDL_WINDOWEVENT_HIDDEN`/`SHOWN`. Closing the window is `SDL_QUIT`.
 - **Clipboard paste** in text fields is not supported.
 - **Discord Rich Presence / ZeroTier:** off (see "Replaced, not translated").
+
+Faithful emulation of undefined or implementation-defined behaviour (same results as the shipped
+exe where it could be determined; marked "inferred" where the memory layout was inferred):
+
+- **`rand()`:** MSVCRT's `rand`/`srand` (the shipped exe imports them from MSVCRT.DLL) is
+  reimplemented (`src/utils/crt_rand.rs`).
 - **`std::sort`:** reimplemented from libstdc++'s algorithm (`src/utils/stdsort.rs`) so equal
-  elements end up in the same order; not yet checked against a compiled reference (no C++
-  compiler on this machine).
+  elements end up in the same order; not checked against a compiled reference (no C++ compiler on
+  this machine).
+- **Out-of-range `dungeon[x][y]` reads/writes** in the level generators (e.g. `AddObjTraps` walking off
+  the map, L2/L3/L4 room code): emulated as reads of the flat `dungeon` array continuing into
+  `pdungeon` (declared right after it in gendung.cpp; the layout is **inferred**), reads before the
+  start return 0 and writes outside both arrays are dropped (`gendung::dungeon_flat`).
+- **`Bitset2d`:** a flat bit array indexed `y * DMAXX + x` like the original's `std::bitset`; a
+  total index out of range panics, as `std::bitset::test` throws.
+- **L3 river table** and L2 `predungeon` accessors: flat tables with the same out-of-range rules.
+- **Room coordinates** in L2 `CreateRoom` and L4 `GenerateRoom` wrap as `uint8_t`, as the original's
+  `WorldTilePosition` does.
+- **Monster health bar blue TRN:** the original leaves all but three entries uninitialised; they are
+  identity here (the sprite only uses those three colours).
+- **`InvDrawSlotBack`:** the original only clips the target position; pixels outside the surface
+  are skipped here instead of written past the buffer.
+- **Delta object records** (`DLevel::object`, an `unordered_map`) iterate in insertion order rather
+  than the MSVC hash order; this only matters for multiplayer level sync.
+
+Structural differences with the same results:
+
+- **`AddBerserk`:** the target search lambda consumes randomness; it runs on a copy of the RNG
+  state that is written back, matching the original's shared global state.
+- **Headless runs** (`DIABLO_HEADLESS`) load no sprites; `AddRhino` keeps the non-graphical part of
+  its animation set-up there. Normal runs use the original path.
+- **Monster graphics** are converted to CLX per animation instead of one shared buffer
+  (`MultiFileLoader`).
 - **Animation progress:** `ProgressToNextGameTick` is passed explicitly to `AnimationInfo` instead
   of being read from a global; same values.
+- **Debug builds:** `_DEBUG`-only code (text commands, the `SL_NONE` test map) is omitted, as in
+  the shipped release build.
+- **MPQ reader:** a stored (uncompressed) file whose packed size is padded past its unpacked size
+  (hellfire.mpq's `gendata\Hellfire.smk`) reads the unpacked size from the last sector, as libmpq does.
+
+Test-only additions (not reachable without `DIABLO_INPUT_SCRIPT`): input-script commands `warp`,
+`setwarp` and `store` jump to a dungeon level, a quest level or a store page through the game's own
+functions (`StartNewLvl`, `StartStore`).
