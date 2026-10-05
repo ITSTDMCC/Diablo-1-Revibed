@@ -129,6 +129,18 @@ Asked for by the owner on 2026-10-05 as an optional gameplay feature; `src/first
   a half counts as a wall when it has more than 64 pixels above the floor diamond. Wall art on a
   tile the hero can walk (an archway) is only drawn above 1.9 tiles, as its painted opening would
   otherwise hide what is behind it.
+- Wall faces: a piece half counts as a wall only when its art stands on the edge from the floor
+  up (two thirds of 16 samples along the edge opaque at 0.3 and 0.7 tiles); the raised tops of
+  the rock between rooms (pieces showing a floor-like diamond at wall height) are not walls. The
+  face is cut 16 picture rows below the highest art on the edge (the wall's top, which the eye
+  below it cannot see).
+- Missing faces: the original never draws the sides of walls that face away from the isometric
+  camera (the south and east sides of rooms). Where a ray goes from an open tile into solid rock
+  with no wall art on that edge, the level's most common plain wall (solid along its whole edge)
+  is drawn there, lit by the open tile.
+- Pillars and lamp posts: pieces without walls whose art is narrow (at most 40 pixels wide) and
+  reaches down to the floor diamond are drawn as upright cut-outs standing where their art meets
+  the floor, keeping only their own columns inside the floor diamond.
 - Shading: the game's light tables with `dLight` of the tile (the wall's or the tile in front of
   it, whichever is lighter), plus distance fog in town, where `dLight` is 0 everywhere.
 - Sprites: items, objects (not doors), monsters (found per tile as `DrawMonsterHelper` finds them,

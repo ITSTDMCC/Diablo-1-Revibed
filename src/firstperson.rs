@@ -57,6 +57,13 @@ struct PieceTex {
     /// A wall stands on the tile's x - 0.5 edge (left half of the picture) / y - 0.5 edge.
     left_wall: bool,
     right_wall: bool,
+    /// How high the face of that wall goes (tiles): above it the picture shows the wall's top,
+    /// which the eye (below the top) cannot see.
+    left_top: f32,
+    right_top: f32,
+    /// A free-standing thing (pillar, lamp post) rather than a wall: the columns its art takes
+    /// and the picture row it stands on.
+    prop: Option<(i32, i32, i32)>,
     px: Vec<u8>,
     opaque: Vec<bool>,
 }
@@ -72,7 +79,9 @@ enum Kind {
 struct Billboard {
     pos: (f32, f32),
     depth: f32,
-    sprite: ClxSprite,
+    sprite: Option<ClxSprite>,
+    /// A level piece standing upright instead of the sprite (pillar, lamp post).
+    prop: Option<Rc<PieceTex>>,
     trn: Option<Rc<[u8; 256]>>,
     /// Light table index, or `None` to draw the colours as they are.
     light: Option<u8>,
@@ -90,6 +99,9 @@ pub struct FirstPersonState {
     last_ms: Option<u32>,
     level_key: (u8, i32, usize),
     pieces: Vec<Option<Rc<PieceTex>>>,
+    /// The level's most common wall pictures (left, right edge), for wall faces the original never
+    /// drew (the sides of walls facing away from the isometric camera).
+    fallback: [Option<Rc<PieceTex>>; 2],
     // the last drawn frame, for aiming
     cam: (f32, f32),
     w: i32,
@@ -340,10 +352,13 @@ fn piece_tex(ctx: &Ctx, cache: &mut Vec<Option<Rc<PieceTex>>>, piece: usize) -> 
         }
         let _ = std::fs::write(std::path::Path::new(&dir).join(format!("piece_{piece}.ppm")), data);
     }
-    // a wall: picture above the floor diamond in that half
-    let count = |x0: i32| (0..h - 48).map(|y| (x0..x0 + 32).filter(|&x| opaque[(y * 64 + x) as usize]).count()).sum::<usize>();
-    let (left_wall, right_wall) = (count(0) > 64, count(32) > 64);
-    let t = Rc::new(PieceTex { h, left_wall, right_wall, px, opaque });
+    let mut t = PieceTex { h, left_wall: false, right_wall: false, left_top: 0.0, right_top: 0.0, prop: None, px, opaque };
+    (t.left_wall, t.left_top) = wall_face(&t, true);
+    (t.right_wall, t.right_top) = wall_face(&t, false);
+    if !t.left_wall && !t.right_wall {
+        t.prop = prop_shape(&t);
+    }
+    let t = Rc::new(t);
     cache[piece] = Some(t.clone());
     Some(t)
 }
@@ -365,6 +380,60 @@ fn blocks(ctx: &Ctx, t: Point) -> bool {
         }
     }
     false
+}
+
+/// The wall on the left (x - 0.5) or right (y - 0.5) edge of a piece, if its picture has one:
+/// art standing on that edge from the floor up (not only higher up, like the tops of the solid
+/// rock between rooms, which the pictures show raised to wall height), and the height of its
+/// face below the wall's top.
+fn wall_face(tex: &PieceTex, left: bool) -> (bool, f32) {
+    const SAMPLES: usize = 16;
+    /// The wall's top as the pictures show it, in picture rows.
+    const CAP_ROWS: f32 = 16.0;
+    let mut low = 0;
+    let mut tops = Vec::with_capacity(SAMPLES);
+    for i in 0..SAMPLES {
+        let along = -0.45 + 0.9 * i as f32 / (SAMPLES - 1) as f32;
+        let (fx, fy) = if left { (-0.5, along) } else { (along, -0.5) };
+        if wall_pixel(tex, fx, fy, 0.3).is_some() && wall_pixel(tex, fx, fy, 0.7).is_some() {
+            low += 1;
+        }
+        let mut hgt = 0.2;
+        while wall_pixel(tex, fx, fy, hgt).is_some() {
+            hgt += 1.0 / PX_PER_TILE;
+        }
+        tops.push(hgt);
+    }
+    tops.sort_by(|a, b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal));
+    let top = (tops[SAMPLES / 2] - CAP_ROWS / PX_PER_TILE).max(0.5);
+    (low * 3 >= SAMPLES * 2, top)
+}
+
+/// A narrow thing standing above the floor (pillar, lamp post): the columns its art takes above
+/// the floor diamond and the lowest row of those columns (where it stands). Wide art above the
+/// floor (the raised tops of the rock between rooms) is not one.
+fn prop_shape(tex: &PieceTex) -> Option<(i32, i32, i32)> {
+    let h = tex.h;
+    let (mut x0, mut x1, mut n) = (64, -1, 0);
+    for y in 0..h - 40 {
+        for x in 0..64 {
+            if tex.opaque[(y * 64 + x) as usize] {
+                x0 = x0.min(x);
+                x1 = x1.max(x);
+                n += 1;
+            }
+        }
+    }
+    if n < 40 || x1 - x0 > 40 {
+        return None;
+    }
+    // it must reach down to the floor diamond (the raised rock tops float above it)
+    let reaches_floor = (h - 40..h - 16).any(|y| (x0..=x1).any(|x| tex.opaque[(y * 64 + x) as usize]));
+    if !reaches_floor {
+        return None;
+    }
+    let base = (h - 40..h).rev().find(|&y| (x0..=x1).any(|x| tex.opaque[(y * 64 + x) as usize])).unwrap_or(h - 16);
+    Some((x0, x1, base.min(h - 16)))
 }
 
 /// The picture's pixel showing the point of a wall face at (`fx`, `fy`) from the tile centre and
@@ -450,6 +519,47 @@ pub fn too_close_to_wall(ctx: &mut Ctx, from: (f32, f32), to: (f32, f32)) -> boo
     let hit = first_wall(ctx, &mut pieces, from, dir, len + WALL_MARGIN);
     ctx.firstperson.pieces = pieces;
     hit < len + WALL_MARGIN
+}
+
+/// The most common left and right wall pictures of the level.
+fn fallback_walls(ctx: &Ctx, pieces: &mut Vec<Option<Rc<PieceTex>>>) -> [Option<Rc<PieceTex>>; 2] {
+    let mut counts: [std::collections::HashMap<usize, usize>; 2] = Default::default();
+    for x in 0..MAXDUNX {
+        for y in 0..MAXDUNY {
+            let t = Point::new(x as i32, y as i32);
+            if !blocks(ctx, t) {
+                continue;
+            }
+            let piece = ctx.gendung.dPiece[x][y] as usize;
+            if let Some(tex) = piece_tex(ctx, pieces, piece) {
+                // only plain walls: solid along the whole edge (no arches or gaps)
+                let solid = |left: bool| {
+                    (0..16).all(|i| {
+                        let along = -0.45 + 0.9 * i as f32 / 15.0;
+                        let (fx, fy) = if left { (-0.5, along) } else { (along, -0.5) };
+                        [0.2, 0.6, 1.0].iter().all(|&hgt| wall_pixel(&tex, fx, fy, hgt).is_some())
+                    })
+                };
+                if tex.left_wall && solid(true) {
+                    *counts[0].entry(piece).or_default() += 1;
+                }
+                if tex.right_wall && solid(false) {
+                    *counts[1].entry(piece).or_default() += 1;
+                }
+            }
+        }
+    }
+    let pick = |c: &std::collections::HashMap<usize, usize>, pieces: &mut Vec<Option<Rc<PieceTex>>>| {
+        let best = c.iter().max_by_key(|e| (*e.1, std::cmp::Reverse(*e.0))).map(|e| *e.0)?;
+        piece_tex(ctx, pieces, best)
+    };
+    [pick(&counts[0], pieces), pick(&counts[1], pieces)]
+}
+
+/// The tile is a free-standing pillar or post (drawn upright, not as walls).
+fn is_prop(ctx: &Ctx, pieces: &mut Vec<Option<Rc<PieceTex>>>, t: Point) -> bool {
+    let piece = ctx.gendung.dPiece[t.x as usize][t.y as usize] as usize;
+    piece_tex(ctx, pieces, piece).is_some_and(|tex| tex.prop.is_some())
 }
 
 /// The camera position in tiles, between game ticks like the sprite.
@@ -538,7 +648,7 @@ fn rotated(facing: Direction, view: (f32, f32)) -> Direction {
     DIRS[(fi + 8 + 4 - best) % 8]
 }
 
-fn collect_billboards(ctx: &mut Ctx, cam: (f32, f32), fwd: (f32, f32), me: usize) -> Vec<Billboard> {
+fn collect_billboards(ctx: &mut Ctx, pieces: &[Option<Rc<PieceTex>>], cam: (f32, f32), fwd: (f32, f32), me: usize) -> Vec<Billboard> {
     use crate::engine::render::scrollrt::{get_offset_for_walking, update_missiles_renderer_data};
     update_missiles_renderer_data(ctx);
     let ctx = &*ctx;
@@ -554,8 +664,9 @@ fn collect_billboards(ctx: &mut Ctx, cam: (f32, f32), fwd: (f32, f32), me: usize
         if d < 0.15 {
             return;
         }
-        out.push(Billboard { pos, depth: d, sprite, trn, light, tile, kind });
+        out.push(Billboard { pos, depth: d, sprite: Some(sprite), prop: None, trn, light, tile, kind });
     };
+    let mut props = Vec::new();
     for x in (cx - r).max(0)..=(cx + r).min(MAXDUNX as i32 - 1) {
         for y in (cy - r).max(0)..=(cy + r).min(MAXDUNY as i32 - 1) {
             let tile = Point::new(x, y);
@@ -564,6 +675,8 @@ fn collect_billboards(ctx: &mut Ctx, cam: (f32, f32), fwd: (f32, f32), me: usize
             if light >= LightsMax as u8 && !town && !infra {
                 continue;
             }
+            // pillars and lamp posts of the level
+            props.push(tile);
             // items
             let it = ctx.items.dItem[x as usize][y as usize];
             if it > 0 {
@@ -648,6 +761,22 @@ fn collect_billboards(ctx: &mut Ctx, cam: (f32, f32), fwd: (f32, f32), me: usize
         let trn = if m._miUniqTrans != 0 { ctx.monster.Monsters[m._misource as usize].uniqueMonsterTRN.clone() } else { None };
         push(&mut out, (t.x as f32 + w.0, t.y as f32 + w.1), Some(sprite), trn, light, t, Kind::Other);
     }
+    {
+        for tile in props {
+            let piece = ctx.gendung.dPiece[tile.x as usize][tile.y as usize] as usize;
+            let Some(tex) = pieces.get(piece).cloned().flatten() else { continue };
+            let Some((_, _, base)) = tex.prop else { continue };
+            // where the picture's base stands on the floor
+            let f = (base - (tex.h - 16)) as f32 / 32.0;
+            let pos = (tile.x as f32 + f, tile.y as f32 + f);
+            let d = (pos.0 - cam.0) * fwd.0 + (pos.1 - cam.1) * fwd.1;
+            if d < 0.15 {
+                continue;
+            }
+            let light = ctx.gendung.dLight[tile.x as usize][tile.y as usize];
+            out.push(Billboard { pos, depth: d, sprite: None, prop: Some(tex), trn: None, light: Some(light), tile, kind: Kind::Other });
+        }
+    }
     out.sort_by(|a, b| b.depth.partial_cmp(&a.depth).unwrap_or(std::cmp::Ordering::Equal));
     out
 }
@@ -663,6 +792,9 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
     if ctx.firstperson.level_key != key {
         ctx.firstperson.level_key = key;
         ctx.firstperson.pieces.clear();
+        let mut pieces = std::mem::take(&mut ctx.firstperson.pieces);
+        ctx.firstperson.fallback = fallback_walls(ctx, &mut pieces);
+        ctx.firstperson.pieces = pieces;
     }
     let yaw = ctx.firstperson.yaw;
     let fwd = (yaw.cos(), yaw.sin());
@@ -681,7 +813,7 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
     let focal = (w as f32 / 2.0) / half;
     let mut depth = vec![f32::MAX; (w * h) as usize];
     let q = (cam.0 + 0.5, cam.1 + 0.5);
-    let mut hits: Vec<(f32, f32, f32, Rc<PieceTex>, u8, f32)> = Vec::new(); // dist, fx, fy, picture, light, lowest height drawn
+    let mut hits: Vec<(f32, f32, f32, Rc<PieceTex>, u8, f32, f32)> = Vec::new(); // dist, fx, fy, picture, light, lowest and highest height drawn
     for col in 0..w {
         let camx = 2.0 * (col as f32 + 0.5) / w as f32 - 1.0;
         let ray = (fwd.0 + right.0 * camx * half, fwd.1 + right.1 * camx * half);
@@ -721,6 +853,22 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
             } else {
                 from
             };
+            // Walking into solid rock whose side facing the viewer the original never drew (it faces
+            // away from the isometric camera): the level's usual wall stands there instead.
+            if blocks(ctx, to) && !blocks(ctx, from) && !is_prop(ctx, &mut pieces, to) {
+                let to_piece = ctx.gendung.dPiece[to.x as usize][to.y as usize] as usize;
+                let drawn = piece_tex(ctx, &mut pieces, to_piece).is_some_and(|t| if xside { t.left_wall } else { t.right_wall });
+                if !drawn {
+                    if let Some(tex) = ctx.firstperson.fallback[if xside { 0 } else { 1 }].clone() {
+                        let hp = (cam.0 + ray.0 * dist, cam.1 + ray.1 * dist);
+                        let (fx, fy) = if xside { (-0.5, hp.1 - to.y as f32) } else { (hp.0 - to.x as f32, -0.5) };
+                        let light = light_at(ctx, from).saturating_add(fog(ctx, dist));
+                        let top = if xside { tex.left_top } else { tex.right_top };
+                        hits.push((dist, fx, fy, tex, light, 0.0, top));
+                        continue;
+                    }
+                }
+            }
             let piece = ctx.gendung.dPiece[owner.x as usize][owner.y as usize] as usize;
             let Some(tex) = piece_tex(ctx, &mut pieces, piece) else { continue };
             if (xside && !tex.left_wall) || (!xside && !tex.right_wall) {
@@ -730,14 +878,15 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
             let (fx, fy) = if xside { (-0.5, hp.1 - owner.y as f32) } else { (hp.0 - owner.x as f32, -0.5) };
             let light = light_at(ctx, owner).min(light_at(ctx, from)).saturating_add(fog(ctx, dist));
             let floor_of_art = if blocks(ctx, owner) { 0.0 } else { ARCH_TOP };
-            hits.push((dist, fx, fy, tex, light, floor_of_art));
+            let top = if xside { tex.left_top } else { tex.right_top };
+            hits.push((dist, fx, fy, tex, light, floor_of_art, top));
         }
         for row in 0..h {
             let dy = row as f32 + 0.5 - horizon;
             let mut colour: Option<(u8, f32)> = None;
-            for (dist, fx, fy, tex, light, lowest) in &hits {
+            for (dist, fx, fy, tex, light, lowest, highest) in &hits {
                 let height = EYE - dy * dist / focal;
-                if height < *lowest {
+                if height < *lowest || height > *highest {
                     continue;
                 }
                 if let Some(i) = wall_pixel(tex, *fx, *fy, height) {
@@ -772,7 +921,17 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
     ctx.firstperson.pieces = pieces;
 
     // billboards, far to near
-    let boards = collect_billboards(ctx, cam, fwd, me);
+    let mut pieces = std::mem::take(&mut ctx.firstperson.pieces);
+    // make sure the pictures of nearby pillars and posts are ready
+    let (cx, cy) = (cam.0.round() as i32, cam.1.round() as i32);
+    for x in (cx - 24).max(0)..=(cx + 24).min(MAXDUNX as i32 - 1) {
+        for y in (cy - 24).max(0)..=(cy + 24).min(MAXDUNY as i32 - 1) {
+            let piece = ctx.gendung.dPiece[x as usize][y as usize] as usize;
+            piece_tex(ctx, &mut pieces, piece);
+        }
+    }
+    let boards = collect_billboards(ctx, &pieces, cam, fwd, me);
+    ctx.firstperson.pieces = pieces;
     let depth_at = depth;
     let mut pick = vec![0u16; (w * h) as usize];
     let mut picked = Vec::new();
@@ -781,12 +940,18 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
         let lat = rel.0 * right.0 + rel.1 * right.1;
         let depth = b.depth;
         let scale = focal / (depth * PX_PER_TILE);
-        let (sw, sh) = (b.sprite.width() as i32, b.sprite.height() as i32);
+        let (sw, sh, below) = match &b.prop {
+            Some(t) => (64, t.h, (t.h - 1 - t.prop.map_or(t.h - 16, |p| p.2)) as f32),
+            None => match &b.sprite {
+                Some(sp) => (sp.width() as i32, sp.height() as i32, 16.0),
+                None => continue,
+            },
+        };
         if sw <= 0 || sh <= 0 {
             continue;
         }
         let centre = w as f32 / 2.0 + focal * lat / depth;
-        let bottom = horizon + focal * (EYE + 16.0 / PX_PER_TILE) / depth;
+        let bottom = horizon + focal * (EYE + below / PX_PER_TILE) / depth;
         let left = centre - sw as f32 * scale / 2.0;
         let top = bottom - sh as f32 * scale;
         let (x0, x1) = (left.floor().max(0.0) as i32, (left + sw as f32 * scale).ceil().min(w as f32) as i32);
@@ -794,18 +959,38 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
         if x0 >= x1 || y0 >= y1 {
             continue;
         }
-        // the sprite's pixels, drawn on black and on white to find the transparent ones
-        let mut a = OwnedSurface::new(sw, sh);
-        let mut bsurf = OwnedSurface::new(sw, sh);
-        bsurf.pixels.iter_mut().for_each(|p| *p = 255);
-        for s in [&mut a, &mut bsurf] {
-            let v = s.view();
-            match &b.trn {
-                Some(t) => clx_draw_trn(&v, (0, sh - 1), &b.sprite, t),
-                None => clx_draw(&v, (0, sh - 1), &b.sprite),
+        // the picture's pixels; a sprite is drawn on black and on white to find the transparent ones
+        let (px, op): (Vec<u8>, Vec<bool>) = match &b.prop {
+            Some(t) => {
+                let (x0, x1, _) = t.prop.unwrap_or((0, 63, 0));
+                // within the floor diamond only the columns of the thing itself
+                let op = (0..sw * sh).map(|i| t.opaque[i as usize] && (i / 64 < t.h - 32 || (x0..=x1).contains(&(i % 64)))).collect();
+                (t.px.clone(), op)
             }
-        }
-        let (av, bv) = (a.view(), bsurf.view());
+            None => {
+                let mut a = OwnedSurface::new(sw, sh);
+                let mut bsurf = OwnedSurface::new(sw, sh);
+                bsurf.pixels.iter_mut().for_each(|p| *p = 255);
+                for s in [&mut a, &mut bsurf] {
+                    let v = s.view();
+                    match &b.trn {
+                        Some(t) => clx_draw_trn(&v, (0, sh - 1), b.sprite.as_ref().unwrap(), t),
+                        None => clx_draw(&v, (0, sh - 1), b.sprite.as_ref().unwrap()),
+                    }
+                }
+                let (av, bv) = (a.view(), bsurf.view());
+                let mut px = vec![0u8; (sw * sh) as usize];
+                let mut op = vec![false; (sw * sh) as usize];
+                for y in 0..sh {
+                    for x in 0..sw {
+                        let (ca, cb) = (av.get(x, y), bv.get(x, y));
+                        px[(y * sw + x) as usize] = ca;
+                        op[(y * sw + x) as usize] = ca == cb;
+                    }
+                }
+                (px, op)
+            }
+        };
         let id = {
             picked.push((b.tile, b.kind));
             picked.len() as u16
@@ -815,8 +1000,9 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
             let u = (((col as f32 + 0.5 - left) / scale) as i32).clamp(0, sw - 1);
             for row in y0..y1 {
                 let v = (((row as f32 + 0.5 - top) / scale) as i32).clamp(0, sh - 1);
-                let c = av.get(u, v);
-                if c != bv.get(u, v) || depth_at[(row * w + col) as usize] <= depth {
+                let i = (v * sw + u) as usize;
+                let c = px[i];
+                if !op[i] || depth_at[(row * w + col) as usize] <= depth {
                     continue;
                 }
                 let c = match light {
