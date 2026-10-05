@@ -25,6 +25,7 @@ key_regex,status,replaced_by,reason
 ^misdat\.cpp\|devilution::Repeat,replaced,tools/gen_misdat.py,constexpr table helper; the tables are generated
 ^monstdat\.cpp\|devilution::Uniq,replaced,tools/gen_tables.py,table helper; the tables are generated
 ^spelldat\.h\|,replaced,src/tables/spelldat.rs,accessors are struct fields
+^dvlnet/loopback\.h\|,replaced,src/storm/storm_net.rs (Loopback default),constructor of the loopback provider
 ^dvlnet/,pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider
 ^DiabloUI/(multi/selconn|progress)\.cpp\|,pending,,not ported: network multiplayer (provider selection and connection progress dialogs)
 ^(nthread\.cpp\|devilution::NthreadHandler|pack\.cpp\||tmsg\.cpp\||msg\.cpp\|devilution::(LogFailedPacket|TMegaPkt)),pending,,not ported: network multiplayer (packet threads and remote-player unpacking)

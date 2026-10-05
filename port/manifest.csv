@@ -835,7 +835,7 @@ dvlnet/loopback.cpp|devilution::net::loopback::setup_gameinfo(buffer_t info),por
 dvlnet/loopback.cpp|devilution::net::loopback::SNetGetOwnerTurnsWaiting(uint32_t *turns),ported,,,src/storm/storm_net.rs
 dvlnet/loopback.cpp|devilution::net::loopback::SNetGetTurnsInTransit(uint32_t *turns),ported,,,src/storm/storm_net.rs
 dvlnet/loopback.cpp|devilution::net::loopback::make_default_gamename(),ported,,,src/storm/storm_net.rs
-dvlnet/loopback.h|devilution::net::loopback::loopback(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
+dvlnet/loopback.h|devilution::net::loopback::loopback(),replaced,src/storm/storm_net.rs (Loopback default),constructor of the loopback provider,
 dvlnet/packet.cpp|devilution::net::packet_out::GenerateCookie(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
 dvlnet/packet.cpp|devilution::net::packet_type_to_string(uint8_t packetType),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
 "dvlnet/packet.cpp|devilution::net::wrong_packet_type_exception::wrong_packet_type_exception(std::initializer_list<packet_type> expectedTypes, std::uint8_t actual)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
