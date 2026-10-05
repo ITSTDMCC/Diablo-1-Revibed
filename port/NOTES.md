@@ -146,6 +146,8 @@ Asked for by the owner on 2026-10-05 as an optional gameplay feature; `src/first
   by repeating its plainest band of brick (rows with no dark pixels, the stretch along the edge
   with the least variation) above a thin plinth, so a long run reads as plain brick. Archways and grates (wall art on walkable tiles)
   look alike from both sides and keep their own picture.
+- Doors: a closed door keeps its own picture from either side (the plain wall never replaces it);
+  from the side the art does not show, the same picture stands on the edge the ray crosses.
 - A half counts as a wall when art stands on the edge low down (3 of 16 samples at 0.25 tiles:
   solid walls, arches, the bars of a grate) and spans most of it between 0.3 and 1.3 tiles.
 - Pillars and lamp posts: pieces without walls whose art is narrow (at most 40 pixels wide) and
@@ -182,8 +184,8 @@ Asked for by the owner on 2026-10-05 as an optional gameplay feature; `src/first
 - Known limits: the isometric art is a picture of 3D shapes seen from one side, so wall caps and
   town houses look like sheared planes, arch openings are open below 1.25 tiles, sprites are flat
   and pixelated up close, the player's own sprite is not drawn, there is no ceiling.
-- Test hooks: `DIABLO_FP_YAW=<degrees>|monster` sets the view direction when the view is switched
-  on (`monster`: the nearest monster or NPC in plain sight); `DIABLO_FP_DUMP=<dir>` writes every
+- Test hooks: `DIABLO_FP_YAW=<degrees>|monster|door` sets the view direction when the view is switched
+  on (`monster` / `door`: the nearest monster or NPC / door in plain sight); `DIABLO_FP_DUMP=<dir>` writes every
   level piece picture as PPM; input scripts can hold keys with `keydown <key>` / `keyup <key>`;
   `tools/input_scripts/first_person.txt` walks around town and dungeon level 2.
 

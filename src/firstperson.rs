@@ -168,15 +168,19 @@ pub fn press_key(ctx: &mut Ctx, vkey: i32) -> bool {
     false
 }
 
-/// Test hook `DIABLO_FP_YAW`: a view direction in degrees, or `monster` to face the nearest
-/// monster (or NPC in town) in plain sight.
+/// Test hook `DIABLO_FP_YAW`: a view direction in degrees, or `monster` / `door` to face the
+/// nearest monster (or NPC in town) / door in plain sight.
 fn test_yaw(ctx: &mut Ctx, me: usize) -> Option<f32> {
     let v = std::env::var("DIABLO_FP_YAW").ok()?;
-    if v != "monster" {
+    if v != "monster" && v != "door" {
         return v.parse::<f32>().ok().map(f32::to_radians);
     }
     let at = ctx.players.Players[me].position.tile;
-    let mut targets: Vec<Point> = (0..ctx.monster.ActiveMonsterCount).map(|i| ctx.monster.Monsters[ctx.monster.ActiveMonsters[i] as usize].position.tile).collect();
+    let mut targets: Vec<Point> = if v == "door" {
+        ctx.objects.Objects.iter().filter(|o| o.is_door()).map(|o| o.position).collect()
+    } else {
+        (0..ctx.monster.ActiveMonsterCount).map(|i| ctx.monster.Monsters[ctx.monster.ActiveMonsters[i] as usize].position.tile).collect()
+    };
     if ctx.gendung.leveltype == DungeonType::Town {
         targets.extend(ctx.towners.towners.iter().map(|t| t.position));
     }
@@ -189,7 +193,7 @@ fn test_yaw(ctx: &mut Ctx, me: usize) -> Option<f32> {
             continue;
         }
         let dir = ((t.x - at.x) as f32 / d, (t.y - at.y) as f32 / d);
-        if first_wall(ctx, &mut pieces, (at.x as f32, at.y as f32), dir, d) >= d {
+        if first_wall(ctx, &mut pieces, (at.x as f32, at.y as f32), dir, d) >= d - if v == "door" { 1.0 } else { 0.0 } {
             eprintln!("FP facing {:?} from {:?}", t, at);
             found = Some(dir.1.atan2(dir.0));
             break;
@@ -448,6 +452,15 @@ fn prop_shape(tex: &PieceTex) -> Option<(i32, i32, i32)> {
     }
     let base = (h - 40..h).rev().find(|&y| (x0..=x1).any(|x| tex.opaque[(y * 64 + x) as usize])).unwrap_or(h - 16);
     Some((x0, x1, base.min(h - 16)))
+}
+
+/// A door (open or closed) stands on the tile.
+fn door_at(ctx: &Ctx, t: Point) -> bool {
+    if !in_dungeon_bounds(t) {
+        return false;
+    }
+    let o = ctx.gendung.dObject[t.x as usize][t.y as usize];
+    o != 0 && ctx.objects.Objects[(o.unsigned_abs() - 1) as usize].is_door()
 }
 
 /// The picture's pixel showing the point of a wall face at (`fx`, `fy`) from the tile centre and
@@ -1002,6 +1015,23 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
             };
             // Walking into solid rock whose side facing the viewer the original never drew (it faces
             // away from the isometric camera): the level's usual wall stands there instead.
+            // A closed door: its own picture, whichever side it is seen from (the door is drawn on
+            // one edge of its tile in the art; from the other side the same picture stands there).
+            if blocks(ctx, to) && !blocks(ctx, from) && door_at(ctx, to) {
+                let to_piece = ctx.gendung.dPiece[to.x as usize][to.y as usize] as usize;
+                if let Some(tex) = piece_tex(ctx, &mut pieces, to_piece) {
+                    if tex.left_wall || tex.right_wall {
+                        let left = if xside { tex.left_wall } else { !tex.right_wall };
+                        let hp = (cam.0 + ray.0 * dist, cam.1 + ray.1 * dist);
+                        let along = if xside { hp.1 - to.y as f32 } else { hp.0 - to.x as f32 };
+                        let (fx, fy) = if left { (-0.5, along) } else { (along, -0.5) };
+                        let light = light_at(ctx, from).saturating_add(fog(ctx, dist));
+                        let top = (if left { tex.left_top } else { tex.right_top }).min(ctx.firstperson.wall_height);
+                        hits.push((dist, fx, fy, tex, light, 0.0, top));
+                        continue;
+                    }
+                }
+            }
             if blocks(ctx, to) && !blocks(ctx, from) && !is_prop(ctx, &mut pieces, to) {
                 let to_piece = ctx.gendung.dPiece[to.x as usize][to.y as usize] as usize;
                 let drawn = piece_tex(ctx, &mut pieces, to_piece).is_some_and(|t| if xside { t.left_wall } else { t.right_wall });
@@ -1028,7 +1058,7 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
             let hp = (cam.0 + ray.0 * dist, cam.1 + ray.1 * dist);
             let along = if xside { hp.1 - owner.y as f32 } else { hp.0 - owner.x as f32 };
             let mut tex_left = xside;
-            if owner == to && blocks(ctx, owner) {
+            if owner == to && blocks(ctx, owner) && !door_at(ctx, owner) {
                 if let Some((plain, left)) = ctx.firstperson.fallback.clone() {
                     tex = plain;
                     tex_left = left;
