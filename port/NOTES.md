@@ -142,7 +142,9 @@ Asked for by the owner on 2026-10-05 as an optional gameplay feature; `src/first
   ray meets a solid wall from behind, or goes from an open tile into solid rock with no wall art
   on that edge, the level's plain wall is drawn: of the common wall pictures solid along their
   whole edge, the one with the fewest dark pixels (arches and doorways are painted dark), used
-  for both directions, lit by the open tile. Archways and grates (wall art on walkable tiles)
+  for both directions, lit by the open tile. Its features are brushed out: the face is refilled
+  by repeating its plainest band of brick (rows with no dark pixels, the stretch along the edge
+  with the least variation) above a thin plinth, so a long run reads as plain brick. Archways and grates (wall art on walkable tiles)
   look alike from both sides and keep their own picture.
 - A half counts as a wall when art stands on the edge low down (3 of 16 samples at 0.25 tiles:
   solid walls, arches, the bars of a grate) and spans most of it between 0.3 and 1.3 tiles.

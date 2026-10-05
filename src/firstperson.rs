@@ -605,12 +605,101 @@ fn fallback_walls(ctx: &Ctx, pieces: &mut Vec<Option<Rc<PieceTex>>>) -> Option<(
     };
     let l = pick(&counts[0], true);
     let r = pick(&counts[1], false);
-    match (l, r) {
-        (Some(l), Some(r)) => Some(if r.0 < l.0 { (r.1, false) } else { (l.1, true) }),
-        (Some(l), None) => Some((l.1, true)),
-        (None, Some(r)) => Some((r.1, false)),
-        (None, None) => None,
+    let (tex, left) = match (l, r) {
+        (Some(l), Some(r)) => if r.0 < l.0 { (r.1, false) } else { (l.1, true) },
+        (Some(l), None) => (l.1, true),
+        (None, Some(r)) => (r.1, false),
+        (None, None) => return None,
+    };
+    Some((Rc::new(plain_wall(ctx, &tex, left)), left))
+}
+
+/// The wall picture with its features (arch outlines, doorways) brushed out: the face is filled
+/// by repeating its plainest band of brick (the rows with no dark pixels) above a thin plinth, so
+/// a long run of it reads as one plain wall instead of the same feature over and over.
+fn plain_wall(ctx: &Ctx, tex: &PieceTex, left: bool) -> PieceTex {
+    const PLINTH: f32 = 0.12;
+    let pal = &ctx.dx.pal.logical_palette;
+    let top = if left { tex.left_top } else { tex.right_top };
+    let at = |along: f32, hgt: f32| {
+        let (fx, fy) = if left { (-0.5, along) } else { (along, -0.5) };
+        wall_pixel(tex, fx, fy, hgt)
+    };
+    // rows (one picture row apart) with every sample along the edge present and not dark
+    let step = 1.0 / PX_PER_TILE;
+    let rows: Vec<bool> = (0..((top / step) as usize))
+        .map(|k| {
+            let hgt = k as f32 * step;
+            (0..16).all(|i| {
+                at(-0.45 + 0.9 * i as f32 / 15.0, hgt).is_some_and(|px| {
+                    let c = pal[tex.px[px] as usize];
+                    c[0] as u32 + c[1] as u32 + c[2] as u32 >= 90
+                })
+            })
+        })
+        .collect();
+    // the longest run above the plinth
+    let (mut best, mut start) = ((0, 0), None);
+    for (k, &ok) in rows.iter().enumerate().chain(std::iter::once((rows.len(), &false))) {
+        let hgt = k as f32 * step;
+        match (ok && hgt >= PLINTH, start) {
+            (true, None) => start = Some(k),
+            (false, Some(s0)) => {
+                if k - s0 > best.1 - best.0 {
+                    best = (s0, k);
+                }
+                start = None;
+            }
+            _ => {}
+        }
     }
+    let mut out = PieceTex { h: tex.h, left_wall: tex.left_wall, right_wall: tex.right_wall, left_top: tex.left_top, right_top: tex.right_top, prop: None, px: tex.px.clone(), opaque: tex.opaque.clone() };
+    if best.1 - best.0 < 8 {
+        return out; // no plain band worth repeating
+    }
+    let (b0, b1) = (best.0 as f32 * step, best.1 as f32 * step);
+    // and the stretch along the edge (a third of it) with the least going on in that band
+    const WIDTH: f32 = 0.3;
+    let lum = |along: f32, hgt: f32| at(along, hgt).map_or(0.0, |px| {
+        let c = pal[tex.px[px] as usize];
+        (c[0] as f32 + c[1] as f32 + c[2] as f32) / 3.0
+    });
+    let mut a0 = -0.5;
+    let mut least = f32::MAX;
+    for k in 0..=7 {
+        let start = -0.5 + k as f32 * (1.0 - WIDTH) / 7.0;
+        let samples: Vec<f32> = (0..6).flat_map(|i| (0..8).map(move |j| (start + WIDTH * i as f32 / 5.0, b0 + (b1 - b0) * j as f32 / 7.0))).map(|(a, hh)| lum(a, hh)).collect();
+        let mean = samples.iter().sum::<f32>() / samples.len() as f32;
+        let var = samples.iter().map(|v| (v - mean) * (v - mean)).sum::<f32>();
+        if var < least {
+            least = var;
+            a0 = start;
+        }
+    }
+    let h = tex.h;
+    for sy in 0..h {
+        for sx in if left { 0..32 } else { 32..64 } {
+            // the point of the face this pixel shows
+            let (along, hgt) = if left {
+                let fy = (32 - sx) as f32 / 32.0 - 0.5;
+                (fy, ((h - 16) as f32 + (fy - 0.5) * 16.0 - sy as f32) / PX_PER_TILE)
+            } else {
+                let fx = (sx - 32) as f32 / 32.0 - 0.5;
+                (fx, ((h - 16) as f32 + (fx - 0.5) * 16.0 - sy as f32) / PX_PER_TILE)
+            };
+            if hgt < PLINTH || hgt > top {
+                continue;
+            }
+            let src = b0 + (hgt - PLINTH).rem_euclid(b1 - b0);
+            let src_along = a0 + (along + 0.5).rem_euclid(WIDTH);
+            if let Some(px) = at(src_along, src) {
+                let i = (sy * 64 + sx) as usize;
+                out.px[i] = tex.px[px];
+                out.opaque[i] = true;
+            }
+        }
+    }
+    out
 }
 
 /// The tile is a free-standing pillar or post (drawn upright, not as walls).
