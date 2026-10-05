@@ -120,6 +120,11 @@ Behaviour the owner would notice:
   used: "Unable to create character" shows over a black screen instead of over the hero screen.
 - **Window events:** Bevy reports minimise/restore as window occlusion; it is mapped to
   `SDL_WINDOWEVENT_HIDDEN`/`SHOWN`. Closing the window is `SDL_QUIT`.
+- **GOG install lookup:** the original also searches a GOG copy's install folder (from the
+  registry) for the MPQ files; the port does not, so `--data-dir` (or the program's own folder)
+  is needed.
+- **`devilutionx.mpq`** (DevilutionX's own interface/font archive) is required, as by the
+  original; players take it from the DevilutionX 1.5.3 release (README).
 - **Clipboard paste** in text fields is not supported.
 - **Discord Rich Presence / ZeroTier:** off (see "Replaced, not translated").
 
@@ -164,7 +169,8 @@ Structural differences with the same results:
 
 Test-only additions (not reachable in a normal run): input-script commands `warp`, `setwarp` and
 `store` (`DIABLO_INPUT_SCRIPT`) jump to a dungeon level, a quest level or a store page through the
-game's own functions (`StartNewLvl`, `StartStore`); `padadd`, `pad`, `paddown`, `padup`,
+game's own functions (`StartNewLvl`, `StartStore`); `killdiablo` kills Diablo through
+`M_StartKill` (to check the ending); `padadd`, `pad`, `paddown`, `padup`,
 `padaxis` drive a virtual game controller; `DIABLO_FIXED_STEP=pace` keeps the virtual clock in
 step with the real one so two scripted games can play over the network; `DIABLO_DEMO_TRACE` prints
 the player's state on every replayed demo tick; without a window (`DIABLO_HEADLESS`) fatal-error
@@ -198,6 +204,11 @@ message boxes are logged instead of shown, so automated runs never wait on a mod
   password-protected TCP game, either one hosting. Both see the other join ("Player 'Orig' (level
   1) is already in the game" / "just joined"), walk and leave; so the packet format, encryption,
   turn protocol and player packing match the original.
+- Whole game and saves (`tools/input_scripts/`): `ending.txt` warps to level 16 and kills Diablo;
+  his death, the victory movie and the end loop play. `save_game.txt` / `load_game.txt` save on
+  dungeon level 3 and load that save in a new run: the same level, positions and corpses come
+  back. Levels 1-16, the quest levels and Hellfire's levels were entered with `warp`/`setwarp`
+  earlier.
 - The tests that need game data read it from `DIABLO_DATA_DIR`; fixtures are read from the
   DevilutionX source (`DEVILUTIONX_SOURCE`, default `../Decomp/source_1.5.3`).
 - For finding divergences: `examples/save_diff.rs` (field-level save diff using DevilutionX's
