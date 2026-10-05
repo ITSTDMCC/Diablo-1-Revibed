@@ -129,18 +129,23 @@ Asked for by the owner on 2026-10-05 as an optional gameplay feature; `src/first
   a half counts as a wall when it has more than 64 pixels above the floor diamond. Wall art on a
   tile the hero can walk (an archway) is only drawn above 1.25 tiles, as its painted opening would
   otherwise hide what is behind it.
-- Wall faces: a piece half counts as a wall only when its art stands on the edge from the floor
-  up (two thirds of 16 samples along the edge opaque at 0.3 and 0.7 tiles); the raised tops of
-  the rock between rooms (pieces showing a floor-like diamond at wall height) are not walls. The
+- Wall faces: the raised tops of the rock between rooms (pieces showing a floor-like diamond at
+  wall height) are not walls (see the rule below). The
   face is cut 16 picture rows below the highest art on the edge (the wall's top, which the eye
   below it cannot see).
 - Wall height: no wall face (or pillar) is drawn above the level's usual wall height, the face
   height of its most common plain walls; above it the pictures show the raised rock tops behind
   the walls. Archways (wall art on walkable tiles) draw only above 1.25 tiles.
-- Missing faces: the original never draws the sides of walls that face away from the isometric
-  camera (the south and east sides of rooms). Where a ray goes from an open tile into solid rock
-  with no wall art on that edge, the level's most common plain wall (solid along its whole edge)
-  is drawn there, lit by the open tile.
+- Walls seen from behind: the original never draws the sides of walls that face away from the
+  isometric camera (the south and east sides of rooms), and the picture of a wall seen from
+  behind shows its front, thickness and all, which does not line up from that side. So where a
+  ray meets a solid wall from behind, or goes from an open tile into solid rock with no wall art
+  on that edge, the level's plain wall is drawn: of the common wall pictures solid along their
+  whole edge, the one with the fewest dark pixels (arches and doorways are painted dark), used
+  for both directions, lit by the open tile. Archways and grates (wall art on walkable tiles)
+  look alike from both sides and keep their own picture.
+- A half counts as a wall when art stands on the edge low down (3 of 16 samples at 0.25 tiles:
+  solid walls, arches, the bars of a grate) and spans most of it between 0.3 and 1.3 tiles.
 - Pillars and lamp posts: pieces without walls whose art is narrow (at most 40 pixels wide) and
   reaches down to the floor diamond are drawn as upright cut-outs standing where their art meets
   the floor, keeping only their own columns inside the floor diamond.

@@ -101,7 +101,7 @@ pub struct FirstPersonState {
     pieces: Vec<Option<Rc<PieceTex>>>,
     /// The level's most common wall pictures (left, right edge), for wall faces the original never
     /// drew (the sides of walls facing away from the isometric camera).
-    fallback: [Option<Rc<PieceTex>>; 2],
+    fallback: Option<(Rc<PieceTex>, bool)>,
     /// The usual height of the level's walls (tiles): no wall face is drawn higher (above it the
     /// pictures show the raised tops of the rock behind the wall).
     wall_height: f32,
@@ -393,23 +393,34 @@ fn wall_face(tex: &PieceTex, left: bool) -> (bool, f32) {
     const SAMPLES: usize = 16;
     /// The wall's top as the pictures show it, in picture rows.
     const CAP_ROWS: f32 = 16.0;
+    // standing on the floor: some art low down (solid walls, arches, the bars of a grate)
     let mut low = 0;
+    // and spanning the edge: art somewhere between knee and head height along most of it
+    let mut spans = 0;
     let mut tops = Vec::with_capacity(SAMPLES);
     for i in 0..SAMPLES {
         let along = -0.45 + 0.9 * i as f32 / (SAMPLES - 1) as f32;
         let (fx, fy) = if left { (-0.5, along) } else { (along, -0.5) };
-        if wall_pixel(tex, fx, fy, 0.3).is_some() && wall_pixel(tex, fx, fy, 0.7).is_some() {
+        if wall_pixel(tex, fx, fy, 0.25).is_some() {
             low += 1;
         }
+        if (0..=20).any(|k| wall_pixel(tex, fx, fy, 0.3 + k as f32 * 0.05).is_some()) {
+            spans += 1;
+        }
+        // the highest art on the edge
+        let mut top = 0.0;
         let mut hgt = 0.2;
-        while wall_pixel(tex, fx, fy, hgt).is_some() {
+        while hgt < 5.0 {
+            if wall_pixel(tex, fx, fy, hgt).is_some() {
+                top = hgt;
+            }
             hgt += 1.0 / PX_PER_TILE;
         }
-        tops.push(hgt);
+        tops.push(top);
     }
     tops.sort_by(|a, b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal));
     let top = (tops[SAMPLES / 2] - CAP_ROWS / PX_PER_TILE).max(0.5);
-    (low * 3 >= SAMPLES * 2, top)
+    (low >= 3 && spans * 4 >= SAMPLES * 3, top)
 }
 
 /// A narrow thing standing above the floor (pillar, lamp post): the columns its art takes above
@@ -524,8 +535,9 @@ pub fn too_close_to_wall(ctx: &mut Ctx, from: (f32, f32), to: (f32, f32)) -> boo
     hit < len + WALL_MARGIN
 }
 
-/// The most common left and right wall pictures of the level.
-fn fallback_walls(ctx: &Ctx, pieces: &mut Vec<Option<Rc<PieceTex>>>) -> [Option<Rc<PieceTex>>; 2] {
+/// The level's plain wall: the plainest of its common wall pictures, and whether its wall is on
+/// the left (x - 0.5) edge.
+fn fallback_walls(ctx: &Ctx, pieces: &mut Vec<Option<Rc<PieceTex>>>) -> Option<(Rc<PieceTex>, bool)> {
     let mut counts: [std::collections::HashMap<usize, usize>; 2] = Default::default();
     for x in 0..MAXDUNX {
         for y in 0..MAXDUNY {
@@ -552,11 +564,53 @@ fn fallback_walls(ctx: &Ctx, pieces: &mut Vec<Option<Rc<PieceTex>>>) -> [Option<
             }
         }
     }
-    let pick = |c: &std::collections::HashMap<usize, usize>, pieces: &mut Vec<Option<Rc<PieceTex>>>| {
-        let best = c.iter().max_by_key(|e| (*e.1, std::cmp::Reverse(*e.0))).map(|e| *e.0)?;
-        piece_tex(ctx, pieces, best)
+    // the plainest of the common ones: fewest dark pixels on its face (arches and doorways are
+    // painted dark), so it does not repeat a feature over and over where it stands in
+    let dark_share = |tex: &PieceTex, left: bool| {
+        let pal = &ctx.dx.pal.logical_palette;
+        let (mut dark, mut all) = (0, 0);
+        for i in 0..16 {
+            let along = -0.45 + 0.9 * i as f32 / 15.0;
+            let (fx, fy) = if left { (-0.5, along) } else { (along, -0.5) };
+            let top = if left { tex.left_top } else { tex.right_top };
+            let mut hgt = 0.1;
+            while hgt < top {
+                if let Some(px) = wall_pixel(tex, fx, fy, hgt) {
+                    let c = pal[tex.px[px] as usize];
+                    all += 1;
+                    if (c[0] as u32 + c[1] as u32 + c[2] as u32) < 90 {
+                        dark += 1;
+                    }
+                }
+                hgt += 0.05;
+            }
+        }
+        if all == 0 { 1.0 } else { dark as f32 / all as f32 }
     };
-    [pick(&counts[0], pieces), pick(&counts[1], pieces)]
+    let mut pick = |c: &std::collections::HashMap<usize, usize>, left: bool| {
+        let most = c.values().copied().max().unwrap_or(0);
+        let mut best: Option<(f32, usize, usize)> = None;
+        for (&piece, &n) in c {
+            if n * 4 < most {
+                continue; // a rare one
+            }
+            let tex = piece_tex(ctx, pieces, piece)?;
+            let d = (dark_share(&tex, left) * 20.0).round();
+            if best.is_none_or(|b| (d, std::cmp::Reverse(n), piece) < (b.0, std::cmp::Reverse(b.1), b.2)) {
+                best = Some((d, n, piece));
+            }
+        }
+        let (d, _, piece) = best?;
+        Some((d, piece_tex(ctx, pieces, piece)?))
+    };
+    let l = pick(&counts[0], true);
+    let r = pick(&counts[1], false);
+    match (l, r) {
+        (Some(l), Some(r)) => Some(if r.0 < l.0 { (r.1, false) } else { (l.1, true) }),
+        (Some(l), None) => Some((l.1, true)),
+        (None, Some(r)) => Some((r.1, false)),
+        (None, None) => None,
+    }
 }
 
 /// The tile is a free-standing pillar or post (drawn upright, not as walls).
@@ -797,8 +851,7 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
         ctx.firstperson.pieces.clear();
         let mut pieces = std::mem::take(&mut ctx.firstperson.pieces);
         ctx.firstperson.fallback = fallback_walls(ctx, &mut pieces);
-        let [l, r] = &ctx.firstperson.fallback;
-        ctx.firstperson.wall_height = l.as_ref().map_or(f32::MAX, |t| t.left_top).min(r.as_ref().map_or(f32::MAX, |t| t.right_top)) + 0.05;
+        ctx.firstperson.wall_height = ctx.firstperson.fallback.as_ref().map_or(f32::MAX, |(t, left)| if *left { t.left_top } else { t.right_top }) + 0.05;
         ctx.firstperson.pieces = pieces;
     }
     let yaw = ctx.firstperson.yaw;
@@ -864,26 +917,38 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
                 let to_piece = ctx.gendung.dPiece[to.x as usize][to.y as usize] as usize;
                 let drawn = piece_tex(ctx, &mut pieces, to_piece).is_some_and(|t| if xside { t.left_wall } else { t.right_wall });
                 if !drawn {
-                    if let Some(tex) = ctx.firstperson.fallback[if xside { 0 } else { 1 }].clone() {
+                    if let Some((tex, left)) = ctx.firstperson.fallback.clone() {
                         let hp = (cam.0 + ray.0 * dist, cam.1 + ray.1 * dist);
-                        let (fx, fy) = if xside { (-0.5, hp.1 - to.y as f32) } else { (hp.0 - to.x as f32, -0.5) };
+                        let along = if xside { hp.1 - to.y as f32 } else { hp.0 - to.x as f32 };
+                        let (fx, fy) = if left { (-0.5, along) } else { (along, -0.5) };
                         let light = light_at(ctx, from).saturating_add(fog(ctx, dist));
-                        let top = (if xside { tex.left_top } else { tex.right_top }).min(ctx.firstperson.wall_height);
+                        let top = (if left { tex.left_top } else { tex.right_top }).min(ctx.firstperson.wall_height);
                         hits.push((dist, fx, fy, tex, light, 0.0, top));
                         continue;
                     }
                 }
             }
             let piece = ctx.gendung.dPiece[owner.x as usize][owner.y as usize] as usize;
-            let Some(tex) = piece_tex(ctx, &mut pieces, piece) else { continue };
+            let Some(mut tex) = piece_tex(ctx, &mut pieces, piece) else { continue };
             if (xside && !tex.left_wall) || (!xside && !tex.right_wall) {
                 continue;
             }
+            // Seen from behind (from the side the isometric camera never sees), the picture of a
+            // solid wall shows its front, thickness and all, which does not line up from this side:
+            // the level's plain wall stands in for it. Archways look the same from both sides.
             let hp = (cam.0 + ray.0 * dist, cam.1 + ray.1 * dist);
-            let (fx, fy) = if xside { (-0.5, hp.1 - owner.y as f32) } else { (hp.0 - owner.x as f32, -0.5) };
+            let along = if xside { hp.1 - owner.y as f32 } else { hp.0 - owner.x as f32 };
+            let mut tex_left = xside;
+            if owner == to && blocks(ctx, owner) {
+                if let Some((plain, left)) = ctx.firstperson.fallback.clone() {
+                    tex = plain;
+                    tex_left = left;
+                }
+            }
+            let (fx, fy) = if tex_left { (-0.5, along) } else { (along, -0.5) };
             let light = light_at(ctx, owner).min(light_at(ctx, from)).saturating_add(fog(ctx, dist));
             let floor_of_art = if blocks(ctx, owner) { 0.0 } else { ARCH_TOP };
-            let top = (if xside { tex.left_top } else { tex.right_top }).min(ctx.firstperson.wall_height);
+            let top = (if tex_left { tex.left_top } else { tex.right_top }).min(ctx.firstperson.wall_height);
             hits.push((dist, fx, fy, tex, light, floor_of_art, top));
         }
         for row in 0..h {
