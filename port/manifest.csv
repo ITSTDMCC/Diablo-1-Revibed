@@ -1705,7 +1705,7 @@ init.cpp|devilution::LoadCoreArchives(),ported,,,src/init.rs
 init.cpp|devilution::LoadLanguageArchive(),ported,,,src/init.rs
 init.cpp|devilution::LoadGameArchives(),ported,,,src/init.rs
 init.cpp|devilution::init_create_window(),ported,,,src/init.rs
-init.cpp|devilution::MainWndProc(const SDL_Event &event),pending,,,
+init.cpp|devilution::MainWndProc(const SDL_Event &event),ported,,,src/init.rs
 init.h|devilution::HaveSpawn(),pending,,,
 init.h|devilution::HaveDiabdat(),pending,,,
 init.h|devilution::HaveHellfire(),pending,,,

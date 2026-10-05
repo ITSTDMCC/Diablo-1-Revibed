@@ -15,7 +15,7 @@ use bevy::input::mouse::{MouseButton, MouseButtonInput, MouseWheel};
 use bevy::prelude::*;
 use bevy::render::render_resource::{Extent3d, TextureDimension, TextureFormat};
 use bevy::window::{
-    CursorGrabMode, CursorMoved, CursorOptions, ExitCondition, MonitorSelection, VideoModeSelection, WindowCloseRequested, WindowFocused, WindowMode,
+    CursorGrabMode, CursorLeft, CursorMoved, CursorOptions, ExitCondition, MonitorSelection, VideoModeSelection, WindowCloseRequested, WindowFocused, WindowMode, WindowOccluded, WindowResized,
     WindowResolution,
 };
 
@@ -237,6 +237,9 @@ fn forward_input(
     mut wheel: MessageReader<MouseWheel>,
     mut focus: MessageReader<WindowFocused>,
     mut close: MessageReader<WindowCloseRequested>,
+    mut left: MessageReader<CursorLeft>,
+    mut occluded: MessageReader<WindowOccluded>,
+    mut resized: MessageReader<WindowResized>,
 ) {
     let Ok(window) = windows.single() else { return };
     let (scale, ox, oy) = letterbox(window, bridge.size, bridge.integer_scale);
@@ -289,6 +292,15 @@ fn forward_input(
     }
     for _ in close.read() {
         out.push(Event::Quit);
+    }
+    for _ in left.read() {
+        out.push(Event::WindowLeave);
+    }
+    for e in occluded.read() {
+        out.push(if e.occluded { Event::WindowHidden } else { Event::WindowShown });
+    }
+    for _ in resized.read() {
+        out.push(Event::WindowSizeChanged);
     }
     for e in out {
         let _ = bridge.events.send(e);

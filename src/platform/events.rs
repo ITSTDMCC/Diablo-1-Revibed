@@ -15,6 +15,14 @@ pub enum Event {
     TextInput(String),
     FocusGained,
     FocusLost,
+    /// `SDL_WINDOWEVENT_HIDDEN` / `MINIMIZED` (the window became occluded).
+    WindowHidden,
+    /// `SDL_WINDOWEVENT_SHOWN` / `EXPOSED` / `RESTORED`.
+    WindowShown,
+    /// `SDL_WINDOWEVENT_SIZE_CHANGED`
+    WindowSizeChanged,
+    /// `SDL_WINDOWEVENT_LEAVE`: the mouse left the window.
+    WindowLeave,
     /// A game event (`CustomEventToSdlEvent(interface_mode)`, interfac.cpp).
     Custom(crate::enums::interface_mode),
     /// Test hook (input script `warp <level>`): enter that dungeon level as if taking the stairs down.

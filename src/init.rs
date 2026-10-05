@@ -202,4 +202,26 @@ pub fn init_create_window(ctx: &mut Ctx) {
     // SDL_DisableScreenSaver: winit keeps the screen awake while the window has focus.
 }
 
-crate::pending_fn!(pub fn main_wnd_proc(ctx: &mut crate::ctx::Ctx, event: &crate::platform::events::Event), "init.cpp|devilution::MainWndProc(const SDL_Event &event)");
+/// Original: `devilution::MainWndProc` (init.cpp). `SDL_WINDOWEVENT_CLOSE` arrives as `Event::Quit`,
+/// which the event loops handle before this.
+// @port init.cpp|devilution::MainWndProc(const SDL_Event &event) sha=445c8066f620
+pub fn main_wnd_proc(ctx: &mut crate::ctx::Ctx, event: &crate::platform::events::Event) {
+    use crate::platform::events::Event;
+    match event {
+        Event::WindowHidden => ctx.init.gb_active = false,
+        Event::WindowShown => {
+            ctx.init.gb_active = true;
+            crate::engine::backbuffer_state::redraw_everything(ctx);
+        }
+        Event::WindowSizeChanged => crate::hwcursor::reinitialize_hardware_cursor(ctx),
+        Event::WindowLeave => {
+            ctx.diablo.sgb_mouse_down = crate::enums::CLICK_NONE;
+            ctx.diablo.last_mouse_button_action = crate::diablo::MouseActionType::None;
+            crate::engine::backbuffer_state::redraw_everything(ctx);
+        }
+        Event::Quit => crate::diablo::diablo_quit(ctx, 0),
+        Event::FocusLost => crate::diablo::diablo_focus_pause(ctx),
+        Event::FocusGained => crate::diablo::diablo_focus_unpause(ctx),
+        _ => {}
+    }
+}
