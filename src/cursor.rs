@@ -316,6 +316,10 @@ pub fn check_curs_move(ctx: &mut Ctx) {
             sy -= fy;
         }
     }
+    if let Some(o) = crate::freemove::render_offset(ctx, me) {
+        sx += o.delta_x;
+        sy += o.delta_y;
+    }
 
     // Convert to tile grid
     let mut mx = ctx.gendung.ViewPosition.x;
@@ -341,6 +345,7 @@ pub fn check_curs_move(ctx: &mut Ctx) {
     // Shift position to match diamond grid aligment
     let px = sx % crate::engine::render::dun_render::TILE_WIDTH;
     let py = sy % crate::engine::render::dun_render::TILE_HEIGHT;
+    crate::freemove::set_cursor_point(ctx, Point::new(mx, my), px, py);
     let flipy = py < (px / 2);
     if flipy {
         my -= 1;

@@ -78,6 +78,35 @@ binary addresses unnamed.
 
 ## Known differences from the original
 
+### Free-movement build (`--features free-movement`, off by default)
+
+Asked for by the owner on 2026-10-05: a separate build where the player moves in any direction
+like a modern ARPG. The normal build is unaffected: the code is in `src/freemove.rs` and every hook
+checks `freemove::active_for`, which is false unless the feature is on (the parity tests, which
+run the normal build, still pass byte for byte).
+
+- The game logic stays tile-based; the player also has a continuous position. The tile is the one
+  the position rounds to (`dPlayer`, monsters, missiles, triggers, lighting and saves use it). The
+  sprite and camera are offset by the difference, interpolated between ticks.
+- While moving the player stays in `PM_STAND` with the walk animation, facing the nearest of the
+  eight directions; attacks, spells and hits interrupt it as they interrupt standing.
+- `MakePlrPath` for the local player becomes a walk through the path's tiles, cutting corners
+  where a straight line is clear (`line_clear`), ending at the exact cursor point for ground
+  clicks. Walking up to a monster/player/item/object stops when the player's tile is next to it;
+  `CheckNewPath` waits until then and starts the original action.
+- Collision: a tile may be entered if `PosOkPlayer` allows it; diagonal steps may not cut a solid
+  corner. Blocked moves slide along one axis or stop at the edge of the current tile.
+- The sprite is drawn in the drawing pass of the southernmost tile it stands between (as the
+  original's walking player is), with the player's own tile deciding visibility.
+- Speed 0.15 tiles per tick (x1.5 in town with "run in town"); the original covers a tile in about
+  8 ticks, diagonal steps more.
+- Single player only; in multiplayer the original movement is used. Demo files recorded with the
+  original movement do not replay in this build.
+- Test hooks: `DIABLO_FREEMOVE_TRACE=1` prints the player's state every tick; input scripts can
+  hold the mouse with `press <x> <y>` / `release <x> <y>`.
+
+### Both builds
+
 Behaviour the owner would notice:
 
 - **Config and save folder:** `%APPDATA%\diablo1_rs\devilution` instead of DevilutionX's folder, so

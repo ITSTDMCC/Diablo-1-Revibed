@@ -145,6 +145,8 @@ pub struct Ctx {
     pub movie: crate::movie::MovieState,
     /// storm/storm_svid.cpp
     pub svid: crate::storm::storm_svid::SvidState,
+    /// Free movement (not in the original; feature `free-movement`)
+    pub freemove: crate::freemove::FreeMoveState,
 }
 
 impl Ctx {
@@ -158,6 +160,7 @@ impl Ctx {
             diablo: Default::default(),
             control: Default::default(),
             controls: Default::default(),
+            freemove: Default::default(),
             demo: Default::default(),
             dx: Default::default(),
             rng: DiabloRng::default(),

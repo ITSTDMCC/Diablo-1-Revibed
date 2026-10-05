@@ -1,0 +1,73 @@
+300 key 13
+500 key 13
+700 text Mover
+710 key 13
+900 key 13
+1100 warp 2
+1300 padadd 1118
+1310 padaxis 0 30000
+1311 padaxis 1 0
+1330 pad 1
+1360 pad 1
+1390 pad 1
+1420 pad 1
+1450 pad 1
+1480 pad 1
+1510 pad 1
+1540 pad 1
+1570 pad 1
+1610 padaxis 0 0
+1611 padaxis 1 30000
+1630 pad 1
+1660 pad 1
+1690 pad 1
+1720 pad 1
+1750 pad 1
+1780 pad 1
+1810 pad 1
+1840 pad 1
+1870 pad 1
+1910 padaxis 0 -30000
+1911 padaxis 1 0
+1930 pad 1
+1960 pad 1
+1990 pad 1
+2020 pad 1
+2050 pad 1
+2080 pad 1
+2110 pad 1
+2140 pad 1
+2170 pad 1
+2210 padaxis 0 0
+2211 padaxis 1 -30000
+2230 pad 1
+2260 pad 1
+2290 pad 1
+2320 pad 1
+2350 pad 1
+2380 pad 1
+2410 pad 1
+2440 pad 1
+2470 pad 1
+2510 padaxis 0 25000
+2511 padaxis 1 25000
+2530 pad 1
+2560 pad 1
+2590 pad 1
+2620 pad 1
+2650 pad 1
+2680 pad 1
+2710 pad 1
+2740 pad 1
+2770 pad 1
+2810 padaxis 0 -25000
+2811 padaxis 1 25000
+2830 pad 1
+2860 pad 1
+2890 pad 1
+2920 pad 1
+2950 pad 1
+2980 pad 1
+3010 pad 1
+3040 pad 1
+3070 pad 1

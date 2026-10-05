@@ -67,6 +67,27 @@ build needs about 3 GB of disk for the compiler's work files.
 and press a button. (`cargo build --release --no-default-features` builds without controller
 support.)
 
+### Free-movement build (optional)
+
+A second build of the game where your hero moves in **any direction**, like a modern action RPG,
+instead of stepping from tile to tile in eight directions. Everything else is the original game.
+Build it into its own folder so it sits next to the normal build:
+
+```
+cargo build --release --features free-movement --target-dir target\free-movement
+```
+
+and start `target\free-movement\release\diablo1_rs.exe` with the same `--data-dir` as above.
+
+- **Mouse:** click the ground to walk straight to that exact spot (around walls when needed), or
+  hold the button and the hero follows the cursor. Clicking a monster, item, door or chest walks
+  up to it and then attacks, picks it up or opens it, as usual.
+- **Controller:** the left stick walks in the stick's exact direction.
+- The hero slides along walls instead of stopping. Walking speed is close to the original's.
+- It applies to single player. Multiplayer games use the original movement, so they stay
+  compatible with the normal build and with DevilutionX.
+- It shares the normal build's settings and heroes (saves work in both).
+
 ### HD art
 
 Not available yet. The port shows the original 640x480 art (scaled to the window).
@@ -132,6 +153,8 @@ player may notice:
 - Multiplayer offers *Client-Server (TCP)* and *Offline*; DevilutionX's ZeroTier internet
   option is not available.
 - Touch controls are not supported.
+- The optional free-movement build (above) changes how the hero walks; the normal build moves
+  exactly like the original.
 - Sound is mixed by the port's own simple mixer; it may sound very slightly different. MP3 music
   replacements are not supported.
 - Pasting from the clipboard into text fields does not work.

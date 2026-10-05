@@ -12,7 +12,8 @@
 //! - `DIABLO_SCREENSHOT_FRAMES=a,b` write `frame_<n>.png` for those presented frames
 //! - `DIABLO_SCREENSHOT_DIR=dir`    where screenshots go (default `screenshots`)
 //! - `DIABLO_INPUT_SCRIPT=file`     scripted input: lines `<frame> key <sdl keycode>`, `<frame> click <x> <y>`,
-//!                                  `<frame> move <x> <y>`, `<frame> text <string>`, `<frame> quit`,
+//!                                  `<frame> move <x> <y>`, `<frame> press <x> <y>` / `release <x> <y>`
+//!                                  (hold the left button), `<frame> text <string>`, `<frame> quit`,
 //!                                  `<frame> warp <level>` (enter a dungeon level directly),
 //!                                  `<frame> setwarp <setlevel> <type>`, `<frame> store <TalkID>`,
 //!                                  `<frame> killdiablo` (on level 16: Diablo dies by the player's hand),
@@ -199,6 +200,14 @@ fn parse_script(text: &str) -> VecDeque<ScriptedEvent> {
                     Event::MouseButtonDown { button: events::BUTTON_LEFT, x: v[0], y: v[1], clicks: 1 },
                     Event::MouseButtonUp { button: events::BUTTON_LEFT, x: v[0], y: v[1], clicks: 1 },
                 ]
+            }
+            "press" => {
+                let v = nums();
+                vec![Event::MouseMotion { x: v[0], y: v[1] }, Event::MouseButtonDown { button: events::BUTTON_LEFT, x: v[0], y: v[1], clicks: 1 }]
+            }
+            "release" => {
+                let v = nums();
+                vec![Event::MouseButtonUp { button: events::BUTTON_LEFT, x: v[0], y: v[1], clicks: 1 }]
             }
             "move" => {
                 let v = nums();

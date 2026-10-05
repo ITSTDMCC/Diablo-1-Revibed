@@ -656,8 +656,18 @@ fn draw_dungeon(ctx: &mut Ctx, out: &Surface, tile_position: Point, target_buffe
         draw_dead_player(ctx, out, tile_position, target_buffer_position);
     }
     let player_id = ctx.gendung.dPlayer[x][y];
-    if ((player_id as i32 - 1) as usize) < ctx.players.Players.len() {
+    // free movement: the player is drawn in the pass of the tile it stands in front of
+    let free = ctx.players.MyPlayer.and_then(|me| crate::freemove::draw_position(ctx, me).map(|(t, o)| (me, t, o)));
+    let skip = free.is_some_and(|(me, _, _)| player_id as i32 - 1 == me as i32);
+    if ((player_id as i32 - 1) as usize) < ctx.players.Players.len() && !skip {
         draw_player_helper(ctx, out, (player_id - 1) as usize, tile_position, target_buffer_position);
+    }
+    if let Some((me, t, o)) = free {
+        if t == tile_position {
+            // visibility is the player's own tile's
+            let own = ctx.players.Players[me].position.tile;
+            draw_player(ctx, out, me, own, target_buffer_position + o);
+        }
     }
     if ctx.gendung.dMonster[x][y] != 0 {
         draw_monster_helper(ctx, out, tile_position, target_buffer_position);
@@ -841,6 +851,11 @@ fn calc_first_tile_position(ctx: &Ctx, position: &mut Point, offset: &mut Displa
     if my_player.is_walking() {
         *offset = *offset + get_offset_for_walking(ctx, &my_player.AnimInfo, my_player._pdir, true);
     }
+    let free = crate::freemove::render_offset(ctx, me);
+    if let Some(o) = free {
+        // free movement: the camera follows the player between tiles
+        *offset = *offset - o;
+    }
     *position = *position + ctx.scrollrt.tile_shift;
     let zoom = ctx.options.graphics.zoom.get();
     // Skip rendering parts covered by the panels
@@ -854,6 +869,12 @@ fn calc_first_tile_position(ctx: &Ctx, position: &mut Point, offset: &mut Displa
         }
     }
     // Draw areas moving in and out of the screen
+    if free.is_some() {
+        offset.delta_y -= TILE_HEIGHT;
+        *position = *position + Direction::North;
+        offset.delta_x -= TILE_WIDTH;
+        *position = *position + Direction::West;
+    }
     if my_player.is_walking() {
         match my_player._pdir {
             Direction::North | Direction::NorthEast => {
@@ -890,6 +911,10 @@ fn draw_game(ctx: &mut Ctx, full_out: &Surface, position: Point, offset: Displac
     update_missiles_renderer_data(ctx);
     // Draw areas moving in and out of the screen
     let me = ctx.players.MyPlayer.expect("MyPlayer");
+    if crate::freemove::render_offset(ctx, me).is_some() {
+        rows += 3;
+        columns += 2;
+    }
     if ctx.players.Players[me].is_walking() {
         match ctx.players.Players[me]._pdir {
             Direction::NoDirection => {}

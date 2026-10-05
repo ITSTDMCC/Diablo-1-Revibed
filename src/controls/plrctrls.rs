@@ -404,6 +404,27 @@ fn is_path_blocked(ctx: &Ctx, position: Point, dir: Direction) -> bool {
 // @port controls/plrctrls.cpp|devilution::WalkInDir(size_t playerId, AxisDirection dir) sha=1b3fe6568dd5
 fn walk_in_dir(ctx: &mut Ctx, player_id: usize, dir: AxisDirection) {
     use crate::enums::*;
+    if crate::freemove::active_for(ctx, player_id) {
+        // free movement: move in the stick direction itself
+        let s = ctx.controls.sticks;
+        let v = if s.left_stick_x != 0.0 || s.left_stick_y != 0.0 {
+            Some((s.left_stick_x, s.left_stick_y))
+        } else {
+            let x = match dir.x {
+                AxisDirectionX::Left => -1.0,
+                AxisDirectionX::Right => 1.0,
+                AxisDirectionX::None => 0.0,
+            };
+            let y = match dir.y {
+                AxisDirectionY::Up => 1.0,
+                AxisDirectionY::Down => -1.0,
+                AxisDirectionY::None => 0.0,
+            };
+            if x == 0.0 && y == 0.0 { None } else { Some((x, y)) }
+        };
+        crate::freemove::stick(ctx, v);
+        return;
+    }
     if dir.x == AxisDirectionX::None && dir.y == AxisDirectionY::None {
         let p = &ctx.players.Players[player_id];
         if ctx.controls.control_mode != ControlTypes::KeyboardAndMouse && p.walkpath[0] as i32 != WALK_NONE && p.destAction == ACTION_NONE {

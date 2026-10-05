@@ -1781,6 +1781,9 @@ fn try_disarm(ctx: &mut Ctx, pnum: usize, oi: usize) {
 // @port player.cpp|devilution::CheckNewPath(Player &player, bool pmWillBeCalled) sha=2419d591e696
 fn check_new_path(ctx: &mut Ctx, pnum: usize, pm_will_be_called: bool) {
     use crate::engine::get_direction;
+    if crate::freemove::is_moving(ctx, pnum) {
+        return; // free movement: the action starts on arrival
+    }
     let target_id = ctx.players.Players[pnum].destParam1;
     let dest_action = ctx.players.Players[pnum].destAction;
     let mut monster: usize = 0;
@@ -3406,6 +3409,7 @@ pub fn process_players(ctx: &mut Ctx) {
                 p._pMana = 0;
                 redraw_component(ctx, PanelDrawComponent::Mana);
             }
+            crate::freemove::tick(ctx, pnum);
         }
         loop {
             let mode = ctx.players.Players[pnum]._pmode;
@@ -3474,6 +3478,11 @@ pub fn pos_ok_player(ctx: &Ctx, pnum: usize, position: Point) -> bool {
 /// Original: `devilution::MakePlrPath` (player.cpp).
 // @port player.cpp|devilution::MakePlrPath(Player &player, Point targetPosition, bool endspace) sha=5ebac1086aab
 pub fn make_plr_path(ctx: &mut Ctx, pnum: usize, target_position: Point, endspace: bool) {
+    if crate::freemove::active_for(ctx, pnum) {
+        clr_plr_path(ctx, pnum);
+        crate::freemove::go_to(ctx, pnum, target_position, endspace);
+        return;
+    }
     let from = ctx.players.Players[pnum].position.future;
     if from == target_position {
         return;
