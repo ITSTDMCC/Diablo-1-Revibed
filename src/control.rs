@@ -162,7 +162,19 @@ pub fn calculate_panel_areas(ctx: &mut Ctx) {
     }
 }
 
-crate::pending_fn!(pub fn quick_spell_hotkey(ctx: &mut Ctx, i: usize), "diablo.cpp|devilution::InitKeymapActions() QuickSpell lambda");
+/// The `QuickSpell{}` key action of `InitKeymapActions` (diablo.cpp).
+// @port diablo.cpp|devilution::InitKeymapActions() sha=7e29f9d13920
+pub fn quick_spell_hotkey(ctx: &mut Ctx, i: usize) {
+    if ctx.control.spselflag {
+        crate::panels::spell_list::set_speed_spell(ctx, i);
+        return;
+    }
+    if !ctx.options.gameplay.quick_cast.get() {
+        crate::panels::spell_list::toggle_spell(ctx, i);
+    } else {
+        crate::controls::plrctrls::quick_cast(ctx, i);
+    }
+}
 
 /// Original: `devilution::OpenCharPanel` (control.cpp).
 // @port control.cpp|devilution::OpenCharPanel() sha=1737c78aa2aa

@@ -690,7 +690,7 @@ diablo.cpp|devilution::SpellBookKeyPressed(),ported,,,src/diablo_game.rs
 diablo.cpp|devilution::IsPlayerDead(),ported,,,src/diablo_game.rs
 diablo.cpp|devilution::IsGameRunning(),ported,,,src/diablo_game.rs
 diablo.cpp|devilution::CanPlayerTakeAction(),ported,,,src/diablo_game.rs
-diablo.cpp|devilution::InitKeymapActions(),pending,,,
+diablo.cpp|devilution::InitKeymapActions(),ported,,,src/inv.rs
 diablo.cpp|devilution::InitPadmapActions(),pending,,,
 diablo.cpp|devilution::SetCursorPos(Point position),ported,,,src/controls/mod.rs
 diablo.cpp|devilution::FreeGameMem(),ported,,,src/diablo.rs
@@ -1604,7 +1604,7 @@ error.cpp|devilution::InitNextLines(),ported,,,src/error.rs
 error.cpp|devilution::IsDiabloMsgAvailable(),ported,,,src/error.rs
 error.cpp|devilution::CancelCurrentDiabloMsg(),ported,,,src/error.rs
 error.cpp|devilution::ClrDiabloMsg(),ported,,,src/error.rs
-error.cpp|devilution::DrawDiabloMsg(const Surface &out),pending,,,
+error.cpp|devilution::DrawDiabloMsg(const Surface &out),ported,,,src/error.rs
 gamemenu.cpp|devilution::GamemenuUpdateSingle(),ported,,,src/gamemenu.rs
 gamemenu.cpp|devilution::GamemenuUpdateMulti(),ported,,,src/gamemenu.rs
 gamemenu.cpp|devilution::GamemenuPrevious(bool),ported,,,src/gamemenu.rs
@@ -1882,7 +1882,7 @@ items.cpp|devilution::Char2int(uint8_t input),ported,,,src/items.rs
 items.cpp|devilution::SpawnRock(),ported,,,src/items.rs
 items.cpp|devilution::ItemDoppel(),ported,,,src/items.rs
 items.cpp|devilution::PrintItemOil(char iDidx),ported,,,src/items.rs
-items.cpp|devilution::DrawUniqueInfoWindow(const Surface &out),pending,,,
+items.cpp|devilution::DrawUniqueInfoWindow(const Surface &out),ported,,,src/items.rs
 "items.cpp|devilution::printItemMiscKBM(const Item &item, const bool isOil, const bool isCastOnTarget)",ported,,,src/items.rs
 "items.cpp|devilution::printItemMiscGenericGamepad(const Item &item, const bool isOil, bool isCastOnTarget)",ported,,,src/items.rs
 "items.cpp|devilution::printItemMiscGamepad(const Item &item, bool isOil, bool isCastOnTarget)",ported,,,src/items.rs
@@ -1954,7 +1954,7 @@ items.cpp|devilution::GetItemStr(Item &item),ported,,,src/items.rs
 "items.cpp|devilution::DoRecharge(Player &player, int cii)",ported,,,src/items.rs
 "items.cpp|devilution::DoOil(Player &player, int cii)",ported,,,src/items.rs
 "items.cpp|devilution::PrintItemPower(char plidx, const Item &item)",ported,,,src/items.rs
-items.cpp|devilution::DrawUniqueInfo(const Surface &out),pending,,,
+items.cpp|devilution::DrawUniqueInfo(const Surface &out),ported,,,src/items.rs
 items.cpp|devilution::PrintItemDetails(const Item &item),ported,,,src/items.rs
 items.cpp|devilution::PrintItemDur(const Item &item),ported,,,src/items.rs
 "items.cpp|devilution::UseItem(size_t pnum, item_misc_id mid, SpellID spellID, int spellFrom)",ported,,,src/items.rs
@@ -2050,112 +2050,112 @@ levels/drlg_l1.cpp|devilution::SelectChamber(),ported,,,src/levels/drlg_l1.rs
 "levels/drlg_l1.cpp|devilution::CreateL5Dungeon(uint32_t rseed, lvl_entry entry)",ported,,,src/levels/drlg_l1.rs
 levels/drlg_l1.cpp|devilution::LoadPreL1Dungeon(const char *path),ported,,,src/levels/drlg_l1.rs
 "levels/drlg_l1.cpp|devilution::LoadL1Dungeon(const char *path, Point spawn)",ported,,,src/levels/drlg_l1.rs
-levels/drlg_l2.cpp|devilution::ApplyShadowsPatterns(),pending,,,
-"levels/drlg_l2.cpp|devilution::PlaceMiniSetRandom(const Miniset &miniset, int rndper)",pending,,,
-"levels/drlg_l2.cpp|devilution::PlaceMiniSetRandom1x1(uint8_t search, uint8_t replace, int rndper)",pending,,,
-levels/drlg_l2.cpp|devilution::LoadQuestSetPieces(),pending,,,
-levels/drlg_l2.cpp|devilution::InitDungeonPieces(),pending,,,
-levels/drlg_l2.cpp|devilution::InitDungeonFlags(),pending,,,
-"levels/drlg_l2.cpp|devilution::MapRoom(int x1, int y1, int x2, int y2)",pending,,,
-"levels/drlg_l2.cpp|devilution::DefineRoom(Point topLeft, Point bottomRight, bool forceHW)",pending,,,
-levels/drlg_l2.cpp|devilution::CreateDoorType(Point position),pending,,,
-levels/drlg_l2.cpp|devilution::PlaceHallExt(Point position),pending,,,
-"levels/drlg_l2.cpp|devilution::CreateRoom(WorldTilePosition topLeft, WorldTilePosition bottomRight, int nRDest, HallDirection nHDir, std::optional<WorldTileSize> size)",pending,,,
-levels/drlg_l2.cpp|devilution::ConnectHall(const HallNode &node),pending,,,
-"levels/drlg_l2.cpp|devilution::DoPatternCheck(int i, int j)",pending,,,
-levels/drlg_l2.cpp|devilution::FixTilesPatterns(),pending,,,
-levels/drlg_l2.cpp|devilution::Substitution(),pending,,,
-levels/drlg_l2.cpp|devilution::CountEmptyTiles(),pending,,,
-"levels/drlg_l2.cpp|devilution::KnockWalls(int x1, int y1, int x2, int y2)",pending,,,
-"levels/drlg_l2.cpp|devilution::FillVoid(bool xf1, bool yf1, bool xf2, bool yf2, int xx, int yy)",pending,,,
-levels/drlg_l2.cpp|devilution::FillVoids(),pending,,,
-levels/drlg_l2.cpp|devilution::CreateDungeon(),pending,,,
-levels/drlg_l2.cpp|devilution::FixTransparency(),pending,,,
-levels/drlg_l2.cpp|devilution::FixDirtTiles(),pending,,,
-levels/drlg_l2.cpp|devilution::FixLockout(),pending,,,
-levels/drlg_l2.cpp|devilution::FixDoors(),pending,,,
-levels/drlg_l2.cpp|devilution::PlaceStairs(lvl_entry entry),pending,,,
-levels/drlg_l2.cpp|devilution::GenerateLevel(lvl_entry entry),pending,,,
-levels/drlg_l2.cpp|devilution::Pass3(),pending,,,
-"levels/drlg_l2.cpp|devilution::CreateL2Dungeon(uint32_t rseed, lvl_entry entry)",pending,,,
-levels/drlg_l2.cpp|devilution::LoadPreL2Dungeon(const char *path),pending,,,
-"levels/drlg_l2.cpp|devilution::LoadL2Dungeon(const char *path, Point spawn)",pending,,,
-levels/drlg_l3.cpp|devilution::InitDungeonFlags(),pending,,,
-"levels/drlg_l3.cpp|devilution::FillRoom(int x1, int y1, int x2, int y2)",pending,,,
-"levels/drlg_l3.cpp|devilution::CreateBlock(int x, int y, int obs, int dir)",pending,,,
-"levels/drlg_l3.cpp|devilution::FloorArea(int x1, int y1, int x2, int y2)",pending,,,
-levels/drlg_l3.cpp|devilution::FillDiagonals(),pending,,,
-levels/drlg_l3.cpp|devilution::FillSingles(),pending,,,
-levels/drlg_l3.cpp|devilution::FillStraights(),pending,,,
-levels/drlg_l3.cpp|devilution::Edges(),pending,,,
-levels/drlg_l3.cpp|devilution::GetFloorArea(),pending,,,
-levels/drlg_l3.cpp|devilution::MakeMegas(),pending,,,
-levels/drlg_l3.cpp|devilution::River(),pending,,,
-"levels/drlg_l3.cpp|devilution::SpawnEdge(int x, int y, int *totarea)",pending,,,
-"levels/drlg_l3.cpp|devilution::Spawn(int x, int y, int *totarea)",pending,,,
-"levels/drlg_l3.cpp|devilution::CanReplaceTile(uint8_t replace, Point tile)",pending,,,
-"levels/drlg_l3.cpp|devilution::PlaceMiniSetRandom(const Miniset &miniset, int rndper)",pending,,,
-"levels/drlg_l3.cpp|devilution::PlaceMiniSetRandom1x1(uint8_t search, uint8_t replace, int rndper)",pending,,,
-levels/drlg_l3.cpp|devilution::PlaceSlimePool(),pending,,,
-levels/drlg_l3.cpp|devilution::PlaceLavaPool(),pending,,,
-levels/drlg_l3.cpp|devilution::PlacePool(),pending,,,
-levels/drlg_l3.cpp|devilution::PoolFix(),pending,,,
-"levels/drlg_l3.cpp|devilution::FenceVerticalUp(int i, int y)",pending,,,
-"levels/drlg_l3.cpp|devilution::FenceVerticalDown(int i, int y)",pending,,,
-"levels/drlg_l3.cpp|devilution::FenceHorizontalLeft(int x, int j)",pending,,,
-"levels/drlg_l3.cpp|devilution::FenceHorizontalRight(int x, int j)",pending,,,
-levels/drlg_l3.cpp|devilution::AddFenceDoors(),pending,,,
-levels/drlg_l3.cpp|devilution::FenceDoorFix(),pending,,,
-levels/drlg_l3.cpp|devilution::Fence(),pending,,,
-levels/drlg_l3.cpp|devilution::LoadQuestSetPieces(),pending,,,
-levels/drlg_l3.cpp|devilution::PlaceAnvil(),pending,,,
-levels/drlg_l3.cpp|devilution::Warp(),pending,,,
-levels/drlg_l3.cpp|devilution::HallOfHeroes(),pending,,,
-"levels/drlg_l3.cpp|devilution::LockRectangle(int x, int y)",pending,,,
-levels/drlg_l3.cpp|devilution::Lockout(),pending,,,
-levels/drlg_l3.cpp|devilution::PlaceCaveStairs(lvl_entry entry),pending,,,
-levels/drlg_l3.cpp|devilution::PlaceNestStairs(lvl_entry entry),pending,,,
-levels/drlg_l3.cpp|devilution::PlaceStairs(lvl_entry entry),pending,,,
-levels/drlg_l3.cpp|devilution::GenerateLevel(lvl_entry entry),pending,,,
-levels/drlg_l3.cpp|devilution::Pass3(),pending,,,
-levels/drlg_l3.cpp|devilution::PlaceCaveLights(),pending,,,
-levels/drlg_l3.cpp|devilution::PlaceHiveLights(),pending,,,
-levels/drlg_l3.cpp|devilution::PlaceLights(),pending,,,
-"levels/drlg_l3.cpp|devilution::CreateL3Dungeon(uint32_t rseed, lvl_entry entry)",pending,,,
-levels/drlg_l3.cpp|devilution::LoadPreL3Dungeon(const char *path),pending,,,
-"levels/drlg_l3.cpp|devilution::LoadL3Dungeon(const char *path, Point spawn)",pending,,,
-levels/drlg_l4.cpp|devilution::ApplyShadowsPatterns(),pending,,,
-levels/drlg_l4.cpp|devilution::LoadQuestSetPieces(),pending,,,
-levels/drlg_l4.cpp|devilution::InitDungeonFlags(),pending,,,
-levels/drlg_l4.cpp|devilution::MapRoom(WorldTileRectangle room),pending,,,
-levels/drlg_l4.cpp|devilution::CheckRoom(WorldTileRectangle room),pending,,,
-"levels/drlg_l4.cpp|devilution::GenerateRoom(WorldTileRectangle area, bool verticalLayout)",pending,,,
-levels/drlg_l4.cpp|devilution::FirstRoom(),pending,,,
-levels/drlg_l4.cpp|devilution::MirrorDungeonLayout(),pending,,,
-levels/drlg_l4.cpp|devilution::MakeDmt(),pending,,,
-"levels/drlg_l4.cpp|devilution::HorizontalWallOk(int i, int j)",pending,,,
-"levels/drlg_l4.cpp|devilution::VerticalWallOk(int i, int j)",pending,,,
-"levels/drlg_l4.cpp|devilution::HorizontalWall(int i, int j, int dx)",pending,,,
-"levels/drlg_l4.cpp|devilution::VerticalWall(int i, int j, int dy)",pending,,,
-levels/drlg_l4.cpp|devilution::AddWall(),pending,,,
-levels/drlg_l4.cpp|devilution::FixTilesPatterns(),pending,,,
-levels/drlg_l4.cpp|devilution::Substitution(),pending,,,
-levels/drlg_l4.cpp|devilution::PrepareInnerBorders(),pending,,,
-levels/drlg_l4.cpp|devilution::FindArea(),pending,,,
-levels/drlg_l4.cpp|devilution::ProtectQuads(),pending,,,
-levels/drlg_l4.cpp|devilution::LoadDiabQuads(bool preflag),pending,,,
-levels/drlg_l4.cpp|devilution::IsDURightWall(char d),pending,,,
-levels/drlg_l4.cpp|devilution::IsDLLeftWall(char dd),pending,,,
-levels/drlg_l4.cpp|devilution::FixTransparency(),pending,,,
-levels/drlg_l4.cpp|devilution::FixCornerTiles(),pending,,,
-levels/drlg_l4.cpp|devilution::CloseOuterBorders(),pending,,,
-levels/drlg_l4.cpp|devilution::GeneralFix(),pending,,,
-levels/drlg_l4.cpp|devilution::PlaceStairs(lvl_entry entry),pending,,,
-levels/drlg_l4.cpp|devilution::GenerateLevel(lvl_entry entry),pending,,,
-levels/drlg_l4.cpp|devilution::Pass3(),pending,,,
-"levels/drlg_l4.cpp|devilution::CreateL4Dungeon(uint32_t rseed, lvl_entry entry)",pending,,,
-levels/drlg_l4.cpp|devilution::LoadPreL4Dungeon(const char *path),pending,,,
-"levels/drlg_l4.cpp|devilution::LoadL4Dungeon(const char *path, Point spawn)",pending,,,
+levels/drlg_l2.cpp|devilution::ApplyShadowsPatterns(),ported,,,src/levels/drlg_l2.rs
+"levels/drlg_l2.cpp|devilution::PlaceMiniSetRandom(const Miniset &miniset, int rndper)",ported,,,src/levels/drlg_l2.rs
+"levels/drlg_l2.cpp|devilution::PlaceMiniSetRandom1x1(uint8_t search, uint8_t replace, int rndper)",ported,,,src/levels/drlg_l2.rs
+levels/drlg_l2.cpp|devilution::LoadQuestSetPieces(),ported,,,src/levels/drlg_l2.rs
+levels/drlg_l2.cpp|devilution::InitDungeonPieces(),ported,,,src/levels/drlg_l2.rs
+levels/drlg_l2.cpp|devilution::InitDungeonFlags(),ported,,,src/levels/drlg_l2.rs
+"levels/drlg_l2.cpp|devilution::MapRoom(int x1, int y1, int x2, int y2)",ported,,,src/levels/drlg_l2.rs
+"levels/drlg_l2.cpp|devilution::DefineRoom(Point topLeft, Point bottomRight, bool forceHW)",ported,,,src/levels/drlg_l2.rs
+levels/drlg_l2.cpp|devilution::CreateDoorType(Point position),ported,,,src/levels/drlg_l2.rs
+levels/drlg_l2.cpp|devilution::PlaceHallExt(Point position),ported,,,src/levels/drlg_l2.rs
+"levels/drlg_l2.cpp|devilution::CreateRoom(WorldTilePosition topLeft, WorldTilePosition bottomRight, int nRDest, HallDirection nHDir, std::optional<WorldTileSize> size)",ported,,,src/levels/drlg_l2.rs
+levels/drlg_l2.cpp|devilution::ConnectHall(const HallNode &node),ported,,,src/levels/drlg_l2.rs
+"levels/drlg_l2.cpp|devilution::DoPatternCheck(int i, int j)",ported,,,src/levels/drlg_l2.rs
+levels/drlg_l2.cpp|devilution::FixTilesPatterns(),ported,,,src/levels/drlg_l2.rs
+levels/drlg_l2.cpp|devilution::Substitution(),ported,,,src/levels/drlg_l2.rs
+levels/drlg_l2.cpp|devilution::CountEmptyTiles(),ported,,,src/levels/drlg_l2.rs
+"levels/drlg_l2.cpp|devilution::KnockWalls(int x1, int y1, int x2, int y2)",ported,,,src/levels/drlg_l2.rs
+"levels/drlg_l2.cpp|devilution::FillVoid(bool xf1, bool yf1, bool xf2, bool yf2, int xx, int yy)",ported,,,src/levels/drlg_l2.rs
+levels/drlg_l2.cpp|devilution::FillVoids(),ported,,,src/levels/drlg_l2.rs
+levels/drlg_l2.cpp|devilution::CreateDungeon(),ported,,,src/levels/drlg_l2.rs
+levels/drlg_l2.cpp|devilution::FixTransparency(),ported,,,src/levels/drlg_l2.rs
+levels/drlg_l2.cpp|devilution::FixDirtTiles(),ported,,,src/levels/drlg_l2.rs
+levels/drlg_l2.cpp|devilution::FixLockout(),ported,,,src/levels/drlg_l2.rs
+levels/drlg_l2.cpp|devilution::FixDoors(),ported,,,src/levels/drlg_l2.rs
+levels/drlg_l2.cpp|devilution::PlaceStairs(lvl_entry entry),ported,,,src/levels/drlg_l2.rs
+levels/drlg_l2.cpp|devilution::GenerateLevel(lvl_entry entry),ported,,,src/levels/drlg_l2.rs
+levels/drlg_l2.cpp|devilution::Pass3(),ported,,,src/levels/drlg_l2.rs
+"levels/drlg_l2.cpp|devilution::CreateL2Dungeon(uint32_t rseed, lvl_entry entry)",ported,,,src/levels/drlg_l2.rs
+levels/drlg_l2.cpp|devilution::LoadPreL2Dungeon(const char *path),ported,,,src/levels/drlg_l2.rs
+"levels/drlg_l2.cpp|devilution::LoadL2Dungeon(const char *path, Point spawn)",ported,,,src/levels/drlg_l2.rs
+levels/drlg_l3.cpp|devilution::InitDungeonFlags(),ported,,,src/levels/drlg_l3.rs
+"levels/drlg_l3.cpp|devilution::FillRoom(int x1, int y1, int x2, int y2)",ported,,,src/levels/drlg_l3.rs
+"levels/drlg_l3.cpp|devilution::CreateBlock(int x, int y, int obs, int dir)",ported,,,src/levels/drlg_l3.rs
+"levels/drlg_l3.cpp|devilution::FloorArea(int x1, int y1, int x2, int y2)",ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::FillDiagonals(),ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::FillSingles(),ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::FillStraights(),ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::Edges(),ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::GetFloorArea(),ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::MakeMegas(),ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::River(),ported,,,src/levels/drlg_l3.rs
+"levels/drlg_l3.cpp|devilution::SpawnEdge(int x, int y, int *totarea)",ported,,,src/levels/drlg_l3.rs
+"levels/drlg_l3.cpp|devilution::Spawn(int x, int y, int *totarea)",ported,,,src/levels/drlg_l3.rs
+"levels/drlg_l3.cpp|devilution::CanReplaceTile(uint8_t replace, Point tile)",ported,,,src/levels/drlg_l3.rs
+"levels/drlg_l3.cpp|devilution::PlaceMiniSetRandom(const Miniset &miniset, int rndper)",ported,,,src/levels/drlg_l3.rs
+"levels/drlg_l3.cpp|devilution::PlaceMiniSetRandom1x1(uint8_t search, uint8_t replace, int rndper)",ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::PlaceSlimePool(),ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::PlaceLavaPool(),ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::PlacePool(),ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::PoolFix(),ported,,,src/levels/drlg_l3.rs
+"levels/drlg_l3.cpp|devilution::FenceVerticalUp(int i, int y)",ported,,,src/levels/drlg_l3.rs
+"levels/drlg_l3.cpp|devilution::FenceVerticalDown(int i, int y)",ported,,,src/levels/drlg_l3.rs
+"levels/drlg_l3.cpp|devilution::FenceHorizontalLeft(int x, int j)",ported,,,src/levels/drlg_l3.rs
+"levels/drlg_l3.cpp|devilution::FenceHorizontalRight(int x, int j)",ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::AddFenceDoors(),ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::FenceDoorFix(),ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::Fence(),ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::LoadQuestSetPieces(),ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::PlaceAnvil(),ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::Warp(),ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::HallOfHeroes(),ported,,,src/levels/drlg_l3.rs
+"levels/drlg_l3.cpp|devilution::LockRectangle(int x, int y)",ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::Lockout(),ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::PlaceCaveStairs(lvl_entry entry),ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::PlaceNestStairs(lvl_entry entry),ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::PlaceStairs(lvl_entry entry),ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::GenerateLevel(lvl_entry entry),ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::Pass3(),ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::PlaceCaveLights(),ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::PlaceHiveLights(),ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::PlaceLights(),ported,,,src/levels/drlg_l3.rs
+"levels/drlg_l3.cpp|devilution::CreateL3Dungeon(uint32_t rseed, lvl_entry entry)",ported,,,src/levels/drlg_l3.rs
+levels/drlg_l3.cpp|devilution::LoadPreL3Dungeon(const char *path),ported,,,src/levels/drlg_l3.rs
+"levels/drlg_l3.cpp|devilution::LoadL3Dungeon(const char *path, Point spawn)",ported,,,src/levels/drlg_l3.rs
+levels/drlg_l4.cpp|devilution::ApplyShadowsPatterns(),ported,,,src/levels/drlg_l4.rs
+levels/drlg_l4.cpp|devilution::LoadQuestSetPieces(),ported,,,src/levels/drlg_l4.rs
+levels/drlg_l4.cpp|devilution::InitDungeonFlags(),ported,,,src/levels/drlg_l4.rs
+levels/drlg_l4.cpp|devilution::MapRoom(WorldTileRectangle room),ported,,,src/levels/drlg_l4.rs
+levels/drlg_l4.cpp|devilution::CheckRoom(WorldTileRectangle room),ported,,,src/levels/drlg_l4.rs
+"levels/drlg_l4.cpp|devilution::GenerateRoom(WorldTileRectangle area, bool verticalLayout)",ported,,,src/levels/drlg_l4.rs
+levels/drlg_l4.cpp|devilution::FirstRoom(),ported,,,src/levels/drlg_l4.rs
+levels/drlg_l4.cpp|devilution::MirrorDungeonLayout(),ported,,,src/levels/drlg_l4.rs
+levels/drlg_l4.cpp|devilution::MakeDmt(),ported,,,src/levels/drlg_l4.rs
+"levels/drlg_l4.cpp|devilution::HorizontalWallOk(int i, int j)",ported,,,src/levels/drlg_l4.rs
+"levels/drlg_l4.cpp|devilution::VerticalWallOk(int i, int j)",ported,,,src/levels/drlg_l4.rs
+"levels/drlg_l4.cpp|devilution::HorizontalWall(int i, int j, int dx)",ported,,,src/levels/drlg_l4.rs
+"levels/drlg_l4.cpp|devilution::VerticalWall(int i, int j, int dy)",ported,,,src/levels/drlg_l4.rs
+levels/drlg_l4.cpp|devilution::AddWall(),ported,,,src/levels/drlg_l4.rs
+levels/drlg_l4.cpp|devilution::FixTilesPatterns(),ported,,,src/levels/drlg_l4.rs
+levels/drlg_l4.cpp|devilution::Substitution(),ported,,,src/levels/drlg_l4.rs
+levels/drlg_l4.cpp|devilution::PrepareInnerBorders(),ported,,,src/levels/drlg_l4.rs
+levels/drlg_l4.cpp|devilution::FindArea(),ported,,,src/levels/drlg_l4.rs
+levels/drlg_l4.cpp|devilution::ProtectQuads(),ported,,,src/levels/drlg_l4.rs
+levels/drlg_l4.cpp|devilution::LoadDiabQuads(bool preflag),ported,,,src/levels/drlg_l4.rs
+levels/drlg_l4.cpp|devilution::IsDURightWall(char d),ported,,,src/levels/drlg_l4.rs
+levels/drlg_l4.cpp|devilution::IsDLLeftWall(char dd),ported,,,src/levels/drlg_l4.rs
+levels/drlg_l4.cpp|devilution::FixTransparency(),ported,,,src/levels/drlg_l4.rs
+levels/drlg_l4.cpp|devilution::FixCornerTiles(),ported,,,src/levels/drlg_l4.rs
+levels/drlg_l4.cpp|devilution::CloseOuterBorders(),ported,,,src/levels/drlg_l4.rs
+levels/drlg_l4.cpp|devilution::GeneralFix(),ported,,,src/levels/drlg_l4.rs
+levels/drlg_l4.cpp|devilution::PlaceStairs(lvl_entry entry),ported,,,src/levels/drlg_l4.rs
+levels/drlg_l4.cpp|devilution::GenerateLevel(lvl_entry entry),ported,,,src/levels/drlg_l4.rs
+levels/drlg_l4.cpp|devilution::Pass3(),ported,,,src/levels/drlg_l4.rs
+"levels/drlg_l4.cpp|devilution::CreateL4Dungeon(uint32_t rseed, lvl_entry entry)",ported,,,src/levels/drlg_l4.rs
+levels/drlg_l4.cpp|devilution::LoadPreL4Dungeon(const char *path),ported,,,src/levels/drlg_l4.rs
+"levels/drlg_l4.cpp|devilution::LoadL4Dungeon(const char *path, Point spawn)",ported,,,src/levels/drlg_l4.rs
 levels/gendung.cpp|devilution::LoadMinData(size_t &tileCount),ported,,,src/levels/gendung.rs
 "levels/gendung.cpp|devilution::GetSizeForThemeRoom(uint8_t floor, WorldTilePosition origin, WorldTileCoord minSize, WorldTileCoord maxSize)",ported,,,src/levels/gendung.rs
 levels/gendung.cpp|devilution::CreateThemeRoom(int themeIndex),ported,,,src/levels/gendung.rs
@@ -3850,7 +3850,7 @@ quests.cpp|devilution::DrawLTBanner(Point position),ported,,,src/quests.rs
 quests.cpp|devilution::DrawBlind(Point position),ported,,,src/quests.rs
 quests.cpp|devilution::DrawBlood(Point position),ported,,,src/quests.rs
 quests.cpp|devilution::QuestLogMouseToEntry(),ported,,,src/quests.rs
-"quests.cpp|devilution::PrintQLString(const Surface &out, int x, int y, string_view str, bool marked, bool disabled = false)",pending,,,
+"quests.cpp|devilution::PrintQLString(const Surface &out, int x, int y, string_view str, bool marked, bool disabled = false)",ported,,,src/quests.rs
 quests.cpp|devilution::StartPWaterPurify(),ported,,,src/quests.rs
 quests.cpp|devilution::InitQuests(),ported,,,src/quests.rs
 "quests.cpp|devilution::InitialiseQuestPools(uint32_t seed, Quest quests[])",ported,,,src/quests.rs
@@ -3864,7 +3864,7 @@ quests.cpp|devilution::LoadPWaterPalette(),ported,,,src/quests.rs
 quests.cpp|devilution::UpdatePWaterPalette(),ported,,,src/quests.rs
 quests.cpp|devilution::ResyncMPQuests(),ported,,,src/quests.rs
 quests.cpp|devilution::ResyncQuests(),ported,,,src/quests.rs
-quests.cpp|devilution::DrawQuestLog(const Surface &out),pending,,,
+quests.cpp|devilution::DrawQuestLog(const Surface &out),ported,,,src/quests.rs
 quests.cpp|devilution::StartQuestlog(),ported,,,src/quests.rs
 quests.cpp|devilution::QuestlogUp(),ported,,,src/quests.rs
 quests.cpp|devilution::QuestlogDown(),ported,,,src/quests.rs

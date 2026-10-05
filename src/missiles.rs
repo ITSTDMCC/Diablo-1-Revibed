@@ -243,7 +243,6 @@ pub fn add_missile(ctx: &mut Ctx, src: Point, dst: Point, midir: Direction, mity
 }
 
 
-crate::pending_fn!(pub fn tile_contains_missile(ctx: &Ctx, position: Point) -> bool, "missiles.cpp|devilution::TileContainsMissile(Point position)");
 
 
 

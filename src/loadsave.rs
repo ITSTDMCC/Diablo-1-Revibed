@@ -2723,7 +2723,7 @@ pub fn save_game_data(ctx: &mut Ctx, save_writer: &mut SaveWriter) {
         }
         for j in 0..MAXDUNY {
             for i in 0..MAXDUNX {
-                file.i8(if crate::missiles::tile_contains_missile(ctx_ro, Point::new(i as i32, j as i32)) { -1 } else { 0 });
+                file.i8(if crate::levels::gendung::tile_contains_missile(ctx_ro, Point::new(i as i32, j as i32)) { -1 } else { 0 });
             }
         }
     }

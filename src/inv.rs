@@ -1905,7 +1905,15 @@ pub fn get_inventory_size(item: &Item) -> Size {
     Size::new(size.width / InventorySlotSizeInPixels.width, size.height / InventorySlotSizeInPixels.height)
 }
 
-crate::pending_fn!(pub fn use_belt_item_slot(ctx: &mut Ctx, i: usize), "diablo.cpp|devilution::InitKeymapActions() BeltItem lambda");
+/// The `BeltItem{}` key action of `InitKeymapActions` (diablo.cpp).
+// @port diablo.cpp|devilution::InitKeymapActions() sha=7e29f9d13920
+pub fn use_belt_item_slot(ctx: &mut Ctx, i: usize) {
+    let me = ctx.players.MyPlayer.expect("MyPlayer");
+    let item = &ctx.players.Players[me].SpdList[i];
+    if !item.is_empty() && item._itype != ItemType::Gold {
+        use_inv_item(ctx, INVITEM_BELT_FIRST as i32 + i as i32);
+    }
+}
 
 
 /// Original: `devilution::InvDrawSlotBack` (inv.cpp): tints the slot background under an item

@@ -248,7 +248,28 @@ fn quest_log_mouse_to_entry(ctx: &Ctx) -> i32 {
     -1
 }
 
-crate::pending_fn!(fn print_ql_string(ctx: &mut Ctx, out: &Surface, x: i32, y: i32, s: &str, marked: bool, disabled: bool), "quests.cpp|devilution::PrintQLString(const Surface &out, int x, int y, string_view str, bool marked, bool disabled)");
+/// Original: `PrintQLString` (quests.cpp). `disabled` defaults to false.
+// @port quests.cpp|devilution::PrintQLString(const Surface &out, int x, int y, string_view str, bool marked, bool disabled = false) sha=1c8ad865afaa
+fn print_ql_string(ctx: &mut Ctx, out: &Surface, mut x: i32, y: i32, s: &str, marked: bool, disabled: bool) {
+    use crate::engine::render::clx_render::clx_draw;
+    use crate::engine::render::text_render::{draw_string, get_line_width, GameFontTables, UiFlags};
+    let width = get_line_width(ctx, s, GameFontTables::GameFont12, 1, None);
+    x += ((257 - width) / 2).max(0);
+    let cels = ctx.text_render.p_s_pent_spn2_cels.clone().expect("pSPentSpn2Cels");
+    if marked {
+        let p = crate::control::get_panel_position(ctx, UiPanels::Quest, Point::new(x - 20, y + 13));
+        let spin = crate::engine::render::text_render::pent_spn2_spin(ctx) as usize;
+        clx_draw(out, (p.x, p.y), &cels.get(spin));
+    }
+    let p = crate::control::get_panel_position(ctx, UiPanels::Quest, Point::new(x, y));
+    let rect = crate::engine::surface::Rect { x: p.x, y: p.y, w: 257, h: 0 };
+    draw_string(ctx, out, s, rect, if disabled { UiFlags::COLOR_WHITEGOLD } else { UiFlags::COLOR_WHITE }, 1, -1);
+    if marked {
+        let p = crate::control::get_panel_position(ctx, UiPanels::Quest, Point::new(x + width + 7, y + 13));
+        let spin = crate::engine::render::text_render::pent_spn2_spin(ctx) as usize;
+        clx_draw(out, (p.x, p.y), &cels.get(spin));
+    }
+}
 
 /// Original: `StartPWaterPurify` (quests.cpp).
 // @port quests.cpp|devilution::StartPWaterPurify() sha=2fe95736e182
@@ -854,7 +875,29 @@ pub fn resync_quests(ctx: &mut Ctx) {
     ctx.objects.LoadingMapObjects = false;
 }
 
-crate::pending_fn!(pub fn draw_quest_log(ctx: &mut Ctx, out: &Surface), "quests.cpp|devilution::DrawQuestLog(const Surface &out)");
+/// Original: `devilution::DrawQuestLog` (quests.cpp).
+// @port quests.cpp|devilution::DrawQuestLog(const Surface &out) sha=337a396cf999
+pub fn draw_quest_log(ctx: &mut Ctx, out: &Surface) {
+    let l = quest_log_mouse_to_entry(ctx);
+    if l >= 0 {
+        ctx.quests.selected_quest = l;
+    }
+    let x = INNER_PANEL.position.x;
+    let p = crate::control::get_panel_position(ctx, UiPanels::Quest, Point::new(0, 351));
+    let cel = ctx.quests.p_q_log_cel.clone().expect("pQLogCel");
+    crate::engine::render::clx_render::clx_draw(out, (p.x, p.y), &cel.get(0));
+    let mut y = INNER_PANEL.position.y + ctx.quests.list_y_offset;
+    for i in 0..ctx.quests.encountered_quest_count {
+        if i == ctx.quests.first_finished_quest {
+            y += ctx.quests.finished_quest_offset;
+        }
+        let q = ctx.quests.encountered_quests[i as usize];
+        let text = tr(QuestsData[q as usize]._qlstr);
+        let (selected, first_finished) = (ctx.quests.selected_quest, ctx.quests.first_finished_quest);
+        print_ql_string(ctx, out, x, y, &text, i == selected, i >= first_finished);
+        y += ctx.quests.line_spacing;
+    }
+}
 
 /// Original: `devilution::StartQuestlog` (quests.cpp).
 // @port quests.cpp|devilution::StartQuestlog() sha=b03b9ff9ec07

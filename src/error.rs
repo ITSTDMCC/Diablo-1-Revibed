@@ -15,7 +15,6 @@ pub const LINE_HEIGHT: i32 = 12;
 struct MessageEntry {
     text: String,
     /// Duration in milliseconds
-    #[allow(dead_code)] // read by DrawDiabloMsg (pending)
     duration: u32,
 }
 
@@ -147,4 +146,51 @@ pub fn clr_diablo_msg(ctx: &mut Ctx) {
     ctx.error.diablo_messages.clear();
 }
 
-crate::pending_fn!(pub fn draw_diablo_msg(ctx: &mut Ctx, out: &crate::engine::surface::Surface), "error.cpp|devilution::DrawDiabloMsg(const Surface &out)");
+/// Original: `devilution::DrawDiabloMsg` (error.cpp).
+// @port error.cpp|devilution::DrawDiabloMsg(const Surface &out) sha=adba68699339
+pub fn draw_diablo_msg(ctx: &mut Ctx, out: &crate::engine::surface::Surface) {
+    use crate::engine::render::clx_render::clx_draw;
+    use crate::engine::render::text_render::{draw_string, UiFlags};
+    use crate::engine::surface::Rect;
+    let ui = crate::utils::display::get_ui_rectangle(ctx);
+    let ewh = ctx.error.error_window_height;
+    let dialog_start_y = ((ctx.dx.gn_screen_height - ctx.control.main_panel.h) / 2) - (ewh / 2) + 9;
+    {
+        let cels = ctx.info_box.p_s_text_slid_cels.as_ref().expect("pSTextSlidCels");
+        clx_draw(out, (ui.x + 101, dialog_start_y), &cels.get(0));
+        clx_draw(out, (ui.x + 101, dialog_start_y + ewh - 6), &cels.get(1));
+        clx_draw(out, (ui.x + 527, dialog_start_y + ewh - 6), &cels.get(2));
+        clx_draw(out, (ui.x + 527, dialog_start_y), &cels.get(3));
+        let mut sx = ui.x + 109;
+        for _ in 0..35 {
+            clx_draw(out, (sx, dialog_start_y), &cels.get(4));
+            clx_draw(out, (sx, dialog_start_y + ewh - 6), &cels.get(6));
+            sx += 12;
+        }
+        let mut drawn_y_border = 12;
+        while drawn_y_border + 12 < ewh {
+            clx_draw(out, (ui.x + 101, dialog_start_y + drawn_y_border), &cels.get(5));
+            clx_draw(out, (ui.x + 527, dialog_start_y + drawn_y_border), &cels.get(7));
+            drawn_y_border += 12;
+        }
+    }
+    crate::engine::draw_half_transparent_rect_to(ctx, out, ui.x + 104, dialog_start_y - 8, 432, ewh);
+    let lines = ctx.error.text_lines.clone();
+    for (line_number, line) in lines.iter().enumerate() {
+        let rect = Rect { x: ui.x + 109, y: dialog_start_y + 12 + line_number as i32 * LINE_HEIGHT, w: LINE_WIDTH as i32, h: LINE_HEIGHT };
+        draw_string(ctx, out, line, rect, UiFlags::ALIGN_CENTER, 1, LINE_HEIGHT);
+    }
+    // Calculate the time the current message has been displayed
+    let current_time = ctx.platform.ticks();
+    let message_elapsed_time = current_time.wrapping_sub(ctx.error.msg_start_time);
+    // Check if the current message's duration has passed
+    if let Some(front) = ctx.error.diablo_messages.front() {
+        if message_elapsed_time >= front.duration {
+            ctx.error.diablo_messages.pop_front();
+            if !ctx.error.diablo_messages.is_empty() {
+                init_next_lines(ctx);
+                ctx.error.msg_start_time = current_time;
+            }
+        }
+    }
+}

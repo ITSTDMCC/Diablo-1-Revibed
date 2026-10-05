@@ -2077,7 +2077,7 @@ fn operate_book(ctx: &mut Ctx, pnum: usize, oi: usize, sendmsg: bool) {
             crate::msg::net_send_cmd_quest(ctx, true, Q_SCHAMB as usize);
         }
         crate::effects::play_sfx_loc(ctx, IS_QUESTDN, bpos, true);
-        crate::error::init_diablo_msg_id(ctx, EMSG_BONECHAMB as usize, 0);
+        crate::error::init_diablo_msg_id(ctx, EMSG_BONECHAMB as usize, 3500);
         let (ptile, pdir) = (ctx.players.Players[pnum].position.tile, ctx.players.Players[pnum]._pdir);
         crate::missiles::add_missile(ctx, ptile, bpos + Displacement::new(-2, -4), pdir, MissileID::Guardian, TARGET_MONSTERS, pnum as i32, 0, 0, None);
     }
@@ -2141,7 +2141,7 @@ fn is_my_player(ctx: &Ctx, pnum: usize) -> bool {
 }
 
 fn diablo_msg(ctx: &mut Ctx, m: diablo_message) {
-    crate::error::init_diablo_msg_id(ctx, m as usize, 0);
+    crate::error::init_diablo_msg_id(ctx, m as usize, 3500);
 }
 
 /// Original: `OperateBookLever` (objects.cpp).

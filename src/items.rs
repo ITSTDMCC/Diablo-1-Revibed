@@ -1773,7 +1773,16 @@ fn print_item_oil(ctx: &mut Ctx, i_didx: item_misc_id) {
     }
 }
 
-crate::pending_fn!(fn draw_unique_info_window(ctx: &mut Ctx, out: &crate::engine::surface::Surface), "items.cpp|devilution::DrawUniqueInfoWindow(const Surface &out)");
+/// Original: `devilution::DrawUniqueInfoWindow` (items.cpp).
+// @port items.cpp|devilution::DrawUniqueInfoWindow(const Surface &out) sha=43c3a340be4e
+fn draw_unique_info_window(ctx: &mut Ctx, out: &crate::engine::surface::Surface) {
+    let (spw, _) = crate::control::SIDE_PANEL_SIZE;
+    let p = crate::control::get_panel_position(ctx, UiPanels::Inventory, Point::new(24 - spw, 327));
+    let sprite = ctx.info_box.p_s_text_box_cels.as_ref().expect("pSTextBoxCels").get(0);
+    crate::engine::render::clx_render::clx_draw(out, (p.x, p.y), &sprite);
+    let right = crate::control::get_right_panel(ctx);
+    crate::engine::draw_half_transparent_rect_to(ctx, out, right.x - spw + 27, right.y + 28, 265, 297);
+}
 
 /// Original: `printItemMiscKBM` (items.cpp).
 // @port items.cpp|devilution::printItemMiscKBM(const Item &item, const bool isOil, const bool isCastOnTarget) sha=b75e75f66aa6
@@ -3831,7 +3840,38 @@ fn fmt_arg(fmt: &str) -> &'static str {
     }
 }
 
-crate::pending_fn!(pub fn draw_unique_info(ctx: &mut Ctx, out: &crate::engine::surface::Surface), "items.cpp|devilution::DrawUniqueInfo(const Surface &out)");
+/// Original: `devilution::DrawUniqueInfo` (items.cpp).
+// @port items.cpp|devilution::DrawUniqueInfo(const Surface &out) sha=f1ccd89d1154
+pub fn draw_unique_info(ctx: &mut Ctx, out: &crate::engine::surface::Surface) {
+    use crate::engine::render::text_render::draw_string;
+    use crate::engine::surface::Rect;
+    let right = crate::control::get_right_panel(ctx);
+    let position = Point::new(right.x - crate::control::SIDE_PANEL_SIZE.0, right.y);
+    if crate::control::is_left_panel_open(ctx) && crate::control::get_left_panel(ctx).contains(position) {
+        return;
+    }
+
+    draw_unique_info_window(ctx, out);
+
+    let mut rect = Rect::new(position.x + 32, position.y + 56, 257, 0);
+    let uitem = &UniqueItems[ctx.items.curruitem._iUid as usize];
+    draw_string(ctx, out, &tr(uitem.UIName), rect, UiFlags::ALIGN_CENTER, 1, -1);
+
+    let divider = Rect::new(position.x + 26, position.y + 25, 267, 3);
+    out.blit_from(out, divider, (divider.x, divider.y + 5 * 12 + 13));
+
+    rect.y += (10 - uitem.UINumPL as i32) * 12;
+    assert!(uitem.UINumPL as usize <= uitem.powers.len());
+    let curruitem = ctx.items.curruitem.clone();
+    for power in uitem.powers.iter() {
+        if power.type_ == IPL_INVALID {
+            break;
+        }
+        rect.y += 2 * 12;
+        let s = print_item_power(power.type_, &curruitem);
+        draw_string(ctx, out, &s, rect, UiFlags::COLOR_WHITE | UiFlags::ALIGN_CENTER, 1, -1);
+    }
+}
 
 /// Original: `devilution::PrintItemDetails` (items.cpp).
 // @port items.cpp|devilution::PrintItemDetails(const Item &item) sha=b746923962e2
