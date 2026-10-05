@@ -20,6 +20,11 @@ fn main() {
     // A panic on the game thread (an unported function, a bug) ends the process with its message.
     std::panic::set_hook(Box::new(|info| {
         eprintln!("FATAL: {info}");
+        // RUST_BACKTRACE=1 adds where it happened
+        let bt = std::backtrace::Backtrace::capture();
+        if bt.status() == std::backtrace::BacktraceStatus::Captured {
+            eprintln!("{bt}");
+        }
         std::process::exit(101);
     }));
     if headless {

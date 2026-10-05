@@ -18,6 +18,7 @@
 //!                                  game controller 0: `padadd <vendor id>`, `padremove`,
 //!                                  `pad <button>`, `paddown <button>`, `padup <button>`,
 //!                                  `padaxis <axis> <value>` (SDL button/axis numbers)
+//! - `DIABLO_FIXED_STEP=pace`        as `1`, but waiting out each delay for real (network tests)
 //! - `DIABLO_MAX_FRAMES=n`          send Quit after n presented frames
 //! - `DIABLO_NO_SAVE=1`, `DIABLO_NO_AUDIO=1` are read by the game code that owns saving/audio.
 
@@ -139,6 +140,9 @@ struct ScriptedEvent {
 
 pub struct TestHooks {
     pub fixed_step: bool,
+    /// `DIABLO_FIXED_STEP=pace`: virtual time, but each delay and vsync also waits for real, so the
+    /// game does not run ahead of the clock (for tests where two games talk over the network).
+    pub pace: bool,
     screenshot_frames: Vec<u64>,
     screenshot_dir: PathBuf,
     script: VecDeque<ScriptedEvent>,
@@ -156,6 +160,7 @@ impl TestHooks {
         let script = var("DIABLO_INPUT_SCRIPT").map(|p| parse_script(&std::fs::read_to_string(&p).unwrap_or_else(|e| panic!("DIABLO_INPUT_SCRIPT {p}: {e}")))).unwrap_or_default();
         TestHooks {
             fixed_step: var("DIABLO_FIXED_STEP").is_some_and(|v| v != "0"),
+            pace: var("DIABLO_FIXED_STEP").is_some_and(|v| v == "pace"),
             screenshot_frames,
             screenshot_dir: var("DIABLO_SCREENSHOT_DIR").map(PathBuf::from).unwrap_or_else(|| PathBuf::from("screenshots")),
             script,
@@ -165,7 +170,7 @@ impl TestHooks {
     }
 
     pub fn none() -> TestHooks {
-        TestHooks { fixed_step: false, screenshot_frames: vec![], screenshot_dir: PathBuf::new(), script: VecDeque::new(), max_frames: None, fixed_time: None }
+        TestHooks { fixed_step: false, pace: false, screenshot_frames: vec![], screenshot_dir: PathBuf::new(), script: VecDeque::new(), max_frames: None, fixed_time: None }
     }
 }
 
@@ -355,6 +360,9 @@ impl Platform {
     pub fn delay(&mut self, ms: u32) {
         if self.hooks.fixed_step {
             self.virtual_ms += ms as u64;
+            if self.hooks.pace {
+                std::thread::sleep(Duration::from_millis(ms as u64));
+            }
         } else {
             std::thread::sleep(Duration::from_millis(ms as u64));
         }
@@ -605,6 +613,9 @@ impl Platform {
         let period = (refresh_delay_us.max(1000) / 1000) as u64;
         if self.hooks.fixed_step {
             self.virtual_ms += period;
+            if self.hooks.pace {
+                std::thread::sleep(Duration::from_millis(period));
+            }
             return;
         }
         let now = self.start.elapsed().as_millis() as u64;
