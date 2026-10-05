@@ -141,7 +141,7 @@ Asked for by the owner on 2026-10-05 as an optional gameplay feature; `src/first
   wall there). The rest of `CheckCursMove` and the click handlers are unchanged.
 - Movement: W/A/S/D drive the free movement's stick direction relative to the view. The tile
   rules let the hero stand right at a wall, so in this view moves that come closer than 0.3 tiles
-  to a wall (solid at waist height) are refused, and the eye sits up to 0.4 tiles behind the hero.
+  to a wall (solid at waist height) are refused, and the eye sits up to 0.8 tiles behind the hero.
 - Keys: X toggles (only where free movement is active: single player); W/A/S/D are taken before
   the keymapper while the view is on.
 - Controller: the left stick walks relative to the view, the right stick turns (it no longer moves
@@ -150,10 +150,12 @@ Asked for by the owner on 2026-10-05 as an optional gameplay feature; `src/first
 - Control panel: `CalculatePanelAreas` puts the main panel at y = 0 while the view is on (the
   side panels below it); the view uses the rows below the panel. The flask domes that stick out
   above the panel fall off the top of the screen. Recalculated when the view is switched.
-- The hero: its current sprite for the direction facing away from the viewer, cut 26 pixels above
-  its ground point at the bottom edge, 1/80 of the visible height per sprite pixel, a little right
-  of the middle; walking, attacking, bows and casting animate as in the isometric view.
-- View: 90 degree field of view, eye 1.2 tiles up, horizon at 45% of the area below the control
+- The hero: only while attacking, shooting, blocking or casting, its current sprite for the
+  direction facing away from the viewer, drawn see-through (every other pixel) so it never hides a
+  monster, cut 26 pixels above its ground point at the bottom edge, 1/80 of the visible height per
+  sprite pixel, a little right of the middle.
+- View: 100 degree field of view, eye 1.0 tiles up, up to 0.8 tiles behind the hero (so a monster
+  next to the hero fits on screen, feet to head), horizon at 45% of the area below the control
   panel.
 - Known limits: the isometric art is a picture of 3D shapes seen from one side, so wall caps and
   town houses look like sheared planes, arch openings are solid below 1.9 tiles, sprites are flat

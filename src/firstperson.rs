@@ -28,9 +28,9 @@ use std::rc::Rc;
 /// vertically.
 const PX_PER_TILE: f32 = 45.25;
 /// Eye height in tiles (the hero sprite is about 2 tiles tall).
-const EYE: f32 = 1.2;
+const EYE: f32 = 1.0;
 /// Horizontal field of view.
-const FOV_DEG: f32 = 90.0;
+const FOV_DEG: f32 = 100.0;
 /// How far the view reaches, in tiles.
 const MAX_DIST: f32 = 40.0;
 /// Where the horizon sits in the part of the view the control panel leaves visible (0 = top).
@@ -48,7 +48,7 @@ const PICK_SLACK: i32 = 10;
 /// Turning speed, degrees per second.
 const TURN_DEG_PER_S: f32 = 150.0;
 /// How far behind the hero the eye is, at most (tiles).
-const CAMERA_BACK: f32 = 0.4;
+const CAMERA_BACK: f32 = 0.8;
 /// The toggle key.
 const KEY_TOGGLE: i32 = b'x' as i32;
 
@@ -868,6 +868,11 @@ fn hero_sprite(ctx: &Ctx, me: usize, view: (f32, f32)) -> Option<ClxSprite> {
 /// Draws the hero, seen from just behind, cut off at the bottom of the view: the weapon, shield,
 /// bow swings and spell casting show as in the isometric view.
 fn draw_hero_view(ctx: &Ctx, out: &Surface, me: usize, fwd: (f32, f32), bottom: f32) {
+    // only while attacking, shooting, blocking or casting, and see-through, so it never hides
+    // a monster
+    if !matches!(ctx.players.Players[me]._pmode, PM_ATTACK | PM_RATTACK | PM_BLOCK | PM_SPELL) {
+        return;
+    }
     let Some(sprite) = hero_sprite(ctx, me, fwd) else { return };
     let (sw, sh) = (sprite.width() as i32, sprite.height() as i32);
     if sw <= 0 || sh <= 0 {
@@ -899,7 +904,7 @@ fn draw_hero_view(ctx: &Ctx, out: &Surface, me: usize, fwd: (f32, f32), bottom: 
                 continue;
             }
             let c = av.get(u, v);
-            if c == bv.get(u, v) {
+            if c == bv.get(u, v) && (row + col) % 2 == 0 {
                 out.put(col, row, c);
             }
         }
