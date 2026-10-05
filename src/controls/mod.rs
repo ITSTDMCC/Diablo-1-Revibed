@@ -5,6 +5,7 @@ use crate::ctx::Ctx;
 
 pub mod controller;
 pub mod controller_buttons;
+pub mod devices;
 pub mod game_controls;
 pub mod plrctrls;
 pub mod touch;
@@ -43,6 +44,8 @@ pub struct ControlsState {
     pub menu_held_repeater: controller::AxisDirectionRepeater,
     /// Globals of controls/plrctrls.cpp
     pub plrctrls: plrctrls::PlrCtrlsState,
+    /// Connected game controllers and joysticks (controls/devices/*.cpp)
+    pub devices: devices::DevicesState,
 }
 
 /// `remap_keyboard_key` (controls/remap_keyboard.h): no remapping unless REMAP_KEYBOARD_KEYS

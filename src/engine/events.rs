@@ -29,8 +29,8 @@ fn false_avail(name: &str, value: i32) -> bool {
     true
 }
 
-/// Original: `FetchMessage_Real` (engine/events.cpp). Touch, controller-hotplug and window
-/// events the platform layer does not produce are left out; `None` means no event was
+/// Original: `FetchMessage_Real` (engine/events.cpp). Touch events the platform layer does
+/// not produce are left out; `None` means no event was
 /// available, `Some(None)` an event that was consumed without producing one.
 // @port engine/events.cpp|devilution::FetchMessage_Real(SDL_Event *event, uint16_t *modState) sha=b7289996a57c
 fn fetch_message_real(ctx: &mut Ctx) -> Option<(Option<Event>, u16)> {
@@ -45,6 +45,10 @@ fn fetch_message_real(ctx: &mut Ctx) -> Option<(Option<Event>, u16)> {
         Event::KeyDown { key, .. } | Event::KeyUp { key, .. } if key == -1 => {
             let name = if matches!(e, Event::KeyDown { .. }) { "SDL_KEYDOWN" } else { "SDL_KEYUP" };
             false_avail(name, key);
+            Some((None, mod_state))
+        }
+        Event::ControllerDeviceAdded { .. } | Event::ControllerDeviceRemoved { .. } | Event::JoyDeviceAdded { .. } | Event::JoyDeviceRemoved { .. } => {
+            crate::controls::controller::handle_controller_added_or_removed_event(ctx, &e);
             Some((None, mod_state))
         }
         Event::MouseWheel { x, y } => {

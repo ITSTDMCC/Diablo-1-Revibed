@@ -77,6 +77,11 @@ pub fn run(frames: FrameSlot, events: Sender<Event>, exit: Receiver<()>, command
     });
     app.add_systems(Startup, setup);
     app.add_systems(Update, (apply_commands, forward_input, show_frame, check_exit).chain());
+    #[cfg(feature = "gamepad")]
+    {
+        app.init_resource::<super::bevy_gamepad::PadIds>();
+        app.add_systems(Update, forward_gamepads.after(forward_input));
+    }
     app.run();
 }
 
@@ -303,6 +308,13 @@ fn forward_input(
         out.push(Event::WindowSizeChanged);
     }
     for e in out {
+        let _ = bridge.events.send(e);
+    }
+}
+
+#[cfg(feature = "gamepad")]
+fn forward_gamepads(bridge: Res<Bridge>, mut ids: ResMut<super::bevy_gamepad::PadIds>, mut raw: MessageReader<bevy::input::gamepad::RawGamepadEvent>) {
+    for e in super::bevy_gamepad::translate(&mut ids, raw.read()) {
         let _ = bridge.events.send(e);
     }
 }

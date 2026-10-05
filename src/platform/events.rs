@@ -23,6 +23,30 @@ pub enum Event {
     WindowSizeChanged,
     /// `SDL_WINDOWEVENT_LEAVE`: the mouse left the window.
     WindowLeave,
+    /// Front-end to platform only: a game controller was connected (`instance_id` is unique per
+    /// connection, as SDL's). The platform turns it into `ControllerDeviceAdded`.
+    PadConnected { instance_id: i32, vendor_id: u16 },
+    /// Front-end to platform only: becomes `ControllerDeviceRemoved`.
+    PadDisconnected { instance_id: i32 },
+    /// `SDL_CONTROLLERDEVICEADDED`: `which` is the device index.
+    ControllerDeviceAdded { which: i32 },
+    /// `SDL_CONTROLLERDEVICEREMOVED`: `which` is the instance id.
+    ControllerDeviceRemoved { which: i32 },
+    /// `SDL_CONTROLLERBUTTONDOWN` (`button` is an `SDL_GameControllerButton`)
+    ControllerButtonDown { which: i32, button: u8 },
+    /// `SDL_CONTROLLERBUTTONUP`
+    ControllerButtonUp { which: i32, button: u8 },
+    /// `SDL_CONTROLLERAXISMOTION` (`axis` is an `SDL_GameControllerAxis`; Y axes point down)
+    ControllerAxisMotion { which: i32, axis: u8, value: i16 },
+    /// `SDL_JOYDEVICEADDED` / `SDL_JOYDEVICEREMOVED` and the raw joystick events. The Bevy
+    /// front-end delivers every device as a game controller, so it produces none of these; they
+    /// exist so the joystick paths of the original can be ported as they are.
+    JoyDeviceAdded { which: i32 },
+    JoyDeviceRemoved { which: i32 },
+    JoyButtonDown { which: i32, button: u8 },
+    JoyButtonUp { which: i32, button: u8 },
+    JoyAxisMotion { which: i32, axis: u8, value: i16 },
+    JoyHatMotion { which: i32, hat: u8, value: u8 },
     /// A game event (`CustomEventToSdlEvent(interface_mode)`, interfac.cpp).
     Custom(crate::enums::interface_mode),
     /// Test hook (input script `warp <level>`): enter that dungeon level as if taking the stairs down.
@@ -101,4 +125,33 @@ pub mod keys {
     pub const SDLK_RSHIFT: i32 = sc(229);
     pub const SDLK_RALT: i32 = sc(230);
     pub const SDLK_RGUI: i32 = sc(231);
+}
+
+/// `SDL_GameControllerButton`
+pub mod pad {
+    pub const BUTTON_A: u8 = 0;
+    pub const BUTTON_B: u8 = 1;
+    pub const BUTTON_X: u8 = 2;
+    pub const BUTTON_Y: u8 = 3;
+    pub const BUTTON_BACK: u8 = 4;
+    pub const BUTTON_GUIDE: u8 = 5;
+    pub const BUTTON_START: u8 = 6;
+    pub const BUTTON_LEFTSTICK: u8 = 7;
+    pub const BUTTON_RIGHTSTICK: u8 = 8;
+    pub const BUTTON_LEFTSHOULDER: u8 = 9;
+    pub const BUTTON_RIGHTSHOULDER: u8 = 10;
+    pub const BUTTON_DPAD_UP: u8 = 11;
+    pub const BUTTON_DPAD_DOWN: u8 = 12;
+    pub const BUTTON_DPAD_LEFT: u8 = 13;
+    pub const BUTTON_DPAD_RIGHT: u8 = 14;
+    /// `SDL_CONTROLLER_BUTTON_INVALID`
+    pub const BUTTON_INVALID: u8 = 0xFF;
+
+    /// `SDL_GameControllerAxis`
+    pub const AXIS_LEFTX: u8 = 0;
+    pub const AXIS_LEFTY: u8 = 1;
+    pub const AXIS_RIGHTX: u8 = 2;
+    pub const AXIS_RIGHTY: u8 = 3;
+    pub const AXIS_TRIGGERLEFT: u8 = 4;
+    pub const AXIS_TRIGGERRIGHT: u8 = 5;
 }

@@ -45,6 +45,14 @@ struct CircleMenuHint {
     left: u8,
 }
 
+impl CircleMenuHint {
+    /// Original: `CircleMenuHint::CircleMenuHint` (controls/modifier_hints.cpp).
+    // @port controls/modifier_hints.cpp|devilution::CircleMenuHint::CircleMenuHint(HintIcon top, HintIcon right, HintIcon bottom, HintIcon left) sha=f9cc32dba84e
+    const fn new(top: u8, right: u8, bottom: u8, left: u8) -> CircleMenuHint {
+        CircleMenuHint { top, right, bottom, left }
+    }
+}
+
 fn hint_box_positions(origin: Point) -> [Point; 4] {
     [
         origin + Displacement::new(0, LINE_HEIGHT - HINT_BOX_SIZE),
@@ -106,8 +114,8 @@ fn draw_gamepad_menu_navigator(ctx: &Ctx, out: &Surface) {
     if !ctx.controls.pad_menu_navigator_active || ctx.controls.sticks.simulating_mouse_with_padmapper {
         return;
     }
-    const D_PAD: CircleMenuHint = CircleMenuHint { top: ICON_MENU, right: ICON_INV, bottom: ICON_MAP, left: ICON_CHAR };
-    const BUTTONS: CircleMenuHint = CircleMenuHint { top: ICON_NULL, right: ICON_NULL, bottom: ICON_SPELLS, left: ICON_QUESTS };
+    const D_PAD: CircleMenuHint = CircleMenuHint::new(ICON_MENU, ICON_INV, ICON_MAP, ICON_CHAR);
+    const BUTTONS: CircleMenuHint = CircleMenuHint::new(ICON_NULL, ICON_NULL, ICON_SPELLS, ICON_QUESTS);
     let main_panel = get_main_panel(ctx);
     draw_circle_menu_hint(ctx, out, &D_PAD, Point::new(main_panel.x + CIRCLE_MARGIN_X, main_panel.y - CIRCLE_TOP));
     draw_circle_menu_hint(ctx, out, &BUTTONS, Point::new(main_panel.x + main_panel.w - HINT_BOX_SIZE * 3 - CIRCLE_MARGIN_X - HINT_BOX_MARGIN * 2, main_panel.y - CIRCLE_TOP));

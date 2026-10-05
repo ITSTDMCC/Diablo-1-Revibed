@@ -13,11 +13,17 @@
 //! - `DIABLO_SCREENSHOT_DIR=dir`    where screenshots go (default `screenshots`)
 //! - `DIABLO_INPUT_SCRIPT=file`     scripted input: lines `<frame> key <sdl keycode>`, `<frame> click <x> <y>`,
 //!                                  `<frame> move <x> <y>`, `<frame> text <string>`, `<frame> quit`,
-//!                                  `<frame> warp <level>` (enter a dungeon level directly)
+//!                                  `<frame> warp <level>` (enter a dungeon level directly),
+//!                                  `<frame> setwarp <setlevel> <type>`, `<frame> store <TalkID>`,
+//!                                  game controller 0: `padadd <vendor id>`, `padremove`,
+//!                                  `pad <button>`, `paddown <button>`, `padup <button>`,
+//!                                  `padaxis <axis> <value>` (SDL button/axis numbers)
 //! - `DIABLO_MAX_FRAMES=n`          send Quit after n presented frames
 //! - `DIABLO_NO_SAVE=1`, `DIABLO_NO_AUDIO=1` are read by the game code that owns saving/audio.
 
 pub mod audio;
+#[cfg(feature = "gamepad")]
+mod bevy_gamepad;
 pub mod bevy_front;
 pub mod events;
 pub mod png;
@@ -199,6 +205,20 @@ fn parse_script(text: &str) -> VecDeque<ScriptedEvent> {
                 let v = nums();
                 vec![Event::TestSetWarp(v[0], v[1])]
             }
+            // game controller 0: `padadd <usb vendor id>`, `pad <SDL button>` (press and release),
+            // `paddown <button>`, `padup <button>`, `padaxis <SDL axis> <value>`
+            "padadd" => vec![Event::PadConnected { instance_id: 0, vendor_id: nums()[0] as u16 }],
+            "padremove" => vec![Event::PadDisconnected { instance_id: 0 }],
+            "pad" => {
+                let b = nums()[0] as u8;
+                vec![Event::ControllerButtonDown { which: 0, button: b }, Event::ControllerButtonUp { which: 0, button: b }]
+            }
+            "paddown" => vec![Event::ControllerButtonDown { which: 0, button: nums()[0] as u8 }],
+            "padup" => vec![Event::ControllerButtonUp { which: 0, button: nums()[0] as u8 }],
+            "padaxis" => {
+                let v = nums();
+                vec![Event::ControllerAxisMotion { which: 0, axis: v[0] as u8, value: v[1] as i16 }]
+            }
             "quit" => vec![Event::Quit],
             _ => panic!("input script line {}: unknown command {cmd}", n + 1),
         };
@@ -240,6 +260,26 @@ pub struct Platform {
     text_input_active: bool,
     /// `SDL_SetTextInputRect`
     pub text_input_rect: (i32, i32, i32, i32),
+    /// Connected game controllers in device-index order (SDL's game controller state).
+    pads: Vec<PadDevice>,
+}
+
+/// A connected game controller: what `SDL_GameController*` queries read.
+#[derive(Clone, Debug)]
+struct PadDevice {
+    instance_id: i32,
+    vendor_id: u16,
+    /// `SDL_GameControllerGetButton`, one bit per `SDL_GameControllerButton`
+    buttons: u32,
+}
+
+/// `SDL_GameControllerType`, as far as the game distinguishes it.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum GameControllerType {
+    Unknown,
+    Xbox,
+    PlayStation,
+    NintendoSwitchPro,
 }
 
 impl Platform {
@@ -265,6 +305,7 @@ impl Platform {
             keyboard_focus: true,
             text_input_active: false,
             text_input_rect: (0, 0, 0, 0),
+            pads: Vec::new(),
             window_info: Arc::new(Mutex::new(WindowInfo { render_scale: 1.0, size: (0, 0) })),
             start: Instant::now(),
             virtual_ms: 0,
@@ -324,20 +365,73 @@ impl Platform {
     /// (500 ms, 32 px, as SDL2's defaults on Windows).
     /// `SDL_PushEvent`: queues an event after the ones already received.
     pub fn push_event(&mut self, e: Event) {
-        if let Some(rx) = &self.events_rx {
-            while let Ok(e) = rx.try_recv() {
-                self.pending.push_back(e);
+        self.pump();
+        self.pending.push_back(e);
+    }
+
+    /// `SDL_PumpEvents`: takes the front-end's events into the queue. Game controller state
+    /// changes here, before the events are polled, as SDL updates it while pumping.
+    fn pump(&mut self) {
+        let Some(rx) = &self.events_rx else { return };
+        let received: Vec<Event> = rx.try_iter().collect();
+        for e in received {
+            self.enqueue(e);
+        }
+    }
+
+    fn enqueue(&mut self, e: Event) {
+        match e {
+            Event::PadConnected { instance_id, vendor_id } => {
+                if self.pads.iter().any(|p| p.instance_id == instance_id) {
+                    return;
+                }
+                self.pads.push(PadDevice { instance_id, vendor_id, buttons: 0 });
+                let which = self.pads.len() as i32 - 1;
+                self.pending.push_back(Event::ControllerDeviceAdded { which });
+                return;
             }
+            Event::PadDisconnected { instance_id } => {
+                let Some(i) = self.pads.iter().position(|p| p.instance_id == instance_id) else { return };
+                self.pads.remove(i);
+                self.pending.push_back(Event::ControllerDeviceRemoved { which: instance_id });
+                return;
+            }
+            Event::ControllerButtonDown { which, button } | Event::ControllerButtonUp { which, button } => {
+                let down = matches!(e, Event::ControllerButtonDown { .. });
+                let Some(p) = self.pads.iter_mut().find(|p| p.instance_id == which) else { return };
+                if ((p.buttons >> button) & 1 != 0) == down {
+                    return; // SDL only reports state changes
+                }
+                p.buttons ^= 1 << button;
+            }
+            _ => {}
         }
         self.pending.push_back(e);
     }
 
-    pub fn poll_event(&mut self) -> Option<Event> {
-        if let Some(rx) = &self.events_rx {
-            while let Ok(e) = rx.try_recv() {
-                self.pending.push_back(e);
-            }
+    /// `SDL_GameControllerOpen(index)` + `SDL_JoystickInstanceID`
+    pub fn game_controller_open(&self, index: i32) -> Option<i32> {
+        self.pads.get(usize::try_from(index).ok()?).map(|p| p.instance_id)
+    }
+
+    /// `SDL_GameControllerGetButton`
+    pub fn game_controller_get_button(&self, instance_id: i32, button: u8) -> bool {
+        button < 32 && self.pads.iter().any(|p| p.instance_id == instance_id && (p.buttons >> button) & 1 != 0)
+    }
+
+    /// `SDL_GameControllerTypeForIndex`. SDL derives the type from the USB vendor and product
+    /// ids; the port only looks at the vendor (Microsoft, Sony, Nintendo).
+    pub fn game_controller_type_for_index(&self, index: i32) -> GameControllerType {
+        match usize::try_from(index).ok().and_then(|i| self.pads.get(i)).map(|p| p.vendor_id) {
+            Some(0x045E) => GameControllerType::Xbox,
+            Some(0x054C) => GameControllerType::PlayStation,
+            Some(0x057E) => GameControllerType::NintendoSwitchPro,
+            _ => GameControllerType::Unknown,
         }
+    }
+
+    pub fn poll_event(&mut self) -> Option<Event> {
+        self.pump();
         let mut e = self.pending.pop_front()?;
         let now = self.ticks();
         match &mut e {
@@ -427,7 +521,9 @@ impl Platform {
         }
         while self.hooks.script.front().is_some_and(|e| e.frame <= n) {
             let e = self.hooks.script.pop_front().unwrap();
-            self.pending.extend(e.events);
+            for ev in e.events {
+                self.enqueue(ev);
+            }
         }
         if self.hooks.max_frames.is_some_and(|m| n >= m) {
             self.pending.push_back(Event::Quit);

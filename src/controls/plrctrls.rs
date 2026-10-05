@@ -114,26 +114,61 @@ use super::controller::ControllerButtonEvent;
 use super::ControlTypes;
 use crate::platform::events::Event;
 
-/// Original: `GetInputTypeFromEvent` (controls/plrctrls.cpp). The port has no touch or
-/// controller events.
+/// Original: `IsStickMovementSignificant` (controls/plrctrls.cpp).
+// @port controls/plrctrls.cpp|devilution::IsStickMovementSignificant() sha=7bb340d393bf
+fn is_stick_movement_significant(ctx: &Ctx) -> bool {
+    let s = &ctx.controls.sticks;
+    s.left_stick_x >= 0.5 || s.left_stick_x <= -0.5 || s.left_stick_y >= 0.5 || s.left_stick_y <= -0.5 || s.right_stick_x != 0.0 || s.right_stick_y != 0.0
+}
+
+/// Original: `GetInputTypeFromEvent` (controls/plrctrls.cpp). The port has no touch input, so
+/// mouse events always come from the mouse.
 // @port controls/plrctrls.cpp|devilution::GetInputTypeFromEvent(const SDL_Event &event) sha=84b859424d57
-fn get_input_type_from_event(event: &Event) -> ControlTypes {
-    match event {
+fn get_input_type_from_event(ctx: &Ctx, event: &Event) -> ControlTypes {
+    use crate::platform::events::pad::{AXIS_TRIGGERLEFT, AXIS_TRIGGERRIGHT};
+    match *event {
         Event::KeyDown { .. } | Event::KeyUp { .. } => ControlTypes::KeyboardAndMouse,
         Event::MouseButtonDown { .. } | Event::MouseButtonUp { .. } | Event::MouseMotion { .. } | Event::MouseWheel { .. } => {
             ControlTypes::KeyboardAndMouse
         }
+        Event::ControllerAxisMotion { axis, .. } => {
+            if axis == AXIS_TRIGGERLEFT || axis == AXIS_TRIGGERRIGHT || is_stick_movement_significant(ctx) {
+                ControlTypes::Gamepad
+            } else {
+                ControlTypes::None
+            }
+        }
+        // SDL_CONTROLLERBUTTONDOWN ... SDL_CONTROLLERDEVICEREMAPPED, SDL_JOYDEVICEADDED/REMOVED
+        Event::ControllerButtonDown { .. }
+        | Event::ControllerButtonUp { .. }
+        | Event::ControllerDeviceAdded { .. }
+        | Event::ControllerDeviceRemoved { .. }
+        | Event::JoyDeviceAdded { .. }
+        | Event::JoyDeviceRemoved { .. } => ControlTypes::Gamepad,
+        Event::JoyAxisMotion { .. } => {
+            if is_stick_movement_significant(ctx) {
+                ControlTypes::Gamepad
+            } else {
+                ControlTypes::None
+            }
+        }
+        // SDL_JOYBALLMOTION ... SDL_JOYBUTTONUP
+        Event::JoyHatMotion { .. } | Event::JoyButtonDown { .. } | Event::JoyButtonUp { .. } => ControlTypes::Gamepad,
         _ => ControlTypes::None,
     }
 }
 
 /// Original: `ContinueSimulatedMouseEvent` (controls/plrctrls.cpp).
 // @port controls/plrctrls.cpp|devilution::ContinueSimulatedMouseEvent(const SDL_Event &event, const ControllerButtonEvent &gamepadEvent) sha=fefe20df3022
-fn continue_simulated_mouse_event(ctx: &mut Ctx, _event: &Event, gamepad_event: ControllerButtonEvent) -> bool {
+fn continue_simulated_mouse_event(ctx: &mut Ctx, event: &Event, gamepad_event: ControllerButtonEvent) -> bool {
     if crate::automap::automap_active(ctx) {
         return false;
     }
-    // Joystick events with game controllers present: no devices in the port.
+    if matches!(event, Event::JoyAxisMotion { .. } | Event::JoyHatMotion { .. } | Event::JoyButtonDown { .. } | Event::JoyButtonUp { .. })
+        && !super::devices::GameController::all(ctx).is_empty()
+    {
+        return true;
+    }
     let s = &mut ctx.controls.sticks;
     if s.right_stick_x != 0.0 || s.right_stick_y != 0.0 || s.right_stick_last_move != 0.0 {
         s.right_stick_last_move = s.right_stick_x + s.right_stick_y;
@@ -145,7 +180,7 @@ fn continue_simulated_mouse_event(ctx: &mut Ctx, _event: &Event, gamepad_event: 
 /// Original: `devilution::DetectInputMethod` (controls/plrctrls.cpp).
 // @port controls/plrctrls.cpp|devilution::DetectInputMethod(const SDL_Event &event, const ControllerButtonEvent &gamepadEvent) sha=74ab3c039662
 pub fn detect_input_method(ctx: &mut Ctx, event: &Event, gamepad_event: ControllerButtonEvent) {
-    let input_type = get_input_type_from_event(event);
+    let input_type = get_input_type_from_event(ctx, event);
     if input_type == ControlTypes::None {
         return;
     }
@@ -164,12 +199,42 @@ pub fn detect_input_method(ctx: &mut Ctx, event: &Event, gamepad_event: Controll
         } else {
             crate::cursor::reset_cursor(ctx);
         }
-        // Gamepad layout detection: no controllers in the port.
+        if ctx.controls.control_device == ControlTypes::Gamepad {
+            let new_gamepad_layout = super::devices::GameController::get_layout(ctx, event);
+            if new_gamepad_layout != ctx.controls.gamepad_type {
+                log_gamepad_change(ctx, new_gamepad_layout);
+                ctx.controls.gamepad_type = new_gamepad_layout;
+            }
+        }
     }
     if new_control_mode != ctx.controls.control_mode {
         ctx.controls.control_mode = new_control_mode;
         crate::control::calculate_panel_areas(ctx);
     }
+}
+
+/// Original: `GamepadTypeToString` (controls/plrctrls.cpp).
+// @port controls/plrctrls.cpp|devilution::GamepadTypeToString(GamepadLayout gamepadLayout) sha=67adfd879f17
+fn gamepad_type_to_string(gamepad_layout: super::game_controls::GamepadLayout) -> &'static str {
+    use super::game_controls::GamepadLayout as L;
+    match gamepad_layout {
+        L::Nintendo => "Nintendo",
+        L::PlayStation => "PlayStation",
+        L::Xbox => "Xbox",
+        L::Generic => "Unknown",
+    }
+}
+
+/// Original: `LogGamepadChange` (controls/plrctrls.cpp).
+// @port controls/plrctrls.cpp|devilution::LogGamepadChange(GamepadLayout newGamepad) sha=4c1c790f8d7a
+fn log_gamepad_change(ctx: &Ctx, new_gamepad: super::game_controls::GamepadLayout) {
+    let before = ctx.controls.gamepad_type;
+    let change = if before == new_gamepad {
+        gamepad_type_to_string(before).to_string()
+    } else {
+        format!("{} -> {}", gamepad_type_to_string(before), gamepad_type_to_string(new_gamepad))
+    };
+    crate::platform::log::verbose!("Control: gamepad {}", change);
 }
 
 pub use crate::control::focus_on_char_info;
@@ -197,6 +262,12 @@ pub struct RightStickAccumulator {
 }
 
 impl RightStickAccumulator {
+    /// Original: `RightStickAccumulator::RightStickAccumulator` (controls/plrctrls.cpp).
+    // @port controls/plrctrls.cpp|devilution::RightStickAccumulator::RightStickAccumulator() sha=58b4d5877a5a
+    fn new(ticks: u32) -> RightStickAccumulator {
+        RightStickAccumulator { last_tc: ticks, hires_dx: 0.0, hires_dy: 0.0 }
+    }
+
     /// Original: `RightStickAccumulator::Pool` (controls/plrctrls.cpp).
     // @port controls/plrctrls.cpp|devilution::RightStickAccumulator::Pool(int *x, int *y, int slowdown) sha=d21cef95e7d5
     fn pool(&mut self, ticks: u32, right_stick_x: f32, right_stick_y: f32, x: &mut i32, y: &mut i32, slowdown: i32) {
@@ -445,7 +516,7 @@ fn movement(ctx: &mut Ctx, player_id: usize) {
 // @port controls/plrctrls.cpp|devilution::HandleRightStickMotion() sha=1c71c3916dd4
 fn handle_right_stick_motion(ctx: &mut Ctx) {
     let ticks = ctx.platform.ticks();
-    let mut acc = ctx.controls.plrctrls.right_stick_acc.unwrap_or(RightStickAccumulator { last_tc: ticks, hires_dx: 0.0, hires_dy: 0.0 });
+    let mut acc = ctx.controls.plrctrls.right_stick_acc.unwrap_or_else(|| RightStickAccumulator::new(ticks));
     let (rx, ry) = (ctx.controls.sticks.right_stick_x, ctx.controls.sticks.right_stick_y);
     // deadzone is handled in ScaleJoystickAxes() already
     if rx == 0.0 && ry == 0.0 {

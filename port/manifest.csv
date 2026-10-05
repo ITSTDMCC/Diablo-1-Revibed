@@ -373,7 +373,7 @@ control.cpp|devilution::CloseGoldDrop(),ported,,,src/control.rs
 control.cpp|devilution::GoldDropNewText(string_view text),ported,,,src/control.rs
 control.h|devilution::CanPanelsCoverView(),ported,,,src/control.rs
 controls/axis_direction.cpp|devilution::AxisDirectionRepeater::Get(AxisDirection axisDirection),ported,,,src/controls/controller.rs
-controls/axis_direction.h|devilution::AxisDirectionRepeater::AxisDirectionRepeater(int min_interval_ms = 200),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
+controls/axis_direction.h|devilution::AxisDirectionRepeater::AxisDirectionRepeater(int min_interval_ms = 200),ported,,,src/controls/controller.rs
 controls/controller.cpp|devilution::UnlockControllerState(const SDL_Event &event),ported,,,src/controls/controller.rs
 controls/controller.cpp|devilution::ToControllerButtonEvents(const SDL_Event &event),ported,,,src/controls/controller.rs
 controls/controller.cpp|devilution::IsControllerButtonPressed(ControllerButton button),ported,,,src/controls/controller.rs
@@ -389,61 +389,61 @@ controls/controller_buttons.h|devilution::ControllerButtonCombo::ControllerButto
 controls/controller_buttons.h|devilution::ControllerButtonCombo::ControllerButtonCombo(ControllerButton button),replaced,src/controls/controller_buttons.rs (ControllerButtonCombo::single/new/default),constructors,
 "controls/controller_buttons.h|devilution::ControllerButtonCombo::ControllerButtonCombo(ControllerButton modifier, ControllerButton button)",replaced,src/controls/controller_buttons.rs (ControllerButtonCombo::single/new/default),constructors,
 controls/controller_buttons.h|devilution::IsDPadButton(ControllerButton button),ported,,,src/controls/controller_buttons.rs
-"controls/controller_motion.cpp|devilution::ScaleJoystickAxes(float *x, float *y, float deadzone)",pending,,not ported: gamepad devices (the platform layer reads no gamepads),
+"controls/controller_motion.cpp|devilution::ScaleJoystickAxes(float *x, float *y, float deadzone)",ported,,,src/controls/controller.rs
 controls/controller_motion.cpp|devilution::IsMovementOverriddenByPadmapper(ControllerButton button),ported,,,src/controls/controller.rs
 controls/controller_motion.cpp|devilution::TriggersQuickSpellAction(ControllerButton button),ported,,,src/controls/controller.rs
 controls/controller_motion.cpp|devilution::IsPressedForMovement(ControllerButton button),ported,,,src/controls/controller.rs
-controls/controller_motion.cpp|devilution::SetSimulatingMouseWithPadmapper(bool value),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/controller_motion.cpp|devilution::ScaleJoysticks(),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
+controls/controller_motion.cpp|devilution::SetSimulatingMouseWithPadmapper(bool value),ported,,,src/controls/controller.rs
+controls/controller_motion.cpp|devilution::ScaleJoysticks(),ported,,,src/controls/controller.rs
 controls/controller_motion.cpp|devilution::IsControllerMotion(const SDL_Event &event),ported,,,src/controls/controller.rs
 controls/controller_motion.cpp|devilution::ProcessControllerMotion(const SDL_Event &event),ported,,,src/controls/controller.rs
 controls/controller_motion.cpp|devilution::GetLeftStickOrDpadDirection(bool usePadmapper),ported,,,src/controls/controller.rs
-controls/controller_motion.cpp|devilution::SimulateRightStickWithPadmapper(ControllerButtonEvent ctrlEvent),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/game_controller.cpp|devilution::GameController::UnlockTriggerState(),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/game_controller.cpp|devilution::GameController::ToControllerButton(const SDL_Event &event),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/game_controller.cpp|devilution::GameController::ToSdlGameControllerButton(ControllerButton button),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/game_controller.cpp|devilution::GameController::IsPressed(ControllerButton button),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/game_controller.cpp|devilution::GameController::ProcessAxisMotion(const SDL_Event &event),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/game_controller.cpp|devilution::GameController::Add(int joystickIndex),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/game_controller.cpp|devilution::GameController::Remove(SDL_JoystickID instanceId),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/game_controller.cpp|devilution::GameController::Get(SDL_JoystickID instanceId),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/game_controller.cpp|devilution::GameController::Get(const SDL_Event &event),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/game_controller.cpp|devilution::GameController::All(),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-"controls/devices/game_controller.cpp|devilution::GameController::IsPressedOnAnyController(ControllerButton button, SDL_JoystickID *which)",pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/game_controller.cpp|devilution::GameController::getLayout(const SDL_Event &event),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/joystick.cpp|devilution::Joystick::ToControllerButtonEvents(const SDL_Event &event),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/joystick.cpp|devilution::Joystick::GetHatEvents(),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/joystick.cpp|devilution::Joystick::UpdateHatState(const SDL_JoyHatEvent &event),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/joystick.cpp|devilution::Joystick::UnlockHatState(),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/joystick.cpp|devilution::Joystick::ToSdlJoyButton(ControllerButton button),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/joystick.cpp|devilution::Joystick::IsHatButtonPressed(ControllerButton button),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/joystick.cpp|devilution::Joystick::IsPressed(ControllerButton button),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/joystick.cpp|devilution::Joystick::ProcessAxisMotion(const SDL_Event &event),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/joystick.cpp|devilution::Joystick::Add(int deviceIndex),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/joystick.cpp|devilution::Joystick::Remove(SDL_JoystickID instanceId),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/joystick.cpp|devilution::Joystick::All(),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/joystick.cpp|devilution::Joystick::Get(SDL_JoystickID instanceId),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/joystick.cpp|devilution::Joystick::Get(const SDL_Event &event),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/joystick.cpp|devilution::Joystick::IsPressedOnAnyJoystick(ControllerButton button),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/devices/joystick.h|devilution::Joystick::instance_id(),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/game_controls.cpp|devilution::TranslateControllerButtonToGameMenuKey(ControllerButton controllerButton),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/game_controls.cpp|devilution::TranslateControllerButtonToMenuKey(ControllerButton controllerButton),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/game_controls.cpp|devilution::TranslateControllerButtonToQuestLogKey(ControllerButton controllerButton),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/game_controls.cpp|devilution::TranslateControllerButtonToSpellbookKey(ControllerButton controllerButton),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-"controls/game_controls.cpp|devilution::GetGameAction(const SDL_Event &event, ControllerButtonEvent ctrlEvent, GameAction *action)",pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/game_controls.cpp|devilution::PressControllerButton(ControllerButton button),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
+controls/controller_motion.cpp|devilution::SimulateRightStickWithPadmapper(ControllerButtonEvent ctrlEvent),ported,,,src/controls/controller.rs
+controls/devices/game_controller.cpp|devilution::GameController::UnlockTriggerState(),ported,,,src/controls/devices.rs
+controls/devices/game_controller.cpp|devilution::GameController::ToControllerButton(const SDL_Event &event),ported,,,src/controls/devices.rs
+controls/devices/game_controller.cpp|devilution::GameController::ToSdlGameControllerButton(ControllerButton button),ported,,,src/controls/devices.rs
+controls/devices/game_controller.cpp|devilution::GameController::IsPressed(ControllerButton button),ported,,,src/controls/devices.rs
+controls/devices/game_controller.cpp|devilution::GameController::ProcessAxisMotion(const SDL_Event &event),ported,,,src/controls/devices.rs
+controls/devices/game_controller.cpp|devilution::GameController::Add(int joystickIndex),ported,,,src/controls/devices.rs
+controls/devices/game_controller.cpp|devilution::GameController::Remove(SDL_JoystickID instanceId),ported,,,src/controls/devices.rs
+controls/devices/game_controller.cpp|devilution::GameController::Get(SDL_JoystickID instanceId),ported,,,src/controls/devices.rs
+controls/devices/game_controller.cpp|devilution::GameController::Get(const SDL_Event &event),ported,,,src/controls/devices.rs
+controls/devices/game_controller.cpp|devilution::GameController::All(),ported,,,src/controls/devices.rs
+"controls/devices/game_controller.cpp|devilution::GameController::IsPressedOnAnyController(ControllerButton button, SDL_JoystickID *which)",ported,,,src/controls/devices.rs
+controls/devices/game_controller.cpp|devilution::GameController::getLayout(const SDL_Event &event),ported,,,src/controls/devices.rs
+controls/devices/joystick.cpp|devilution::Joystick::ToControllerButtonEvents(const SDL_Event &event),ported,,,src/controls/devices.rs
+controls/devices/joystick.cpp|devilution::Joystick::GetHatEvents(),ported,,,src/controls/devices.rs
+controls/devices/joystick.cpp|devilution::Joystick::UpdateHatState(const SDL_JoyHatEvent &event),ported,,,src/controls/devices.rs
+controls/devices/joystick.cpp|devilution::Joystick::UnlockHatState(),ported,,,src/controls/devices.rs
+controls/devices/joystick.cpp|devilution::Joystick::ToSdlJoyButton(ControllerButton button),ported,,,src/controls/devices.rs
+controls/devices/joystick.cpp|devilution::Joystick::IsHatButtonPressed(ControllerButton button),ported,,,src/controls/devices.rs
+controls/devices/joystick.cpp|devilution::Joystick::IsPressed(ControllerButton button),ported,,,src/controls/devices.rs
+controls/devices/joystick.cpp|devilution::Joystick::ProcessAxisMotion(const SDL_Event &event),ported,,,src/controls/devices.rs
+controls/devices/joystick.cpp|devilution::Joystick::Add(int deviceIndex),ported,,,src/controls/devices.rs
+controls/devices/joystick.cpp|devilution::Joystick::Remove(SDL_JoystickID instanceId),ported,,,src/controls/devices.rs
+controls/devices/joystick.cpp|devilution::Joystick::All(),ported,,,src/controls/devices.rs
+controls/devices/joystick.cpp|devilution::Joystick::Get(SDL_JoystickID instanceId),ported,,,src/controls/devices.rs
+controls/devices/joystick.cpp|devilution::Joystick::Get(const SDL_Event &event),ported,,,src/controls/devices.rs
+controls/devices/joystick.cpp|devilution::Joystick::IsPressedOnAnyJoystick(ControllerButton button),ported,,,src/controls/devices.rs
+controls/devices/joystick.h|devilution::Joystick::instance_id(),ported,,,src/controls/devices.rs
+controls/game_controls.cpp|devilution::TranslateControllerButtonToGameMenuKey(ControllerButton controllerButton),ported,,,src/controls/game_controls.rs
+controls/game_controls.cpp|devilution::TranslateControllerButtonToMenuKey(ControllerButton controllerButton),ported,,,src/controls/game_controls.rs
+controls/game_controls.cpp|devilution::TranslateControllerButtonToQuestLogKey(ControllerButton controllerButton),ported,,,src/controls/game_controls.rs
+controls/game_controls.cpp|devilution::TranslateControllerButtonToSpellbookKey(ControllerButton controllerButton),ported,,,src/controls/game_controls.rs
+"controls/game_controls.cpp|devilution::GetGameAction(const SDL_Event &event, ControllerButtonEvent ctrlEvent, GameAction *action)",ported,,,src/controls/game_controls.rs
+controls/game_controls.cpp|devilution::PressControllerButton(ControllerButton button),ported,,,src/controls/game_controls.rs
 "controls/game_controls.cpp|devilution::TranslateTo(GamepadLayout layout, ControllerButton button)",ported,,,src/controls/game_controls.rs
 controls/game_controls.cpp|devilution::SkipsMovie(ControllerButtonEvent ctrlEvent),ported,,,src/controls/game_controls.rs
 controls/game_controls.cpp|devilution::IsSimulatedMouseClickBinding(ControllerButtonEvent ctrlEvent),ported,,,src/controls/game_controls.rs
 controls/game_controls.cpp|devilution::GetMoveDirection(),ported,,,src/controls/game_controls.rs
-"controls/game_controls.cpp|devilution::HandleControllerButtonEvent(const SDL_Event &event, const ControllerButtonEvent ctrlEvent, GameAction &action)",pending,,not ported: gamepad devices (the platform layer reads no gamepads),
+"controls/game_controls.cpp|devilution::HandleControllerButtonEvent(const SDL_Event &event, const ControllerButtonEvent ctrlEvent, GameAction &action)",ported,,,src/controls/game_controls.rs
 controls/game_controls.h|devilution::GameAction::GameAction(),replaced,src/controls/game_controls.rs (GameActionType),constructors,
 controls/game_controls.h|devilution::GameAction::GameAction(GameActionType type),replaced,src/controls/game_controls.rs (GameActionType),constructors,
 controls/game_controls.h|devilution::GameAction::GameAction(GameActionSendKey send_key),replaced,src/controls/game_controls.rs (GameActionType),constructors,
 controls/input.h|devilution::PollEvent(SDL_Event *event),ported,,,src/engine/events.rs
 controls/menu_controls.cpp|devilution::GetMenuHeldUpDownAction(),ported,,,src/controls/controller.rs
 controls/menu_controls.cpp|devilution::GetMenuActions(const SDL_Event &event),ported,,,src/controls/controller.rs
-"controls/modifier_hints.cpp|devilution::CircleMenuHint::CircleMenuHint(HintIcon top, HintIcon right, HintIcon bottom, HintIcon left)",pending,,not ported: gamepad devices (the platform layer reads no gamepads),
+"controls/modifier_hints.cpp|devilution::CircleMenuHint::CircleMenuHint(HintIcon top, HintIcon right, HintIcon bottom, HintIcon left)",ported,,,src/controls/modifier_hints.rs
 "controls/modifier_hints.cpp|devilution::DrawCircleMenuHint(const Surface &out, const CircleMenuHint &hint, const Point &origin)",ported,,,src/controls/modifier_hints.rs
 "controls/modifier_hints.cpp|devilution::DrawSpellsCircleMenuHint(const Surface &out, const Point &origin)",ported,,,src/controls/modifier_hints.rs
 controls/modifier_hints.cpp|devilution::DrawGamepadMenuNavigator(const Surface &out),ported,,,src/controls/modifier_hints.rs
@@ -493,16 +493,16 @@ controls/plrctrls.cpp|devilution::StoreMove(AxisDirection moveDir),ported,,,src/
 controls/plrctrls.cpp|devilution::GetLeftStickOrDPadGameUIHandler(),ported,,,src/controls/plrctrls.rs
 controls/plrctrls.cpp|devilution::ProcessLeftStickOrDPadGameUI(),ported,,,src/controls/plrctrls.rs
 controls/plrctrls.cpp|devilution::Movement(size_t playerId),ported,,,src/controls/plrctrls.rs
-controls/plrctrls.cpp|devilution::RightStickAccumulator::RightStickAccumulator(),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
+controls/plrctrls.cpp|devilution::RightStickAccumulator::RightStickAccumulator(),ported,,,src/controls/plrctrls.rs
 "controls/plrctrls.cpp|devilution::RightStickAccumulator::Pool(int *x, int *y, int slowdown)",ported,,,src/controls/plrctrls.rs
 controls/plrctrls.cpp|devilution::RightStickAccumulator::Clear(),ported,,,src/controls/plrctrls.rs
-controls/plrctrls.cpp|devilution::IsStickMovementSignificant(),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
+controls/plrctrls.cpp|devilution::IsStickMovementSignificant(),ported,,,src/controls/plrctrls.rs
 controls/plrctrls.cpp|devilution::GetInputTypeFromEvent(const SDL_Event &event),ported,,,src/controls/plrctrls.rs
 "controls/plrctrls.cpp|devilution::ContinueSimulatedMouseEvent(const SDL_Event &event, const ControllerButtonEvent &gamepadEvent)",ported,,,src/controls/plrctrls.rs
 controls/plrctrls.cpp|devilution::ControlTypeToString(ControlTypes controlType),ported,,,src/controls/controller.rs
 "controls/plrctrls.cpp|devilution::LogControlDeviceAndModeChange(ControlTypes newControlDevice, ControlTypes newControlMode)",ported,,,src/controls/controller.rs
-controls/plrctrls.cpp|devilution::GamepadTypeToString(GamepadLayout gamepadLayout),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
-controls/plrctrls.cpp|devilution::LogGamepadChange(GamepadLayout newGamepad),pending,,not ported: gamepad devices (the platform layer reads no gamepads),
+controls/plrctrls.cpp|devilution::GamepadTypeToString(GamepadLayout gamepadLayout),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::LogGamepadChange(GamepadLayout newGamepad),ported,,,src/controls/plrctrls.rs
 "controls/plrctrls.cpp|devilution::DetectInputMethod(const SDL_Event &event, const ControllerButtonEvent &gamepadEvent)",ported,,,src/controls/plrctrls.rs
 controls/plrctrls.cpp|devilution::ProcessGameAction(const GameAction &action),ported,,,src/controls/plrctrls.rs
 controls/plrctrls.cpp|devilution::HandleRightStickMotion(),ported,,,src/controls/plrctrls.rs

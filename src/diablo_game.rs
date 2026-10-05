@@ -556,11 +556,32 @@ fn handle_text_input(ctx: &mut Ctx, text: &str) -> bool {
     false
 }
 
-/// Original: `GameEventHandler` (diablo.cpp). Controller events are not produced by this
-/// port's platform layer (known difference: no gamepad backend), so the controller-event
-/// translation at the top of the original finds nothing to do.
+/// Original: `GameEventHandler` (diablo.cpp).
 // @port diablo.cpp|devilution::GameEventHandler(const SDL_Event &event, uint16_t modState) sha=098dbfaeb4aa
 pub fn game_event_handler(ctx: &mut Ctx, event: &Event, mod_state: u16) {
+    let ctrl_events = crate::controls::controller::to_controller_button_events(ctx, event);
+    for &ctrl_event in &ctrl_events {
+        let mut action = crate::controls::game_controls::GameAction::default();
+        if crate::controls::game_controls::handle_controller_button_event(ctx, event, ctrl_event, &mut action)
+            && action.type_ == crate::controls::game_controls::GameActionType::SendKey
+        {
+            if (action.vk_code & crate::options::KEYMAPPER_MOUSE_BUTTON_MASK) != 0 {
+                let button = (action.vk_code & !crate::options::KEYMAPPER_MOUSE_BUTTON_MASK) as u8;
+                if !action.up {
+                    handle_mouse_button_down(ctx, button, mod_state);
+                } else {
+                    handle_mouse_button_up(ctx, button, mod_state);
+                }
+            } else if !action.up {
+                press_key(ctx, action.vk_code as i32, mod_state);
+            } else {
+                release_key(ctx, action.vk_code as i32);
+            }
+        }
+    }
+    if ctrl_events.first().is_some_and(|e| e.button != crate::controls::controller_buttons::ControllerButton::None) {
+        return;
+    }
     match event {
         Event::KeyDown { key, .. } => press_key(ctx, *key, mod_state),
         Event::KeyUp { key, .. } => release_key(ctx, *key),
