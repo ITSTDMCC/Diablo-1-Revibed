@@ -255,7 +255,7 @@ fn get_path_direction(start: Point, destination: Point) -> i8 {
 
 /// Original: `GetHeuristicCost` (engine/path.cpp).
 // @port engine/path.cpp|devilution::GetHeuristicCost(Point startPosition, Point destinationPosition) sha=56171f2acce8
-fn get_heuristic_cost(start: Point, destination: Point) -> i32 {
+pub fn get_heuristic_cost(start: Point, destination: Point) -> i32 {
     2 * start.manhattan_distance(destination)
 }
 
