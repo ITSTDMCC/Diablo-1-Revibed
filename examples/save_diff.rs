@@ -2,7 +2,7 @@
 //! DevilutionX's memory map files (test/fixtures/memory_map) like `CreateDetailDiffs`, but
 //! printing every differing field with both values instead of counting.
 //!
-//!   cargo run --release --example save_diff -- <reference.sv> <actual.sv> <record> <memory_map_dir> [--hellfire] [--max N]
+//!   cargo run --release --example save_diff -- <reference.sv> <actual.sv> <record> <memory_map_dir> [--hellfire] [--max N] [--show field]
 //! (spawn saves are recognised by "spawn_" in the file name and use the spawn password).
 //!
 //! <record> is "hero", "game", "additionalMissiles" or a level ("perml00", ...; its map is
@@ -25,6 +25,8 @@ struct Walker {
     max: usize,
     printed: usize,
     diffs: usize,
+    /// --show <name>: print this field for every entry, equal or not
+    show: Option<String>,
 }
 
 fn read32(i: &Info, le: bool) -> i32 {
@@ -52,6 +54,9 @@ impl Walker {
     fn compare(&mut self, path: &str, r: &mut Info, a: &mut Info, bytes: usize) {
         let differs = r.exists && a.exists && r.data.get(r.pos..r.pos + bytes) != a.data.get(a.pos..a.pos + bytes);
         let one_missing = r.exists != a.exists;
+        if self.show.as_ref().is_some_and(|f| path.ends_with(&format!(".{f}"))) {
+            println!("{path}: reference {} actual {}{}", value(r, bytes), value(a, bytes), if differs || one_missing { "  <-- differs" } else { "" });
+        }
         if differs || one_missing {
             self.diffs += 1;
             if self.printed < self.max {
@@ -181,7 +186,8 @@ fn main() {
     let town = record == "perml00";
     let mut r = Info { exists: !rdata.is_empty(), data: rdata, pos: 0, town };
     let mut a = Info { exists: !adata.is_empty(), data: adata, pos: 0, town };
-    let mut w = Walker { dir: dir.clone(), hellfire, max, printed: 0, diffs: 0 };
+    let show = args.iter().position(|a| a == "--show").map(|i| args[i + 1].clone());
+    let mut w = Walker { dir: dir.clone(), hellfire, max, printed: 0, diffs: 0, show };
     w.walk(record, map, &mut r, &mut a);
     println!("{} differing fields; walked {} / {} bytes", w.diffs, r.pos, a.pos);
 }

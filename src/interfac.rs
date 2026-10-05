@@ -208,7 +208,7 @@ pub fn complete_progress(ctx: &mut Ctx) {
 
 /// The level change shared by most `ShowProgress` cases: save the level being left, free it
 /// and load the new one.
-fn save_level_left(ctx: &mut Ctx) {
+pub fn save_level_left(ctx: &mut Ctx) {
     inc_progress(ctx);
     if !ctx.init.gb_is_multiplayer {
         crate::pfile::pfile_save_level(ctx);

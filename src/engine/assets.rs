@@ -133,15 +133,16 @@ impl AssetHandle {
         self.data.len()
     }
 
-    /// `read`: exactly `buf.len()` bytes or false.
+    /// `read`: true when `buf.len()` bytes were read. On a short read the available bytes are
+    /// still copied and false is returned, as `SDL_RWread(handle, buffer, len, 1)` does over
+    /// `MpqFileRwRead` (and `fread` for loose files): callers such as `LoadLevelSOLData` read a
+    /// file shorter than their buffer and ignore the result.
     // @port engine/assets.hpp|devilution::AssetHandle::read(void *buffer, size_t len) sha=bbc679e4b5f1
     pub fn read(&mut self, buf: &mut [u8]) -> bool {
-        if self.pos + buf.len() > self.data.len() {
-            return false;
-        }
-        buf.copy_from_slice(&self.data[self.pos..self.pos + buf.len()]);
-        self.pos += buf.len();
-        true
+        let available = self.data.len().saturating_sub(self.pos).min(buf.len());
+        buf[..available].copy_from_slice(&self.data[self.pos..self.pos + available]);
+        self.pos += available;
+        available == buf.len()
     }
 
     // @port engine/assets.hpp|devilution::AssetHandle::seek(long pos) sha=337306143280
