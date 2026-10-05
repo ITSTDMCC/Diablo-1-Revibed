@@ -273,6 +273,8 @@ struct TMegaPkt {
 const MEGA_PKT_SIZE: usize = 32000;
 
 impl TMegaPkt {
+    /// Original: `TMegaPkt::TMegaPkt` (msg.cpp).
+    // @port msg.cpp|devilution::TMegaPkt::TMegaPkt() sha=8b96443ee1fd
     fn new() -> TMegaPkt {
         TMegaPkt { space_left: MEGA_PKT_SIZE, data: vec![0; MEGA_PKT_SIZE] }
     }
@@ -331,7 +333,10 @@ fn event_failed_packet(ctx: &mut Ctx, player_name: &str) {
     crate::plrmsg::event_plr_msg(ctx, &message);
 }
 
-/// `ValidateField` / `ValidateFields`
+/// `ValidateField` / `ValidateFields`, with `LogFailedPacket` (both overloads) as the log line;
+/// `what` is the field list and condition.
+// @port msg.cpp|devilution::LogFailedPacket(const char *condition, const char *name, T value) sha=0adcd3d2b04b
+// @port msg.cpp|devilution::LogFailedPacket(const char *condition, const char *name1, T1 value1, const char *name2, T2 value2) sha=f332781bc690
 fn validate(ctx: &mut Ctx, pnum: usize, ok: bool, what: &str) -> bool {
     if !ok {
         log::verbose!("Remote player packet validation failed: {}", what);

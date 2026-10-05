@@ -110,12 +110,12 @@ DiabloUI/mainmenu.cpp|devilution::MainmenuLoad(const char *name),ported,,,src/di
 DiabloUI/mainmenu.cpp|devilution::MainmenuFree(),ported,,,src/diablo_ui/mainmenu.rs
 DiabloUI/mainmenu.cpp|devilution::mainmenu_restart_repintro(),ported,,,src/diablo_ui/mainmenu.rs
 "DiabloUI/mainmenu.cpp|devilution::UiMainMenuDialog(const char *name, _mainmenu_selections *pdwResult, int attractTimeOut)",ported,,,src/diablo_ui/mainmenu.rs
-DiabloUI/multi/selconn.cpp|devilution::SelconnLoad(),pending,,not ported: network multiplayer (provider selection and connection progress dialogs),
-DiabloUI/multi/selconn.cpp|devilution::SelconnFree(),pending,,not ported: network multiplayer (provider selection and connection progress dialogs),
-DiabloUI/multi/selconn.cpp|devilution::SelconnEsc(),pending,,not ported: network multiplayer (provider selection and connection progress dialogs),
-DiabloUI/multi/selconn.cpp|devilution::SelconnFocus(int value),pending,,not ported: network multiplayer (provider selection and connection progress dialogs),
-DiabloUI/multi/selconn.cpp|devilution::SelconnSelect(int value),pending,,not ported: network multiplayer (provider selection and connection progress dialogs),
-DiabloUI/multi/selconn.cpp|devilution::UiSelectProvider(GameData *gameData),pending,,not ported: network multiplayer (provider selection and connection progress dialogs),
+DiabloUI/multi/selconn.cpp|devilution::SelconnLoad(),ported,,,src/diablo_ui/selconn.rs
+DiabloUI/multi/selconn.cpp|devilution::SelconnFree(),ported,,,src/diablo_ui/selconn.rs
+DiabloUI/multi/selconn.cpp|devilution::SelconnEsc(),ported,,,src/diablo_ui/selconn.rs
+DiabloUI/multi/selconn.cpp|devilution::SelconnFocus(int value),ported,,,src/diablo_ui/selconn.rs
+DiabloUI/multi/selconn.cpp|devilution::SelconnSelect(int value),ported,,,src/diablo_ui/selconn.rs
+DiabloUI/multi/selconn.cpp|devilution::UiSelectProvider(GameData *gameData),ported,,,src/diablo_ui/selconn.rs
 DiabloUI/multi/selgame.cpp|devilution::selgame_FreeVectors(),ported,,,src/diablo_ui/selgame.rs
 DiabloUI/multi/selgame.cpp|devilution::selgame_Init(),ported,,,src/diablo_ui/selgame.rs
 DiabloUI/multi/selgame.cpp|devilution::selgame_Free(),ported,,,src/diablo_ui/selgame.rs
@@ -141,15 +141,15 @@ DiabloUI/multi/selgame.cpp|devilution::selgame_Password_Select(int),ported,,,src
 DiabloUI/multi/selgame.cpp|devilution::selgame_Password_Esc(),ported,,,src/diablo_ui/selgame.rs
 DiabloUI/multi/selgame.cpp|devilution::RefreshGameList(),ported,,,src/diablo_ui/selgame.rs
 "DiabloUI/multi/selgame.cpp|devilution::UiSelectGame(GameData *gameData, int *playerId)",ported,,,src/diablo_ui/selgame.rs
-DiabloUI/progress.cpp|devilution::DialogActionCancel(),pending,,not ported: network multiplayer (provider selection and connection progress dialogs),
-DiabloUI/progress.cpp|devilution::ProgressLoadBackground(),pending,,not ported: network multiplayer (provider selection and connection progress dialogs),
-DiabloUI/progress.cpp|devilution::ProgressLoadForeground(),pending,,not ported: network multiplayer (provider selection and connection progress dialogs),
-DiabloUI/progress.cpp|devilution::ProgressFreeBackground(),pending,,not ported: network multiplayer (provider selection and connection progress dialogs),
-DiabloUI/progress.cpp|devilution::ProgressFreeForeground(),pending,,not ported: network multiplayer (provider selection and connection progress dialogs),
-DiabloUI/progress.cpp|devilution::GetPosition(),pending,,not ported: network multiplayer (provider selection and connection progress dialogs),
-DiabloUI/progress.cpp|devilution::ProgressRenderBackground(),pending,,not ported: network multiplayer (provider selection and connection progress dialogs),
-DiabloUI/progress.cpp|devilution::ProgressRenderForeground(int progress),pending,,not ported: network multiplayer (provider selection and connection progress dialogs),
-DiabloUI/progress.cpp|devilution::UiProgressDialog(int (*fnfunc)()),pending,,not ported: network multiplayer (provider selection and connection progress dialogs),
+DiabloUI/progress.cpp|devilution::DialogActionCancel(),ported,,,src/diablo_ui/progress.rs
+DiabloUI/progress.cpp|devilution::ProgressLoadBackground(),ported,,,src/diablo_ui/progress.rs
+DiabloUI/progress.cpp|devilution::ProgressLoadForeground(),ported,,,src/diablo_ui/progress.rs
+DiabloUI/progress.cpp|devilution::ProgressFreeBackground(),ported,,,src/diablo_ui/progress.rs
+DiabloUI/progress.cpp|devilution::ProgressFreeForeground(),ported,,,src/diablo_ui/progress.rs
+DiabloUI/progress.cpp|devilution::GetPosition(),ported,,,src/diablo_ui/progress.rs
+DiabloUI/progress.cpp|devilution::ProgressRenderBackground(),ported,,,src/diablo_ui/progress.rs
+DiabloUI/progress.cpp|devilution::ProgressRenderForeground(int progress),ported,,,src/diablo_ui/progress.rs
+DiabloUI/progress.cpp|devilution::UiProgressDialog(int (*fnfunc)()),ported,,,src/diablo_ui/progress.rs
 DiabloUI/scrollbar.cpp|devilution::LoadScrollBar(),ported,,,src/diablo_ui/scrollbar.rs
 DiabloUI/scrollbar.cpp|devilution::UnloadScrollBar(),ported,,,src/diablo_ui/scrollbar.rs
 DiabloUI/scrollbar.h|devilution::UpArrowRect(const UiScrollbar &bar),ported,,,src/diablo_ui/scrollbar.rs
@@ -728,98 +728,98 @@ doom.cpp|devilution::doom_init(),ported,,,src/doom.rs
 doom.cpp|devilution::doom_close(),ported,,,src/doom.rs
 doom.cpp|devilution::doom_draw(const Surface &out),ported,,,src/doom.rs
 dvlnet/abstract_net.cpp|devilution::net::abstract_net::MakeNet(provider_t provider),ported,,,src/storm/storm_net.rs
-dvlnet/abstract_net.h|devilution::net::dvlnet_exception::what(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/abstract_net.h|devilution::net::abstract_net::setup_password(std::string passwd),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/abstract_net.h|devilution::net::abstract_net::clear_password(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/abstract_net.h|devilution::net::abstract_net::send_info_request(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/abstract_net.h|devilution::net::abstract_net::clear_gamelist(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/abstract_net.h|devilution::net::abstract_net::get_gamelist(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::setup_gameinfo(buffer_t info),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::setup_password(std::string pw),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::clear_password(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::RunEventHandler(_SNETEVENT &ev),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::DisconnectNet(plr_t plr),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::SendEchoRequest(plr_t player),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::HandleAccept(packet &pkt),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::HandleConnect(packet &pkt),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::HandleTurn(packet &pkt),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::HandleDisconnect(packet &pkt),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::HandleEchoRequest(packet &pkt),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::HandleEchoReply(packet &pkt),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::ClearMsg(plr_t plr),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::Connect(plr_t player),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::IsConnected(plr_t player),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::RecvLocal(packet &pkt),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/base.cpp|devilution::net::base::SNetReceiveMessage(uint8_t *sender, void **data, uint32_t *size)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/base.cpp|devilution::net::base::SNetSendMessage(int playerId, void *data, unsigned int size)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::AllTurnsArrived(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/base.cpp|devilution::net::base::SNetReceiveTurns(char **data, size_t *size, uint32_t *status)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/base.cpp|devilution::net::base::SNetSendTurn(char *data, unsigned int size)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::SendTurnIfReady(turn_t turn),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::SendFirstTurnIfReady(plr_t player),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::MakeReady(seq_t sequenceNumber),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::SNetGetProviderCaps(struct _SNETCAPS *caps),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::SNetUnregisterEventHandler(event_type evtype),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/base.cpp|devilution::net::base::SNetRegisterEventHandler(event_type evtype, SEVTHANDLER func)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::SNetLeaveGame(int type),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/base.cpp|devilution::net::base::SNetDropPlayer(int playerid, uint32_t flags)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::GetOwner(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::SNetGetOwnerTurnsWaiting(uint32_t *turns),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.cpp|devilution::net::base::SNetGetTurnsInTransit(uint32_t *turns),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base.h|devilution::net::base::message_t::message_t(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/base.h|devilution::net::base::message_t::message_t(int s, buffer_t p)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base_protocol.h|devilution::net::get_master(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base_protocol.h|devilution::net::wait_network(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base_protocol.h|devilution::net::DisconnectNet(plr_t plr),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base_protocol.h|devilution::net::wait_firstpeer(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base_protocol.h|devilution::net::send_info_request(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base_protocol.h|devilution::net::wait_join(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base_protocol.h|devilution::net::create(std::string addrstr),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base_protocol.h|devilution::net::join(std::string addrstr),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base_protocol.h|devilution::net::IsGameHost(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base_protocol.h|devilution::net::poll(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base_protocol.h|devilution::net::InitiateHandshake(plr_t player),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base_protocol.h|devilution::net::send(packet &pkt),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/base_protocol.h|devilution::net::SendTo(plr_t player, packet &pkt)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base_protocol.h|devilution::net::recv(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/base_protocol.h|devilution::net::handle_join_request(packet &pkt, endpoint_t sender)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/base_protocol.h|devilution::net::recv_decrypted(packet &pkt, endpoint_t sender)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/base_protocol.h|devilution::net::recv_ingame(packet &pkt, endpoint_t sender)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base_protocol.h|devilution::net::DrainSendQueue(plr_t player),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base_protocol.h|devilution::net::is_recognized(endpoint_t sender),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base_protocol.h|devilution::net::clear_gamelist(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base_protocol.h|devilution::net::get_gamelist(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base_protocol.h|devilution::net::SNetLeaveGame(int type),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/base_protocol.h|devilution::net::make_default_gamename(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/cdwrap.h|devilution::net::cdwrap(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/cdwrap.h|devilution::net::reset(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/cdwrap.h|devilution::net::create(std::string addrstr),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/cdwrap.h|devilution::net::join(std::string addrstr),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/cdwrap.h|devilution::net::setup_gameinfo(buffer_t info),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/cdwrap.h|devilution::net::SNetReceiveMessage(uint8_t *sender, void **data, uint32_t *size)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/cdwrap.h|devilution::net::SNetSendMessage(int playerID, void *data, unsigned int size)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/cdwrap.h|devilution::net::SNetReceiveTurns(char **data, size_t *size, uint32_t *status)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/cdwrap.h|devilution::net::SNetSendTurn(char *data, unsigned int size)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/cdwrap.h|devilution::net::SNetGetProviderCaps(struct _SNETCAPS *caps),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/cdwrap.h|devilution::net::SNetUnregisterEventHandler(event_type evtype),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/cdwrap.h|devilution::net::SNetRegisterEventHandler(event_type evtype, SEVTHANDLER func)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/cdwrap.h|devilution::net::SNetLeaveGame(int type),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/cdwrap.h|devilution::net::SNetDropPlayer(int playerid, uint32_t flags)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/cdwrap.h|devilution::net::SNetGetOwnerTurnsWaiting(uint32_t *turns),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/cdwrap.h|devilution::net::SNetGetTurnsInTransit(uint32_t *turns),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/cdwrap.h|devilution::net::make_default_gamename(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/cdwrap.h|devilution::net::send_info_request(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/cdwrap.h|devilution::net::clear_gamelist(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/cdwrap.h|devilution::net::get_gamelist(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/cdwrap.h|devilution::net::setup_password(std::string pw),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/cdwrap.h|devilution::net::clear_password(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/frame_queue.cpp|devilution::net::frame_queue::Size(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/frame_queue.cpp|devilution::net::frame_queue::Read(framesize_t s),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/frame_queue.cpp|devilution::net::frame_queue::Write(buffer_t buf),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/frame_queue.cpp|devilution::net::frame_queue::PacketReady(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/frame_queue.cpp|devilution::net::frame_queue::ReadPacket(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/frame_queue.cpp|devilution::net::frame_queue::MakeFrame(buffer_t packetbuf),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/frame_queue.h|devilution::net::frame_queue_exception::what(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
+dvlnet/abstract_net.h|devilution::net::dvlnet_exception::what(),ported,,,src/dvlnet/packet.rs
+dvlnet/abstract_net.h|devilution::net::abstract_net::setup_password(std::string passwd),ported,,,src/storm/storm_net.rs
+dvlnet/abstract_net.h|devilution::net::abstract_net::clear_password(),ported,,,src/storm/storm_net.rs
+dvlnet/abstract_net.h|devilution::net::abstract_net::send_info_request(),ported,,,src/storm/storm_net.rs
+dvlnet/abstract_net.h|devilution::net::abstract_net::clear_gamelist(),ported,,,src/storm/storm_net.rs
+dvlnet/abstract_net.h|devilution::net::abstract_net::get_gamelist(),ported,,,src/storm/storm_net.rs
+dvlnet/base.cpp|devilution::net::base::setup_gameinfo(buffer_t info),ported,,,src/dvlnet/base.rs
+dvlnet/base.cpp|devilution::net::base::setup_password(std::string pw),ported,,,src/dvlnet/base.rs
+dvlnet/base.cpp|devilution::net::base::clear_password(),ported,,,src/dvlnet/base.rs
+dvlnet/base.cpp|devilution::net::base::RunEventHandler(_SNETEVENT &ev),ported,,,src/dvlnet/base.rs
+dvlnet/base.cpp|devilution::net::base::DisconnectNet(plr_t plr),ported,,,src/dvlnet/base.rs
+dvlnet/base.cpp|devilution::net::base::SendEchoRequest(plr_t player),ported,,,src/dvlnet/base.rs
+dvlnet/base.cpp|devilution::net::base::HandleAccept(packet &pkt),ported,,,src/dvlnet/base.rs
+dvlnet/base.cpp|devilution::net::base::HandleConnect(packet &pkt),ported,,,src/dvlnet/base.rs
+dvlnet/base.cpp|devilution::net::base::HandleTurn(packet &pkt),ported,,,src/dvlnet/base.rs
+dvlnet/base.cpp|devilution::net::base::HandleDisconnect(packet &pkt),ported,,,src/dvlnet/base.rs
+dvlnet/base.cpp|devilution::net::base::HandleEchoRequest(packet &pkt),ported,,,src/dvlnet/base.rs
+dvlnet/base.cpp|devilution::net::base::HandleEchoReply(packet &pkt),ported,,,src/dvlnet/base.rs
+dvlnet/base.cpp|devilution::net::base::ClearMsg(plr_t plr),ported,,,src/dvlnet/base.rs
+dvlnet/base.cpp|devilution::net::base::Connect(plr_t player),ported,,,src/dvlnet/base.rs
+dvlnet/base.cpp|devilution::net::base::IsConnected(plr_t player),ported,,,src/dvlnet/base.rs
+dvlnet/base.cpp|devilution::net::base::RecvLocal(packet &pkt),ported,,,src/dvlnet/base.rs
+"dvlnet/base.cpp|devilution::net::base::SNetReceiveMessage(uint8_t *sender, void **data, uint32_t *size)",ported,,,src/dvlnet/base.rs
+"dvlnet/base.cpp|devilution::net::base::SNetSendMessage(int playerId, void *data, unsigned int size)",ported,,,src/dvlnet/base.rs
+dvlnet/base.cpp|devilution::net::base::AllTurnsArrived(),ported,,,src/dvlnet/base.rs
+"dvlnet/base.cpp|devilution::net::base::SNetReceiveTurns(char **data, size_t *size, uint32_t *status)",ported,,,src/dvlnet/base.rs
+"dvlnet/base.cpp|devilution::net::base::SNetSendTurn(char *data, unsigned int size)",ported,,,src/dvlnet/base.rs
+dvlnet/base.cpp|devilution::net::base::SendTurnIfReady(turn_t turn),ported,,,src/dvlnet/base.rs
+dvlnet/base.cpp|devilution::net::base::SendFirstTurnIfReady(plr_t player),ported,,,src/dvlnet/base.rs
+dvlnet/base.cpp|devilution::net::base::MakeReady(seq_t sequenceNumber),ported,,,src/dvlnet/base.rs
+dvlnet/base.cpp|devilution::net::base::SNetGetProviderCaps(struct _SNETCAPS *caps),ported,,,src/dvlnet/base.rs
+dvlnet/base.cpp|devilution::net::base::SNetUnregisterEventHandler(event_type evtype),ported,,,src/dvlnet/base.rs
+"dvlnet/base.cpp|devilution::net::base::SNetRegisterEventHandler(event_type evtype, SEVTHANDLER func)",ported,,,src/dvlnet/base.rs
+dvlnet/base.cpp|devilution::net::base::SNetLeaveGame(int type),ported,,,src/dvlnet/base.rs
+"dvlnet/base.cpp|devilution::net::base::SNetDropPlayer(int playerid, uint32_t flags)",ported,,,src/dvlnet/base.rs
+dvlnet/base.cpp|devilution::net::base::GetOwner(),ported,,,src/dvlnet/base.rs
+dvlnet/base.cpp|devilution::net::base::SNetGetOwnerTurnsWaiting(uint32_t *turns),ported,,,src/dvlnet/base.rs
+dvlnet/base.cpp|devilution::net::base::SNetGetTurnsInTransit(uint32_t *turns),ported,,,src/dvlnet/base.rs
+dvlnet/base.h|devilution::net::base::message_t::message_t(),ported,,,src/dvlnet/base.rs
+"dvlnet/base.h|devilution::net::base::message_t::message_t(int s, buffer_t p)",ported,,,src/dvlnet/base.rs
+dvlnet/base_protocol.h|devilution::net::get_master(),replaced,none (ZeroTier not ported),the peer-to-peer protocol template is only instantiated for ZeroTier (protocol_zt),
+dvlnet/base_protocol.h|devilution::net::wait_network(),replaced,none (ZeroTier not ported),the peer-to-peer protocol template is only instantiated for ZeroTier (protocol_zt),
+dvlnet/base_protocol.h|devilution::net::DisconnectNet(plr_t plr),replaced,none (ZeroTier not ported),the peer-to-peer protocol template is only instantiated for ZeroTier (protocol_zt),
+dvlnet/base_protocol.h|devilution::net::wait_firstpeer(),replaced,none (ZeroTier not ported),the peer-to-peer protocol template is only instantiated for ZeroTier (protocol_zt),
+dvlnet/base_protocol.h|devilution::net::send_info_request(),replaced,none (ZeroTier not ported),the peer-to-peer protocol template is only instantiated for ZeroTier (protocol_zt),
+dvlnet/base_protocol.h|devilution::net::wait_join(),replaced,none (ZeroTier not ported),the peer-to-peer protocol template is only instantiated for ZeroTier (protocol_zt),
+dvlnet/base_protocol.h|devilution::net::create(std::string addrstr),replaced,none (ZeroTier not ported),the peer-to-peer protocol template is only instantiated for ZeroTier (protocol_zt),
+dvlnet/base_protocol.h|devilution::net::join(std::string addrstr),replaced,none (ZeroTier not ported),the peer-to-peer protocol template is only instantiated for ZeroTier (protocol_zt),
+dvlnet/base_protocol.h|devilution::net::IsGameHost(),replaced,none (ZeroTier not ported),the peer-to-peer protocol template is only instantiated for ZeroTier (protocol_zt),
+dvlnet/base_protocol.h|devilution::net::poll(),replaced,none (ZeroTier not ported),the peer-to-peer protocol template is only instantiated for ZeroTier (protocol_zt),
+dvlnet/base_protocol.h|devilution::net::InitiateHandshake(plr_t player),replaced,none (ZeroTier not ported),the peer-to-peer protocol template is only instantiated for ZeroTier (protocol_zt),
+dvlnet/base_protocol.h|devilution::net::send(packet &pkt),replaced,none (ZeroTier not ported),the peer-to-peer protocol template is only instantiated for ZeroTier (protocol_zt),
+"dvlnet/base_protocol.h|devilution::net::SendTo(plr_t player, packet &pkt)",replaced,none (ZeroTier not ported),the peer-to-peer protocol template is only instantiated for ZeroTier (protocol_zt),
+dvlnet/base_protocol.h|devilution::net::recv(),replaced,none (ZeroTier not ported),the peer-to-peer protocol template is only instantiated for ZeroTier (protocol_zt),
+"dvlnet/base_protocol.h|devilution::net::handle_join_request(packet &pkt, endpoint_t sender)",replaced,none (ZeroTier not ported),the peer-to-peer protocol template is only instantiated for ZeroTier (protocol_zt),
+"dvlnet/base_protocol.h|devilution::net::recv_decrypted(packet &pkt, endpoint_t sender)",replaced,none (ZeroTier not ported),the peer-to-peer protocol template is only instantiated for ZeroTier (protocol_zt),
+"dvlnet/base_protocol.h|devilution::net::recv_ingame(packet &pkt, endpoint_t sender)",replaced,none (ZeroTier not ported),the peer-to-peer protocol template is only instantiated for ZeroTier (protocol_zt),
+dvlnet/base_protocol.h|devilution::net::DrainSendQueue(plr_t player),replaced,none (ZeroTier not ported),the peer-to-peer protocol template is only instantiated for ZeroTier (protocol_zt),
+dvlnet/base_protocol.h|devilution::net::is_recognized(endpoint_t sender),replaced,none (ZeroTier not ported),the peer-to-peer protocol template is only instantiated for ZeroTier (protocol_zt),
+dvlnet/base_protocol.h|devilution::net::clear_gamelist(),replaced,none (ZeroTier not ported),the peer-to-peer protocol template is only instantiated for ZeroTier (protocol_zt),
+dvlnet/base_protocol.h|devilution::net::get_gamelist(),replaced,none (ZeroTier not ported),the peer-to-peer protocol template is only instantiated for ZeroTier (protocol_zt),
+dvlnet/base_protocol.h|devilution::net::SNetLeaveGame(int type),replaced,none (ZeroTier not ported),the peer-to-peer protocol template is only instantiated for ZeroTier (protocol_zt),
+dvlnet/base_protocol.h|devilution::net::make_default_gamename(),replaced,none (ZeroTier not ported),the peer-to-peer protocol template is only instantiated for ZeroTier (protocol_zt),
+dvlnet/cdwrap.h|devilution::net::cdwrap(),ported,,,src/dvlnet/cdwrap.rs
+dvlnet/cdwrap.h|devilution::net::reset(),ported,,,src/dvlnet/cdwrap.rs
+dvlnet/cdwrap.h|devilution::net::create(std::string addrstr),ported,,,src/dvlnet/cdwrap.rs
+dvlnet/cdwrap.h|devilution::net::join(std::string addrstr),ported,,,src/dvlnet/cdwrap.rs
+dvlnet/cdwrap.h|devilution::net::setup_gameinfo(buffer_t info),ported,,,src/dvlnet/cdwrap.rs
+"dvlnet/cdwrap.h|devilution::net::SNetReceiveMessage(uint8_t *sender, void **data, uint32_t *size)",ported,,,src/dvlnet/cdwrap.rs
+"dvlnet/cdwrap.h|devilution::net::SNetSendMessage(int playerID, void *data, unsigned int size)",ported,,,src/dvlnet/cdwrap.rs
+"dvlnet/cdwrap.h|devilution::net::SNetReceiveTurns(char **data, size_t *size, uint32_t *status)",ported,,,src/dvlnet/cdwrap.rs
+"dvlnet/cdwrap.h|devilution::net::SNetSendTurn(char *data, unsigned int size)",ported,,,src/dvlnet/cdwrap.rs
+dvlnet/cdwrap.h|devilution::net::SNetGetProviderCaps(struct _SNETCAPS *caps),ported,,,src/dvlnet/cdwrap.rs
+dvlnet/cdwrap.h|devilution::net::SNetUnregisterEventHandler(event_type evtype),ported,,,src/dvlnet/cdwrap.rs
+"dvlnet/cdwrap.h|devilution::net::SNetRegisterEventHandler(event_type evtype, SEVTHANDLER func)",ported,,,src/dvlnet/cdwrap.rs
+dvlnet/cdwrap.h|devilution::net::SNetLeaveGame(int type),ported,,,src/dvlnet/cdwrap.rs
+"dvlnet/cdwrap.h|devilution::net::SNetDropPlayer(int playerid, uint32_t flags)",ported,,,src/dvlnet/cdwrap.rs
+dvlnet/cdwrap.h|devilution::net::SNetGetOwnerTurnsWaiting(uint32_t *turns),ported,,,src/dvlnet/cdwrap.rs
+dvlnet/cdwrap.h|devilution::net::SNetGetTurnsInTransit(uint32_t *turns),ported,,,src/dvlnet/cdwrap.rs
+dvlnet/cdwrap.h|devilution::net::make_default_gamename(),ported,,,src/dvlnet/cdwrap.rs
+dvlnet/cdwrap.h|devilution::net::send_info_request(),ported,,,src/dvlnet/cdwrap.rs
+dvlnet/cdwrap.h|devilution::net::clear_gamelist(),ported,,,src/dvlnet/cdwrap.rs
+dvlnet/cdwrap.h|devilution::net::get_gamelist(),ported,,,src/dvlnet/cdwrap.rs
+dvlnet/cdwrap.h|devilution::net::setup_password(std::string pw),ported,,,src/dvlnet/cdwrap.rs
+dvlnet/cdwrap.h|devilution::net::clear_password(),ported,,,src/dvlnet/cdwrap.rs
+dvlnet/frame_queue.cpp|devilution::net::frame_queue::Size(),ported,,,src/dvlnet/packet.rs
+dvlnet/frame_queue.cpp|devilution::net::frame_queue::Read(framesize_t s),ported,,,src/dvlnet/packet.rs
+dvlnet/frame_queue.cpp|devilution::net::frame_queue::Write(buffer_t buf),ported,,,src/dvlnet/packet.rs
+dvlnet/frame_queue.cpp|devilution::net::frame_queue::PacketReady(),ported,,,src/dvlnet/packet.rs
+dvlnet/frame_queue.cpp|devilution::net::frame_queue::ReadPacket(),ported,,,src/dvlnet/packet.rs
+dvlnet/frame_queue.cpp|devilution::net::frame_queue::MakeFrame(buffer_t packetbuf),ported,,,src/dvlnet/packet.rs
+dvlnet/frame_queue.h|devilution::net::frame_queue_exception::what(),ported,,,src/dvlnet/packet.rs
 dvlnet/loopback.cpp|devilution::net::loopback::create(std::string),ported,,,src/storm/storm_net.rs
 dvlnet/loopback.cpp|devilution::net::loopback::join(std::string),ported,,,src/storm/storm_net.rs
 "dvlnet/loopback.cpp|devilution::net::loopback::SNetReceiveMessage(uint8_t *sender, void **data, uint32_t *size)",ported,,,src/storm/storm_net.rs
@@ -836,49 +836,49 @@ dvlnet/loopback.cpp|devilution::net::loopback::SNetGetOwnerTurnsWaiting(uint32_t
 dvlnet/loopback.cpp|devilution::net::loopback::SNetGetTurnsInTransit(uint32_t *turns),ported,,,src/storm/storm_net.rs
 dvlnet/loopback.cpp|devilution::net::loopback::make_default_gamename(),ported,,,src/storm/storm_net.rs
 dvlnet/loopback.h|devilution::net::loopback::loopback(),replaced,src/storm/storm_net.rs (Loopback default),constructor of the loopback provider,
-dvlnet/packet.cpp|devilution::net::packet_out::GenerateCookie(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.cpp|devilution::net::packet_type_to_string(uint8_t packetType),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/packet.cpp|devilution::net::wrong_packet_type_exception::wrong_packet_type_exception(std::initializer_list<packet_type> expectedTypes, std::uint8_t actual)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/packet.cpp|devilution::net::CheckPacketTypeOneOf(std::initializer_list<packet_type> expectedTypes, std::uint8_t actualType)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.cpp|devilution::net::packet::Data(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.cpp|devilution::net::packet::Type(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.cpp|devilution::net::packet::Source(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.cpp|devilution::net::packet::Destination(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.cpp|devilution::net::packet::Message(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.cpp|devilution::net::packet::Turn(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.cpp|devilution::net::packet::Cookie(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.cpp|devilution::net::packet::NewPlayer(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.cpp|devilution::net::packet::Time(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.cpp|devilution::net::packet::Info(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.cpp|devilution::net::packet::LeaveInfo(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.cpp|devilution::net::packet_in::Create(buffer_t buf),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.cpp|devilution::net::packet_in::Decrypt(buffer_t buf),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.cpp|devilution::net::packet_out::Encrypt(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.cpp|devilution::net::packet_factory::packet_factory(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.cpp|devilution::net::packet_factory::packet_factory(std::string pw),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.h|devilution::net::packet_exception::what(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.h|devilution::net::wrong_packet_type_exception::what(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.h|devilution::net::packet::packet(const key_t &k),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.h|devilution::net::process_data(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.h|devilution::net::packet_in::process_element(buffer_t &x),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.h|devilution::net::packet_in::process_element(T &x),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/packet.h|devilution::net::packet_out::create<PT_INFO_REQUEST>(plr_t s, plr_t d)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/packet.h|devilution::net::packet_out::create<PT_INFO_REPLY>(plr_t s, plr_t d, buffer_t i)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/packet.h|devilution::net::packet_out::create<PT_MESSAGE>(plr_t s, plr_t d, buffer_t m)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/packet.h|devilution::net::packet_out::create<PT_TURN>(plr_t s, plr_t d, turn_t u)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/packet.h|devilution::net::packet_out::create<PT_JOIN_REQUEST>(plr_t s, plr_t d, cookie_t c, buffer_t i)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/packet.h|devilution::net::packet_out::create<PT_JOIN_ACCEPT>(plr_t s, plr_t d, cookie_t c, plr_t n, buffer_t i)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/packet.h|devilution::net::packet_out::create<PT_CONNECT>(plr_t s, plr_t d, plr_t n, buffer_t i)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/packet.h|devilution::net::packet_out::create<PT_CONNECT>(plr_t s, plr_t d, plr_t n)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/packet.h|devilution::net::packet_out::create<PT_DISCONNECT>(plr_t s, plr_t d, plr_t n, leaveinfo_t l)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/packet.h|devilution::net::packet_out::create<PT_ECHO_REQUEST>(plr_t s, plr_t d, timestamp_t t)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/packet.h|devilution::net::packet_out::create<PT_ECHO_REPLY>(plr_t s, plr_t d, timestamp_t t)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.h|devilution::net::packet_out::process_element(buffer_t &x),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.h|devilution::net::packet_out::process_element(T &x),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.h|devilution::net::packet_out::begin(const T &x),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.h|devilution::net::packet_out::end(const T &x),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.h|devilution::net::packet_factory::make_packet(buffer_t buf),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/packet.h|devilution::net::packet_factory::make_packet(Args... args),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
+dvlnet/packet.cpp|devilution::net::packet_out::GenerateCookie(),ported,,,src/dvlnet/packet.rs
+dvlnet/packet.cpp|devilution::net::packet_type_to_string(uint8_t packetType),ported,,,src/dvlnet/packet.rs
+"dvlnet/packet.cpp|devilution::net::wrong_packet_type_exception::wrong_packet_type_exception(std::initializer_list<packet_type> expectedTypes, std::uint8_t actual)",ported,,,src/dvlnet/packet.rs
+"dvlnet/packet.cpp|devilution::net::CheckPacketTypeOneOf(std::initializer_list<packet_type> expectedTypes, std::uint8_t actualType)",ported,,,src/dvlnet/packet.rs
+dvlnet/packet.cpp|devilution::net::packet::Data(),ported,,,src/dvlnet/packet.rs
+dvlnet/packet.cpp|devilution::net::packet::Type(),ported,,,src/dvlnet/packet.rs
+dvlnet/packet.cpp|devilution::net::packet::Source(),ported,,,src/dvlnet/packet.rs
+dvlnet/packet.cpp|devilution::net::packet::Destination(),ported,,,src/dvlnet/packet.rs
+dvlnet/packet.cpp|devilution::net::packet::Message(),ported,,,src/dvlnet/packet.rs
+dvlnet/packet.cpp|devilution::net::packet::Turn(),ported,,,src/dvlnet/packet.rs
+dvlnet/packet.cpp|devilution::net::packet::Cookie(),ported,,,src/dvlnet/packet.rs
+dvlnet/packet.cpp|devilution::net::packet::NewPlayer(),ported,,,src/dvlnet/packet.rs
+dvlnet/packet.cpp|devilution::net::packet::Time(),ported,,,src/dvlnet/packet.rs
+dvlnet/packet.cpp|devilution::net::packet::Info(),ported,,,src/dvlnet/packet.rs
+dvlnet/packet.cpp|devilution::net::packet::LeaveInfo(),ported,,,src/dvlnet/packet.rs
+dvlnet/packet.cpp|devilution::net::packet_in::Create(buffer_t buf),ported,,,src/dvlnet/packet.rs
+dvlnet/packet.cpp|devilution::net::packet_in::Decrypt(buffer_t buf),ported,,,src/dvlnet/packet.rs
+dvlnet/packet.cpp|devilution::net::packet_out::Encrypt(),ported,,,src/dvlnet/packet.rs
+dvlnet/packet.cpp|devilution::net::packet_factory::packet_factory(),ported,,,src/dvlnet/packet.rs
+dvlnet/packet.cpp|devilution::net::packet_factory::packet_factory(std::string pw),ported,,,src/dvlnet/packet.rs
+dvlnet/packet.h|devilution::net::packet_exception::what(),ported,,,src/dvlnet/packet.rs
+dvlnet/packet.h|devilution::net::wrong_packet_type_exception::what(),ported,,,src/dvlnet/packet.rs
+dvlnet/packet.h|devilution::net::packet::packet(const key_t &k),replaced,src/dvlnet/packet.rs (process_data_in/process_data_out/make_out),serialisation templates folded into explicit field readers/writers,
+dvlnet/packet.h|devilution::net::process_data(),replaced,src/dvlnet/packet.rs (process_data_in/process_data_out/make_out),serialisation templates folded into explicit field readers/writers,
+dvlnet/packet.h|devilution::net::packet_in::process_element(buffer_t &x),replaced,src/dvlnet/packet.rs (process_data_in/process_data_out/make_out),serialisation templates folded into explicit field readers/writers,
+dvlnet/packet.h|devilution::net::packet_in::process_element(T &x),replaced,src/dvlnet/packet.rs (process_data_in/process_data_out/make_out),serialisation templates folded into explicit field readers/writers,
+"dvlnet/packet.h|devilution::net::packet_out::create<PT_INFO_REQUEST>(plr_t s, plr_t d)",ported,,,src/dvlnet/packet.rs
+"dvlnet/packet.h|devilution::net::packet_out::create<PT_INFO_REPLY>(plr_t s, plr_t d, buffer_t i)",ported,,,src/dvlnet/packet.rs
+"dvlnet/packet.h|devilution::net::packet_out::create<PT_MESSAGE>(plr_t s, plr_t d, buffer_t m)",ported,,,src/dvlnet/packet.rs
+"dvlnet/packet.h|devilution::net::packet_out::create<PT_TURN>(plr_t s, plr_t d, turn_t u)",ported,,,src/dvlnet/packet.rs
+"dvlnet/packet.h|devilution::net::packet_out::create<PT_JOIN_REQUEST>(plr_t s, plr_t d, cookie_t c, buffer_t i)",ported,,,src/dvlnet/packet.rs
+"dvlnet/packet.h|devilution::net::packet_out::create<PT_JOIN_ACCEPT>(plr_t s, plr_t d, cookie_t c, plr_t n, buffer_t i)",ported,,,src/dvlnet/packet.rs
+"dvlnet/packet.h|devilution::net::packet_out::create<PT_CONNECT>(plr_t s, plr_t d, plr_t n, buffer_t i)",ported,,,src/dvlnet/packet.rs
+"dvlnet/packet.h|devilution::net::packet_out::create<PT_CONNECT>(plr_t s, plr_t d, plr_t n)",ported,,,src/dvlnet/packet.rs
+"dvlnet/packet.h|devilution::net::packet_out::create<PT_DISCONNECT>(plr_t s, plr_t d, plr_t n, leaveinfo_t l)",ported,,,src/dvlnet/packet.rs
+"dvlnet/packet.h|devilution::net::packet_out::create<PT_ECHO_REQUEST>(plr_t s, plr_t d, timestamp_t t)",ported,,,src/dvlnet/packet.rs
+"dvlnet/packet.h|devilution::net::packet_out::create<PT_ECHO_REPLY>(plr_t s, plr_t d, timestamp_t t)",ported,,,src/dvlnet/packet.rs
+dvlnet/packet.h|devilution::net::packet_out::process_element(buffer_t &x),replaced,src/dvlnet/packet.rs (process_data_in/process_data_out/make_out),serialisation templates folded into explicit field readers/writers,
+dvlnet/packet.h|devilution::net::packet_out::process_element(T &x),replaced,src/dvlnet/packet.rs (process_data_in/process_data_out/make_out),serialisation templates folded into explicit field readers/writers,
+dvlnet/packet.h|devilution::net::packet_out::begin(const T &x),replaced,src/dvlnet/packet.rs (process_data_in/process_data_out/make_out),serialisation templates folded into explicit field readers/writers,
+dvlnet/packet.h|devilution::net::packet_out::end(const T &x),replaced,src/dvlnet/packet.rs (process_data_in/process_data_out/make_out),serialisation templates folded into explicit field readers/writers,
+dvlnet/packet.h|devilution::net::packet_factory::make_packet(buffer_t buf),ported,,,src/dvlnet/packet.rs
+dvlnet/packet.h|devilution::net::packet_factory::make_packet(Args... args),replaced,src/dvlnet/packet.rs (process_data_in/process_data_out/make_out),serialisation templates folded into explicit field readers/writers,
 dvlnet/protocol_zt.cpp|devilution::net::protocol_zt::protocol_zt(),replaced,none (logged),ZeroTier online multiplayer is an outside service; disabled by default,
 dvlnet/protocol_zt.cpp|devilution::net::protocol_zt::set_nonblock(int fd),replaced,none (logged),ZeroTier online multiplayer is an outside service; disabled by default,
 dvlnet/protocol_zt.cpp|devilution::net::protocol_zt::set_nodelay(int fd),replaced,none (logged),ZeroTier online multiplayer is an outside service; disabled by default,
@@ -909,36 +909,36 @@ dvlnet/protocol_zt.h|devilution::net::protocol_zt::endpoint::operator!=(const en
 dvlnet/protocol_zt.h|devilution::net::protocol_zt::endpoint::operator<(const endpoint &rhs),replaced,none (logged),ZeroTier online multiplayer is an outside service; disabled by default,
 dvlnet/protocol_zt.h|devilution::net::protocol_zt::endpoint::serialize(),replaced,none (logged),ZeroTier online multiplayer is an outside service; disabled by default,
 dvlnet/protocol_zt.h|devilution::net::protocol_zt::endpoint::unserialize(const buffer_t &buf),replaced,none (logged),ZeroTier online multiplayer is an outside service; disabled by default,
-dvlnet/tcp_client.cpp|devilution::net::tcp_client::create(std::string addrstr),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/tcp_client.cpp|devilution::net::tcp_client::join(std::string addrstr),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/tcp_client.cpp|devilution::net::tcp_client::IsGameHost(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/tcp_client.cpp|devilution::net::tcp_client::poll(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/tcp_client.cpp|devilution::net::tcp_client::HandleReceive(const asio::error_code &error, size_t bytesRead)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/tcp_client.cpp|devilution::net::tcp_client::StartReceive(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/tcp_client.cpp|devilution::net::tcp_client::HandleSend(const asio::error_code &error, size_t bytesSent)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/tcp_client.cpp|devilution::net::tcp_client::send(packet &pkt),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/tcp_client.cpp|devilution::net::tcp_client::SNetLeaveGame(int type),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/tcp_client.cpp|devilution::net::tcp_client::make_default_gamename(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/tcp_server.cpp|devilution::net::tcp_server::tcp_server(asio::io_context &ioc, const std::string &bindaddr, unsigned short port, packet_factory &pktfty)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/tcp_server.cpp|devilution::net::tcp_server::LocalhostSelf(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/tcp_server.cpp|devilution::net::tcp_server::MakeConnection(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/tcp_server.cpp|devilution::net::tcp_server::NextFree(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/tcp_server.cpp|devilution::net::tcp_server::Empty(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/tcp_server.cpp|devilution::net::tcp_server::StartReceive(const scc &con),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/tcp_server.cpp|devilution::net::tcp_server::HandleReceive(const scc &con, const asio::error_code &ec, size_t bytesRead)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/tcp_server.cpp|devilution::net::tcp_server::HandleReceiveNewPlayer(const scc &con, packet &pkt)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/tcp_server.cpp|devilution::net::tcp_server::HandleReceivePacket(packet &pkt),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/tcp_server.cpp|devilution::net::tcp_server::SendPacket(packet &pkt),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/tcp_server.cpp|devilution::net::tcp_server::StartSend(const scc &con, packet &pkt)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/tcp_server.cpp|devilution::net::tcp_server::HandleSend(const scc &con, const asio::error_code &ec, size_t bytesSent)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/tcp_server.cpp|devilution::net::tcp_server::StartAccept(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/tcp_server.cpp|devilution::net::tcp_server::HandleAccept(const scc &con, const asio::error_code &ec)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/tcp_server.cpp|devilution::net::tcp_server::StartTimeout(const scc &con),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-"dvlnet/tcp_server.cpp|devilution::net::tcp_server::HandleTimeout(const scc &con, const asio::error_code &ec)",pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/tcp_server.cpp|devilution::net::tcp_server::DropConnection(const scc &con),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/tcp_server.cpp|devilution::net::tcp_server::Close(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/tcp_server.h|devilution::net::server_exception::what(),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
-dvlnet/tcp_server.h|devilution::net::tcp_server::client_connection::client_connection(asio::io_context &ioc),pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider,
+dvlnet/tcp_client.cpp|devilution::net::tcp_client::create(std::string addrstr),ported,,,src/dvlnet/tcp.rs
+dvlnet/tcp_client.cpp|devilution::net::tcp_client::join(std::string addrstr),ported,,,src/dvlnet/tcp.rs
+dvlnet/tcp_client.cpp|devilution::net::tcp_client::IsGameHost(),ported,,,src/dvlnet/tcp.rs
+dvlnet/tcp_client.cpp|devilution::net::tcp_client::poll(),ported,,,src/dvlnet/tcp.rs
+"dvlnet/tcp_client.cpp|devilution::net::tcp_client::HandleReceive(const asio::error_code &error, size_t bytesRead)",ported,,,src/dvlnet/tcp.rs
+dvlnet/tcp_client.cpp|devilution::net::tcp_client::StartReceive(),ported,,,src/dvlnet/tcp.rs
+"dvlnet/tcp_client.cpp|devilution::net::tcp_client::HandleSend(const asio::error_code &error, size_t bytesSent)",ported,,,src/dvlnet/tcp.rs
+dvlnet/tcp_client.cpp|devilution::net::tcp_client::send(packet &pkt),ported,,,src/dvlnet/tcp.rs
+dvlnet/tcp_client.cpp|devilution::net::tcp_client::SNetLeaveGame(int type),ported,,,src/dvlnet/tcp.rs
+dvlnet/tcp_client.cpp|devilution::net::tcp_client::make_default_gamename(),ported,,,src/dvlnet/tcp.rs
+"dvlnet/tcp_server.cpp|devilution::net::tcp_server::tcp_server(asio::io_context &ioc, const std::string &bindaddr, unsigned short port, packet_factory &pktfty)",ported,,,src/dvlnet/tcp.rs
+dvlnet/tcp_server.cpp|devilution::net::tcp_server::LocalhostSelf(),ported,,,src/dvlnet/tcp.rs
+dvlnet/tcp_server.cpp|devilution::net::tcp_server::MakeConnection(),ported,,,src/dvlnet/tcp.rs
+dvlnet/tcp_server.cpp|devilution::net::tcp_server::NextFree(),ported,,,src/dvlnet/tcp.rs
+dvlnet/tcp_server.cpp|devilution::net::tcp_server::Empty(),ported,,,src/dvlnet/tcp.rs
+dvlnet/tcp_server.cpp|devilution::net::tcp_server::StartReceive(const scc &con),ported,,,src/dvlnet/tcp.rs
+"dvlnet/tcp_server.cpp|devilution::net::tcp_server::HandleReceive(const scc &con, const asio::error_code &ec, size_t bytesRead)",ported,,,src/dvlnet/tcp.rs
+"dvlnet/tcp_server.cpp|devilution::net::tcp_server::HandleReceiveNewPlayer(const scc &con, packet &pkt)",ported,,,src/dvlnet/tcp.rs
+dvlnet/tcp_server.cpp|devilution::net::tcp_server::HandleReceivePacket(packet &pkt),ported,,,src/dvlnet/tcp.rs
+dvlnet/tcp_server.cpp|devilution::net::tcp_server::SendPacket(packet &pkt),ported,,,src/dvlnet/tcp.rs
+"dvlnet/tcp_server.cpp|devilution::net::tcp_server::StartSend(const scc &con, packet &pkt)",ported,,,src/dvlnet/tcp.rs
+"dvlnet/tcp_server.cpp|devilution::net::tcp_server::HandleSend(const scc &con, const asio::error_code &ec, size_t bytesSent)",ported,,,src/dvlnet/tcp.rs
+dvlnet/tcp_server.cpp|devilution::net::tcp_server::StartAccept(),ported,,,src/dvlnet/tcp.rs
+"dvlnet/tcp_server.cpp|devilution::net::tcp_server::HandleAccept(const scc &con, const asio::error_code &ec)",ported,,,src/dvlnet/tcp.rs
+dvlnet/tcp_server.cpp|devilution::net::tcp_server::StartTimeout(const scc &con),ported,,,src/dvlnet/tcp.rs
+"dvlnet/tcp_server.cpp|devilution::net::tcp_server::HandleTimeout(const scc &con, const asio::error_code &ec)",ported,,,src/dvlnet/tcp.rs
+dvlnet/tcp_server.cpp|devilution::net::tcp_server::DropConnection(const scc &con),ported,,,src/dvlnet/tcp.rs
+dvlnet/tcp_server.cpp|devilution::net::tcp_server::Close(),ported,,,src/dvlnet/tcp.rs
+dvlnet/tcp_server.h|devilution::net::server_exception::what(),ported,,,src/dvlnet/packet.rs
+dvlnet/tcp_server.h|devilution::net::tcp_server::client_connection::client_connection(asio::io_context &ioc),ported,,,src/dvlnet/tcp.rs
 dvlnet/zerotier_lwip.cpp|devilution::net::print_ip6_addr(void *x),replaced,none (logged),ZeroTier online multiplayer is an outside service; disabled by default,
 dvlnet/zerotier_lwip.cpp|devilution::net::zt_ip6setup(),replaced,none (logged),ZeroTier online multiplayer is an outside service; disabled by default,
 dvlnet/zerotier_native.cpp|devilution::net::Callback(void *ptr),replaced,none (logged),ZeroTier online multiplayer is an outside service; disabled by default,
@@ -2833,9 +2833,9 @@ mpq/mpq_writer.cpp|devilution::MpqWriter::RemoveHashEntry(const char *filename),
 mpq/mpq_writer.cpp|devilution::MpqWriter::HasFile(const char *name),ported,,,src/mpq_writer.rs
 mpq/mpq_writer.hpp|devilution::MpqWriter::MpqWriter(const std::string &path),replaced,src/mpq_writer.rs,byte swapping is done by to_le_bytes; constructor is MpqWriter::open,
 msg.cpp|devilution::EventFailedPacket(const char *playerName),ported,,,src/msg.rs
-"msg.cpp|devilution::LogFailedPacket(const char *condition, const char *name, T value)",pending,,not ported: network multiplayer (packet threads and remote-player unpacking),
-"msg.cpp|devilution::LogFailedPacket(const char *condition, const char *name1, T1 value1, const char *name2, T2 value2)",pending,,not ported: network multiplayer (packet threads and remote-player unpacking),
-msg.cpp|devilution::TMegaPkt::TMegaPkt(),pending,,not ported: network multiplayer (packet threads and remote-player unpacking),
+"msg.cpp|devilution::LogFailedPacket(const char *condition, const char *name, T value)",ported,,,src/msg.rs
+"msg.cpp|devilution::LogFailedPacket(const char *condition, const char *name1, T1 value1, const char *name2, T2 value2)",ported,,,src/msg.rs
+msg.cpp|devilution::TMegaPkt::TMegaPkt(),ported,,,src/msg.rs
 msg.cpp|devilution::LocalLevel::LocalLevel(const uint8_t (&other)[DMAXX][DMAXY]),replaced,src/msg.rs,constructor and overload; callers pass the player's level to get_delta_level,
 "msg.cpp|devilution::GetLevelForMultiplayer(uint8_t level, bool isSetLevel)",ported,,,src/msg.rs
 msg.cpp|devilution::GetDeltaLevel(uint8_t level),ported,,,src/msg.rs
@@ -3030,7 +3030,7 @@ multi.cpp|devilution::multi_process_network_packets(),ported,,,src/multi.rs
 multi.cpp|devilution::NetClose(),ported,,,src/multi.rs
 multi.cpp|devilution::NetInit(bool bSinglePlayer),ported,,,src/multi.rs
 "multi.cpp|devilution::recv_plrinfo(int pnum, const TCmdPlrInfoHdr &header, bool recv)",ported,,,src/multi.rs
-nthread.cpp|devilution::NthreadHandler(),pending,,not ported: network multiplayer (packet threads and remote-player unpacking),
+nthread.cpp|devilution::NthreadHandler(),ported,,,src/nthread.rs
 nthread.cpp|devilution::nthread_terminate_game(const char *pszFcn),ported,,,src/nthread.rs
 "nthread.cpp|devilution::nthread_send_and_recv_turn(uint32_t curTurn, int turnDelta)",ported,,,src/nthread.rs
 nthread.cpp|devilution::nthread_recv_turns(bool *pfSendAsync),ported,,,src/nthread.rs
@@ -3416,9 +3416,9 @@ options.h|devilution::OptionEntryAudioDevice::operator*(),ported,,,src/options.r
 options.h|devilution::KeymapperOptions::Action::GetType(),ported,,,src/options.rs
 options.h|devilution::PadmapperOptions::Action::GetType(),ported,,,src/options.rs
 options.h|devilution::Options::GetCategories(),ported,,,src/options.rs
-pack.cpp|devilution::EventFailedJoinAttempt(const char *playerName),pending,,not ported: network multiplayer (packet threads and remote-player unpacking),
-"pack.cpp|devilution::LogFailedJoinAttempt(const char *condition, const char *name, T value)",pending,,not ported: network multiplayer (packet threads and remote-player unpacking),
-"pack.cpp|devilution::LogFailedJoinAttempt(const char *condition, const char *name1, T1 value1, const char *name2, T2 value2)",pending,,not ported: network multiplayer (packet threads and remote-player unpacking),
+pack.cpp|devilution::EventFailedJoinAttempt(const char *playerName),ported,,,src/pack.rs
+"pack.cpp|devilution::LogFailedJoinAttempt(const char *condition, const char *name, T value)",ported,,,src/pack.rs
+"pack.cpp|devilution::LogFailedJoinAttempt(const char *condition, const char *name1, T1 value1, const char *name2, T2 value2)",ported,,,src/pack.rs
 pack.cpp|devilution::VerifyGoldSeeds(Player &player),ported,,,src/pack.rs
 pack.cpp|devilution::hasMultipleFlags(uint16_t flags),ported,,,src/pack.rs
 pack.cpp|devilution::IsCreationFlagComboValid(uint16_t iCreateInfo),ported,,,src/pack.rs
@@ -3432,8 +3432,8 @@ pack.cpp|devilution::IsTownItemValid(uint16_t iCreateInfo),ported,,,src/pack.rs
 "pack.cpp|devilution::PackNetPlayer(PlayerNetPack &packed, const Player &player)",ported,,,src/pack.rs
 "pack.cpp|devilution::UnPackItem(const ItemPack &packedItem, const Player &player, Item &item, bool isHellfire)",ported,,,src/pack.rs
 "pack.cpp|devilution::UnPackPlayer(const PlayerPack &packed, Player &player)",ported,,,src/pack.rs
-"pack.cpp|devilution::UnPackNetItem(const Player &player, const ItemNetPack &packedItem, Item &item)",pending,,not ported: network multiplayer (packet threads and remote-player unpacking),
-"pack.cpp|devilution::UnPackNetPlayer(const PlayerNetPack &packed, Player &player)",pending,,not ported: network multiplayer (packet threads and remote-player unpacking),
+"pack.cpp|devilution::UnPackNetItem(const Player &player, const ItemNetPack &packedItem, Item &item)",ported,,,src/pack.rs
+"pack.cpp|devilution::UnPackNetPlayer(const PlayerNetPack &packed, Player &player)",ported,,,src/pack.rs
 panels/charpanel.cpp|devilution::GetBaseStatColor(CharacterAttribute attr),ported,,,src/panels/charpanel.rs
 panels/charpanel.cpp|devilution::GetCurrentStatColor(CharacterAttribute attr),ported,,,src/panels/charpanel.rs
 "panels/charpanel.cpp|devilution::GetValueColor(int value, bool flip = false)",ported,,,src/panels/charpanel.rs
@@ -4052,7 +4052,7 @@ sync.cpp|devilution::IsTSyncMonsterValidate(const TSyncMonster &monsterSync),por
 "sync.cpp|devilution::sync_all_monsters(byte *pbBuf, uint32_t dwMaxLen)",ported,,,src/sync.rs
 "sync.cpp|devilution::OnSyncData(const TCmd *pCmd, size_t pnum)",ported,,,src/sync.rs
 sync.cpp|devilution::sync_init(),ported,,,src/sync.rs
-"tmsg.cpp|devilution::TMsg::TMsg(uint32_t time, const byte *data, uint8_t len)",pending,,not ported: network multiplayer (packet threads and remote-player unpacking),
+"tmsg.cpp|devilution::TMsg::TMsg(uint32_t time, const byte *data, uint8_t len)",ported,,,src/tmsg.rs
 tmsg.cpp|devilution::tmsg_get(std::unique_ptr<byte[]> *msg),ported,,,src/tmsg.rs
 "tmsg.cpp|devilution::tmsg_add(const byte *msg, uint8_t len)",ported,,,src/tmsg.rs
 tmsg.cpp|devilution::tmsg_start(),ported,,,src/tmsg.rs

@@ -77,17 +77,17 @@ pub trait AbstractNet {
     fn snet_get_turns_in_transit(&mut self, turns: &mut u32) -> bool;
     fn setup_gameinfo(&mut self, info: Vec<u8>);
     fn make_default_gamename(&self) -> String;
-    // @port dvlnet/abstract_net.h|devilution::net::abstract_net::setup_password(std::string passwd)
+    // @port dvlnet/abstract_net.h|devilution::net::abstract_net::setup_password(std::string passwd) sha=2b69e6b12800
     fn setup_password(&mut self, _passwd: String) {}
-    // @port dvlnet/abstract_net.h|devilution::net::abstract_net::clear_password()
+    // @port dvlnet/abstract_net.h|devilution::net::abstract_net::clear_password() sha=afbe79f5cc01
     fn clear_password(&mut self) {}
-    // @port dvlnet/abstract_net.h|devilution::net::abstract_net::send_info_request()
+    // @port dvlnet/abstract_net.h|devilution::net::abstract_net::send_info_request() sha=1790d5b59521
     fn send_info_request(&mut self) -> bool {
         true
     }
-    // @port dvlnet/abstract_net.h|devilution::net::abstract_net::clear_gamelist()
+    // @port dvlnet/abstract_net.h|devilution::net::abstract_net::clear_gamelist() sha=a2a592f67cee
     fn clear_gamelist(&mut self) {}
-    // @port dvlnet/abstract_net.h|devilution::net::abstract_net::get_gamelist()
+    // @port dvlnet/abstract_net.h|devilution::net::abstract_net::get_gamelist() sha=9e466e346dcc
     fn get_gamelist(&mut self) -> Vec<GameInfo> {
         Vec::new()
     }

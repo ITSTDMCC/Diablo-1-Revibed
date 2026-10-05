@@ -72,7 +72,7 @@ struct ClientConnection {
 
 impl ClientConnection {
     /// Original: `tcp_server::client_connection::client_connection` (dvlnet/tcp_server.h).
-    // @port dvlnet/tcp_server.h|devilution::net::tcp_server::client_connection::client_connection(asio::io_context &ioc)
+    // @port dvlnet/tcp_server.h|devilution::net::tcp_server::client_connection::client_connection(asio::io_context &ioc) sha=0dff378cd9c3
     fn new(socket: TcpStream) -> ClientConnection {
         ClientConnection {
             recv_queue: FrameQueue::default(),
@@ -102,7 +102,7 @@ impl TcpServer {
     const TIMEOUT_ACTIVE: i32 = 60;
 
     /// Original: `tcp_server::tcp_server` (dvlnet/tcp_server.cpp).
-    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::tcp_server(asio::io_context &ioc, const std::string &bindaddr, unsigned short port, packet_factory &pktfty)
+    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::tcp_server(asio::io_context &ioc, const std::string &bindaddr, unsigned short port, packet_factory &pktfty) sha=9ace6b7c7925
     pub fn new(bindaddr: &str, port: u16) -> std::io::Result<TcpServer> {
         let addr: IpAddr = bindaddr.parse().map_err(|e| std::io::Error::new(ErrorKind::InvalidInput, format!("{e}")))?;
         let acceptor = TcpListener::bind(SocketAddr::new(addr, port))?;
@@ -112,7 +112,7 @@ impl TcpServer {
     }
 
     /// Original: `tcp_server::LocalhostSelf` (dvlnet/tcp_server.cpp).
-    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::LocalhostSelf()
+    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::LocalhostSelf() sha=8783ca1f5b91
     pub fn localhost_self(&self) -> String {
         let addr = self.acceptor.as_ref().and_then(|a| a.local_addr().ok()).map(|a| a.ip()).unwrap_or(IpAddr::V4(Ipv4Addr::UNSPECIFIED));
         if addr.is_unspecified() {
@@ -125,7 +125,7 @@ impl TcpServer {
     }
 
     /// Original: `tcp_server::MakeConnection` (dvlnet/tcp_server.cpp).
-    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::MakeConnection()
+    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::MakeConnection() sha=0c2f4a768aa8
     fn make_connection(&mut self, socket: TcpStream) -> ConId {
         let id = self.next_id;
         self.next_id += 1;
@@ -134,13 +134,13 @@ impl TcpServer {
     }
 
     /// Original: `tcp_server::NextFree` (dvlnet/tcp_server.cpp).
-    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::NextFree()
+    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::NextFree() sha=42a09fa724e5
     fn next_free(&self, players: usize) -> PlrT {
         (0..players).find(|&i| self.connections[i].is_none()).map_or(PLR_BROADCAST, |i| i as PlrT)
     }
 
     /// Original: `tcp_server::Empty` (dvlnet/tcp_server.cpp).
-    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::Empty()
+    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::Empty() sha=8c9d85ae32bd
     fn empty(&self, players: usize) -> bool {
         (0..players).all(|i| self.connections[i].is_none())
     }
@@ -206,12 +206,12 @@ impl TcpServer {
     }
 
     /// Original: `tcp_server::StartReceive` (dvlnet/tcp_server.cpp): reading is polled.
-    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::StartReceive(const scc &con)
+    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::StartReceive(const scc &con) sha=5b035f9e9cce
     fn start_receive(&mut self, _id: ConId) {}
 
     /// Original: `tcp_server::HandleReceive` (dvlnet/tcp_server.cpp). Returns false when the
     /// connection was dropped.
-    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::HandleReceive(const scc &con, const asio::error_code &ec, size_t bytesRead)
+    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::HandleReceive(const scc &con, const asio::error_code &ec, size_t bytesRead) sha=da7cbed5d7d2
     fn handle_receive(&mut self, id: ConId, buf: Vec<u8>, pktfty: &PacketFactory, players: usize) -> bool {
         let con = self.cons.get_mut(&id).unwrap();
         con.recv_queue.write(buf);
@@ -251,7 +251,7 @@ impl TcpServer {
     }
 
     /// Original: `tcp_server::HandleReceiveNewPlayer` (dvlnet/tcp_server.cpp).
-    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::HandleReceiveNewPlayer(const scc &con, packet &pkt)
+    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::HandleReceiveNewPlayer(const scc &con, packet &pkt) sha=89d56e1cae41
     fn handle_receive_new_player(&mut self, id: ConId, pkt: &Packet, pktfty: &PacketFactory, players: usize) -> Result<(), NetError> {
         let newplr = self.next_free(players);
         if newplr == PLR_BROADCAST {
@@ -278,13 +278,13 @@ impl TcpServer {
     }
 
     /// Original: `tcp_server::HandleReceivePacket` (dvlnet/tcp_server.cpp).
-    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::HandleReceivePacket(packet &pkt)
+    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::HandleReceivePacket(packet &pkt) sha=62ea56607ec8
     fn handle_receive_packet(&mut self, pkt: &Packet) -> Result<(), NetError> {
         self.send_packet(pkt)
     }
 
     /// Original: `tcp_server::SendPacket` (dvlnet/tcp_server.cpp).
-    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::SendPacket(packet &pkt)
+    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::SendPacket(packet &pkt) sha=961af3fb3e8e
     fn send_packet(&mut self, pkt: &Packet) -> Result<(), NetError> {
         if pkt.destination() == PLR_BROADCAST {
             for i in 0..MAX_PLRS {
@@ -308,7 +308,7 @@ impl TcpServer {
     }
 
     /// Original: `tcp_server::StartSend` (dvlnet/tcp_server.cpp).
-    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::StartSend(const scc &con, packet &pkt)
+    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::StartSend(const scc &con, packet &pkt) sha=263e836a7ede
     fn start_send(&mut self, id: ConId, pkt: &Packet) {
         let Some(con) = self.cons.get_mut(&id) else { return };
         con.send_buf.extend(FrameQueue::make_frame(pkt.data()));
@@ -317,15 +317,15 @@ impl TcpServer {
     }
 
     /// Original: `tcp_server::HandleSend` (dvlnet/tcp_server.cpp): empty for now.
-    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::HandleSend(const scc &con, const asio::error_code &ec, size_t bytesSent)
+    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::HandleSend(const scc &con, const asio::error_code &ec, size_t bytesSent) sha=58dbfb33bf70
     fn handle_send() {}
 
     /// Original: `tcp_server::StartAccept` (dvlnet/tcp_server.cpp): accepting is polled.
-    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::StartAccept()
+    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::StartAccept() sha=075d94184200
     fn start_accept(&mut self) {}
 
     /// Original: `tcp_server::HandleAccept` (dvlnet/tcp_server.cpp).
-    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::HandleAccept(const scc &con, const asio::error_code &ec)
+    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::HandleAccept(const scc &con, const asio::error_code &ec) sha=478641e8539c
     fn handle_accept(&mut self, id: ConId, players: usize) {
         if self.next_free(players) == PLR_BROADCAST {
             let con = self.cons.get_mut(&id).unwrap();
@@ -342,7 +342,7 @@ impl TcpServer {
     }
 
     /// Original: `tcp_server::StartTimeout` (dvlnet/tcp_server.cpp).
-    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::StartTimeout(const scc &con)
+    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::StartTimeout(const scc &con) sha=0308b9672b0b
     fn start_timeout(&mut self, id: ConId) {
         if let Some(con) = self.cons.get_mut(&id) {
             con.next_tick = Instant::now() + Duration::from_secs(1);
@@ -351,7 +351,7 @@ impl TcpServer {
 
     /// Original: `tcp_server::HandleTimeout` (dvlnet/tcp_server.cpp). The next tick is set by
     /// `poll`.
-    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::HandleTimeout(const scc &con, const asio::error_code &ec)
+    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::HandleTimeout(const scc &con, const asio::error_code &ec) sha=bf9b49e47a06
     fn handle_timeout(&mut self, id: ConId, pktfty: &PacketFactory, players: usize) {
         let con = self.cons.get_mut(&id).unwrap();
         if con.timeout > 0 {
@@ -364,7 +364,7 @@ impl TcpServer {
     }
 
     /// Original: `tcp_server::DropConnection` (dvlnet/tcp_server.cpp).
-    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::DropConnection(const scc &con)
+    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::DropConnection(const scc &con) sha=53a5150d067e
     fn drop_connection(&mut self, id: ConId, pktfty: &PacketFactory, _players: usize) {
         let Some(con) = self.cons.get_mut(&id) else { return };
         if con.closed {
@@ -384,7 +384,7 @@ impl TcpServer {
     }
 
     /// Original: `tcp_server::Close` (dvlnet/tcp_server.cpp).
-    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::Close()
+    // @port dvlnet/tcp_server.cpp|devilution::net::tcp_server::Close() sha=4f91c355bb8b
     pub fn close(&mut self) {
         self.acceptor = None;
     }
@@ -403,7 +403,7 @@ pub struct TcpClient {
 
 impl TcpClient {
     /// Original: `tcp_client::create` (dvlnet/tcp_client.cpp).
-    // @port dvlnet/tcp_client.cpp|devilution::net::tcp_client::create(std::string addrstr)
+    // @port dvlnet/tcp_client.cpp|devilution::net::tcp_client::create(std::string addrstr) sha=0b6645154524
     fn tcp_create(&mut self, addrstr: &str) -> i32 {
         let port = self.base.env.port;
         match TcpServer::new(addrstr, port) {
@@ -420,7 +420,7 @@ impl TcpClient {
     }
 
     /// Original: `tcp_client::join` (dvlnet/tcp_client.cpp).
-    // @port dvlnet/tcp_client.cpp|devilution::net::tcp_client::join(std::string addrstr)
+    // @port dvlnet/tcp_client.cpp|devilution::net::tcp_client::join(std::string addrstr) sha=b5c70dac2515
     fn tcp_join(&mut self, addrstr: &str) -> i32 {
         const MS_SLEEP: u64 = 10;
         const NO_SLEEP: i32 = 250;
@@ -495,7 +495,7 @@ impl TcpClient {
     }
 
     /// Original: `tcp_client::HandleReceive` (dvlnet/tcp_client.cpp).
-    // @port dvlnet/tcp_client.cpp|devilution::net::tcp_client::HandleReceive(const asio::error_code &error, size_t bytesRead)
+    // @port dvlnet/tcp_client.cpp|devilution::net::tcp_client::HandleReceive(const asio::error_code &error, size_t bytesRead) sha=09614cce0c6a
     fn handle_receive(&mut self, buf: Vec<u8>) -> Result<(), NetError> {
         self.recv_queue.write(buf);
         while self.recv_queue.packet_ready()? {
@@ -507,17 +507,17 @@ impl TcpClient {
     }
 
     /// Original: `tcp_client::StartReceive` (dvlnet/tcp_client.cpp): reading is polled.
-    // @port dvlnet/tcp_client.cpp|devilution::net::tcp_client::StartReceive()
+    // @port dvlnet/tcp_client.cpp|devilution::net::tcp_client::StartReceive() sha=908b8d76688e
     fn start_receive(&mut self) {
         self.receiving = true;
     }
 
     /// Original: `tcp_client::HandleSend` (dvlnet/tcp_client.cpp): empty for now.
-    // @port dvlnet/tcp_client.cpp|devilution::net::tcp_client::HandleSend(const asio::error_code &error, size_t bytesSent)
+    // @port dvlnet/tcp_client.cpp|devilution::net::tcp_client::HandleSend(const asio::error_code &error, size_t bytesSent) sha=72bdda5dcdc8
     fn handle_send(&mut self) {}
 
     /// Original: `tcp_client::SNetLeaveGame` (dvlnet/tcp_client.cpp).
-    // @port dvlnet/tcp_client.cpp|devilution::net::tcp_client::SNetLeaveGame(int type)
+    // @port dvlnet/tcp_client.cpp|devilution::net::tcp_client::SNetLeaveGame(int type) sha=80d50c1c533a
     fn tcp_snet_leave_game(&mut self, type_: i32) -> bool {
         let ret = self.base_snet_leave_game(type_);
         self.poll();
@@ -542,7 +542,7 @@ impl Base for TcpClient {
 
     /// Original: `tcp_client::poll` (dvlnet/tcp_client.cpp). A malformed packet from the
     /// server ends the game, as the original's uncaught exception does.
-    // @port dvlnet/tcp_client.cpp|devilution::net::tcp_client::poll()
+    // @port dvlnet/tcp_client.cpp|devilution::net::tcp_client::poll() sha=1ab415e7b542
     fn poll(&mut self) {
         if let Err(e) = self.poll_inner() {
             panic!("Network error: {e}");
@@ -550,7 +550,7 @@ impl Base for TcpClient {
     }
 
     /// Original: `tcp_client::send` (dvlnet/tcp_client.cpp).
-    // @port dvlnet/tcp_client.cpp|devilution::net::tcp_client::send(packet &pkt)
+    // @port dvlnet/tcp_client.cpp|devilution::net::tcp_client::send(packet &pkt) sha=835c14ee4e4f
     fn send(&mut self, pkt: &Packet) {
         self.send_buf.extend(FrameQueue::make_frame(pkt.data()));
         if let Some(sock) = &mut self.sock {
@@ -560,7 +560,7 @@ impl Base for TcpClient {
     }
 
     /// Original: `tcp_client::IsGameHost` (dvlnet/tcp_client.cpp).
-    // @port dvlnet/tcp_client.cpp|devilution::net::tcp_client::IsGameHost()
+    // @port dvlnet/tcp_client.cpp|devilution::net::tcp_client::IsGameHost() sha=001383dc8aef
     fn is_game_host(&self) -> bool {
         self.local_server.is_some()
     }
@@ -624,7 +624,7 @@ impl AbstractNet for TcpClient {
     }
 
     /// Original: `tcp_client::make_default_gamename` (dvlnet/tcp_client.cpp).
-    // @port dvlnet/tcp_client.cpp|devilution::net::tcp_client::make_default_gamename()
+    // @port dvlnet/tcp_client.cpp|devilution::net::tcp_client::make_default_gamename() sha=a282a3db2d09
     fn make_default_gamename(&self) -> String {
         self.base.env.bind_address.clone()
     }

@@ -10,6 +10,14 @@ struct TMsg {
     body: Vec<u8>,
 }
 
+impl TMsg {
+    /// Original: `TMsg::TMsg` (tmsg.cpp).
+    // @port tmsg.cpp|devilution::TMsg::TMsg(uint32_t time, const byte *data, uint8_t len) sha=6fe24640d6c7
+    fn new(time: u32, data: &[u8], len: u8) -> TMsg {
+        TMsg { time, body: data[..len as usize].to_vec() }
+    }
+}
+
 /// Globals of tmsg.cpp.
 #[derive(Default)]
 pub struct TmsgState {
@@ -32,8 +40,8 @@ pub fn tmsg_get(ctx: &mut Ctx) -> Option<Vec<u8>> {
 pub fn tmsg_add(ctx: &mut Ctx, msg: &[u8]) {
     let time = ctx.platform.ticks().wrapping_add(ctx.diablo.gn_tick_delay as u32 * 10);
     // `uint8_t len`
-    let len = msg.len() as u8 as usize;
-    ctx.tmsg.timed_msg_list.push_back(TMsg { time, body: msg[..len].to_vec() });
+    let len = msg.len() as u8;
+    ctx.tmsg.timed_msg_list.push_back(TMsg::new(time, msg, len));
 }
 
 /// Original: `devilution::tmsg_start` (tmsg.cpp).

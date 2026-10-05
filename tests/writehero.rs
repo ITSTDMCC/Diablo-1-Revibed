@@ -314,3 +314,45 @@ fn writehero_pfile_write_hero() {
     let data = std::fs::read(work.join("multi_0.sv")).expect("multi_0.sv written");
     assert_eq!(sha256(&data), "a79367caae6192d54703168d82e0316aa289b2a33251255fad8abe34889c1d3a");
 }
+
+/// The same hero sent the way a joining player is (`PackNetPlayer`, then `UnPackNetPlayer` on
+/// the other machine): every validation passes and the rebuilt player matches.
+#[test]
+fn writehero_net_pack_round_trip() {
+    let Some(data_dir) = std::env::var_os("DIABLO_DATA_DIR") else {
+        eprintln!("skipped: set DIABLO_DATA_DIR to the folder with the game's MPQ files");
+        return;
+    };
+    let mut ctx = Ctx::new(Platform::headless_from_env());
+    ctx.diablo.headless_mode = true;
+    let ctx = &mut ctx;
+    ctx.paths.set_base_path(&format!("{}/", std::path::Path::new(&data_dir).display()));
+    diablo1_rs::init::load_core_archives(ctx);
+    diablo1_rs::init::load_game_archives(ctx);
+    ctx.init.gb_vanilla = true;
+    ctx.init.gb_is_hellfire = false;
+    ctx.init.gb_is_multiplayer = true;
+    ctx.gendung.leveltype = diablo1_rs::levels::gendung::DungeonType::Town;
+    ctx.loadsave.giNumberOfLevels = 17;
+    ctx.players.Players.truncate(2);
+    while ctx.players.Players.len() < 2 {
+        ctx.players.Players.push(Default::default());
+    }
+    ctx.players.MyPlayerId = 0;
+    ctx.players.MyPlayer = Some(0);
+    unpack_player(ctx, &pack_player_test(), 0);
+    assert_player(&ctx.players.Players[0]);
+
+    let packed = diablo1_rs::pack::pack_net_player(ctx, 0);
+    assert_eq!(packed.len(), diablo1_rs::pack::PLAYER_NET_PACK_SIZE);
+    assert!(diablo1_rs::pack::unpack_net_player(ctx, &packed, 1), "validation passes");
+    // the animation state is not sent (InitPlayer starts the standing animation)
+    let mut rebuilt = ctx.players.Players[1].clone();
+    rebuilt.AnimInfo = ctx.players.Players[0].AnimInfo.clone();
+    assert_player(&rebuilt);
+
+    // a tampered value is caught
+    let mut bad = packed.clone();
+    bad[packed.len() - 23 * 4] ^= 1; // pStrength
+    assert!(!diablo1_rs::pack::unpack_net_player(ctx, &bad, 1));
+}

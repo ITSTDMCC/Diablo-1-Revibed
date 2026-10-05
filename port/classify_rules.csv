@@ -26,9 +26,9 @@ key_regex,status,replaced_by,reason
 ^monstdat\.cpp\|devilution::Uniq,replaced,tools/gen_tables.py,table helper; the tables are generated
 ^spelldat\.h\|,replaced,src/tables/spelldat.rs,accessors are struct fields
 ^dvlnet/loopback\.h\|,replaced,src/storm/storm_net.rs (Loopback default),constructor of the loopback provider
-^dvlnet/,pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider
-^DiabloUI/(multi/selconn|progress)\.cpp\|,pending,,not ported: network multiplayer (provider selection and connection progress dialogs)
-^(nthread\.cpp\|devilution::NthreadHandler|pack\.cpp\||tmsg\.cpp\||msg\.cpp\|devilution::(LogFailedPacket|TMegaPkt)),pending,,not ported: network multiplayer (packet threads and remote-player unpacking)
+^dvlnet/base_protocol\.h\|,replaced,none (ZeroTier not ported),the peer-to-peer protocol template is only instantiated for ZeroTier (protocol_zt)
+^dvlnet/packet\.h\|devilution::net::(packet::packet|process_data|packet_in::process_element|packet_out::process_element|packet_out::begin|packet_out::end|packet_factory::make_packet\(Args),replaced,src/dvlnet/packet.rs (process_data_in/process_data_out/make_out),serialisation templates folded into explicit field readers/writers
+^dvlnet/,pending,,not ported: network multiplayer
 ^engine/demomode\.cpp\|,pending,,not ported: demo recording and playback (a developer test feature)
 ^pfile\.cpp\|devilution::(CompareCounter|string_ends_with|CreateDetailDiffs|CompareSaves|pfile_compare_hero_demo),pending,,not ported: demo save comparison (a developer test feature)
 ^controls/(devices/|controller_motion|game_controls\.cpp|axis_direction|modifier_hints),pending,,not ported: gamepad devices (the platform layer reads no gamepads)

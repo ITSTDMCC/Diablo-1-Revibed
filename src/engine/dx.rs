@@ -139,6 +139,7 @@ pub fn blit(ctx: &mut Ctx, src_rect: Option<Rect>, dst_rect: Option<Rect>) {
 /// Original: `devilution::RenderPresent` (engine/dx.cpp).
 // @port engine/dx.cpp|devilution::RenderPresent() sha=500bdac1f7c6
 pub fn render_present(ctx: &mut Ctx) {
+    crate::nthread::nthread_pump(ctx);
     if ctx.diablo.headless_mode {
         return;
     }

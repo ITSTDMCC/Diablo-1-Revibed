@@ -23,7 +23,7 @@ pub struct Message {
 
 impl Message {
     /// Original: `base::message_t::message_t(int s, buffer_t p)` (dvlnet/base.h).
-    // @port dvlnet/base.h|devilution::net::base::message_t::message_t(int s, buffer_t p)
+    // @port dvlnet/base.h|devilution::net::base::message_t::message_t(int s, buffer_t p) sha=ed9cc2f0e8fa
     pub fn new(s: u8, p: Vec<u8>) -> Message {
         Message { sender: s, payload: p }
     }
@@ -31,7 +31,7 @@ impl Message {
 
 impl Default for Message {
     /// Original: `base::message_t::message_t()` (dvlnet/base.h).
-    // @port dvlnet/base.h|devilution::net::base::message_t::message_t()
+    // @port dvlnet/base.h|devilution::net::base::message_t::message_t() sha=580f77cb05f5
     fn default() -> Self {
         Message { sender: 0xFF, payload: Vec::new() }
     }
@@ -104,29 +104,29 @@ pub trait Base {
     fn is_game_host(&self) -> bool;
 
     /// Original: `base::DisconnectNet` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::DisconnectNet(plr_t plr)
+    // @port dvlnet/base.cpp|devilution::net::base::DisconnectNet(plr_t plr) sha=60b34e3aeb2b
     fn disconnect_net(&mut self, _plr: PlrT) {}
 
     /// Original: `base::setup_gameinfo` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::setup_gameinfo(buffer_t info)
+    // @port dvlnet/base.cpp|devilution::net::base::setup_gameinfo(buffer_t info) sha=3655012300d0
     fn base_setup_gameinfo(&mut self, info: Vec<u8>) {
         self.base().game_init_info = info;
     }
 
     /// Original: `base::setup_password` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::setup_password(std::string pw)
+    // @port dvlnet/base.cpp|devilution::net::base::setup_password(std::string pw) sha=8cfbc15b6e57
     fn base_setup_password(&mut self, pw: &str) {
         self.base().pktfty = PacketFactory::with_password(pw);
     }
 
     /// Original: `base::clear_password` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::clear_password()
+    // @port dvlnet/base.cpp|devilution::net::base::clear_password() sha=147d2a8f95ba
     fn base_clear_password(&mut self) {
         self.base().pktfty = PacketFactory::new();
     }
 
     /// Original: `base::RunEventHandler` (dvlnet/base.cpp): queued, see the module comment.
-    // @port dvlnet/base.cpp|devilution::net::base::RunEventHandler(_SNETEVENT &ev)
+    // @port dvlnet/base.cpp|devilution::net::base::RunEventHandler(_SNETEVENT &ev) sha=f235a074a606
     fn run_event_handler(&mut self, ev: SnetEvent) {
         let b = self.base();
         if let Some(&f) = b.registered_handlers.get(&(ev.eventid as EventType)) {
@@ -135,7 +135,7 @@ pub trait Base {
     }
 
     /// Original: `base::SendEchoRequest` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::SendEchoRequest(plr_t player)
+    // @port dvlnet/base.cpp|devilution::net::base::SendEchoRequest(plr_t player) sha=f55827777ab4
     fn send_echo_request(&mut self, player: PlrT) {
         let b = self.base();
         if b.plr_self == PLR_BROADCAST || player == b.plr_self {
@@ -147,7 +147,7 @@ pub trait Base {
     }
 
     /// Original: `base::HandleAccept` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::HandleAccept(packet &pkt)
+    // @port dvlnet/base.cpp|devilution::net::base::HandleAccept(packet &pkt) sha=cd67dbbf0e91
     fn handle_accept(&mut self, pkt: &Packet) {
         if self.base().plr_self != PLR_BROADCAST {
             return; // already have player id
@@ -169,14 +169,14 @@ pub trait Base {
     }
 
     /// Original: `base::HandleConnect` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::HandleConnect(packet &pkt)
+    // @port dvlnet/base.cpp|devilution::net::base::HandleConnect(packet &pkt) sha=11bd06ca19e3
     fn handle_connect(&mut self, pkt: &Packet) {
         let new_player = pkt.new_player();
         self.connect(new_player);
     }
 
     /// Original: `base::HandleTurn` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::HandleTurn(packet &pkt)
+    // @port dvlnet/base.cpp|devilution::net::base::HandleTurn(packet &pkt) sha=3bebec3fb7be
     fn handle_turn(&mut self, pkt: &Packet) {
         let src = pkt.source() as usize;
         let turn = pkt.turn();
@@ -185,7 +185,7 @@ pub trait Base {
     }
 
     /// Original: `base::HandleDisconnect` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::HandleDisconnect(packet &pkt)
+    // @port dvlnet/base.cpp|devilution::net::base::HandleDisconnect(packet &pkt) sha=44f7a43a1e41
     fn handle_disconnect(&mut self, pkt: &Packet) {
         let new_player = pkt.new_player();
         if new_player != self.base().plr_self {
@@ -205,7 +205,7 @@ pub trait Base {
     }
 
     /// Original: `base::HandleEchoRequest` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::HandleEchoRequest(packet &pkt)
+    // @port dvlnet/base.cpp|devilution::net::base::HandleEchoRequest(packet &pkt) sha=daedd225ee5d
     fn handle_echo_request(&mut self, pkt: &Packet) {
         let b = self.base();
         let reply = b.pktfty.echo_reply(b.plr_self, pkt.source(), pkt.time());
@@ -213,7 +213,7 @@ pub trait Base {
     }
 
     /// Original: `base::HandleEchoReply` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::HandleEchoReply(packet &pkt)
+    // @port dvlnet/base.cpp|devilution::net::base::HandleEchoReply(packet &pkt) sha=b724e0575b6b
     fn handle_echo_reply(&mut self, pkt: &Packet) {
         let b = self.base();
         let now = b.env.ticks;
@@ -221,13 +221,13 @@ pub trait Base {
     }
 
     /// Original: `base::ClearMsg` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::ClearMsg(plr_t plr)
+    // @port dvlnet/base.cpp|devilution::net::base::ClearMsg(plr_t plr) sha=6ed45a2b5b5a
     fn clear_msg(&mut self, plr: PlrT) {
         self.base().message_queue.retain(|msg| msg.sender != plr);
     }
 
     /// Original: `base::Connect` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::Connect(plr_t player)
+    // @port dvlnet/base.cpp|devilution::net::base::Connect(plr_t player) sha=e0c5dca93e01
     fn connect(&mut self, player: PlrT) {
         let ps = &mut self.base().player_state_table[player as usize];
         let was_connected = ps.is_connected;
@@ -238,13 +238,13 @@ pub trait Base {
     }
 
     /// Original: `base::IsConnected` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::IsConnected(plr_t player)
+    // @port dvlnet/base.cpp|devilution::net::base::IsConnected(plr_t player) sha=1eef65a72b4b
     fn is_connected(&self, player: PlrT) -> bool {
         self.base_ref().player_state_table[player as usize].is_connected
     }
 
     /// Original: `base::RecvLocal` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::RecvLocal(packet &pkt)
+    // @port dvlnet/base.cpp|devilution::net::base::RecvLocal(packet &pkt) sha=e68e851c4ad8
     fn recv_local(&mut self, pkt: &Packet) {
         if (pkt.source() as usize) < MAX_PLRS {
             self.connect(pkt.source());
@@ -265,7 +265,7 @@ pub trait Base {
     }
 
     /// Original: `base::SNetReceiveMessage` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::SNetReceiveMessage(uint8_t *sender, void **data, uint32_t *size)
+    // @port dvlnet/base.cpp|devilution::net::base::SNetReceiveMessage(uint8_t *sender, void **data, uint32_t *size) sha=4b5f75fbce4f
     fn base_snet_receive_message(&mut self) -> Option<(u8, Vec<u8>)> {
         self.poll();
         let m = self.base().message_queue.pop_front()?;
@@ -273,7 +273,7 @@ pub trait Base {
     }
 
     /// Original: `base::SNetSendMessage` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::SNetSendMessage(int playerId, void *data, unsigned int size)
+    // @port dvlnet/base.cpp|devilution::net::base::SNetSendMessage(int playerId, void *data, unsigned int size) sha=95d0a4e2a232
     fn base_snet_send_message(&mut self, player_id: i32, data: &[u8]) -> bool {
         if player_id != SNPLAYER_ALL && player_id != SNPLAYER_OTHERS && !(0..MAX_PLRS as i32).contains(&player_id) {
             panic!("abort: SNetSendMessage to player {player_id}");
@@ -292,7 +292,7 @@ pub trait Base {
     }
 
     /// Original: `base::AllTurnsArrived` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::AllTurnsArrived()
+    // @port dvlnet/base.cpp|devilution::net::base::AllTurnsArrived() sha=b2c705b19862
     fn all_turns_arrived(&self) -> bool {
         let b = self.base_ref();
         for i in 0..b.env.players {
@@ -310,7 +310,7 @@ pub trait Base {
 
     /// Original: `base::SNetReceiveTurns` (dvlnet/base.cpp). `data[i]` gets the 4 bytes of the
     /// player's turn value.
-    // @port dvlnet/base.cpp|devilution::net::base::SNetReceiveTurns(char **data, size_t *size, uint32_t *status)
+    // @port dvlnet/base.cpp|devilution::net::base::SNetReceiveTurns(char **data, size_t *size, uint32_t *status) sha=dbc37d293cdf
     fn base_snet_receive_turns(&mut self, data: &mut [Option<Vec<u8>>; MAX_PLRS], size: &mut [usize; MAX_PLRS], status: &mut [u32; MAX_PLRS]) -> bool {
         self.poll();
         let players = self.base().env.players;
@@ -363,7 +363,7 @@ pub trait Base {
     }
 
     /// Original: `base::SNetSendTurn` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::SNetSendTurn(char *data, unsigned int size)
+    // @port dvlnet/base.cpp|devilution::net::base::SNetSendTurn(char *data, unsigned int size) sha=b33082998013
     fn base_snet_send_turn(&mut self, data: &[u8]) -> bool {
         if data.len() != 4 {
             panic!("ABORT: SNetSendTurn size {}", data.len());
@@ -378,7 +378,7 @@ pub trait Base {
     }
 
     /// Original: `base::SendTurnIfReady` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::SendTurnIfReady(turn_t turn)
+    // @port dvlnet/base.cpp|devilution::net::base::SendTurnIfReady(turn_t turn) sha=cb3f65ad2793
     fn send_turn_if_ready(&mut self, turn: Turn) {
         let host = self.is_game_host();
         let b = self.base();
@@ -392,7 +392,7 @@ pub trait Base {
     }
 
     /// Original: `base::SendFirstTurnIfReady` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::SendFirstTurnIfReady(plr_t player)
+    // @port dvlnet/base.cpp|devilution::net::base::SendFirstTurnIfReady(plr_t player) sha=d531f0a00933
     fn send_first_turn_if_ready(&mut self, player: PlrT) {
         let b = self.base();
         if b.awaiting_sequence_number {
@@ -408,7 +408,7 @@ pub trait Base {
     }
 
     /// Original: `base::MakeReady` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::MakeReady(seq_t sequenceNumber)
+    // @port dvlnet/base.cpp|devilution::net::base::MakeReady(seq_t sequenceNumber) sha=b227d3130da0
     fn make_ready(&mut self, sequence_number: SeqT) {
         let b = self.base();
         if !b.awaiting_sequence_number {
@@ -430,7 +430,7 @@ pub trait Base {
     }
 
     /// Original: `base::SNetGetProviderCaps` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::SNetGetProviderCaps(struct _SNETCAPS *caps)
+    // @port dvlnet/base.cpp|devilution::net::base::SNetGetProviderCaps(struct _SNETCAPS *caps) sha=2ce7231e0772
     fn base_snet_get_provider_caps(&self, caps: &mut SnetCaps) {
         caps.size = 0; // engine writes only ?!?
         caps.flags = 0; // unused
@@ -444,21 +444,21 @@ pub trait Base {
     }
 
     /// Original: `base::SNetUnregisterEventHandler` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::SNetUnregisterEventHandler(event_type evtype)
+    // @port dvlnet/base.cpp|devilution::net::base::SNetUnregisterEventHandler(event_type evtype) sha=4fb17a13400c
     fn base_snet_unregister_event_handler(&mut self, evtype: EventType) -> bool {
         self.base().registered_handlers.remove(&evtype);
         true
     }
 
     /// Original: `base::SNetRegisterEventHandler` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::SNetRegisterEventHandler(event_type evtype, SEVTHANDLER func)
+    // @port dvlnet/base.cpp|devilution::net::base::SNetRegisterEventHandler(event_type evtype, SEVTHANDLER func) sha=e0ea2f91f855
     fn base_snet_register_event_handler(&mut self, evtype: EventType, func: SevtHandler) -> bool {
         self.base().registered_handlers.insert(evtype, func);
         true
     }
 
     /// Original: `base::SNetLeaveGame` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::SNetLeaveGame(int type)
+    // @port dvlnet/base.cpp|devilution::net::base::SNetLeaveGame(int type) sha=386723ebe950
     fn base_snet_leave_game(&mut self, type_: i32) -> bool {
         let b = self.base();
         let pkt = b.pktfty.disconnect(b.plr_self, PLR_BROADCAST, b.plr_self, type_);
@@ -468,7 +468,7 @@ pub trait Base {
     }
 
     /// Original: `base::SNetDropPlayer` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::SNetDropPlayer(int playerid, uint32_t flags)
+    // @port dvlnet/base.cpp|devilution::net::base::SNetDropPlayer(int playerid, uint32_t flags) sha=ae0bb1ad0451
     fn base_snet_drop_player(&mut self, playerid: i32, flags: u32) -> bool {
         let b = self.base();
         let pkt = b.pktfty.disconnect(b.plr_self, PLR_BROADCAST, playerid as PlrT, flags as LeaveinfoT);
@@ -478,7 +478,7 @@ pub trait Base {
     }
 
     /// Original: `base::GetOwner` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::GetOwner()
+    // @port dvlnet/base.cpp|devilution::net::base::GetOwner() sha=966750fd805c
     fn get_owner(&self) -> PlrT {
         for i in 0..self.base_ref().env.players {
             if self.is_connected(i as PlrT) {
@@ -489,7 +489,7 @@ pub trait Base {
     }
 
     /// Original: `base::SNetGetOwnerTurnsWaiting` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::SNetGetOwnerTurnsWaiting(uint32_t *turns)
+    // @port dvlnet/base.cpp|devilution::net::base::SNetGetOwnerTurnsWaiting(uint32_t *turns) sha=2d193a693bb4
     fn base_snet_get_owner_turns_waiting(&mut self, turns: &mut u32) -> bool {
         self.poll();
         let owner = self.get_owner() as usize;
@@ -499,7 +499,7 @@ pub trait Base {
     }
 
     /// Original: `base::SNetGetTurnsInTransit` (dvlnet/base.cpp).
-    // @port dvlnet/base.cpp|devilution::net::base::SNetGetTurnsInTransit(uint32_t *turns)
+    // @port dvlnet/base.cpp|devilution::net::base::SNetGetTurnsInTransit(uint32_t *turns) sha=05cd3a70b671
     fn base_snet_get_turns_in_transit(&mut self, turns: &mut u32) -> bool {
         let b = self.base();
         let me = b.plr_self as usize;

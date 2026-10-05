@@ -50,11 +50,11 @@ pub enum NetError {
 
 impl std::fmt::Display for NetError {
     /// The `what()` of the original's exception classes.
-    // @port dvlnet/abstract_net.h|devilution::net::dvlnet_exception::what()
-    // @port dvlnet/packet.h|devilution::net::packet_exception::what()
-    // @port dvlnet/packet.h|devilution::net::wrong_packet_type_exception::what()
-    // @port dvlnet/frame_queue.h|devilution::net::frame_queue_exception::what()
-    // @port dvlnet/tcp_server.h|devilution::net::server_exception::what()
+    // @port dvlnet/abstract_net.h|devilution::net::dvlnet_exception::what() sha=e7597c34f500
+    // @port dvlnet/packet.h|devilution::net::packet_exception::what() sha=2394be9cd636
+    // @port dvlnet/packet.h|devilution::net::wrong_packet_type_exception::what() sha=6037b3b96467
+    // @port dvlnet/frame_queue.h|devilution::net::frame_queue_exception::what() sha=06afde43bc08
+    // @port dvlnet/tcp_server.h|devilution::net::server_exception::what() sha=0a7e28a3ddd4
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             NetError::Packet => write!(f, "Incorrect package size"),
@@ -66,7 +66,7 @@ impl std::fmt::Display for NetError {
 }
 
 /// Original: `devilution::net::packet_type_to_string` (dvlnet/packet.cpp).
-// @port dvlnet/packet.cpp|devilution::net::packet_type_to_string(uint8_t packetType)
+// @port dvlnet/packet.cpp|devilution::net::packet_type_to_string(uint8_t packetType) sha=cb2d9787abbb
 pub fn packet_type_to_string(packet_type: u8) -> Option<&'static str> {
     Some(match packet_type {
         PT_MESSAGE => "PT_MESSAGE",
@@ -84,7 +84,7 @@ pub fn packet_type_to_string(packet_type: u8) -> Option<&'static str> {
 }
 
 /// Original: `wrong_packet_type_exception::wrong_packet_type_exception` (dvlnet/packet.cpp).
-// @port dvlnet/packet.cpp|devilution::net::wrong_packet_type_exception::wrong_packet_type_exception(std::initializer_list<packet_type> expectedTypes, std::uint8_t actual)
+// @port dvlnet/packet.cpp|devilution::net::wrong_packet_type_exception::wrong_packet_type_exception(std::initializer_list<packet_type> expectedTypes, std::uint8_t actual) sha=5e7dac341821
 fn wrong_packet_type_message(expected_types: &[u8], actual: u8) -> String {
     let name = |t: u8| packet_type_to_string(t).map(str::to_string).unwrap_or_else(|| t.to_string());
     let expected: Vec<String> = expected_types.iter().map(|&t| name(t)).collect();
@@ -93,7 +93,7 @@ fn wrong_packet_type_message(expected_types: &[u8], actual: u8) -> String {
 
 /// Original: `CheckPacketTypeOneOf` (dvlnet/packet.cpp). The original throws; reading a field
 /// of the wrong packet type is a bug in the caller, so the port stops there.
-// @port dvlnet/packet.cpp|devilution::net::CheckPacketTypeOneOf(std::initializer_list<packet_type> expectedTypes, std::uint8_t actualType)
+// @port dvlnet/packet.cpp|devilution::net::CheckPacketTypeOneOf(std::initializer_list<packet_type> expectedTypes, std::uint8_t actualType) sha=6c2d6a48033e
 fn check_packet_type_one_of(expected_types: &[u8], actual_type: u8) {
     if !expected_types.contains(&actual_type) {
         panic!("{}", wrong_packet_type_message(expected_types, actual_type));
@@ -121,74 +121,74 @@ pub struct Packet {
 
 impl Packet {
     /// Original: `packet::Data` (dvlnet/packet.cpp): the bytes that go on the wire.
-    // @port dvlnet/packet.cpp|devilution::net::packet::Data()
+    // @port dvlnet/packet.cpp|devilution::net::packet::Data() sha=6069446e470b
     pub fn data(&self) -> &[u8] {
         assert!(self.have_encrypted || self.have_decrypted);
         if self.have_encrypted { &self.encrypted_buffer } else { &self.decrypted_buffer }
     }
 
     /// Original: `packet::Type` (dvlnet/packet.cpp).
-    // @port dvlnet/packet.cpp|devilution::net::packet::Type()
+    // @port dvlnet/packet.cpp|devilution::net::packet::Type() sha=e7f1577882d0
     pub fn type_(&self) -> u8 {
         self.m_type
     }
 
     /// Original: `packet::Source` (dvlnet/packet.cpp).
-    // @port dvlnet/packet.cpp|devilution::net::packet::Source()
+    // @port dvlnet/packet.cpp|devilution::net::packet::Source() sha=9ed735ee27d7
     pub fn source(&self) -> PlrT {
         self.m_src
     }
 
     /// Original: `packet::Destination` (dvlnet/packet.cpp).
-    // @port dvlnet/packet.cpp|devilution::net::packet::Destination()
+    // @port dvlnet/packet.cpp|devilution::net::packet::Destination() sha=f99de0057cbb
     pub fn destination(&self) -> PlrT {
         self.m_dest
     }
 
     /// Original: `packet::Message` (dvlnet/packet.cpp).
-    // @port dvlnet/packet.cpp|devilution::net::packet::Message()
+    // @port dvlnet/packet.cpp|devilution::net::packet::Message() sha=a590b6b8a759
     pub fn message(&self) -> &[u8] {
         check_packet_type_one_of(&[PT_MESSAGE], self.m_type);
         &self.m_message
     }
 
     /// Original: `packet::Turn` (dvlnet/packet.cpp).
-    // @port dvlnet/packet.cpp|devilution::net::packet::Turn()
+    // @port dvlnet/packet.cpp|devilution::net::packet::Turn() sha=b2406ba5470a
     pub fn turn(&self) -> Turn {
         check_packet_type_one_of(&[PT_TURN], self.m_type);
         self.m_turn
     }
 
     /// Original: `packet::Cookie` (dvlnet/packet.cpp).
-    // @port dvlnet/packet.cpp|devilution::net::packet::Cookie()
+    // @port dvlnet/packet.cpp|devilution::net::packet::Cookie() sha=04526754d2c6
     pub fn cookie(&self) -> CookieT {
         check_packet_type_one_of(&[PT_JOIN_REQUEST, PT_JOIN_ACCEPT], self.m_type);
         self.m_cookie
     }
 
     /// Original: `packet::NewPlayer` (dvlnet/packet.cpp).
-    // @port dvlnet/packet.cpp|devilution::net::packet::NewPlayer()
+    // @port dvlnet/packet.cpp|devilution::net::packet::NewPlayer() sha=81413a8fc191
     pub fn new_player(&self) -> PlrT {
         check_packet_type_one_of(&[PT_JOIN_ACCEPT, PT_CONNECT, PT_DISCONNECT], self.m_type);
         self.m_newplr
     }
 
     /// Original: `packet::Time` (dvlnet/packet.cpp).
-    // @port dvlnet/packet.cpp|devilution::net::packet::Time()
+    // @port dvlnet/packet.cpp|devilution::net::packet::Time() sha=5b34d35c7e1d
     pub fn time(&self) -> TimestampT {
         check_packet_type_one_of(&[PT_ECHO_REQUEST, PT_ECHO_REPLY], self.m_type);
         self.m_time
     }
 
     /// Original: `packet::Info` (dvlnet/packet.cpp).
-    // @port dvlnet/packet.cpp|devilution::net::packet::Info()
+    // @port dvlnet/packet.cpp|devilution::net::packet::Info() sha=af880c82d896
     pub fn info(&self) -> &[u8] {
         check_packet_type_one_of(&[PT_JOIN_REQUEST, PT_JOIN_ACCEPT, PT_CONNECT, PT_INFO_REPLY], self.m_type);
         &self.m_info
     }
 
     /// Original: `packet::LeaveInfo` (dvlnet/packet.cpp).
-    // @port dvlnet/packet.cpp|devilution::net::packet::LeaveInfo()
+    // @port dvlnet/packet.cpp|devilution::net::packet::LeaveInfo() sha=2af0a8f48a60
     pub fn leave_info(&self) -> LeaveinfoT {
         check_packet_type_one_of(&[PT_DISCONNECT], self.m_type);
         self.m_leaveinfo
@@ -283,7 +283,7 @@ impl Packet {
     }
 
     /// Original: `packet_in::Create` (dvlnet/packet.cpp).
-    // @port dvlnet/packet.cpp|devilution::net::packet_in::Create(buffer_t buf)
+    // @port dvlnet/packet.cpp|devilution::net::packet_in::Create(buffer_t buf) sha=8004065bfab2
     fn create_in(&mut self, buf: Vec<u8>) -> Result<(), NetError> {
         if buf.len() < 3 {
             return Err(NetError::Packet);
@@ -299,7 +299,7 @@ impl Packet {
     }
 
     /// Original: `packet_in::Decrypt` (dvlnet/packet.cpp).
-    // @port dvlnet/packet.cpp|devilution::net::packet_in::Decrypt(buffer_t buf)
+    // @port dvlnet/packet.cpp|devilution::net::packet_in::Decrypt(buffer_t buf) sha=d3f0dc183843
     fn decrypt(&mut self, buf: Vec<u8>, key: &[u8; 32]) -> Result<(), NetError> {
         self.encrypted_buffer = buf;
         self.have_encrypted = true;
@@ -316,7 +316,7 @@ impl Packet {
     }
 
     /// Original: `packet_out::Encrypt` (dvlnet/packet.cpp).
-    // @port dvlnet/packet.cpp|devilution::net::packet_out::Encrypt()
+    // @port dvlnet/packet.cpp|devilution::net::packet_out::Encrypt() sha=855f55d7be55
     fn encrypt(&mut self, key: &[u8; 32]) {
         if self.have_encrypted {
             return;
@@ -331,7 +331,7 @@ impl Packet {
 }
 
 /// Original: `packet_out::GenerateCookie` (dvlnet/packet.cpp), the `PACKET_ENCRYPTION` version.
-// @port dvlnet/packet.cpp|devilution::net::packet_out::GenerateCookie()
+// @port dvlnet/packet.cpp|devilution::net::packet_out::GenerateCookie() sha=e1e39560c773
 pub fn generate_cookie() -> CookieT {
     let mut b = [0u8; 4];
     crypto::randombytes_buf(&mut b);
@@ -355,14 +355,14 @@ impl PacketFactory {
     pub const MAX_PACKET_SIZE: usize = 0xFFFF;
 
     /// Original: `packet_factory::packet_factory()` (dvlnet/packet.cpp).
-    // @port dvlnet/packet.cpp|devilution::net::packet_factory::packet_factory()
+    // @port dvlnet/packet.cpp|devilution::net::packet_factory::packet_factory() sha=9602bbd0a49b
     pub fn new() -> PacketFactory {
         PacketFactory { key: [0; 32], secure: false }
     }
 
     /// Original: `packet_factory::packet_factory(std::string pw)` (dvlnet/packet.cpp): the
     /// key is Argon2id of the password with a fixed salt.
-    // @port dvlnet/packet.cpp|devilution::net::packet_factory::packet_factory(std::string pw)
+    // @port dvlnet/packet.cpp|devilution::net::packet_factory::packet_factory(std::string pw) sha=9913b14da3fa
     pub fn with_password(pw: &str) -> PacketFactory {
         let mut pw = pw.as_bytes().to_vec();
         pw.truncate(crypto::PWHASH_ARGON2ID_PASSWD_MAX);
@@ -379,7 +379,7 @@ impl PacketFactory {
     }
 
     /// Original: `packet_factory::make_packet(buffer_t buf)` (dvlnet/packet.h): a received packet.
-    // @port dvlnet/packet.h|devilution::net::packet_factory::make_packet(buffer_t buf)
+    // @port dvlnet/packet.h|devilution::net::packet_factory::make_packet(buffer_t buf) sha=7cfc671514ea
     pub fn make_packet_in(&self, buf: Vec<u8>) -> Result<Packet, NetError> {
         let mut ret = Packet::default();
         if !self.secure {
@@ -406,62 +406,62 @@ impl PacketFactory {
     }
 
     /// `make_packet<PT_INFO_REQUEST>`
-    // @port dvlnet/packet.h|devilution::net::packet_out::create<PT_INFO_REQUEST>(plr_t s, plr_t d)
+    // @port dvlnet/packet.h|devilution::net::packet_out::create<PT_INFO_REQUEST>(plr_t s, plr_t d) sha=f8558c9efca9
     pub fn info_request(&self, s: PlrT, d: PlrT) -> Packet {
         self.make_out(Self::base(PT_INFO_REQUEST, s, d))
     }
 
     /// `make_packet<PT_INFO_REPLY>`
-    // @port dvlnet/packet.h|devilution::net::packet_out::create<PT_INFO_REPLY>(plr_t s, plr_t d, buffer_t i)
+    // @port dvlnet/packet.h|devilution::net::packet_out::create<PT_INFO_REPLY>(plr_t s, plr_t d, buffer_t i) sha=7ca1c94a5ee9
     pub fn info_reply(&self, s: PlrT, d: PlrT, i: Vec<u8>) -> Packet {
         self.make_out(Packet { m_info: i, ..Self::base(PT_INFO_REPLY, s, d) })
     }
 
     /// `make_packet<PT_MESSAGE>`
-    // @port dvlnet/packet.h|devilution::net::packet_out::create<PT_MESSAGE>(plr_t s, plr_t d, buffer_t m)
+    // @port dvlnet/packet.h|devilution::net::packet_out::create<PT_MESSAGE>(plr_t s, plr_t d, buffer_t m) sha=7100bd223b7b
     pub fn message(&self, s: PlrT, d: PlrT, m: Vec<u8>) -> Packet {
         self.make_out(Packet { m_message: m, ..Self::base(PT_MESSAGE, s, d) })
     }
 
     /// `make_packet<PT_TURN>`
-    // @port dvlnet/packet.h|devilution::net::packet_out::create<PT_TURN>(plr_t s, plr_t d, turn_t u)
+    // @port dvlnet/packet.h|devilution::net::packet_out::create<PT_TURN>(plr_t s, plr_t d, turn_t u) sha=f81756c5970c
     pub fn turn(&self, s: PlrT, d: PlrT, u: Turn) -> Packet {
         self.make_out(Packet { m_turn: u, ..Self::base(PT_TURN, s, d) })
     }
 
     /// `make_packet<PT_JOIN_REQUEST>`
-    // @port dvlnet/packet.h|devilution::net::packet_out::create<PT_JOIN_REQUEST>(plr_t s, plr_t d, cookie_t c, buffer_t i)
+    // @port dvlnet/packet.h|devilution::net::packet_out::create<PT_JOIN_REQUEST>(plr_t s, plr_t d, cookie_t c, buffer_t i) sha=a434b90b8a8f
     pub fn join_request(&self, s: PlrT, d: PlrT, c: CookieT, i: Vec<u8>) -> Packet {
         self.make_out(Packet { m_cookie: c, m_info: i, ..Self::base(PT_JOIN_REQUEST, s, d) })
     }
 
     /// `make_packet<PT_JOIN_ACCEPT>`
-    // @port dvlnet/packet.h|devilution::net::packet_out::create<PT_JOIN_ACCEPT>(plr_t s, plr_t d, cookie_t c, plr_t n, buffer_t i)
+    // @port dvlnet/packet.h|devilution::net::packet_out::create<PT_JOIN_ACCEPT>(plr_t s, plr_t d, cookie_t c, plr_t n, buffer_t i) sha=4035cc8a84d0
     pub fn join_accept(&self, s: PlrT, d: PlrT, c: CookieT, n: PlrT, i: Vec<u8>) -> Packet {
         self.make_out(Packet { m_cookie: c, m_newplr: n, m_info: i, ..Self::base(PT_JOIN_ACCEPT, s, d) })
     }
 
     /// `make_packet<PT_CONNECT>` (both overloads; the info is empty for the 3-argument one)
-    // @port dvlnet/packet.h|devilution::net::packet_out::create<PT_CONNECT>(plr_t s, plr_t d, plr_t n, buffer_t i)
-    // @port dvlnet/packet.h|devilution::net::packet_out::create<PT_CONNECT>(plr_t s, plr_t d, plr_t n)
+    // @port dvlnet/packet.h|devilution::net::packet_out::create<PT_CONNECT>(plr_t s, plr_t d, plr_t n, buffer_t i) sha=08d885fb61e9
+    // @port dvlnet/packet.h|devilution::net::packet_out::create<PT_CONNECT>(plr_t s, plr_t d, plr_t n) sha=7ceace188846
     pub fn connect(&self, s: PlrT, d: PlrT, n: PlrT, i: Vec<u8>) -> Packet {
         self.make_out(Packet { m_newplr: n, m_info: i, ..Self::base(PT_CONNECT, s, d) })
     }
 
     /// `make_packet<PT_DISCONNECT>`
-    // @port dvlnet/packet.h|devilution::net::packet_out::create<PT_DISCONNECT>(plr_t s, plr_t d, plr_t n, leaveinfo_t l)
+    // @port dvlnet/packet.h|devilution::net::packet_out::create<PT_DISCONNECT>(plr_t s, plr_t d, plr_t n, leaveinfo_t l) sha=594e89632ef9
     pub fn disconnect(&self, s: PlrT, d: PlrT, n: PlrT, l: LeaveinfoT) -> Packet {
         self.make_out(Packet { m_newplr: n, m_leaveinfo: l, ..Self::base(PT_DISCONNECT, s, d) })
     }
 
     /// `make_packet<PT_ECHO_REQUEST>`
-    // @port dvlnet/packet.h|devilution::net::packet_out::create<PT_ECHO_REQUEST>(plr_t s, plr_t d, timestamp_t t)
+    // @port dvlnet/packet.h|devilution::net::packet_out::create<PT_ECHO_REQUEST>(plr_t s, plr_t d, timestamp_t t) sha=2e588313e907
     pub fn echo_request(&self, s: PlrT, d: PlrT, t: TimestampT) -> Packet {
         self.make_out(Packet { m_time: t, ..Self::base(PT_ECHO_REQUEST, s, d) })
     }
 
     /// `make_packet<PT_ECHO_REPLY>`
-    // @port dvlnet/packet.h|devilution::net::packet_out::create<PT_ECHO_REPLY>(plr_t s, plr_t d, timestamp_t t)
+    // @port dvlnet/packet.h|devilution::net::packet_out::create<PT_ECHO_REPLY>(plr_t s, plr_t d, timestamp_t t) sha=7b5e3b574f4d
     pub fn echo_reply(&self, s: PlrT, d: PlrT, t: TimestampT) -> Packet {
         self.make_out(Packet { m_time: t, ..Self::base(PT_ECHO_REPLY, s, d) })
     }
@@ -482,13 +482,13 @@ impl FrameQueue {
     pub const MAX_FRAME_SIZE: usize = 0xFFFF;
 
     /// Original: `frame_queue::Size` (dvlnet/frame_queue.cpp).
-    // @port dvlnet/frame_queue.cpp|devilution::net::frame_queue::Size()
+    // @port dvlnet/frame_queue.cpp|devilution::net::frame_queue::Size() sha=0c06def9cab6
     fn size(&self) -> usize {
         self.current_size
     }
 
     /// Original: `frame_queue::Read` (dvlnet/frame_queue.cpp).
-    // @port dvlnet/frame_queue.cpp|devilution::net::frame_queue::Read(framesize_t s)
+    // @port dvlnet/frame_queue.cpp|devilution::net::frame_queue::Read(framesize_t s) sha=fb45b4f996cb
     fn read(&mut self, mut s: usize) -> Result<Vec<u8>, NetError> {
         if self.current_size < s {
             return Err(NetError::FrameQueue);
@@ -510,14 +510,14 @@ impl FrameQueue {
     }
 
     /// Original: `frame_queue::Write` (dvlnet/frame_queue.cpp).
-    // @port dvlnet/frame_queue.cpp|devilution::net::frame_queue::Write(buffer_t buf)
+    // @port dvlnet/frame_queue.cpp|devilution::net::frame_queue::Write(buffer_t buf) sha=da8259d9d99e
     pub fn write(&mut self, buf: Vec<u8>) {
         self.current_size += buf.len();
         self.buffer_deque.push_back(buf);
     }
 
     /// Original: `frame_queue::PacketReady` (dvlnet/frame_queue.cpp).
-    // @port dvlnet/frame_queue.cpp|devilution::net::frame_queue::PacketReady()
+    // @port dvlnet/frame_queue.cpp|devilution::net::frame_queue::PacketReady() sha=b222c8dce718
     pub fn packet_ready(&mut self) -> Result<bool, NetError> {
         if self.nextsize == 0 {
             if self.size() < 4 {
@@ -533,7 +533,7 @@ impl FrameQueue {
     }
 
     /// Original: `frame_queue::ReadPacket` (dvlnet/frame_queue.cpp).
-    // @port dvlnet/frame_queue.cpp|devilution::net::frame_queue::ReadPacket()
+    // @port dvlnet/frame_queue.cpp|devilution::net::frame_queue::ReadPacket() sha=ecdf9e7dfda9
     pub fn read_packet(&mut self) -> Result<Vec<u8>, NetError> {
         if self.nextsize == 0 || self.size() < self.nextsize as usize {
             return Err(NetError::FrameQueue);
@@ -544,7 +544,7 @@ impl FrameQueue {
     }
 
     /// Original: `frame_queue::MakeFrame` (dvlnet/frame_queue.cpp).
-    // @port dvlnet/frame_queue.cpp|devilution::net::frame_queue::MakeFrame(buffer_t packetbuf)
+    // @port dvlnet/frame_queue.cpp|devilution::net::frame_queue::MakeFrame(buffer_t packetbuf) sha=7af380438107
     pub fn make_frame(packetbuf: &[u8]) -> Vec<u8> {
         if packetbuf.len() > Self::MAX_FRAME_SIZE {
             panic!("ABORT: frame too large");

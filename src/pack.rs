@@ -822,4 +822,276 @@ pub fn pack_net_player(ctx: &Ctx, pnum: usize) -> Vec<u8> {
     buf
 }
 
-crate::pending_fn!(pub fn unpack_net_player(ctx: &mut Ctx, packed: &[u8], pnum: usize) -> bool, "pack.cpp|devilution::UnPackNetPlayer(const PlayerNetPack &packed, Player &player)");
+/// Original: `EventFailedJoinAttempt` (pack.cpp).
+// @port pack.cpp|devilution::EventFailedJoinAttempt(const char *playerName) sha=bf5dd4edf6d5
+fn event_failed_join_attempt(ctx: &mut Ctx, player_name: &str) {
+    let message = format!("Player '{player_name}' sent invalid player data during attempt to join the game.");
+    crate::plrmsg::event_plr_msg(ctx, &message);
+}
+
+/// Original: `LogFailedJoinAttempt` (pack.cpp), both overloads: the `ValidateField` /
+/// `ValidateFields` log line.
+// @port pack.cpp|devilution::LogFailedJoinAttempt(const char *condition, const char *name, T value) sha=6404d5cdaae8
+// @port pack.cpp|devilution::LogFailedJoinAttempt(const char *condition, const char *name1, T1 value1, const char *name2, T2 value2) sha=25148fba3cce
+fn log_failed_join_attempt(condition: &str, fields: &[(&str, String)]) {
+    let values: Vec<String> = fields.iter().map(|(n, v)| format!("{n}: {v}")).collect();
+    let macro_name = if fields.len() == 1 { "ValidateField" } else { "ValidateFields" };
+    log::verbose!("Remote player validation failed: {}({}, {})", macro_name, values.join(", "), condition);
+}
+
+/// `ValidateField` / `ValidateFields`: logs, tells the players and makes the caller fail.
+fn validate(ctx: &mut Ctx, pnum: usize, ok: bool, condition: &str, fields: &[(&str, String)]) -> bool {
+    if !ok {
+        log_failed_join_attempt(condition, fields);
+        let name = ctx.players.Players[pnum]._pName.as_str().to_string();
+        event_failed_join_attempt(ctx, &name);
+    }
+    ok
+}
+
+macro_rules! validate_field {
+    ($ctx:expr, $pnum:expr, $value:expr, $cond:expr) => {
+        if !validate($ctx, $pnum, $cond, stringify!($cond), &[(stringify!($value), format!("{}", $value))]) {
+            return false;
+        }
+    };
+}
+
+macro_rules! validate_fields {
+    ($ctx:expr, $pnum:expr, $v1:expr, $v2:expr, $cond:expr) => {
+        if !validate($ctx, $pnum, $cond, stringify!($cond), &[(stringify!($v1), format!("{}", $v1)), (stringify!($v2), format!("{}", $v2))]) {
+            return false;
+        }
+    };
+}
+
+/// Original: `devilution::UnPackNetItem` (pack.cpp). `pnum` is the player the item belongs to.
+// @port pack.cpp|devilution::UnPackNetItem(const Player &player, const ItemNetPack &packedItem, Item &item) sha=65e7fb9c3b7e
+fn unpack_net_item(ctx: &mut Ctx, pnum: usize, packed_item: &crate::msg::NetItem) -> Result<Item, ()> {
+    let mut item = Item::default();
+    let idx = packed_item.w_indx();
+    if idx < 0 || idx > IDI_LAST {
+        return Ok(item);
+    }
+    if idx == IDI_EAR {
+        crate::items::recreate_ear(ctx, &mut item, packed_item.w_ci(), packed_item.dw_seed(), packed_item.b_cursval(), &packed_item.heroname());
+        return Ok(item);
+    }
+    let fail = || -> Result<Item, ()> { Err(()) };
+    let creation_flags = packed_item.w_ci();
+    let dw_buff = packed_item.dw_buff();
+    let ok = |ctx: &mut Ctx, ok: bool, cond: &str, fields: &[(&str, String)]| validate(ctx, pnum, ok, cond, fields);
+    if idx != IDI_GOLD && !ok(ctx, is_creation_flag_combo_valid(creation_flags), "IsCreationFlagComboValid(creationFlags)", &[("creationFlags", creation_flags.to_string())]) {
+        return fail();
+    }
+    let both = [("creationFlags", creation_flags.to_string()), ("dwBuff", dw_buff.to_string())];
+    if (creation_flags & CF_TOWN as u16) != 0 {
+        if !ok(ctx, is_town_item_valid(creation_flags), "IsTownItemValid(creationFlags)", &[("creationFlags", creation_flags.to_string())]) {
+            return fail();
+        }
+    } else if (creation_flags & CF_USEFUL as u16) == CF_UPER15 as u16 {
+        if !ok(ctx, is_unique_monster_item_valid(creation_flags, dw_buff), "IsUniqueMonsterItemValid(creationFlags, dwBuff)", &both) {
+            return fail();
+        }
+    } else if (dw_buff & CF_HELLFIRE as u32) != 0 && crate::tables::itemdat::AllItemsList[idx as usize].iMiscId == IMISC_BOOK {
+        let player = ctx.players.Players[pnum].clone();
+        return if recreate_hellfire_spell_book(ctx, &player, packed_item, Some(&mut item), pnum) { Ok(item) } else { Err(()) };
+    } else if !ok(ctx, is_dungeon_item_valid(creation_flags, dw_buff), "IsDungeonItemValid(creationFlags, dwBuff)", &both) {
+        return fail();
+    }
+    let player = ctx.players.Players[pnum].clone();
+    crate::msg::recreate_item(ctx, &player, packed_item, &mut item);
+    Ok(item)
+}
+
+/// Original: `devilution::UnPackNetPlayer` (pack.cpp): rebuilds a joining player from the
+/// `PlayerNetPack` bytes and checks every value against what the game would compute.
+// @port pack.cpp|devilution::UnPackNetPlayer(const PlayerNetPack &packed, Player &player) sha=30d2b8a74114
+pub fn unpack_net_player(ctx: &mut Ctx, packed: &[u8], pnum: usize) -> bool {
+    let r = &mut Reader::new(packed);
+    let plrlevel = r.u8();
+    let px = r.u8();
+    let py = r.u8();
+    let p_name: [u8; PlayerNameLength] = r.take();
+    let p_class = r.u8();
+    let p_base_str = r.u8();
+    let p_base_mag = r.u8();
+    let p_base_dex = r.u8();
+    let p_base_vit = r.u8();
+    let p_level = r.i8();
+    let p_stat_pts = r.u8();
+    let p_experience = r.u32();
+    let p_hp_base = r.i32();
+    let p_max_hp_base = r.i32();
+    let p_mana_base = r.i32();
+    let p_max_mana_base = r.i32();
+    let p_spl_lvl: [u8; crate::items::MAX_SPELLS as usize] = r.take();
+    let p_mem_spells = r.u64();
+    let take_item = |r: &mut Reader| crate::msg::NetItem(r.take());
+    let inv_body: Vec<crate::msg::NetItem> = (0..NUM_INVLOC_USIZE).map(|_| take_item(r)).collect();
+    let inv_list: Vec<crate::msg::NetItem> = (0..InventoryGridCells).map(|_| take_item(r)).collect();
+    let inv_grid: [u8; InventoryGridCells] = r.take();
+    let p_num_inv = r.u8();
+    let spd_list: Vec<crate::msg::NetItem> = (0..MaxBeltItems).map(|_| take_item(r)).collect();
+    let p_mana_shield = r.u8();
+    let w_reflections = r.u16();
+    let p_diablo_kill_level = r.u8();
+    let friendly_mode = r.u8();
+    let is_on_set_level = r.u8();
+    let mut check = [0i32; 23];
+    for v in check.iter_mut() {
+        *v = r.i32();
+    }
+    let [p_strength, p_magic, p_dexterity, p_vitality, p_hit_points, p_max_hp, p_mana, p_max_mana, p_damage_mod, p_base_to_blk, p_i_min_dam, p_i_max_dam, p_i_ac, p_i_bonus_dam, p_i_bonus_to_hit, p_i_bonus_ac, p_i_bonus_dam_mod, p_i_get_hit, p_i_en_ac, p_i_f_min_dam, p_i_f_max_dam, p_i_l_min_dam, p_i_l_max_dam] = check;
+
+    let name = CStr::<PlayerNameLength>::from_raw(&p_name);
+    let name = name.as_str().to_string();
+    ctx.players.Players[pnum]._pName.set(&name);
+
+    validate_field!(ctx, pnum, p_class, p_class <= HeroClass::LAST as u8);
+    ctx.players.Players[pnum]._pClass = HeroClass::from_raw(p_class);
+
+    let position = Point::new(px as i32, py as i32);
+    validate_fields!(ctx, pnum, position.x, position.y, crate::levels::gendung::in_dungeon_bounds(position));
+    validate_field!(ctx, pnum, plrlevel, (plrlevel as usize) < NUMLEVELS as usize);
+    validate_field!(ctx, pnum, p_level, p_level >= 1 && p_level as i32 <= MaxCharacterLevel);
+
+    let base_hp_max = p_max_hp_base;
+    let base_hp = p_hp_base;
+    let hp_max = p_max_hp;
+    validate_fields!(ctx, pnum, base_hp, base_hp_max, base_hp >= base_hp_max.wrapping_sub(hp_max) && base_hp <= base_hp_max);
+
+    let base_mana_max = p_max_mana_base;
+    let base_mana = p_mana_base;
+    validate_fields!(ctx, pnum, base_mana, base_mana_max, base_mana <= base_mana_max);
+
+    let max = |ctx: &Ctx, a| ctx.players.Players[pnum].get_maximum_attribute_value(a);
+    validate_fields!(ctx, pnum, p_class, p_base_str, (p_base_str as i32) <= max(ctx, CharacterAttribute::Strength));
+    validate_fields!(ctx, pnum, p_class, p_base_mag, (p_base_mag as i32) <= max(ctx, CharacterAttribute::Magic));
+    validate_fields!(ctx, pnum, p_class, p_base_dex, (p_base_dex as i32) <= max(ctx, CharacterAttribute::Dexterity));
+    validate_fields!(ctx, pnum, p_class, p_base_vit, (p_base_vit as i32) <= max(ctx, CharacterAttribute::Vitality));
+
+    validate_field!(ctx, pnum, p_num_inv, (p_num_inv as usize) <= InventoryGridCells);
+
+    {
+        let player = &mut ctx.players.Players[pnum];
+        player._pLevel = p_level;
+        player.position.tile = position;
+        player.position.future = position;
+        player.plrlevel = plrlevel;
+        player.plrIsOnSetLevel = is_on_set_level != 0;
+        player._pMaxHPBase = base_hp_max;
+        player._pHPBase = base_hp;
+        player._pMaxHP = base_hp_max;
+        player._pHitPoints = base_hp;
+    }
+
+    crate::player::clr_plr_path(ctx, pnum);
+    ctx.players.Players[pnum].destAction = ACTION_NONE;
+
+    crate::player::init_player(ctx, pnum, true);
+
+    {
+        let player = &mut ctx.players.Players[pnum];
+        player._pBaseStr = p_base_str as i32;
+        player._pStrength = player._pBaseStr;
+        player._pBaseMag = p_base_mag as i32;
+        player._pMagic = player._pBaseMag;
+        player._pBaseDex = p_base_dex as i32;
+        player._pDexterity = player._pBaseDex;
+        player._pBaseVit = p_base_vit as i32;
+        player._pVitality = player._pBaseVit;
+        player._pStatPts = p_stat_pts as i32;
+
+        player._pExperience = p_experience;
+        player._pBaseToBlk = crate::tables::playerdat::PlayersData[player._pClass as usize].blockBonus as i32;
+        player._pMaxManaBase = base_mana_max;
+        player._pManaBase = base_mana;
+        player._pMemSpells = p_mem_spells;
+        player.wReflections = w_reflections;
+        player.pDiabloKillLevel = p_diablo_kill_level;
+        player.pManaShield = p_mana_shield != 0;
+        player.friendlyMode = friendly_mode != 0;
+
+        for i in 0..crate::items::MAX_SPELLS as usize {
+            player._pSplLvl[i] = p_spl_lvl[i];
+        }
+    }
+
+    for i in 0..NUM_INVLOC_USIZE {
+        let Ok(item) = unpack_net_item(ctx, pnum, &inv_body[i]) else { return false };
+        ctx.players.Players[pnum].InvBody[i] = item;
+        if ctx.players.Players[pnum].InvBody[i].is_empty() {
+            continue;
+        }
+        let loc = ctx.players.Players[pnum].get_item_location(&ctx.players.Players[pnum].InvBody[i]) as i8;
+        match i as inv_body_loc {
+            INVLOC_HEAD => validate_field!(ctx, pnum, loc, loc == ILOC_HELM as i8),
+            INVLOC_RING_LEFT | INVLOC_RING_RIGHT => validate_field!(ctx, pnum, loc, loc == ILOC_RING as i8),
+            INVLOC_AMULET => validate_field!(ctx, pnum, loc, loc == ILOC_AMULET as i8),
+            INVLOC_HAND_LEFT | INVLOC_HAND_RIGHT => validate_field!(ctx, pnum, loc, loc == ILOC_ONEHAND as i8 || loc == ILOC_TWOHAND as i8),
+            INVLOC_CHEST => validate_field!(ctx, pnum, loc, loc == ILOC_ARMOR as i8),
+            _ => {}
+        }
+    }
+
+    ctx.players.Players[pnum]._pNumInv = p_num_inv as i32;
+    for i in 0..p_num_inv as usize {
+        let Ok(item) = unpack_net_item(ctx, pnum, &inv_list[i]) else { return false };
+        ctx.players.Players[pnum].InvList[i] = item;
+    }
+
+    for i in 0..InventoryGridCells {
+        ctx.players.Players[pnum].InvGrid[i] = inv_grid[i] as i8;
+    }
+
+    for i in 0..MaxBeltItems {
+        let Ok(item) = unpack_net_item(ctx, pnum, &spd_list[i]) else { return false };
+        ctx.players.Players[pnum].SpdList[i] = item;
+        let item = &ctx.players.Players[pnum].SpdList[i];
+        if item.is_empty() {
+            continue;
+        }
+        let belt_item_size = crate::inv::get_inventory_size(item);
+        let belt_item_type = item._itype as i8;
+        let belt_item_usable = item.is_usable(ctx);
+        let is_gold = item._itype == ItemType::Gold;
+        validate_fields!(ctx, pnum, belt_item_size.width, belt_item_size.height, belt_item_size == crate::engine::geometry::Size::new(1, 1));
+        validate_field!(ctx, pnum, belt_item_type, !is_gold);
+        validate_field!(ctx, pnum, belt_item_usable, belt_item_usable);
+    }
+
+    crate::items::calc_plr_inv(ctx, pnum, false);
+    let gold = crate::inv::calculate_gold(ctx, pnum);
+    ctx.players.Players[pnum]._pGold = gold;
+
+    let p = ctx.players.Players[pnum].clone();
+    validate_fields!(ctx, pnum, p._pStrength, p_strength, p._pStrength == p_strength);
+    validate_fields!(ctx, pnum, p._pMagic, p_magic, p._pMagic == p_magic);
+    validate_fields!(ctx, pnum, p._pDexterity, p_dexterity, p._pDexterity == p_dexterity);
+    validate_fields!(ctx, pnum, p._pVitality, p_vitality, p._pVitality == p_vitality);
+    validate_fields!(ctx, pnum, p._pHitPoints, p_hit_points, p._pHitPoints == p_hit_points);
+    validate_fields!(ctx, pnum, p._pMaxHP, p_max_hp, p._pMaxHP == p_max_hp);
+    validate_fields!(ctx, pnum, p._pMana, p_mana, p._pMana == p_mana);
+    validate_fields!(ctx, pnum, p._pMaxMana, p_max_mana, p._pMaxMana == p_max_mana);
+    validate_fields!(ctx, pnum, p._pDamageMod, p_damage_mod, p._pDamageMod == p_damage_mod);
+    validate_fields!(ctx, pnum, p._pBaseToBlk, p_base_to_blk, p._pBaseToBlk == p_base_to_blk);
+    validate_fields!(ctx, pnum, p._pIMinDam, p_i_min_dam, p._pIMinDam == p_i_min_dam);
+    validate_fields!(ctx, pnum, p._pIMaxDam, p_i_max_dam, p._pIMaxDam == p_i_max_dam);
+    validate_fields!(ctx, pnum, p._pIAC, p_i_ac, p._pIAC == p_i_ac);
+    validate_fields!(ctx, pnum, p._pIBonusDam, p_i_bonus_dam, p._pIBonusDam == p_i_bonus_dam);
+    validate_fields!(ctx, pnum, p._pIBonusToHit, p_i_bonus_to_hit, p._pIBonusToHit == p_i_bonus_to_hit);
+    validate_fields!(ctx, pnum, p._pIBonusAC, p_i_bonus_ac, p._pIBonusAC == p_i_bonus_ac);
+    validate_fields!(ctx, pnum, p._pIBonusDamMod, p_i_bonus_dam_mod, p._pIBonusDamMod == p_i_bonus_dam_mod);
+    validate_fields!(ctx, pnum, p._pIGetHit, p_i_get_hit, p._pIGetHit == p_i_get_hit);
+    validate_fields!(ctx, pnum, p._pIEnAc, p_i_en_ac, p._pIEnAc == p_i_en_ac);
+    validate_fields!(ctx, pnum, p._pIFMinDam, p_i_f_min_dam, p._pIFMinDam == p_i_f_min_dam);
+    validate_fields!(ctx, pnum, p._pIFMaxDam, p_i_f_max_dam, p._pIFMaxDam == p_i_f_max_dam);
+    validate_fields!(ctx, pnum, p._pILMinDam, p_i_l_min_dam, p._pILMinDam == p_i_l_min_dam);
+    validate_fields!(ctx, pnum, p._pILMaxDam, p_i_l_max_dam, p._pILMaxDam == p_i_l_max_dam);
+    validate_fields!(ctx, pnum, p._pMaxHPBase, p.calculate_base_life(), p._pMaxHPBase <= p.calculate_base_life());
+    validate_fields!(ctx, pnum, p._pMaxManaBase, p.calculate_base_mana(), p._pMaxManaBase <= p.calculate_base_mana());
+
+    true
+}
+

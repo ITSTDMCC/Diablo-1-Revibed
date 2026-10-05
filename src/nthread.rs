@@ -1,9 +1,11 @@
 //! `Source/nthread.cpp`: game ticks and network turns.
 //!
 //! In multiplayer the original runs `NthreadHandler` on a second thread that keeps sending and
-//! receiving turns while the main thread is busy (loading levels). Network providers other than
-//! the offline loopback are not ported yet, so that thread is pending; single player never
-//! starts it.
+//! receiving turns while the main thread has released `MemCrit` (`nthread_ignore_mutex(true)`:
+//! loading a level, fading). The port's game state is single-threaded, so the handler runs
+//! cooperatively instead: [`nthread_pump`] runs its loop iterations that are due, and is called
+//! whenever a frame is presented (the loading screen, fades and the progress dialog all present
+//! frames).
 
 use crate::ctx::Ctx;
 use crate::engine::animationinfo::AnimationInfo;
@@ -29,6 +31,8 @@ pub struct NthreadState {
     sgbTicsOutOfSync: bool,
     sgbPacketCountdown: i8,
     sgbThreadIsRunning: bool,
+    /// When the turn handler's next iteration is due (its `SDL_Delay`).
+    handler_next_run: u32,
 }
 
 /// Original: `devilution::nthread_terminate_game` (nthread.cpp).
@@ -169,12 +173,46 @@ pub fn nthread_start(ctx: &mut Ctx, set_turn_upper_bit: bool) {
     }
     if ctx.init.gb_is_multiplayer {
         ctx.nthread.sgbThreadIsRunning = false;
+        // MemCrit.lock(); the handler waits for nthread_ignore_mutex(true)
         ctx.nthread.nthread_should_run = true;
-        start_nthread_handler(ctx);
     }
 }
 
-crate::pending_fn!(fn start_nthread_handler(ctx: &mut Ctx), "nthread.cpp|devilution::NthreadHandler()");
+/// Original: `NthreadHandler` (nthread.cpp): one pass of its loop. Returns the delay before the
+/// next pass, or `None` when the handler stops.
+// @port nthread.cpp|devilution::NthreadHandler() sha=54a48ea380ce
+fn nthread_handler(ctx: &mut Ctx) -> Option<i32> {
+    if !ctx.nthread.nthread_should_run {
+        return None;
+    }
+    nthread_send_and_recv_turn(ctx, 0, 0);
+    let mut delta = ctx.diablo.gn_tick_delay as i32;
+    if nthread_recv_turns(ctx, None) {
+        delta = ctx.nthread.last_tick.wrapping_sub(ctx.platform.ticks() as i32);
+    }
+    if !ctx.nthread.nthread_should_run {
+        return None;
+    }
+    Some(delta)
+}
+
+/// Runs the turn handler's passes that are due while the main thread has the mutex released
+/// (see the module comment).
+pub fn nthread_pump(ctx: &mut Ctx) {
+    for _ in 0..8 {
+        if !ctx.nthread.nthread_should_run || !ctx.nthread.sgbThreadIsRunning {
+            return;
+        }
+        let now = ctx.platform.ticks();
+        if (now.wrapping_sub(ctx.nthread.handler_next_run) as i32) < 0 {
+            return;
+        }
+        match nthread_handler(ctx) {
+            Some(delta) => ctx.nthread.handler_next_run = now.wrapping_add(delta.max(0) as u32),
+            None => return,
+        }
+    }
+}
 
 /// Original: `devilution::nthread_cleanup` (nthread.cpp).
 // @port nthread.cpp|devilution::nthread_cleanup() sha=9bdc4b7ca5d2
@@ -194,6 +232,9 @@ pub fn nthread_ignore_mutex(ctx: &mut Ctx, b_start: bool) {
         return;
     }
     ctx.nthread.sgbThreadIsRunning = b_start;
+    if b_start {
+        ctx.nthread.handler_next_run = ctx.platform.ticks();
+    }
 }
 
 /// Original: `devilution::nthread_has_500ms_passed` (nthread.cpp).
