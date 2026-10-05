@@ -6,6 +6,7 @@
 //! immediate (Aulib fades).
 
 use std::cell::RefCell;
+use std::collections::VecDeque;
 use std::sync::{Arc, Mutex, OnceLock, Weak};
 
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
@@ -83,6 +84,9 @@ pub struct StreamState {
     /// -1 (left) .. 1 (right)
     stereo_position: f32,
     muted: bool,
+    /// `PushAulibDecoder`'s queue (`AudioQueueItem`s, as interleaved samples) for a push stream;
+    /// `pcm` then only carries the channel count and rate.
+    push: Option<VecDeque<f32>>,
 }
 
 /// `Aulib::Stream`: owned by a `SoundSample` on the game thread, mixed on the audio thread.
@@ -90,11 +94,49 @@ pub struct Stream(Arc<Mutex<StreamState>>);
 
 impl Stream {
     pub fn new(pcm: Arc<Pcm>) -> Stream {
-        let s = Arc::new(Mutex::new(StreamState { pcm, pos: 0.0, playing: false, iterations: 1, volume: 1.0, stereo_position: 0.0, muted: false }));
+        Self::with_state(StreamState { pcm, pos: 0.0, playing: false, iterations: 1, volume: 1.0, stereo_position: 0.0, muted: false, push: None })
+    }
+
+    fn with_state(state: StreamState) -> Stream {
+        let s = Arc::new(Mutex::new(state));
         if let Some(m) = MIXER.get() {
             m.lock().unwrap().streams.push(Arc::downgrade(&s));
         }
         Stream(s)
+    }
+
+    /// `Aulib::Stream(nullptr, std::make_unique<PushAulibDecoder>(numChannels, sampleRate), ...)`
+    // @port utils/push_aulib_decoder.h|devilution::PushAulibDecoder::PushAulibDecoder(int numChannels, int sampleRate) sha=7e6c3bd370f7
+    // @port utils/push_aulib_decoder.h|devilution::PushAulibDecoder::getChannels() sha=65e6e0a472ae
+    // @port utils/push_aulib_decoder.h|devilution::PushAulibDecoder::getRate() sha=a5aafc69672a
+    // @port utils/push_aulib_decoder.cpp|devilution::PushAulibDecoder::open([[maybe_unused]] SDL_RWops *rwops) sha=c48e92da7025
+    pub fn new_push(num_channels: u16, sample_rate: u32) -> Stream {
+        let pcm = Arc::new(Pcm { samples: Vec::new(), channels: num_channels, rate: sample_rate });
+        Self::with_state(StreamState { pcm, pos: 0.0, playing: false, iterations: 0, volume: 1.0, stereo_position: 0.0, muted: false, push: Some(VecDeque::new()) })
+    }
+
+    /// Original: `PushAulibDecoder::PushSamples(const std::int16_t *, unsigned)`.
+    // @port utils/push_aulib_decoder.cpp|devilution::PushAulibDecoder::PushSamples(const std::int16_t *data, unsigned size) sha=ba89baddb60a
+    pub fn push_samples_i16(&self, data: &[i16]) {
+        const SCALE: f32 = i16::MAX as f32 + 1.0;
+        if let Some(q) = self.0.lock().unwrap().push.as_mut() {
+            q.extend(data.iter().map(|&v| v as f32 / SCALE));
+        }
+    }
+
+    /// Original: `PushAulibDecoder::PushSamples(const std::uint8_t *, unsigned)`.
+    // @port utils/push_aulib_decoder.cpp|devilution::PushAulibDecoder::PushSamples(const std::uint8_t *data, unsigned size) sha=07abfaa35bfb
+    pub fn push_samples_u8(&self, data: &[u8]) {
+        let samples: Vec<i16> = data.iter().map(|&v| ((v as i16) - 128) * 256).collect();
+        self.push_samples_i16(&samples);
+    }
+
+    /// Original: `PushAulibDecoder::DiscardPendingSamples`.
+    // @port utils/push_aulib_decoder.cpp|devilution::PushAulibDecoder::DiscardPendingSamples() sha=ee25cd0cfaff
+    pub fn discard_pending_samples(&self) {
+        if let Some(q) = self.0.lock().unwrap().push.as_mut() {
+            q.clear();
+        }
     }
 
     pub fn pcm(&self) -> Arc<Pcm> {
@@ -161,6 +203,10 @@ fn mix(state: &mut MixerState, out: &mut [f32]) {
         if !s.playing {
             continue;
         }
+        if s.push.is_some() {
+            mix_push(&mut s, out, och, out_rate);
+            continue;
+        }
         let pcm = s.pcm.clone();
         let ich = pcm.channels.max(1) as usize;
         let frames = pcm.frames();
@@ -213,6 +259,42 @@ fn mix(state: &mut MixerState, out: &mut [f32]) {
     for v in out.iter_mut() {
         *v = v.clamp(-1.0, 1.0);
     }
+}
+
+/// Original: `PushAulibDecoder::doDecoding` (with `Next`): the queued samples, then silence
+/// when the queue runs dry (the stream keeps playing). Resampled linearly like the other streams.
+// @port utils/push_aulib_decoder.cpp|devilution::PushAulibDecoder::doDecoding(float buf[], int len, bool &callAgain) sha=70e1d8c802cc
+// @port utils/push_aulib_decoder.cpp|devilution::PushAulibDecoder::Next() sha=db57695e025b
+fn mix_push(s: &mut StreamState, out: &mut [f32], och: usize, out_rate: f64) {
+    let ich = s.pcm.channels.max(1) as usize;
+    let step = s.pcm.rate as f64 / out_rate;
+    let gain = if s.muted { 0.0 } else { s.volume };
+    let mut pos = s.pos;
+    let q = s.push.as_mut().unwrap();
+    for frame in out.chunks_exact_mut(och) {
+        if q.len() < ich {
+            break;
+        }
+        let t = pos as f32;
+        let next = if q.len() >= 2 * ich { ich } else { 0 };
+        let sample = |c: usize| {
+            let c = c.min(ich - 1);
+            q[c] + (q[next + c] - q[c]) * t
+        };
+        let (l, r) = if ich == 1 { (sample(0), sample(0)) } else { (sample(0), sample(1)) };
+        if och == 1 {
+            frame[0] += (l + r) * 0.5 * gain;
+        } else {
+            frame[0] += l * gain;
+            frame[1] += r * gain;
+        }
+        pos += step;
+        while pos >= 1.0 && q.len() >= ich {
+            q.drain(..ich);
+            pos -= 1.0;
+        }
+    }
+    s.pos = if q.len() < ich { 0.0 } else { pos };
 }
 
 /// `Aulib::init`: opens the output device. `device` is a device name ("" = system default).
@@ -325,11 +407,23 @@ mod tests {
     #[test]
     fn mixes_with_pan_volume_and_stops_at_end() {
         let pcm = Arc::new(Pcm { samples: vec![1.0, 1.0], channels: 1, rate: 100 });
-        let s = Arc::new(Mutex::new(StreamState { pcm, pos: 0.0, playing: true, iterations: 1, volume: 0.5, stereo_position: 0.5, muted: false }));
+        let s = Arc::new(Mutex::new(StreamState { pcm, pos: 0.0, playing: true, iterations: 1, volume: 0.5, stereo_position: 0.5, muted: false, push: None }));
         let mut m = MixerState { streams: vec![Arc::downgrade(&s)], out_rate: 100, out_channels: 2 };
         let mut out = [0f32; 6];
         mix(&mut m, &mut out);
         assert_eq!(out, [0.25, 0.5, 0.25, 0.5, 0.0, 0.0]);
         assert!(!s.lock().unwrap().playing);
+    }
+
+    #[test]
+    fn push_stream_plays_queued_samples_then_silence() {
+        let pcm = Arc::new(Pcm { samples: Vec::new(), channels: 1, rate: 100 });
+        let s = Arc::new(Mutex::new(StreamState { pcm, pos: 0.0, playing: true, iterations: 0, volume: 1.0, stereo_position: 0.0, muted: false, push: Some(VecDeque::new()) }));
+        Stream(s.clone()).push_samples_i16(&[16384, -16384]);
+        let mut m = MixerState { streams: vec![Arc::downgrade(&s)], out_rate: 100, out_channels: 2 };
+        let mut out = [0f32; 6];
+        mix(&mut m, &mut out);
+        assert_eq!(out, [0.5, 0.5, -0.5, -0.5, 0.0, 0.0]);
+        assert!(s.lock().unwrap().playing);
     }
 }

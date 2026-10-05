@@ -143,6 +143,8 @@ pub struct Ctx {
     pub drlg_l4: crate::levels::drlg_l4::DrlgL4State,
     /// movie.cpp
     pub movie: crate::movie::MovieState,
+    /// storm/storm_svid.cpp
+    pub svid: crate::storm::storm_svid::SvidState,
 }
 
 impl Ctx {
@@ -218,6 +220,7 @@ impl Ctx {
             drlg_l3: Default::default(),
             drlg_l4: Default::default(),
             movie: Default::default(),
+            svid: Default::default(),
         }
     }
 }

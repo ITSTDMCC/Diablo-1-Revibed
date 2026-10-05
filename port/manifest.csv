@@ -2780,8 +2780,8 @@ monster.h|devilution::Monster::exp(_difficulty difficulty),ported,,,src/monster.
 monster.h|devilution::Monster::level(_difficulty difficulty),ported,,,src/monster.rs
 monster.h|devilution::Monster::hasLeashedMinions(),ported,,,src/monster.rs
 monster.h|devilution::Monster::isUnique(),ported,,,src/monster.rs
-"movie.cpp|devilution::play_movie(const char *pszMovie, bool userCanClose)",pending,,,
-movie.cpp|devilution::PlayInGameMovie(const char *pszMovie),pending,,,
+"movie.cpp|devilution::play_movie(const char *pszMovie, bool userCanClose)",ported,,,src/movie.rs
+movie.cpp|devilution::PlayInGameMovie(const char *pszMovie),ported,,,src/movie.rs
 "mpq/mpq_reader.cpp|devilution::MpqArchive::Open(const char *path, int32_t &error)",ported,,,src/mpq.rs
 mpq/mpq_reader.cpp|devilution::MpqArchive::Clone(int32_t &error),ported,,,src/mpq.rs
 mpq/mpq_reader.cpp|devilution::MpqArchive::ErrorMessage(int32_t errorCode),replaced,MpqError (Display),libmpq error codes become a Rust error enum with messages,
@@ -4031,16 +4031,16 @@ storm/storm_net.cpp|devilution::DvlNet_GetGamelist(),ported,,,src/storm/storm_ne
 storm/storm_net.cpp|devilution::DvlNet_SetPassword(std::string pw),ported,,,src/storm/storm_net.rs
 storm/storm_net.cpp|devilution::DvlNet_ClearPassword(),ported,,,src/storm/storm_net.rs
 storm/storm_net.cpp|devilution::DvlNet_IsPublicGame(),ported,,,src/storm/storm_net.rs
-"storm/storm_svid.cpp|devilution::IsLandscapeFit(unsigned long srcW, unsigned long srcH, unsigned long dstW, unsigned long dstH)",pending,,,
-storm/storm_svid.cpp|devilution::HasAudio(),pending,,,
-storm/storm_svid.cpp|devilution::SVidLoadNextFrame(),pending,,,
-storm/storm_svid.cpp|devilution::UpdatePalette(),pending,,,
-storm/storm_svid.cpp|devilution::BlitFrame(),pending,,,
-"storm/storm_svid.cpp|devilution::SVidPlayBegin(const char *filename, int flags)",pending,,,
-storm/storm_svid.cpp|devilution::SVidPlayContinue(),pending,,,
-storm/storm_svid.cpp|devilution::SVidPlayEnd(),pending,,,
-storm/storm_svid.cpp|devilution::SVidMute(),pending,,,
-storm/storm_svid.cpp|devilution::SVidUnmute(),pending,,,
+"storm/storm_svid.cpp|devilution::IsLandscapeFit(unsigned long srcW, unsigned long srcH, unsigned long dstW, unsigned long dstH)",replaced,platform::bevy_front letterbox,used by the non-renderer and SDL1 blit paths; the Bevy front letterboxes the video-size frame,
+storm/storm_svid.cpp|devilution::HasAudio(),ported,,,src/storm/storm_svid.rs
+storm/storm_svid.cpp|devilution::SVidLoadNextFrame(),ported,,,src/storm/storm_svid.rs
+storm/storm_svid.cpp|devilution::UpdatePalette(),ported,,,src/storm/storm_svid.rs
+storm/storm_svid.cpp|devilution::BlitFrame(),ported,,,src/storm/storm_svid.rs
+"storm/storm_svid.cpp|devilution::SVidPlayBegin(const char *filename, int flags)",ported,,,src/storm/storm_svid.rs
+storm/storm_svid.cpp|devilution::SVidPlayContinue(),ported,,,src/storm/storm_svid.rs
+storm/storm_svid.cpp|devilution::SVidPlayEnd(),ported,,,src/storm/storm_svid.rs
+storm/storm_svid.cpp|devilution::SVidMute(),ported,,,src/storm/storm_svid.rs
+storm/storm_svid.cpp|devilution::SVidUnmute(),ported,,,src/storm/storm_svid.rs
 sync.cpp|devilution::SyncOneMonster(),ported,,,src/sync.rs
 "sync.cpp|devilution::SyncMonsterPos(TSyncMonster &monsterSync, int ndx)",ported,,,src/sync.rs
 sync.cpp|devilution::SyncMonsterActive(TSyncMonster &monsterSync),ported,,,src/sync.rs
@@ -4101,7 +4101,7 @@ track.cpp|devilution::RepeatWalk(Player &player),ported,,,src/track.rs
 track.cpp|devilution::InvalidateTargets(),ported,,,src/track.rs
 track.cpp|devilution::RepeatMouseAction(),ported,,,src/track.rs
 track.cpp|devilution::track_isscrolling(),ported,,,src/track.rs
-utils/aulib.hpp|devilution::CreateAulibResampler(int sourceRate),pending,,,
+utils/aulib.hpp|devilution::CreateAulibResampler(int sourceRate),replaced,platform::audio mixer,Aulib::Decoder/resampler interface; the port's mixer resamples linearly and never seeks push streams,
 "utils/bitset2d.hpp|devilution::Bitset2d::test(size_t x, size_t y)",pending,,,
 "utils/bitset2d.hpp|devilution::Bitset2d::set(size_t x, size_t y, bool value = true)",pending,,,
 "utils/bitset2d.hpp|devilution::Bitset2d::reset(size_t x, size_t y)",pending,,,
@@ -4283,18 +4283,18 @@ utils/pointer_value_union.hpp|devilution::PointerOrValue::PointerOrValue(T val),
 utils/pointer_value_union.hpp|devilution::PointerOrValue::HoldsPointer(),replaced,Rust enum,tagged pointer/value union,
 utils/pointer_value_union.hpp|devilution::PointerOrValue::AsPointer(),replaced,Rust enum,tagged pointer/value union,
 utils/pointer_value_union.hpp|devilution::PointerOrValue::AsValue(),replaced,Rust enum,tagged pointer/value union,
-"utils/push_aulib_decoder.cpp|devilution::PushAulibDecoder::PushSamples(const std::int16_t *data, unsigned size)",pending,,,
-"utils/push_aulib_decoder.cpp|devilution::PushAulibDecoder::PushSamples(const std::uint8_t *data, unsigned size)",pending,,,
-utils/push_aulib_decoder.cpp|devilution::PushAulibDecoder::DiscardPendingSamples(),pending,,,
-utils/push_aulib_decoder.cpp|devilution::PushAulibDecoder::open([[maybe_unused]] SDL_RWops *rwops),pending,,,
-utils/push_aulib_decoder.cpp|devilution::PushAulibDecoder::rewind(),pending,,,
-utils/push_aulib_decoder.cpp|devilution::PushAulibDecoder::duration(),pending,,,
-utils/push_aulib_decoder.cpp|devilution::PushAulibDecoder::seekToTime([[maybe_unused]] std::chrono::microseconds pos),pending,,,
-"utils/push_aulib_decoder.cpp|devilution::PushAulibDecoder::doDecoding(float buf[], int len, bool &callAgain)",pending,,,
-utils/push_aulib_decoder.cpp|devilution::PushAulibDecoder::Next(),pending,,,
-"utils/push_aulib_decoder.h|devilution::PushAulibDecoder::PushAulibDecoder(int numChannels, int sampleRate)",pending,,,
-utils/push_aulib_decoder.h|devilution::PushAulibDecoder::getChannels(),pending,,,
-utils/push_aulib_decoder.h|devilution::PushAulibDecoder::getRate(),pending,,,
+"utils/push_aulib_decoder.cpp|devilution::PushAulibDecoder::PushSamples(const std::int16_t *data, unsigned size)",ported,,,src/platform/audio.rs
+"utils/push_aulib_decoder.cpp|devilution::PushAulibDecoder::PushSamples(const std::uint8_t *data, unsigned size)",ported,,,src/platform/audio.rs
+utils/push_aulib_decoder.cpp|devilution::PushAulibDecoder::DiscardPendingSamples(),ported,,,src/platform/audio.rs
+utils/push_aulib_decoder.cpp|devilution::PushAulibDecoder::open([[maybe_unused]] SDL_RWops *rwops),ported,,,src/platform/audio.rs
+utils/push_aulib_decoder.cpp|devilution::PushAulibDecoder::rewind(),replaced,platform::audio push streams,Aulib::Decoder interface method; the port's mixer never rewinds or seeks a push stream,
+utils/push_aulib_decoder.cpp|devilution::PushAulibDecoder::duration(),replaced,platform::audio mixer,Aulib::Decoder/resampler interface; the port's mixer resamples linearly and never seeks push streams,
+utils/push_aulib_decoder.cpp|devilution::PushAulibDecoder::seekToTime([[maybe_unused]] std::chrono::microseconds pos),replaced,platform::audio mixer,Aulib::Decoder/resampler interface; the port's mixer resamples linearly and never seeks push streams,
+"utils/push_aulib_decoder.cpp|devilution::PushAulibDecoder::doDecoding(float buf[], int len, bool &callAgain)",ported,,,src/platform/audio.rs
+utils/push_aulib_decoder.cpp|devilution::PushAulibDecoder::Next(),ported,,,src/platform/audio.rs
+"utils/push_aulib_decoder.h|devilution::PushAulibDecoder::PushAulibDecoder(int numChannels, int sampleRate)",ported,,,src/platform/audio.rs
+utils/push_aulib_decoder.h|devilution::PushAulibDecoder::getChannels(),ported,,,src/platform/audio.rs
+utils/push_aulib_decoder.h|devilution::PushAulibDecoder::getRate(),ported,,,src/platform/audio.rs
 utils/sdl2_to_1_2_backports.cpp|SDL_LogSetAllPriority(SDL_LogPriority priority),replaced,engine layer,SDL1.2 compatibility layer,
 "utils/sdl2_to_1_2_backports.cpp|SDL_LogSetPriority(int category, SDL_LogPriority priority)",replaced,engine layer,SDL1.2 compatibility layer,
 utils/sdl2_to_1_2_backports.cpp|SDL_LogGetPriority(int category),replaced,engine layer,SDL1.2 compatibility layer,

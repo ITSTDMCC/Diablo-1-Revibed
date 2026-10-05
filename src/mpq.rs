@@ -308,7 +308,12 @@ impl MpqArchive {
             }
             out.copy_from_slice(&v);
         } else {
-            return Err(MpqError::Format("packed sector of an uncompressed file"));
+            // A stored file whose packed size is padded (hellfire.mpq's gendata\Hellfire.smk is
+            // padded to 512 bytes): libmpq copies the unpacked size from the sector.
+            if buf.len() < unpacked {
+                return Err(MpqError::Format("short sector of an uncompressed file"));
+            }
+            out.copy_from_slice(&buf[..unpacked]);
         }
         Ok(())
     }
