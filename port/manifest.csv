@@ -690,7 +690,7 @@ diablo.cpp|devilution::SpellBookKeyPressed(),ported,,,src/diablo_game.rs
 diablo.cpp|devilution::IsPlayerDead(),ported,,,src/diablo_game.rs
 diablo.cpp|devilution::IsGameRunning(),ported,,,src/diablo_game.rs
 diablo.cpp|devilution::CanPlayerTakeAction(),ported,,,src/diablo_game.rs
-diablo.cpp|devilution::InitKeymapActions(),ported,,,src/inv.rs
+diablo.cpp|devilution::InitKeymapActions(),ported,,,src/diablo.rs
 diablo.cpp|devilution::InitPadmapActions(),pending,,,
 diablo.cpp|devilution::SetCursorPos(Point position),ported,,,src/controls/mod.rs
 diablo.cpp|devilution::FreeGameMem(),ported,,,src/diablo.rs

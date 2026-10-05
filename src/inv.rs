@@ -1906,7 +1906,7 @@ pub fn get_inventory_size(item: &Item) -> Size {
 }
 
 /// The `BeltItem{}` key action of `InitKeymapActions` (diablo.cpp).
-// @port diablo.cpp|devilution::InitKeymapActions() sha=7e29f9d13920
+// From the hotkey lambdas in `devilution::InitKeymapActions` (diablo.cpp).
 pub fn use_belt_item_slot(ctx: &mut Ctx, i: usize) {
     let me = ctx.players.MyPlayer.expect("MyPlayer");
     let item = &ctx.players.Players[me].SpdList[i];

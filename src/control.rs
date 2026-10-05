@@ -163,7 +163,7 @@ pub fn calculate_panel_areas(ctx: &mut Ctx) {
 }
 
 /// The `QuickSpell{}` key action of `InitKeymapActions` (diablo.cpp).
-// @port diablo.cpp|devilution::InitKeymapActions() sha=7e29f9d13920
+// From the hotkey lambdas in `devilution::InitKeymapActions` (diablo.cpp).
 pub fn quick_spell_hotkey(ctx: &mut Ctx, i: usize) {
     if ctx.control.spselflag {
         crate::panels::spell_list::set_speed_spell(ctx, i);

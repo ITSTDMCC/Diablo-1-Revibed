@@ -472,9 +472,8 @@ pub fn diablo_main(ctx: &mut Ctx, argv: &[String]) -> i32 {
     0
 }
 
-/// Original: `devilution::InitKeymapActions` (diablo.cpp). Registration is complete; the action
-/// bodies call into game code that is still pending (they fail loudly when triggered), so the
-/// function stays `pending` in the manifest until those are ported.
+/// Original: `devilution::InitKeymapActions` (diablo.cpp).
+// @port diablo.cpp|devilution::InitKeymapActions() sha=7e29f9d13920
 pub fn init_keymap_actions(ctx: &mut Ctx) {
     use crate::platform::events::keys::*;
     use std::rc::Rc;
