@@ -7,3 +7,5 @@ pub mod drlg_l4;
 pub mod gendung;
 pub mod town;
 pub mod trigs;
+pub mod themes;
+pub mod setmaps;

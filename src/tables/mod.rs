@@ -1,5 +1,6 @@
 //! Static game data tables generated from the original sources (`tools/gen_tables.py`).
 pub mod itemdat;
+pub mod misdat;
 pub mod monstdat;
 pub mod objdat;
 pub mod playerdat;

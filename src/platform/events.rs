@@ -69,6 +69,11 @@ pub mod keys {
     pub const SDLK_KP_DIVIDE: i32 = sc(84);
     pub const SDLK_KP_MULTIPLY: i32 = sc(85);
     pub const SDLK_KP_MINUS: i32 = sc(86);
+    pub const SDLK_PLUS: i32 = b'+' as i32;
+    pub const SDLK_EQUALS: i32 = b'=' as i32;
+    pub const SDLK_MINUS: i32 = b'-' as i32;
+    pub const SDLK_UNDERSCORE: i32 = b'_' as i32;
+    pub const SDLK_KP_EQUALS: i32 = sc(103);
     pub const SDLK_KP_PLUS: i32 = sc(87);
     pub const SDLK_KP_ENTER: i32 = sc(88);
     pub const SDLK_KP_1: i32 = sc(89);

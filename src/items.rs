@@ -4708,3 +4708,28 @@ pub fn update_hellfire_flag(ctx: &mut Ctx, item: &mut Item, identified_item_name
 /// `Direction` unused import guard.
 #[allow(dead_code)]
 const _DIR: Direction = Direction::South;
+
+/// `RechargeItem` for an item outside the player's inventory (the stash): the original's body
+/// up to the network sync, which only applies to inventory and body items.
+pub fn recharge_loose_item(ctx: &mut Ctx, item: &mut Item, player_level: i32) {
+    let hellfire = ctx.init.gb_is_hellfire;
+    if item._itype != ItemType::Staff || !crate::spells::is_valid_spell_hf(item._iSpell, hellfire) {
+        return;
+    }
+    if item._iCharges == item._iMaxCharges {
+        return;
+    }
+    let mut r = crate::spells::get_spell_staff_level(ctx, item._iSpell);
+    r = ctx.rng.generate_rnd(player_level / r) + 1;
+    loop {
+        item._iMaxCharges -= 1;
+        if item._iMaxCharges == 0 {
+            return;
+        }
+        item._iCharges += r;
+        if item._iCharges >= item._iMaxCharges {
+            break;
+        }
+    }
+    item._iCharges = item._iCharges.min(item._iMaxCharges);
+}

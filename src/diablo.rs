@@ -2,13 +2,18 @@
 
 use crate::ctx::Ctx;
 use crate::options::{self, StartUpGameMode, StartUpIntro, StartUpSplash};
-use crate::unported;
 use crate::utils::console::{print_in_console, print_newline_in_console};
 use crate::utils::language::tr;
 
 /// `PROJECT_NAME` / `PROJECT_VERSION` (CMakeLists.txt, VERSION) of the build being ported.
 pub const PROJECT_NAME: &str = "DevilutionX";
 pub const PROJECT_VERSION: &str = "1.5.3";
+
+pub use crate::diablo_game::{
+    can_player_take_action, character_sheet_key_pressed, close_panels, diablo_color_cyc_logic, diablo_pause_game, disable_input_event_handler,
+    display_spells_key_pressed, game_event_handler, game_loop, help_key_pressed, inventory_key_pressed, is_diablo_alive, is_game_running,
+    load_game_level, press_esc_key, print_screen, quest_log_key_pressed, spell_book_key_pressed, start_game, try_icon_curs,
+};
 
 pub struct QuickMessage {
     pub key: &'static str,
@@ -61,6 +66,10 @@ pub struct DiabloState {
     pub minimize_paused: bool,
     /// `glSeedTbl`
     pub glSeedTbl: [u32; crate::player::NUMLEVELS],
+    /// `sgbMouseDown`
+    pub sgb_mouse_down: crate::enums::clicktype,
+    /// `gGameLogicStep`
+    pub g_game_logic_step: crate::enums::GameLogicStep,
 }
 
 /// `MouseActionType`
@@ -110,6 +119,8 @@ impl Default for DiabloState {
             game_was_already_paused: false,
             minimize_paused: false,
             glSeedTbl: [0; crate::player::NUMLEVELS],
+            sgb_mouse_down: crate::enums::CLICK_NONE,
+            g_game_logic_step: crate::enums::GameLogicStep::None,
         }
     }
 }
@@ -496,17 +507,17 @@ pub fn init_keymap_actions(ctx: &mut Ctx) {
     let simple: &[(&str, &'static str, &'static str, u32, fn(&mut Ctx), Option<fn(&mut Ctx)>, u8)] = &[
         ("UseHealthPotion", "Use health potion", "Use health potions from belt.", SDLK_UNKNOWN as u32, |c| crate::inv::use_belt_item(c, crate::inv::BLT_HEALING), None, 1),
         ("UseManaPotion", "Use mana potion", "Use mana potions from belt.", SDLK_UNKNOWN as u32, |c| crate::inv::use_belt_item(c, crate::inv::BLT_MANA), None, 1),
-        ("DisplaySpells", "Speedbook", "Open Speedbook.", b'S' as u32, crate::control::display_spells_key_pressed, None, 1),
+        ("DisplaySpells", "Speedbook", "Open Speedbook.", b'S' as u32, crate::diablo::display_spells_key_pressed, None, 1),
         ("QuickSave", "Quick save", "Saves the game.", SDLK_F1 as u32 + 1, |c| crate::gamemenu::gamemenu_save_game(c, false), None, 2),
         ("QuickLoad", "Quick load", "Loads the game.", SDLK_F1 as u32 + 2, |c| crate::gamemenu::gamemenu_load_game(c, false), None, 3),
         ("QuitGame", "Quit game", "Closes the game.", SDLK_UNKNOWN as u32, |c| crate::gamemenu::gamemenu_quit_game(c, false), None, 0),
         ("StopHero", "Stop hero", "Stops walking and cancel pending actions.", SDLK_UNKNOWN as u32, crate::player::stop_my_player, None, 1),
         ("Item Highlighting", "Item highlighting", "Show/hide items on ground.", SDLK_LALT as u32, |c| crate::qol::itemlabels::highlight_key_pressed(c, true), Some(|c| crate::qol::itemlabels::highlight_key_pressed(c, false)), 0),
         ("Toggle Automap", "Toggle automap", "Toggles if automap is displayed.", SDLK_TAB as u32, crate::automap::do_auto_map, None, 4),
-        ("Inventory", "Inventory", "Open Inventory screen.", b'I' as u32, crate::control::inventory_key_pressed, None, 1),
-        ("Character", "Character", "Open Character screen.", b'C' as u32, crate::control::character_sheet_key_pressed, None, 1),
-        ("QuestLog", "Quest log", "Open Quest log.", b'Q' as u32, crate::control::quest_log_key_pressed, None, 1),
-        ("SpellBook", "Spellbook", "Open Spellbook.", b'B' as u32, crate::control::spell_book_key_pressed, None, 1),
+        ("Inventory", "Inventory", "Open Inventory screen.", b'I' as u32, crate::diablo::inventory_key_pressed, None, 1),
+        ("Character", "Character", "Open Character screen.", b'C' as u32, crate::diablo::character_sheet_key_pressed, None, 1),
+        ("QuestLog", "Quest log", "Open Quest log.", b'Q' as u32, crate::diablo::quest_log_key_pressed, None, 1),
+        ("SpellBook", "Spellbook", "Open Spellbook.", b'B' as u32, crate::diablo::spell_book_key_pressed, None, 1),
     ];
     let enable_for = |kind: u8| -> Option<options::EnableFn> {
         match kind {
@@ -552,7 +563,7 @@ pub fn init_keymap_actions(ctx: &mut Ctx) {
     km.add_action("Pause Game", "Pause Game", "Pauses the game.", b'P' as u32, Some(Rc::new(diablo_pause_game)), None, None, 0);
     km.add_action("DecreaseGamma", "Decrease Gamma", "Reduce screen brightness.", b'G' as u32, Some(Rc::new(crate::engine::palette::decrease_gamma)), None, can_take(), 0);
     km.add_action("IncreaseGamma", "Increase Gamma", "Increase screen brightness.", b'F' as u32, Some(Rc::new(crate::engine::palette::increase_gamma)), None, can_take(), 0);
-    km.add_action("Help", "Help", "Open Help Screen.", SDLK_F1 as u32, Some(Rc::new(crate::help::help_key_pressed)), None, can_take(), 0);
+    km.add_action("Help", "Help", "Open Help Screen.", SDLK_F1 as u32, Some(Rc::new(crate::diablo::help_key_pressed)), None, can_take(), 0);
     km.add_action("Screenshot", "Screenshot", "Takes a screenshot.", SDLK_PRINTSCREEN as u32, None, Some(Rc::new(crate::capture::capture_screen)), None, 0);
     km.add_action("GameInfo", "Game info", "Displays game infos.", b'V' as u32, Some(Rc::new(game_info)), None, can_take(), 0);
     km.add_action("ChatLog", "Chat Log", "Displays chat log.", b'L' as u32, Some(Rc::new(crate::qol::chatlog::toggle_chat_log)), None, None, 0);
@@ -560,7 +571,7 @@ pub fn init_keymap_actions(ctx: &mut Ctx) {
 }
 
 fn hide_info_screens(ctx: &mut Ctx) {
-    crate::control::close_panels(ctx);
+    crate::diablo::close_panels(ctx);
     crate::help::set_help_flag(ctx, false);
     crate::qol::chatlog::clear_chat_log_flag(ctx);
     ctx.control.spselflag = false;
@@ -645,29 +656,11 @@ pub fn init_padmap_actions(ctx: &mut Ctx) {
     pm.add_action("Pause Game", "Pause Game", "Pauses the game.", one(B::None), Some(Rc::new(diablo_pause_game)), None, None, 0);
     pm.add_action("DecreaseGamma", "Decrease Gamma", "Reduce screen brightness.", one(B::None), Some(Rc::new(crate::engine::palette::decrease_gamma)), None, can_take(), 0);
     pm.add_action("IncreaseGamma", "Increase Gamma", "Increase screen brightness.", one(B::None), Some(Rc::new(crate::engine::palette::increase_gamma)), None, can_take(), 0);
-    pm.add_action("Help", "Help", "Open Help Screen.", one(B::None), Some(Rc::new(crate::help::help_key_pressed)), None, can_take(), 0);
+    pm.add_action("Help", "Help", "Open Help Screen.", one(B::None), Some(Rc::new(crate::diablo::help_key_pressed)), None, can_take(), 0);
     pm.add_action("Screenshot", "Screenshot", "Takes a screenshot.", one(B::None), None, Some(Rc::new(crate::capture::capture_screen)), None, 0);
     pm.add_action("GameInfo", "Game info", "Displays game infos.", one(B::None), Some(Rc::new(game_info)), None, can_take(), 0);
     pm.add_action("ChatLog", "Chat Log", "Displays chat log.", one(B::None), Some(Rc::new(crate::qol::chatlog::toggle_chat_log)), None, None, 0);
     pm.commit_actions();
-}
-
-/// Original: `devilution::IsGameRunning` (diablo.cpp).
-pub fn is_game_running(ctx: &Ctx) -> bool {
-    let _ = ctx;
-    unported!("diablo.cpp|devilution::IsGameRunning()")
-}
-
-/// Original: `devilution::CanPlayerTakeAction` (diablo.cpp).
-pub fn can_player_take_action(ctx: &Ctx) -> bool {
-    let _ = ctx;
-    unported!("diablo.cpp|devilution::CanPlayerTakeAction()")
-}
-
-/// Original: `devilution::diablo_pause_game` (diablo.cpp).
-pub fn diablo_pause_game(ctx: &mut Ctx) {
-    let _ = ctx;
-    unported!("diablo.cpp|devilution::diablo_pause_game()")
 }
 
 /// Original: `devilution::diablo_is_focused` (diablo.cpp).
@@ -703,7 +696,3 @@ pub fn diablo_focus_unpause(ctx: &mut Ctx) {
     crate::engine::sound::music_unmute(ctx);
     ctx.diablo.minimize_paused = false;
 }
-
-crate::pending_fn!(pub fn start_game(ctx: &mut Ctx, b_new_game: bool, b_single_player: bool) -> bool, "diablo.cpp|devilution::StartGame(bool bNewGame, bool bSinglePlayer)");
-
-crate::pending_fn!(pub fn load_game_level(ctx: &mut Ctx, first_flag: bool, lvldir: crate::enums::lvl_entry), "diablo.cpp|devilution::LoadGameLevel(bool firstflag, lvl_entry lvldir)");

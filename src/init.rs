@@ -201,3 +201,5 @@ pub fn init_create_window(ctx: &mut Ctx) {
     ctx.init.gb_active = true;
     // SDL_DisableScreenSaver: winit keeps the screen awake while the window has focus.
 }
+
+crate::pending_fn!(pub fn main_wnd_proc(ctx: &mut crate::ctx::Ctx, event: &crate::platform::events::Event), "init.cpp|devilution::MainWndProc(const SDL_Event &event)");

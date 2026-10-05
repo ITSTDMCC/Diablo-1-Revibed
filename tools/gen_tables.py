@@ -158,6 +158,8 @@ def conv_expr(e, ty):
         return f'({m.group(1)}f32 * {m.group(2)}.0) as {cast}'
     e = re.sub(r'static_cast<[^>]+>\(([^()]*)\)', r'(\1)', e)
     e = re.sub(r'\b(\d+)[uU]\b', r'\1', e)
+    if e.lstrip().startswith(('"', 'N_(', 'P_(')):
+        return e  # string literal: aliases apply to identifiers only
     for a, b in ALIASES.items():
         e = re.sub(r'(?<![\w:])' + a + r'(?![\w:])', b, e)
     return e

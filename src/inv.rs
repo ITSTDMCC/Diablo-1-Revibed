@@ -874,7 +874,6 @@ fn create_gold_item_in_inventory_slot(ctx: &mut Ctx, pnum: usize, slot_index: i3
     value
 }
 
-crate::pending_fn!(pub fn inv_draw_slot_back(ctx: &mut Ctx, out: &crate::engine::surface::Surface, target_position: Point, size: Size, item_quality: item_quality), "inv.cpp|devilution::InvDrawSlotBack(const Surface &out, Point targetPosition, Size size, item_quality itemQuality)");
 
 /// Original: `devilution::CanBePlacedOnBelt` (inv.cpp).
 // @port inv.cpp|devilution::CanBePlacedOnBelt(const Item &item) sha=859f44f09b1a
@@ -911,8 +910,6 @@ pub fn init_inv(ctx: &mut Ctx) {
     ctx.inv.p_inv_cels = Some(crate::engine::load_sprites::load_cel(ctx, name, w));
 }
 
-crate::pending_fn!(pub fn draw_inv(ctx: &mut Ctx, out: &crate::engine::surface::Surface), "inv.cpp|devilution::DrawInv(const Surface &out)");
-crate::pending_fn!(pub fn draw_inv_belt(ctx: &mut Ctx, out: &crate::engine::surface::Surface), "inv.cpp|devilution::DrawInvBelt(const Surface &out)");
 
 /// Original: `devilution::RemoveEquipment` (inv.cpp).
 // @port inv.cpp|devilution::RemoveEquipment(Player &player, inv_body_loc bodyLocation, bool hiPri) sha=06404a9a24c7
@@ -1911,3 +1908,177 @@ pub fn get_inventory_size(item: &Item) -> Size {
 crate::pending_fn!(pub fn use_belt_item_slot(ctx: &mut Ctx, i: usize), "diablo.cpp|devilution::InitKeymapActions() BeltItem lambda");
 
 crate::pending_fn!(pub fn use_belt_item(ctx: &mut Ctx, type_: i32), "controls/plrctrls.cpp|devilution::UseBeltItem(int type)");
+
+/// Original: `devilution::InvDrawSlotBack` (inv.cpp): tints the slot background under an item
+/// (`targetPosition` is the bottom-left corner; rows are drawn upwards). The original only
+/// clips the target position; pixels outside the surface are skipped here.
+// @port inv.cpp|devilution::InvDrawSlotBack(const Surface &out, Point targetPosition, Size size, item_quality itemQuality) sha=1a54479446df
+pub fn inv_draw_slot_back(ctx: &mut Ctx, out: &crate::engine::surface::Surface, target_position: Point, size: Size, item_quality: item_quality) {
+    use crate::panels::spell_icons::{PAL16_BEIGE, PAL16_BLUE, PAL16_GRAY, PAL16_ORANGE, PAL16_YELLOW};
+    let mut src_rect = crate::engine::surface::Rect::new(0, 0, size.width, size.height);
+    let mut target = (target_position.x, target_position.y);
+    out.clip(&mut src_rect, &mut target);
+    if size.width <= 0 || size.height <= 0 {
+        return;
+    }
+    let inspecting = crate::player::is_inspecting_player(ctx);
+    let base = match item_quality {
+        ITEM_QUALITY_MAGIC => {
+            if !inspecting {
+                PAL16_BLUE
+            } else {
+                PAL16_ORANGE
+            }
+        }
+        ITEM_QUALITY_UNIQUE => {
+            if !inspecting {
+                PAL16_YELLOW
+            } else {
+                PAL16_ORANGE
+            }
+        }
+        _ => {
+            if !inspecting {
+                PAL16_BEIGE
+            } else {
+                PAL16_ORANGE
+            }
+        }
+    };
+    for row in 0..size.height {
+        let y = target.1 - row;
+        for col in 0..size.width {
+            let x = target.0 + col;
+            if !out.in_bounds(x, y) {
+                continue;
+            }
+            let mut pix = out.get(x, y);
+            if pix >= PAL16_GRAY {
+                pix = pix.wrapping_sub(PAL16_GRAY.wrapping_sub(base).wrapping_sub(1));
+            }
+            out.put(x, y, pix);
+        }
+    }
+}
+
+/// Original: `devilution::DrawInv` (inv.cpp).
+// @port inv.cpp|devilution::DrawInv(const Surface &out) sha=fccb8c630765
+pub fn draw_inv(ctx: &mut Ctx, out: &crate::engine::surface::Surface) {
+    use crate::control::get_panel_position;
+    use crate::cursor::{get_inv_item_size, get_inv_item_sprite, CURSOR_FIRSTITEM};
+    let p = get_panel_position(ctx, UiPanels::Inventory, Point::new(0, 351));
+    crate::engine::render::clx_render::clx_draw(out, (p.x, p.y), &ctx.inv.p_inv_cels.as_ref().expect("pInvCels").get(0));
+    let slot_size: [Size; 7] = [
+        Size::new(2, 2), // head
+        Size::new(1, 1), // left ring
+        Size::new(1, 1), // right ring
+        Size::new(1, 1), // amulet
+        Size::new(2, 3), // left hand
+        Size::new(2, 3), // right hand
+        Size::new(2, 3), // chest
+    ];
+    let slot_pos: [Point; 7] = [
+        Point::new(133, 59),  // head
+        Point::new(48, 205),  // left ring
+        Point::new(249, 205), // right ring
+        Point::new(205, 60),  // amulet
+        Point::new(17, 160),  // left hand
+        Point::new(248, 160), // right hand
+        Point::new(133, 160), // chest
+    ];
+    let pi = ctx.players.InspectPlayer.expect("InspectPlayer");
+    let px = |s: Size| Size::new(s.width * InventorySlotSizeInPixels.width, s.height * InventorySlotSizeInPixels.height);
+    for slot in INVLOC_HEAD as usize..NUM_INVLOC as usize {
+        let item = ctx.players.Players[pi].InvBody[slot].clone();
+        if item.is_empty() {
+            continue;
+        }
+        let mut screen_x = slot_pos[slot].x;
+        let mut screen_y = slot_pos[slot].y;
+        let pos = get_panel_position(ctx, UiPanels::Inventory, Point::new(screen_x, screen_y));
+        inv_draw_slot_back(ctx, out, pos, px(slot_size[slot]), item._iMagical);
+        let curs_id = item._iCurs as i32 + CURSOR_FIRSTITEM;
+        let frame_size = get_inv_item_size(curs_id);
+        // calc item offsets for weapons/armor smaller than 2x3 slots
+        if slot == INVLOC_HAND_LEFT as usize || slot == INVLOC_HAND_RIGHT as usize || slot == INVLOC_CHEST as usize {
+            screen_x += if frame_size.width == InventorySlotSizeInPixels.width { INV_SLOT_HALF_SIZE_PX } else { 0 };
+            screen_y += if frame_size.height == 3 * InventorySlotSizeInPixels.height { 0 } else { -INV_SLOT_HALF_SIZE_PX };
+        }
+        let sprite = get_inv_item_sprite(ctx, curs_id);
+        let position = get_panel_position(ctx, UiPanels::Inventory, Point::new(screen_x, screen_y));
+        if ctx.cursor.pcursinvitem as i32 == slot as i32 {
+            let color = crate::items::get_outline_color(&item, true);
+            crate::engine::render::clx_render::clx_draw_outline(out, color, (position.x, position.y), &sprite);
+        }
+        crate::cursor::draw_item(ctx, &item, out, position, &sprite);
+        if slot == INVLOC_HAND_LEFT as usize && ctx.players.Players[pi].get_item_location(&item) == ILOC_TWOHAND {
+            let pos = get_panel_position(ctx, UiPanels::Inventory, slot_pos[INVLOC_HAND_RIGHT as usize]);
+            inv_draw_slot_back(ctx, out, pos, px(slot_size[INVLOC_HAND_RIGHT as usize]), item._iMagical);
+            ctx.scrollrt.LightTableIndex = 0;
+            let rp = crate::control::get_right_panel(ctx);
+            let dst_x = rp.x + slot_pos[INVLOC_HAND_RIGHT as usize].x + if frame_size.width == InventorySlotSizeInPixels.width { INV_SLOT_HALF_SIZE_PX } else { 0 } - 1;
+            let dst_y = rp.y + slot_pos[INVLOC_HAND_RIGHT as usize].y;
+            crate::engine::render::scrollrt::clx_draw_light_blended(ctx, out, Point::new(dst_x, dst_y), &sprite);
+        }
+    }
+    for i in 0..InventoryGridCells {
+        let g = ctx.players.Players[pi].InvGrid[i];
+        if g != 0 {
+            let quality = ctx.players.Players[pi].InvList[(g as i32).unsigned_abs() as usize - 1]._iMagical;
+            let pos = get_panel_position(ctx, UiPanels::Inventory, InvRect[i + SLOTXY_INV_FIRST as usize].position) + Displacement::new(0, InventorySlotSizeInPixels.height);
+            inv_draw_slot_back(ctx, out, pos, InventorySlotSizeInPixels, quality);
+        }
+    }
+    for j in 0..InventoryGridCells {
+        let g = ctx.players.Players[pi].InvGrid[j];
+        if g > 0 {
+            // first slot of an item
+            let ii = (g - 1) as usize;
+            let item = ctx.players.Players[pi].InvList[ii].clone();
+            let curs_id = item._iCurs as i32 + CURSOR_FIRSTITEM;
+            let sprite = get_inv_item_sprite(ctx, curs_id);
+            let position = get_panel_position(ctx, UiPanels::Inventory, InvRect[j + SLOTXY_INV_FIRST as usize].position) + Displacement::new(0, InventorySlotSizeInPixels.height);
+            if ctx.cursor.pcursinvitem as i32 == ii as i32 + INVITEM_INV_FIRST as i32 {
+                let color = crate::items::get_outline_color(&item, true);
+                crate::engine::render::clx_render::clx_draw_outline(out, color, (position.x, position.y), &sprite);
+            }
+            crate::cursor::draw_item(ctx, &item, out, position, &sprite);
+        }
+    }
+}
+
+/// Original: `devilution::DrawInvBelt` (inv.cpp).
+// @port inv.cpp|devilution::DrawInvBelt(const Surface &out) sha=7c66068a19ab
+pub fn draw_inv_belt(ctx: &mut Ctx, out: &crate::engine::surface::Surface) {
+    use crate::cursor::{get_inv_item_sprite, CURSOR_FIRSTITEM};
+    use crate::engine::render::text_render::{draw_string, UiFlags};
+    if ctx.control.talkflag {
+        return;
+    }
+    let mp = crate::control::get_main_panel(ctx);
+    let main_panel_position = Point::new(mp.x, mp.y);
+    crate::control::draw_panel_box(ctx, out, crate::engine::surface::Rect::new(205, 21, 232, 28), main_panel_position + Displacement::new(205, 5));
+    let pi = ctx.players.InspectPlayer.expect("InspectPlayer");
+    for i in 0..MaxBeltItems {
+        let item = ctx.players.Players[pi].SpdList[i].clone();
+        if item.is_empty() {
+            continue;
+        }
+        let r = InvRect[i + SLOTXY_BELT_FIRST as usize].position;
+        let position = Point::new(r.x + main_panel_position.x, r.y + main_panel_position.y + InventorySlotSizeInPixels.height);
+        inv_draw_slot_back(ctx, out, position, InventorySlotSizeInPixels, item._iMagical);
+        let curs_id = item._iCurs as i32 + CURSOR_FIRSTITEM;
+        let sprite = get_inv_item_sprite(ctx, curs_id);
+        if ctx.cursor.pcursinvitem as i32 == i as i32 + INVITEM_BELT_FIRST as i32
+            && (ctx.controls.control_mode == crate::controls::ControlTypes::KeyboardAndMouse || ctx.inv.invflag)
+        {
+            let color = crate::items::get_outline_color(&item, true);
+            crate::engine::render::clx_render::clx_draw_outline(out, color, (position.x, position.y), &sprite);
+        }
+        crate::cursor::draw_item(ctx, &item, out, position, &sprite);
+        if item.is_usable(ctx) && item._itype != ItemType::Gold {
+            let rect = crate::engine::surface::Rect::new(position.x, position.y - 12, InventorySlotSizeInPixels.width, InventorySlotSizeInPixels.height);
+            draw_string(ctx, out, &(i + 1).to_string(), rect, UiFlags::COLOR_WHITE | UiFlags::ALIGN_RIGHT, 1, -1);
+        }
+    }
+}

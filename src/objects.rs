@@ -159,9 +159,6 @@ pub fn find_stand_position(ctx: &Ctx) -> Option<Point> {
 }
 
 crate::pending_fn!(pub fn set_map_objects(ctx: &mut Ctx, dun_data: &[u16], startx: i32, starty: i32), "objects.cpp|devilution::SetMapObjects(const uint16_t *dunData, int startx, int starty)");
-crate::pending_fn!(pub fn find_object_at_position(ctx: &Ctx, position: Point, consider_large_objects: bool) -> Option<usize>, "objects.cpp|devilution::FindObjectAtPosition(Point position, bool considerLargeObjects)");
-crate::pending_fn!(pub fn is_object_at_position(ctx: &Ctx, position: Point) -> bool, "objects.cpp|devilution::IsObjectAtPosition(Point position)");
-crate::pending_fn!(pub fn is_item_blocking_object_at_position(ctx: &Ctx, position: Point) -> bool, "objects.cpp|devilution::IsItemBlockingObjectAtPosition(Point position)");
 crate::pending_fn!(pub fn break_object(ctx: &mut Ctx, pnum: usize, oi: usize), "objects.cpp|devilution::BreakObject(const Player &player, Object &object)");
 crate::pending_fn!(pub fn operate_object(ctx: &mut Ctx, pnum: usize, oi: usize), "objects.cpp|devilution::OperateObject(Player &player, Object &object)");
 
@@ -232,4 +229,60 @@ pub mod shrine_type {
     pub const ShrineSolar: i32 = 32;
     pub const ShrineMurphys: i32 = 33;
     pub const NumberOfShrineTypes: i32 = 34;
+}
+
+crate::pending_fn!(pub fn process_objects(ctx: &mut crate::ctx::Ctx), "objects.cpp|devilution::ProcessObjects()");
+
+crate::pending_fn!(pub fn init_objects(ctx: &mut crate::ctx::Ctx), "objects.cpp|devilution::InitObjects()");
+
+crate::pending_fn!(pub fn init_object_gfx(ctx: &mut crate::ctx::Ctx), "objects.cpp|devilution::InitObjectGFX()");
+
+crate::pending_fn!(pub fn get_object_str(ctx: &mut crate::ctx::Ctx, oi: usize), "objects.cpp|devilution::GetObjectStr(const Object &object)");
+
+/// Original: `devilution::FindObjectAtPosition` (objects.cpp): the index into `Objects` of the
+/// object at `position`.
+// @port objects.cpp|devilution::FindObjectAtPosition(Point position, bool considerLargeObjects) sha=6bea8d30b3b4
+pub fn find_object_at_position(ctx: &Ctx, position: Point, consider_large_objects: bool) -> Option<usize> {
+    if !crate::levels::gendung::in_dungeon_bounds(position) {
+        return None;
+    }
+    let object_id = ctx.gendung.dObject[position.x as usize][position.y as usize];
+    if object_id > 0 || (consider_large_objects && object_id != 0) {
+        return Some((object_id as i32).unsigned_abs() as usize - 1);
+    }
+    // nothing at this position
+    None
+}
+
+/// Original: `devilution::IsObjectAtPosition` (objects.h).
+// @port objects.h|devilution::IsObjectAtPosition(Point position) sha=df5205688c00
+pub fn is_object_at_position(ctx: &Ctx, position: Point) -> bool {
+    find_object_at_position(ctx, position, true).is_some()
+}
+
+/// Original: `devilution::IsItemBlockingObjectAtPosition` (objects.cpp).
+// @port objects.cpp|devilution::IsItemBlockingObjectAtPosition(Point position) sha=cb86707cdda7
+pub fn is_item_blocking_object_at_position(ctx: &Ctx, position: Point) -> bool {
+    use crate::engine::geometry::Direction;
+    if let Some(o) = find_object_at_position(ctx, position, true) {
+        if ctx.objects.Objects[o]._oSolidFlag {
+            // solid object
+            return true;
+        }
+    }
+    if let Some(o) = find_object_at_position(ctx, position + Direction::South, true) {
+        if ctx.objects.Objects[o]._oSelFlag != 0 {
+            // An unopened container or breakable object exists which potentially overlaps this tile, the player might not be able to pick up an item dropped here.
+            return true;
+        }
+    }
+    if let Some(o) = find_object_at_position(ctx, position + Direction::SouthEast, false) {
+        if let Some(other_door) = find_object_at_position(ctx, position + Direction::SouthWest, false) {
+            if ctx.objects.Objects[o]._oSelFlag != 0 && ctx.objects.Objects[other_door]._oSelFlag != 0 {
+                // Two interactive objects potentially overlap both sides of this tile, as above the player might not be able to pick up an item which is dropped here.
+                return true;
+            }
+        }
+    }
+    false
 }

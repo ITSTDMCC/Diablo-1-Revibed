@@ -114,6 +114,12 @@ pub struct MonsterState {
     pub ActiveMonsters: [i32; MaxMonsters],
     pub ActiveMonsterCount: usize,
     pub MonsterKillCounts: Vec<i32>,
+    /// `totalmonsters`
+    pub totalmonsters: usize,
+    /// `monstimgtot`
+    pub monstimgtot: i32,
+    /// `uniquetrans`
+    pub uniquetrans: i32,
 }
 
 impl Default for MonsterState {
@@ -125,6 +131,9 @@ impl Default for MonsterState {
             ActiveMonsters: [0; MaxMonsters],
             ActiveMonsterCount: 0,
             MonsterKillCounts: vec![0; MonstersData.len()],
+            totalmonsters: 0,
+            monstimgtot: 0,
+            uniquetrans: 0,
         }
     }
 }
@@ -258,7 +267,6 @@ crate::pending_fn!(pub fn m_start_hit(ctx: &mut Ctx, m: usize, pnum: usize, dam:
 crate::pending_fn!(pub fn m_get_knockback(ctx: &mut Ctx, m: usize), "monster.cpp|devilution::M_GetKnockback(Monster &monster)");
 crate::pending_fn!(pub fn add_doppelganger(ctx: &mut Ctx, m: usize), "monster.cpp|devilution::AddDoppelganger(Monster &monster)");
 crate::pending_fn!(pub fn kill_my_golem(ctx: &mut Ctx), "monster.cpp|devilution::KillMyGolem()");
-crate::pending_fn!(pub fn delete_monster_list(ctx: &mut Ctx), "monster.cpp|devilution::DeleteMonsterList()");
 
 /// `GolemHoldingCell`
 pub const GOLEM_HOLDING_CELL: Point = Point::new(1, 0);
@@ -276,3 +284,218 @@ crate::pending_fn!(pub fn tag(ctx: &mut Ctx, m: usize, pnum: usize), "monster.cp
 crate::pending_fn!(pub fn golum_ai(ctx: &mut Ctx, m: usize), "monster.cpp|devilution::GolumAi(Monster &golem)");
 crate::pending_fn!(pub fn m_update_relations(ctx: &mut Ctx, m: usize), "monster.cpp|devilution::M_UpdateRelations(const Monster &monster)");
 crate::pending_fn!(pub fn weaken_na_krul(ctx: &mut Ctx), "monster.cpp|devilution::WeakenNaKrul()");
+
+crate::pending_fn!(pub fn init_monsters(ctx: &mut crate::ctx::Ctx), "monster.cpp|devilution::InitMonsters()");
+
+crate::pending_fn!(pub fn init_golems(ctx: &mut crate::ctx::Ctx), "monster.cpp|devilution::InitGolems()");
+
+crate::pending_fn!(pub fn get_level_m_types(ctx: &mut crate::ctx::Ctx), "monster.cpp|devilution::GetLevelMTypes()");
+
+
+crate::pending_fn!(pub fn prep_do_ending(ctx: &mut crate::ctx::Ctx), "monster.cpp|devilution::PrepDoEnding()");
+
+crate::pending_fn!(pub fn do_ending(ctx: &mut crate::ctx::Ctx), "monster.cpp|devilution::DoEnding()");
+
+
+/// Original: `devilution::Monster::name` (monster.h).
+// @port monster.h|devilution::Monster::name() sha=4eb516b96c3e
+pub fn monster_name(ctx: &crate::ctx::Ctx, m: usize) -> String {
+    let mon = &ctx.monster.Monsters[m];
+    if mon.uniqueType != UniqueMonsterType::None {
+        return crate::utils::language::pgettext("monster", UniqueMonstersData[mon.uniqueType as i8 as usize].mName);
+    }
+    crate::utils::language::pgettext("monster", monster_data(ctx, m).name)
+}
+
+crate::pending_fn!(pub fn print_monst_history(ctx: &mut Ctx, mt: _monster_id), "monster.cpp|devilution::PrintMonstHistory(int mt)");
+crate::pending_fn!(pub fn print_unique_history(ctx: &mut Ctx), "monster.cpp|devilution::PrintUniqueHistory()");
+
+/// Original: `ClearMVars` (monster.cpp).
+// @port monster.cpp|devilution::ClearMVars(Monster &monster) sha=1679d123a80f
+fn clear_m_vars(monster: &mut Monster) {
+    monster.var1 = 0;
+    monster.var2 = 0;
+    monster.var3 = 0;
+    monster.position.temp = Point::new(0, 0);
+}
+
+/// Original: `ClrAllMonsters` (monster.cpp).
+// @port monster.cpp|devilution::ClrAllMonsters() sha=d88c1e03491f
+fn clr_all_monsters(ctx: &mut Ctx) {
+    for i in 0..ctx.monster.Monsters.len() {
+        let dir = Direction::from_u8(ctx.rng.generate_rnd(8) as u8);
+        let enemy = ctx.rng.generate_rnd(ctx.multi.gbActivePlayers as i32) as u8;
+        let enemy_position = ctx.players.Players[enemy as usize].position.future;
+        let monster = &mut ctx.monster.Monsters[i];
+        clear_m_vars(monster);
+        monster.goal = MonsterGoal::None;
+        monster.mode = MonsterMode::Stand;
+        monster.var1 = 0;
+        monster.var2 = 0;
+        monster.position.tile = Point::new(0, 0);
+        monster.position.future = Point::new(0, 0);
+        monster.position.old = Point::new(0, 0);
+        monster.direction = dir;
+        monster.animInfo = AnimationInfo::default();
+        monster.flags = 0;
+        monster.isInvalid = false;
+        monster.enemy = enemy;
+        monster.enemyPosition = enemy_position;
+    }
+}
+
+/// Original: `DeleteMonster` (monster.cpp).
+// @port monster.cpp|devilution::DeleteMonster(size_t activeIndex) sha=d0d21ac18a7d
+fn delete_monster(ctx: &mut Ctx, active_index: usize) {
+    let m = ctx.monster.ActiveMonsters[active_index] as usize;
+    if (ctx.monster.Monsters[m].flags & MFLAG_BERSERK as u32) != 0 {
+        let light_id = ctx.monster.Monsters[m].lightId as i32;
+        crate::lighting::add_un_light(ctx, light_id);
+    }
+    ctx.monster.ActiveMonsterCount -= 1;
+    // This ensures alive monsters are before ActiveMonsterCount in the array and any deleted monster after
+    let n = ctx.monster.ActiveMonsterCount;
+    ctx.monster.ActiveMonsters.swap(active_index, n);
+}
+
+/// Original: `devilution::InitLevelMonsters` (monster.cpp).
+// @port monster.cpp|devilution::InitLevelMonsters() sha=9b9680018f07
+pub fn init_level_monsters(ctx: &mut Ctx) {
+    ctx.monster.LevelMonsterTypeCount = 0;
+    ctx.monster.monstimgtot = 0;
+    for level_monster_type in ctx.monster.LevelMonsterTypes.iter_mut() {
+        level_monster_type.placeFlags = 0;
+    }
+    clr_all_monsters(ctx);
+    ctx.monster.ActiveMonsterCount = 0;
+    ctx.monster.totalmonsters = MaxMonsters;
+    for i in 0..MaxMonsters {
+        ctx.monster.ActiveMonsters[i] = i as i32;
+    }
+    ctx.monster.uniquetrans = 0;
+}
+
+/// Original: `devilution::DeleteMonsterList` (monster.cpp).
+// @port monster.cpp|devilution::DeleteMonsterList() sha=84e47223f498
+pub fn delete_monster_list(ctx: &mut Ctx) {
+    for i in 0..crate::player::MAX_PLRS {
+        let golem = &mut ctx.monster.Monsters[i];
+        if !golem.isInvalid {
+            continue;
+        }
+        golem.position.tile = GOLEM_HOLDING_CELL;
+        golem.position.future = Point::new(0, 0);
+        golem.position.old = Point::new(0, 0);
+        golem.isInvalid = false;
+    }
+    let mut i = crate::player::MAX_PLRS;
+    while i < ctx.monster.ActiveMonsterCount {
+        let m = ctx.monster.ActiveMonsters[i];
+        if ctx.monster.Monsters[m as usize].isInvalid {
+            if ctx.cursor.pcursmonst as i32 == m {
+                // Unselect monster if player highlighted it
+                ctx.cursor.pcursmonst = -1;
+            }
+            delete_monster(ctx, i);
+        } else {
+            i += 1;
+        }
+    }
+}
+
+crate::pending_fn!(fn follow_the_leader(ctx: &mut Ctx, m: usize), "monster.cpp|devilution::FollowTheLeader(Monster &monster)");
+crate::pending_fn!(fn update_enemy(ctx: &mut Ctx, m: usize), "monster.cpp|devilution::UpdateEnemy(Monster &monster)");
+crate::pending_fn!(fn ai_plan_path(ctx: &mut Ctx, m: usize) -> bool, "monster.cpp|devilution::AiPlanPath(Monster &monster)");
+crate::pending_fn!(fn ai_proc(ctx: &mut Ctx, m: usize), "monster.cpp|devilution::AiProc");
+crate::pending_fn!(fn update_mode_stance(ctx: &mut Ctx, m: usize) -> bool, "monster.cpp|devilution::UpdateModeStance(Monster &monster)");
+crate::pending_fn!(fn group_unity(ctx: &mut Ctx, m: usize), "monster.cpp|devilution::GroupUnity(Monster &monster)");
+
+/// Original: `devilution::ProcessMonsters` (monster.cpp).
+// @port monster.cpp|devilution::ProcessMonsters() sha=a1d03653ab26
+pub fn process_monsters(ctx: &mut Ctx) {
+    delete_monster_list(ctx);
+    assert!(ctx.monster.ActiveMonsterCount <= MaxMonsters);
+    let difficulty = ctx.multi.sgGameInitInfo.nDifficulty;
+    let mut i = 0;
+    while i < ctx.monster.ActiveMonsterCount {
+        let m = ctx.monster.ActiveMonsters[i] as usize;
+        follow_the_leader(ctx, m);
+        if ctx.init.gb_is_multiplayer {
+            let seed = ctx.monster.Monsters[m].aiSeed;
+            ctx.rng.set_rnd_seed(seed);
+            ctx.monster.Monsters[m].aiSeed = ctx.rng.advance_rnd_seed() as u32;
+        }
+        let level = monster_level(ctx, m, difficulty) as i32;
+        {
+            let monster = &mut ctx.monster.Monsters[m];
+            if monster.hitPoints < monster.maxHitPoints && monster.hitPoints >> 6 > 0 {
+                if level > 1 {
+                    monster.hitPoints += level / 2;
+                } else {
+                    monster.hitPoints += level;
+                }
+                // prevent going over max HP with part of a single regen tick
+                monster.hitPoints = monster.hitPoints.min(monster.maxHitPoints);
+            }
+        }
+        let tile = ctx.monster.Monsters[m].position.tile;
+        if crate::levels::gendung::is_tile_visible(ctx, tile) && ctx.monster.Monsters[m].activeForTicks == 0 {
+            let t = monster_type_id(ctx, m);
+            if t == MT_CLEAVER {
+                crate::effects::play_sfx(ctx, crate::effects::USFX_CLEAVER);
+            }
+            if t == MT_NAKRUL {
+                if ctx.multi.sgGameInitInfo.bCowQuest != 0 {
+                    crate::effects::play_sfx(ctx, crate::effects::USFX_NAKRUL6);
+                } else if ctx.crypt.IsUberRoomOpened {
+                    crate::effects::play_sfx(ctx, crate::effects::USFX_NAKRUL4);
+                } else {
+                    crate::effects::play_sfx(ctx, crate::effects::USFX_NAKRUL5);
+                }
+            }
+            if t == MT_DEFILER {
+                crate::effects::play_sfx(ctx, crate::effects::USFX_DEFILER8);
+            }
+            update_enemy(ctx, m);
+        }
+        if (ctx.monster.Monsters[m].flags & MFLAG_TARGETS_MONSTER as u32) != 0 {
+            let enemy = ctx.monster.Monsters[m].enemy as usize;
+            assert!(enemy < MaxMonsters);
+            // BUGFIX: enemy target may be dead at time of access, thus reading garbage data from `Monsters[monster.enemy].position.future`.
+            let f = ctx.monster.Monsters[enemy].position.future;
+            let monster = &mut ctx.monster.Monsters[m];
+            monster.position.last = f;
+            monster.enemyPosition = monster.position.last;
+        } else {
+            let enemy = ctx.monster.Monsters[m].enemy as usize;
+            assert!(enemy < crate::player::MAX_PLRS);
+            let future = ctx.players.Players[enemy].position.future;
+            let visible = crate::levels::gendung::is_tile_visible(ctx, tile);
+            let is_diablo = monster_type_id(ctx, m) == MT_DIABLO;
+            let monster = &mut ctx.monster.Monsters[m];
+            monster.enemyPosition = future;
+            if visible {
+                monster.activeForTicks = u8::MAX;
+                monster.position.last = future;
+            } else if monster.activeForTicks != 0 && !is_diablo {
+                monster.activeForTicks -= 1;
+            }
+        }
+        loop {
+            if (ctx.monster.Monsters[m].flags & MFLAG_SEARCH as u32) == 0 || !ai_plan_path(ctx, m) {
+                ai_proc(ctx, m);
+            }
+            if !update_mode_stance(ctx, m) {
+                break;
+            }
+            group_unity(ctx, m);
+        }
+        let monster = &mut ctx.monster.Monsters[m];
+        if monster.mode != MonsterMode::Petrified && (monster.flags & MFLAG_ALLOW_SPECIAL as u32) == 0 {
+            let lock = (monster.flags & MFLAG_LOCK_ANIMATION as u32) != 0;
+            monster.animInfo.process_animation(lock);
+        }
+        i += 1;
+    }
+    delete_monster_list(ctx);
+}

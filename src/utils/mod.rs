@@ -12,3 +12,4 @@ pub mod cstr;
 pub mod format_int;
 pub mod stdsort;
 pub mod crt_rand;
+pub mod surface_to_clx;

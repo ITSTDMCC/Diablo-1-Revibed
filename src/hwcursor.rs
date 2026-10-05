@@ -71,7 +71,6 @@ pub struct HwCursorState {
 }
 
 #[derive(Clone, Copy, PartialEq, Eq)]
-#[allow(dead_code)] // Center is used by SetHardwareCursorFromSprite (pending)
 enum HotpointPosition {
     TopLeft,
     Center,
@@ -201,7 +200,7 @@ pub fn set_hardware_cursor(ctx: &mut Ctx, cursor_info: CursorInfo) {
     ctx.hwcursor.current_cursor_info = cursor_info;
     ctx.hwcursor.current_cursor_info.set_needs_reinitialization(false);
     let enabled = match cursor_info.cursor_type() {
-        CursorType::Game => crate::cursor::set_hardware_cursor_from_sprite(ctx, cursor_info.id()),
+        CursorType::Game => set_hardware_cursor_from_sprite(ctx, cursor_info.id()),
         CursorType::UserInterface => {
             // ArtCursor is null while loading the game on the progress screen.
             match ctx.diablo_ui.art_cursor.clone() {
@@ -254,4 +253,28 @@ pub fn reinitialize_hardware_cursor(ctx: &mut Ctx) {
     } else {
         ctx.hwcursor.current_cursor_info.set_needs_reinitialization(true);
     }
+}
+
+/// Original: `SetHardwareCursorFromSprite` (hwcursor.cpp).
+// @port hwcursor.cpp|devilution::SetHardwareCursorFromSprite(int pcurs) sha=cc330c151ee7
+fn set_hardware_cursor_from_sprite(ctx: &mut Ctx, pcurs: i32) -> bool {
+    let me = ctx.players.MyPlayer.expect("MyPlayer");
+    let is_item = !ctx.players.Players[me].HoldItem.is_empty();
+    if is_item && !ctx.options.graphics.hardware_cursor_for_items.get() {
+        return false;
+    }
+    let outline_width = if is_item { 1 } else { 0 };
+    let size = crate::cursor::get_inv_item_size(pcurs);
+    let (w, h) = (size.width + 2 * outline_width, size.height + 2 * outline_width);
+    if !is_cursor_size_allowed(ctx, (w, h)) {
+        return false;
+    }
+    let mut out = OwnedSurface::new(w, h);
+    // Transparent color must not be used in the sprite itself.
+    // Colors 1-127 are outside of the UI palette so are safe to use.
+    const TRANSPARENT_COLOR: u8 = 1;
+    out.pixels.fill(TRANSPARENT_COLOR);
+    let view = out.view();
+    crate::cursor::draw_software_cursor(ctx, &view, crate::engine::geometry::Point::new(outline_width, h - outline_width), pcurs);
+    set_hardware_cursor_from_surface(ctx, &out, TRANSPARENT_COLOR, if is_item { HotpointPosition::Center } else { HotpointPosition::TopLeft })
 }

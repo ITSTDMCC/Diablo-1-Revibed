@@ -103,6 +103,34 @@ pub struct Ctx {
     pub minitext: crate::minitext::MinitextState,
     /// `levels/crypt.cpp`
     pub crypt: crate::levels::crypt::CryptState,
+    /// `engine/events.cpp`
+    pub events: crate::engine::events::EventsState,
+    /// `interfac.cpp`
+    pub interfac: crate::interfac::InterfacState,
+    /// `doom.cpp`
+    pub doom: crate::doom::DoomState,
+    /// `engine/render/scrollrt.cpp`
+    pub scrollrt: crate::engine::render::scrollrt::ScrollrtState,
+    /// `dead.cpp`
+    pub dead: crate::dead::DeadState,
+    /// `panels/info_box.cpp`
+    pub info_box: crate::panels::info_box::InfoBoxState,
+    /// `qol/monhealthbar.cpp`
+    pub monhealthbar: crate::qol::monhealthbar::MonHealthBarState,
+    /// `qol/xpbar.cpp`
+    pub xpbar: crate::qol::xpbar::XpBarState,
+    /// `qol/itemlabels.cpp`
+    pub itemlabels: crate::qol::itemlabels::ItemLabelsState,
+    /// `qol/floatingnumbers.cpp`
+    pub floatingnumbers: crate::qol::floatingnumbers::FloatingNumbersState,
+    /// panels/mainpanel, charpanel, spell_icons, spell_book
+    pub panels: crate::panels::PanelsState,
+    /// gmenu.cpp
+    pub gmenu: crate::gmenu::GmenuState,
+    /// gamemenu.cpp
+    pub gamemenu: crate::gamemenu::GamemenuState,
+    /// controls/modifier_hints.cpp
+    pub modifier_hints: crate::controls::modifier_hints::ModifierHintsState,
 }
 
 impl Ctx {
@@ -158,6 +186,20 @@ impl Ctx {
             crt_rand: Default::default(),
             minitext: Default::default(),
             crypt: Default::default(),
+            events: Default::default(),
+            interfac: Default::default(),
+            doom: Default::default(),
+            scrollrt: Default::default(),
+            dead: Default::default(),
+            info_box: Default::default(),
+            monhealthbar: Default::default(),
+            xpbar: Default::default(),
+            itemlabels: Default::default(),
+            floatingnumbers: Default::default(),
+            panels: Default::default(),
+            gmenu: Default::default(),
+            gamemenu: Default::default(),
+            modifier_hints: Default::default(),
         }
     }
 }

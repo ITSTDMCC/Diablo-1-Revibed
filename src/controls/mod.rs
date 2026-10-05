@@ -33,12 +33,16 @@ pub struct ControlsState {
     pub pad_menu_navigator_active: bool,
     /// `ControlDevice` (controls/plrctrls.cpp)
     pub control_device: ControlTypes,
+    /// `ControllerActionHeld` (controls/plrctrls.cpp)
+    pub controller_action_held: game_controls::GameActionType,
     /// `GamepadType` (controls/plrctrls.cpp)
     pub gamepad_type: game_controls::GamepadLayout,
     /// stick values (controls/controller_motion.cpp)
     pub sticks: controller::StickState,
     /// static `repeater` in GetMenuHeldUpDownAction
     pub menu_held_repeater: controller::AxisDirectionRepeater,
+    /// Globals of controls/plrctrls.cpp
+    pub plrctrls: plrctrls::PlrCtrlsState,
 }
 
 /// `remap_keyboard_key` (controls/remap_keyboard.h): no remapping unless REMAP_KEYBOARD_KEYS
@@ -58,3 +62,4 @@ pub fn set_cursor_pos(ctx: &mut Ctx, position: (i32, i32)) {
         ctx.platform.warp_mouse(position.0, position.1);
     }
 }
+pub mod modifier_hints;

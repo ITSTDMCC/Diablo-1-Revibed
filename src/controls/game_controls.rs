@@ -5,9 +5,10 @@ use crate::ctx::Ctx;
 use super::controller_buttons::ControllerButton;
 
 /// `GameActionType`
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Default)]
 #[repr(u8)]
 pub enum GameActionType {
+    #[default]
     None,
     UseHealthPotion,
     UseManaPotion,
@@ -66,4 +67,10 @@ pub fn is_simulated_mouse_click_binding(ctx: &Ctx, e: super::controller::Control
     }
     let action = crate::options::padmapper_action_name_triggered_by_button_event(ctx, e.button, e.up);
     matches!(action.as_str(), "LeftMouseClick1" | "LeftMouseClick2" | "RightMouseClick1" | "RightMouseClick2")
+}
+
+/// Original: `devilution::GetMoveDirection` (controls/game_controls.cpp).
+// @port controls/game_controls.cpp|devilution::GetMoveDirection() sha=29758e684ec2
+pub fn get_move_direction(ctx: &Ctx) -> super::controller::AxisDirection {
+    super::controller::get_left_stick_or_dpad_direction(ctx, true)
 }
