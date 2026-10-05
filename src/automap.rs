@@ -119,7 +119,7 @@ pub fn set_automap_active(ctx: &mut Ctx, active: bool) {
 
 /// Original: `devilution::AmLine` (automap.h).
 // @port automap.h|devilution::AmLine(int x) sha=966cafea1c0b
-fn am_line(ctx: &Ctx, x: i32) -> i32 {
+pub fn am_line(ctx: &Ctx, x: i32) -> i32 {
     debug_assert!((4..=64).contains(&x));
     debug_assert!((x & (x - 1)) == 0);
     ctx.automap.AutoMapScale * x / 100

@@ -315,7 +315,7 @@ pub fn load_u16_file(ctx: &mut Ctx, path: &str) -> Vec<u16> {
 
 /// Original: `GetSizeForThemeRoom` (levels/gendung.cpp). Coordinates are `uint8_t` in the original.
 // @port levels/gendung.cpp|devilution::GetSizeForThemeRoom(uint8_t floor, WorldTilePosition origin, WorldTileCoord minSize, WorldTileCoord maxSize) sha=55ca3fc26b3b
-fn get_size_for_theme_room(ctx: &Ctx, floor: u8, origin: Point, min_size: i32, max_size: i32) -> Option<Size> {
+pub fn get_size_for_theme_room(ctx: &Ctx, floor: u8, origin: Point, min_size: i32, max_size: i32) -> Option<Size> {
     let g = &ctx.gendung;
     if origin.x + max_size > DMAXX as i32 && origin.y + max_size > DMAXY as i32 {
         return None; // Original broken bounds check, avoids lower right corner
