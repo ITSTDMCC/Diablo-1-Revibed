@@ -294,7 +294,7 @@ const SUBSTITION1_FLOOR: [(u8, u8); 4] = [(Floor, Floor11), (Floor, Floor12), (F
 const SUBSTITION2_FLOOR: [(u8, u8); 4] = [(Floor, Floor6), (Floor, Floor7), (Floor, Floor8), (Floor, Floor9)];
 
 /// Original: `ApplyCryptShadowsPatterns` (levels/crypt.cpp).
-// @port levels/crypt.cpp|devilution::ApplyCryptShadowsPatterns()
+// @port levels/crypt.cpp|devilution::ApplyCryptShadowsPatterns() sha=63a24b12d5c3
 fn apply_crypt_shadows_patterns(ctx: &mut Ctx) {
     let d = &mut ctx.gendung.dungeon;
     for j in 1..DMAXY {
@@ -366,7 +366,7 @@ fn apply_crypt_shadows_patterns(ctx: &mut Ctx) {
 }
 
 /// Original: `PlaceMiniSetRandom1x1` (levels/crypt.cpp).
-// @port levels/crypt.cpp|devilution::PlaceMiniSetRandom1x1(uint8_t search, uint8_t replace, int rndper)
+// @port levels/crypt.cpp|devilution::PlaceMiniSetRandom1x1(uint8_t search, uint8_t replace, int rndper) sha=6a343fa7f345
 fn place_mini_set_random_1x1(ctx: &mut Ctx, search: u8, replace: u8, rndper: i32) {
     place_mini_set_random(ctx, &miniset(1, 1, &[&[search]], &[&[replace]]), rndper);
 }
@@ -378,31 +378,31 @@ fn place_pairs(ctx: &mut Ctx, pairs: &[(u8, u8)], rndper: i32) {
 }
 
 /// Original: `CryptCracked` (levels/crypt.cpp).
-// @port levels/crypt.cpp|devilution::CryptCracked(int rndper)
+// @port levels/crypt.cpp|devilution::CryptCracked(int rndper) sha=79098732cd6a
 fn crypt_cracked(ctx: &mut Ctx, rndper: i32) {
     place_pairs(ctx, &CRACKED_TILES, rndper);
 }
 
 /// Original: `CryptBroken` (levels/crypt.cpp).
-// @port levels/crypt.cpp|devilution::CryptBroken(int rndper)
+// @port levels/crypt.cpp|devilution::CryptBroken(int rndper) sha=2fb3931cad09
 fn crypt_broken(ctx: &mut Ctx, rndper: i32) {
     place_pairs(ctx, &BROKEN_TILES, rndper);
 }
 
 /// Original: `CryptLeaking` (levels/crypt.cpp).
-// @port levels/crypt.cpp|devilution::CryptLeaking(int rndper)
+// @port levels/crypt.cpp|devilution::CryptLeaking(int rndper) sha=0a984f7e9509
 fn crypt_leaking(ctx: &mut Ctx, rndper: i32) {
     place_pairs(ctx, &LEAKING_TILES, rndper);
 }
 
 /// Original: `CryptSubstitions1` (levels/crypt.cpp).
-// @port levels/crypt.cpp|devilution::CryptSubstitions1(int rndper)
+// @port levels/crypt.cpp|devilution::CryptSubstitions1(int rndper) sha=5047c302ee20
 fn crypt_substitions1(ctx: &mut Ctx, rndper: i32) {
     place_pairs(ctx, &SUBSTITIONS1_TILES, rndper);
 }
 
 /// Original: `CryptSubstitions2` (levels/crypt.cpp).
-// @port levels/crypt.cpp|devilution::CryptSubstitions2(int rndper)
+// @port levels/crypt.cpp|devilution::CryptSubstitions2(int rndper) sha=b7d93666af77
 fn crypt_substitions2(ctx: &mut Ctx, rndper: i32) {
     for centre in [167, 168, 169, 170, 171, 172] {
         // CryptPillar1..5, CryptStar
@@ -412,13 +412,13 @@ fn crypt_substitions2(ctx: &mut Ctx, rndper: i32) {
 }
 
 /// Original: `CryptFloor` (levels/crypt.cpp).
-// @port levels/crypt.cpp|devilution::CryptFloor(int rndper)
+// @port levels/crypt.cpp|devilution::CryptFloor(int rndper) sha=81f8344fa5da
 fn crypt_floor(ctx: &mut Ctx, rndper: i32) {
     place_pairs(ctx, &SUBSTITION2_FLOOR, rndper);
 }
 
 /// Original: `devilution::InitCryptPieces` (levels/crypt.cpp).
-// @port levels/crypt.cpp|devilution::InitCryptPieces()
+// @port levels/crypt.cpp|devilution::InitCryptPieces() sha=1c39f1ebd954
 pub fn init_crypt_pieces(ctx: &mut Ctx) {
     let g = &mut ctx.gendung;
     for j in 0..MAXDUNY {
@@ -433,7 +433,7 @@ pub fn init_crypt_pieces(ctx: &mut Ctx) {
 }
 
 /// Original: `devilution::SetCryptRoom` (levels/crypt.cpp).
-// @port levels/crypt.cpp|devilution::SetCryptRoom()
+// @port levels/crypt.cpp|devilution::SetCryptRoom() sha=bb37cbc9ad99
 pub fn set_crypt_room(ctx: &mut Ctx) {
     let position = select_chamber(ctx);
     ctx.crypt.UberRow = 2 * position.x + 6;
@@ -446,7 +446,7 @@ pub fn set_crypt_room(ctx: &mut Ctx) {
 }
 
 /// Original: `devilution::SetCornerRoom` (levels/crypt.cpp).
-// @port levels/crypt.cpp|devilution::SetCornerRoom()
+// @port levels/crypt.cpp|devilution::SetCornerRoom() sha=5462fcc33d9f
 pub fn set_corner_room(ctx: &mut Ctx) {
     let position = select_chamber(ctx);
     let dun_data = load_u16_file(ctx, "nlevels\\l5data\\cornerstone.dun");
@@ -455,7 +455,7 @@ pub fn set_corner_room(ctx: &mut Ctx) {
 }
 
 /// Original: `devilution::FixCryptDirtTiles` (levels/crypt.cpp).
-// @port levels/crypt.cpp|devilution::FixCryptDirtTiles()
+// @port levels/crypt.cpp|devilution::FixCryptDirtTiles() sha=ff6841f4ad9e
 pub fn fix_crypt_dirt_tiles(ctx: &mut Ctx) {
     let d = &mut ctx.gendung.dungeon;
     for j in 0..DMAXY - 1 {
@@ -480,7 +480,7 @@ pub fn fix_crypt_dirt_tiles(ctx: &mut Ctx) {
 }
 
 /// Original: `devilution::PlaceCryptStairs` (levels/crypt.cpp).
-// @port levels/crypt.cpp|devilution::PlaceCryptStairs(lvl_entry entry)
+// @port levels/crypt.cpp|devilution::PlaceCryptStairs(lvl_entry entry) sha=5ce0ec93a21b
 pub fn place_crypt_stairs(ctx: &mut Ctx, entry: lvl_entry) -> bool {
     let mut success = true;
     let tries = (DMAXX * DMAXY) as i32;
@@ -509,7 +509,7 @@ pub fn place_crypt_stairs(ctx: &mut Ctx, entry: lvl_entry) -> bool {
 }
 
 /// Original: `devilution::CryptSubstitution` (levels/crypt.cpp).
-// @port levels/crypt.cpp|devilution::CryptSubstitution()
+// @port levels/crypt.cpp|devilution::CryptSubstitution() sha=38050a2a3353
 pub fn crypt_substitution(ctx: &mut Ctx) {
     place_pairs(ctx, &STATUES, 10);
     place_mini_set_random_1x1(ctx, VArch, VArch5, 95);
@@ -559,7 +559,7 @@ pub fn crypt_substitution(ctx: &mut Ctx) {
 }
 
 /// Original: `devilution::SetCryptSetPieceRoom` (levels/crypt.cpp).
-// @port levels/crypt.cpp|devilution::SetCryptSetPieceRoom()
+// @port levels/crypt.cpp|devilution::SetCryptSetPieceRoom() sha=6014b4350c63
 pub fn set_crypt_set_piece_room(ctx: &mut Ctx) {
     let (minp, maxp) = (ctx.gendung.dminPosition, ctx.gendung.dmaxPosition);
     for j in minp.y..maxp.y {
@@ -577,7 +577,7 @@ pub fn set_crypt_set_piece_room(ctx: &mut Ctx) {
 }
 
 /// Original: `devilution::PlaceCryptLights` (levels/crypt.cpp).
-// @port levels/crypt.cpp|devilution::PlaceCryptLights()
+// @port levels/crypt.cpp|devilution::PlaceCryptLights() sha=eb027cf47d11
 pub fn place_crypt_lights(ctx: &mut Ctx) {
     const LAVA_TILES: [u16; 83] = [
         124, 128, 130, 132, 133, 134, 135, 139, 141, 143, 145, 156, 164, 166, 167, 168, 169, 170, 182, 190, 192, 195, 196, 199, 200, 254, 266, 273, 276, 281, 282, 283, 284, 285, 286, 287, 288, 290,

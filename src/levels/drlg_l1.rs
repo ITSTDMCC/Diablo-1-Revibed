@@ -263,7 +263,7 @@ fn set_dun(ctx: &mut Ctx, x: i32, y: i32, v: u8) {
 }
 
 /// Original: `ApplyShadowsPatterns` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::ApplyShadowsPatterns()
+// @port levels/drlg_l1.cpp|devilution::ApplyShadowsPatterns() sha=bcf3bf38e0da
 fn apply_shadows_patterns(ctx: &mut Ctx) {
     let g = &mut ctx.gendung;
     for y in 1..DMAXY {
@@ -318,7 +318,7 @@ fn apply_shadows_patterns(ctx: &mut Ctx) {
 }
 
 /// Original: `CanReplaceTile` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::CanReplaceTile(uint8_t replace, Point tile)
+// @port levels/drlg_l1.cpp|devilution::CanReplaceTile(uint8_t replace, Point tile) sha=6747ae25d796
 fn can_replace_tile(ctx: &Ctx, replace: u8, tile: Point) -> bool {
     if replace < VWallEnd2 || replace > VWall8 {
         return true;
@@ -334,7 +334,7 @@ fn can_replace_tile(ctx: &Ctx, replace: u8, tile: Point) -> bool {
 }
 
 /// Original: `FillFloor` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::FillFloor()
+// @port levels/drlg_l1.cpp|devilution::FillFloor() sha=1d38d24626e3
 fn fill_floor(ctx: &mut Ctx) {
     for j in 0..DY {
         for i in 0..DX {
@@ -352,7 +352,7 @@ fn fill_floor(ctx: &mut Ctx) {
 }
 
 /// Original: `LoadQuestSetPieces` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::LoadQuestSetPieces()
+// @port levels/drlg_l1.cpp|devilution::LoadQuestSetPieces() sha=54e9cbcdf3c6
 fn load_quest_set_pieces(ctx: &mut Ctx) {
     use crate::quests::is_quest_available;
     if is_quest_available(ctx, Q_BUTCHER) {
@@ -365,7 +365,7 @@ fn load_quest_set_pieces(ctx: &mut Ctx) {
 }
 
 /// Original: `InitDungeonPieces` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::InitDungeonPieces()
+// @port levels/drlg_l1.cpp|devilution::InitDungeonPieces() sha=cdb76ae1e31e
 fn init_dungeon_pieces(ctx: &mut Ctx) {
     let g = &mut ctx.gendung;
     for j in 0..MAXDUNY {
@@ -385,7 +385,7 @@ fn init_dungeon_pieces(ctx: &mut Ctx) {
 }
 
 /// Original: `InitDungeonFlags` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::InitDungeonFlags()
+// @port levels/drlg_l1.cpp|devilution::InitDungeonFlags() sha=6facb2f3ac47
 fn init_dungeon_flags(ctx: &mut Ctx) {
     ctx.gendung.dungeon = [[Dirt; DMAXY]; DMAXX];
     ctx.gendung.Protected.reset();
@@ -393,7 +393,7 @@ fn init_dungeon_flags(ctx: &mut Ctx) {
 }
 
 /// Original: `MapRoom` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::MapRoom(Rectangle room)
+// @port levels/drlg_l1.cpp|devilution::MapRoom(Rectangle room) sha=8ba37e9cd2b0
 fn map_room(ctx: &mut Ctx, room: Rectangle) {
     for y in 0..room.size.height {
         for x in 0..room.size.width {
@@ -403,7 +403,7 @@ fn map_room(ctx: &mut Ctx, room: Rectangle) {
 }
 
 /// Original: `CheckRoom` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::CheckRoom(Rectangle room)
+// @port levels/drlg_l1.cpp|devilution::CheckRoom(Rectangle room) sha=a7355a01d288
 fn check_room(ctx: &Ctx, room: Rectangle) -> bool {
     for j in 0..room.size.height {
         for i in 0..room.size.width {
@@ -419,7 +419,7 @@ fn check_room(ctx: &Ctx, room: Rectangle) -> bool {
 }
 
 /// Original: `GenerateRoom` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::GenerateRoom(Rectangle area, bool verticalLayout)
+// @port levels/drlg_l1.cpp|devilution::GenerateRoom(Rectangle area, bool verticalLayout) sha=b1c86947da81
 fn generate_room(ctx: &mut Ctx, area: Rectangle, mut vertical_layout: bool) {
     let rotate = ctx.rng.flip_coin(4);
     vertical_layout = (!vertical_layout && rotate) || (vertical_layout && !rotate);
@@ -470,7 +470,7 @@ fn generate_room(ctx: &mut Ctx, area: Rectangle, mut vertical_layout: bool) {
 }
 
 /// Original: `FirstRoom` (levels/drlg_l1.cpp): generate a boolean dungeon room layout.
-// @port levels/drlg_l1.cpp|devilution::FirstRoom()
+// @port levels/drlg_l1.cpp|devilution::FirstRoom() sha=6e5d7436c5c5
 fn first_room(ctx: &mut Ctx) {
     ctx.gendung.DungeonMask.reset();
 
@@ -527,7 +527,7 @@ fn first_room(ctx: &mut Ctx) {
 }
 
 /// Original: `FindArea` (levels/drlg_l1.cpp): the number of mega tiles used by the layout.
-// @port levels/drlg_l1.cpp|devilution::FindArea()
+// @port levels/drlg_l1.cpp|devilution::FindArea() sha=595ffa766da0
 fn find_area(ctx: &Ctx) -> usize {
     let mut n = 0;
     for x in 0..DX {
@@ -541,7 +541,7 @@ fn find_area(ctx: &Ctx) -> usize {
 }
 
 /// Original: `MakeDmt` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::MakeDmt()
+// @port levels/drlg_l1.cpp|devilution::MakeDmt() sha=c5c2d20c0fd9
 fn make_dmt(ctx: &mut Ctx) {
     let g = &mut ctx.gendung;
     let m = |x: i32, y: i32| g.DungeonMask.test(x, y);
@@ -573,7 +573,7 @@ fn is_wall_end(t: u8) -> bool {
 }
 
 /// Original: `HorizontalWallOk` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::HorizontalWallOk(Point position)
+// @port levels/drlg_l1.cpp|devilution::HorizontalWallOk(Point position) sha=66da8a239fb1
 fn horizontal_wall_ok(ctx: &Ctx, position: Point) -> i32 {
     let mut length = 1;
     while dun(ctx, position.x + length, position.y) == Floor {
@@ -596,7 +596,7 @@ fn horizontal_wall_ok(ctx: &Ctx, position: Point) -> i32 {
 }
 
 /// Original: `VerticalWallOk` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::VerticalWallOk(Point position)
+// @port levels/drlg_l1.cpp|devilution::VerticalWallOk(Point position) sha=578c5c913b89
 fn vertical_wall_ok(ctx: &Ctx, position: Point) -> i32 {
     let mut length = 1;
     while dun(ctx, position.x, position.y + length) == Floor {
@@ -619,7 +619,7 @@ fn vertical_wall_ok(ctx: &Ctx, position: Point) -> i32 {
 }
 
 /// Original: `HorizontalWall` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::HorizontalWall(Point position, Tile start, int maxX)
+// @port levels/drlg_l1.cpp|devilution::HorizontalWall(Point position, Tile start, int maxX) sha=b34380d9f6cf
 fn horizontal_wall(ctx: &mut Ctx, position: Point, mut start: u8, max_x: i32) {
     let mut wall_tile = HWall;
     let mut door_tile = HDoor;
@@ -660,7 +660,7 @@ fn horizontal_wall(ctx: &mut Ctx, position: Point, mut start: u8, max_x: i32) {
 }
 
 /// Original: `VerticalWall` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::VerticalWall(Point position, Tile start, int maxY)
+// @port levels/drlg_l1.cpp|devilution::VerticalWall(Point position, Tile start, int maxY) sha=1028e52b7181
 fn vertical_wall(ctx: &mut Ctx, position: Point, mut start: u8, max_y: i32) {
     let mut wall_tile = VWall;
     let mut door_tile = VDoor;
@@ -701,7 +701,7 @@ fn vertical_wall(ctx: &mut Ctx, position: Point, mut start: u8, max_y: i32) {
 }
 
 /// Original: `AddWall` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::AddWall()
+// @port levels/drlg_l1.cpp|devilution::AddWall() sha=e79d1a3e595a
 fn add_wall(ctx: &mut Ctx) {
     for j in 0..DY {
         for i in 0..DX {
@@ -756,7 +756,7 @@ fn add_wall(ctx: &mut Ctx) {
 }
 
 /// Original: `GenerateChamber` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::GenerateChamber(Point position, bool connectPrevious, bool connectNext, bool verticalLayout)
+// @port levels/drlg_l1.cpp|devilution::GenerateChamber(Point position, bool connectPrevious, bool connectNext, bool verticalLayout) sha=55781ab198bc
 fn generate_chamber(ctx: &mut Ctx, mut position: Point, connect_previous: bool, connect_next: bool, vertical_layout: bool) {
     let (px, py) = (position.x, position.y);
     if connect_previous {
@@ -816,7 +816,7 @@ fn generate_chamber(ctx: &mut Ctx, mut position: Point, connect_previous: bool, 
 }
 
 /// Original: `GenerateHall` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::GenerateHall(Point start, int length, bool verticalLayout)
+// @port levels/drlg_l1.cpp|devilution::GenerateHall(Point start, int length, bool verticalLayout) sha=2754c2ae11b7
 fn generate_hall(ctx: &mut Ctx, start: Point, length: i32, vertical_layout: bool) {
     if vertical_layout {
         for i in start.y..start.y + length {
@@ -832,7 +832,7 @@ fn generate_hall(ctx: &mut Ctx, start: Point, length: i32, vertical_layout: bool
 }
 
 /// Original: `FixTilesPatterns` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::FixTilesPatterns()
+// @port levels/drlg_l1.cpp|devilution::FixTilesPatterns() sha=38c3d38a20d4
 fn fix_tiles_patterns(ctx: &mut Ctx) {
     // BUGFIX: Bounds checks are required in all loop bodies.
     // See https://github.com/diasurgical/devilutionX/pull/401
@@ -960,7 +960,7 @@ fn fix_tiles_patterns(ctx: &mut Ctx) {
 }
 
 /// Original: `Substitution` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::Substitution()
+// @port levels/drlg_l1.cpp|devilution::Substitution() sha=98a3d8772c7e
 fn substitution(ctx: &mut Ctx) {
     for y in 0..DY {
         for x in 0..DX {
@@ -1002,7 +1002,7 @@ fn substitution(ctx: &mut Ctx) {
 }
 
 /// Original: `FillChambers` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::FillChambers()
+// @port levels/drlg_l1.cpp|devilution::FillChambers() sha=8ded03c77107
 fn fill_chambers(ctx: &mut Ctx) {
     let mut chamber1 = Point::new(0, 14);
     let mut chamber3 = Point::new(28, 14);
@@ -1051,7 +1051,7 @@ fn fill_chambers(ctx: &mut Ctx) {
 }
 
 /// Original: `FixTransparency` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::FixTransparency()
+// @port levels/drlg_l1.cpp|devilution::FixTransparency() sha=808c8241d395
 fn fix_transparency(ctx: &mut Ctx) {
     let g = &mut ctx.gendung;
     let mut yy = 16;
@@ -1091,7 +1091,7 @@ fn fix_transparency(ctx: &mut Ctx) {
 }
 
 /// Original: `FixDirtTiles` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::FixDirtTiles()
+// @port levels/drlg_l1.cpp|devilution::FixDirtTiles() sha=6e75014efd3a
 fn fix_dirt_tiles(ctx: &mut Ctx) {
     let d = &mut ctx.gendung.dungeon;
     for j in 0..DMAXY - 1 {
@@ -1119,7 +1119,7 @@ fn fix_dirt_tiles(ctx: &mut Ctx) {
 }
 
 /// Original: `FixCornerTiles` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::FixCornerTiles()
+// @port levels/drlg_l1.cpp|devilution::FixCornerTiles() sha=29ce226b6cba
 fn fix_corner_tiles(ctx: &mut Ctx) {
     let g = &mut ctx.gendung;
     for j in 1..DMAXY - 1 {
@@ -1140,7 +1140,7 @@ fn fix_corner_tiles(ctx: &mut Ctx) {
 }
 
 /// Original: `PlaceCathedralStairs` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::PlaceCathedralStairs(lvl_entry entry)
+// @port levels/drlg_l1.cpp|devilution::PlaceCathedralStairs(lvl_entry entry) sha=4b7e18fe496b
 fn place_cathedral_stairs(ctx: &mut Ctx, entry: lvl_entry) -> bool {
     use crate::quests::is_quest_available;
     let mut success = true;
@@ -1200,7 +1200,7 @@ fn place_cathedral_stairs(ctx: &mut Ctx, entry: lvl_entry) -> bool {
 }
 
 /// Original: `PlaceStairs` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::PlaceStairs(lvl_entry entry)
+// @port levels/drlg_l1.cpp|devilution::PlaceStairs(lvl_entry entry) sha=dacea5aea098
 fn place_stairs(ctx: &mut Ctx, entry: lvl_entry) -> bool {
     if ctx.gendung.leveltype == DungeonType::Crypt {
         return crate::levels::crypt::place_crypt_stairs(ctx, entry);
@@ -1209,7 +1209,7 @@ fn place_stairs(ctx: &mut Ctx, entry: lvl_entry) -> bool {
 }
 
 /// Original: `GenerateLevel` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::GenerateLevel(lvl_entry entry)
+// @port levels/drlg_l1.cpp|devilution::GenerateLevel(lvl_entry entry) sha=d65ee567dc50
 fn generate_level(ctx: &mut Ctx, entry: lvl_entry) {
     let minarea: usize = match ctx.gendung.currlevel {
         1 => 533,
@@ -1281,7 +1281,7 @@ fn generate_level(ctx: &mut Ctx, entry: lvl_entry) {
 }
 
 /// Original: `Pass3` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::Pass3()
+// @port levels/drlg_l1.cpp|devilution::Pass3() sha=c26d01e980fb
 fn pass3(ctx: &mut Ctx) {
     drlg_l_pass3(ctx, Dirt as i32 - 1);
     if ctx.gendung.leveltype == DungeonType::Crypt {
@@ -1292,7 +1292,7 @@ fn pass3(ctx: &mut Ctx) {
 }
 
 /// Original: `devilution::PlaceMiniSetRandom` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::PlaceMiniSetRandom(const Miniset &miniset, int rndper)
+// @port levels/drlg_l1.cpp|devilution::PlaceMiniSetRandom(const Miniset &miniset, int rndper) sha=558b1dd50f46
 pub fn place_mini_set_random(ctx: &mut Ctx, miniset: &Miniset, rndper: i32) {
     let sw = miniset.size.width;
     let sh = miniset.size.height;
@@ -1314,7 +1314,7 @@ pub fn place_mini_set_random(ctx: &mut Ctx, miniset: &Miniset, rndper: i32) {
 }
 
 /// Original: `devilution::SelectChamber` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::SelectChamber()
+// @port levels/drlg_l1.cpp|devilution::SelectChamber() sha=9e1bbabd5733
 pub fn select_chamber(ctx: &mut Ctx) -> Point {
     let s = &ctx.drlg_l1;
     let (c1, c2, c3, vertical) = (s.HasChamber1, s.HasChamber2, s.HasChamber3, s.VerticalLayout);
@@ -1352,7 +1352,7 @@ pub fn select_chamber(ctx: &mut Ctx) -> Point {
 }
 
 /// Original: `devilution::CreateL5Dungeon` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::CreateL5Dungeon(uint32_t rseed, lvl_entry entry)
+// @port levels/drlg_l1.cpp|devilution::CreateL5Dungeon(uint32_t rseed, lvl_entry entry) sha=3f8e2449de0e
 pub fn create_l5_dungeon(ctx: &mut Ctx, rseed: u32, entry: lvl_entry) {
     ctx.rng.set_rnd_seed(rseed);
     ctx.crypt.UberRow = 0;
@@ -1366,7 +1366,7 @@ pub fn create_l5_dungeon(ctx: &mut Ctx, rseed: u32, entry: lvl_entry) {
 }
 
 /// Original: `devilution::LoadPreL1Dungeon` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::LoadPreL1Dungeon(const char *path)
+// @port levels/drlg_l1.cpp|devilution::LoadPreL1Dungeon(const char *path) sha=f4d52fc6c5cd
 pub fn load_pre_l1_dungeon(ctx: &mut Ctx, path: &str) {
     init_dungeon_flags(ctx);
     let dun_data = load_u16_file(ctx, path);
@@ -1378,7 +1378,7 @@ pub fn load_pre_l1_dungeon(ctx: &mut Ctx, path: &str) {
 }
 
 /// Original: `devilution::LoadL1Dungeon` (levels/drlg_l1.cpp).
-// @port levels/drlg_l1.cpp|devilution::LoadL1Dungeon(const char *path, Point spawn)
+// @port levels/drlg_l1.cpp|devilution::LoadL1Dungeon(const char *path, Point spawn) sha=52380786e215
 pub fn load_l1_dungeon(ctx: &mut Ctx, path: &str, spawn: Point) {
     load_dungeon_base(ctx, path, spawn, Floor as i32, Dirt as i32);
     if ctx.gendung.setlvltype == DungeonType::Cathedral {

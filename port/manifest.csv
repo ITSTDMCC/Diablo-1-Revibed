@@ -639,11 +639,11 @@ cursor.cpp|devilution::InitLevelCursor(),ported,,,src/cursor.rs
 cursor.cpp|devilution::CheckTown(),ported,,,src/cursor.rs
 cursor.cpp|devilution::CheckRportal(),ported,,,src/cursor.rs
 cursor.cpp|devilution::CheckCursMove(),ported,,,src/cursor.rs
-"dead.cpp|devilution::InitDeadAnimationFromMonster(Corpse &corpse, const CMonster &mon)",pending,,,
-dead.cpp|devilution::MoveLightToCorpse(Monster &monster),pending,,,
-dead.cpp|devilution::InitCorpses(),pending,,,
-"dead.cpp|devilution::AddCorpse(Point tilePosition, int8_t dv, Direction ddir)",pending,,,
-dead.cpp|devilution::MoveLightsToCorpses(),pending,,,
+"dead.cpp|devilution::InitDeadAnimationFromMonster(Corpse &corpse, const CMonster &mon)",ported,,,src/dead.rs
+dead.cpp|devilution::MoveLightToCorpse(Monster &monster),ported,,,src/dead.rs
+dead.cpp|devilution::InitCorpses(),ported,,,src/dead.rs
+"dead.cpp|devilution::AddCorpse(Point tilePosition, int8_t dv, Direction ddir)",ported,,,src/dead.rs
+dead.cpp|devilution::MoveLightsToCorpses(),ported,,,src/dead.rs
 dead.h|devilution::Corpse::spritesForDirection(Direction direction),pending,,,
 diablo.cpp|devilution::StartGame(interface_mode uMsg),ported,,,src/diablo_game.rs
 diablo.cpp|devilution::FreeGame(),ported,,,src/diablo_game.rs
@@ -2000,56 +2000,56 @@ items.h|devilution::Item::isRuneOf(SpellID spellId),pending,,,
 "items.h|devilution::Item::keyAttributesMatch(uint32_t seed, _item_indexes itemIndex, uint16_t createInfo)",pending,,,
 items.h|devilution::Item::getTextColor(),pending,,,
 items.h|devilution::Item::getTextColorWithStatCheck(),pending,,,
-levels/crypt.cpp|devilution::ApplyCryptShadowsPatterns(),pending,,,
-"levels/crypt.cpp|devilution::PlaceMiniSetRandom1x1(uint8_t search, uint8_t replace, int rndper)",pending,,,
-levels/crypt.cpp|devilution::CryptCracked(int rndper),pending,,,
-levels/crypt.cpp|devilution::CryptBroken(int rndper),pending,,,
-levels/crypt.cpp|devilution::CryptLeaking(int rndper),pending,,,
-levels/crypt.cpp|devilution::CryptSubstitions1(int rndper),pending,,,
-levels/crypt.cpp|devilution::CryptSubstitions2(int rndper),pending,,,
-levels/crypt.cpp|devilution::CryptFloor(int rndper),pending,,,
-levels/crypt.cpp|devilution::InitCryptPieces(),pending,,,
-levels/crypt.cpp|devilution::SetCryptRoom(),pending,,,
-levels/crypt.cpp|devilution::SetCornerRoom(),pending,,,
-levels/crypt.cpp|devilution::FixCryptDirtTiles(),pending,,,
-levels/crypt.cpp|devilution::PlaceCryptStairs(lvl_entry entry),pending,,,
-levels/crypt.cpp|devilution::CryptSubstitution(),pending,,,
-levels/crypt.cpp|devilution::SetCryptSetPieceRoom(),pending,,,
-levels/crypt.cpp|devilution::PlaceCryptLights(),pending,,,
-levels/drlg_l1.cpp|devilution::ApplyShadowsPatterns(),pending,,,
-"levels/drlg_l1.cpp|devilution::CanReplaceTile(uint8_t replace, Point tile)",pending,,,
-levels/drlg_l1.cpp|devilution::FillFloor(),pending,,,
-levels/drlg_l1.cpp|devilution::LoadQuestSetPieces(),pending,,,
-levels/drlg_l1.cpp|devilution::InitDungeonPieces(),pending,,,
-levels/drlg_l1.cpp|devilution::InitDungeonFlags(),pending,,,
-levels/drlg_l1.cpp|devilution::MapRoom(Rectangle room),pending,,,
-levels/drlg_l1.cpp|devilution::CheckRoom(Rectangle room),pending,,,
-"levels/drlg_l1.cpp|devilution::GenerateRoom(Rectangle area, bool verticalLayout)",pending,,,
-levels/drlg_l1.cpp|devilution::FirstRoom(),pending,,,
-levels/drlg_l1.cpp|devilution::FindArea(),pending,,,
-levels/drlg_l1.cpp|devilution::MakeDmt(),pending,,,
-levels/drlg_l1.cpp|devilution::HorizontalWallOk(Point position),pending,,,
-levels/drlg_l1.cpp|devilution::VerticalWallOk(Point position),pending,,,
-"levels/drlg_l1.cpp|devilution::HorizontalWall(Point position, Tile start, int maxX)",pending,,,
-"levels/drlg_l1.cpp|devilution::VerticalWall(Point position, Tile start, int maxY)",pending,,,
-levels/drlg_l1.cpp|devilution::AddWall(),pending,,,
-"levels/drlg_l1.cpp|devilution::GenerateChamber(Point position, bool connectPrevious, bool connectNext, bool verticalLayout)",pending,,,
-"levels/drlg_l1.cpp|devilution::GenerateHall(Point start, int length, bool verticalLayout)",pending,,,
-levels/drlg_l1.cpp|devilution::FixTilesPatterns(),pending,,,
-levels/drlg_l1.cpp|devilution::Substitution(),pending,,,
-levels/drlg_l1.cpp|devilution::FillChambers(),pending,,,
-levels/drlg_l1.cpp|devilution::FixTransparency(),pending,,,
-levels/drlg_l1.cpp|devilution::FixDirtTiles(),pending,,,
-levels/drlg_l1.cpp|devilution::FixCornerTiles(),pending,,,
-levels/drlg_l1.cpp|devilution::PlaceCathedralStairs(lvl_entry entry),pending,,,
-levels/drlg_l1.cpp|devilution::PlaceStairs(lvl_entry entry),pending,,,
-levels/drlg_l1.cpp|devilution::GenerateLevel(lvl_entry entry),pending,,,
-levels/drlg_l1.cpp|devilution::Pass3(),pending,,,
-"levels/drlg_l1.cpp|devilution::PlaceMiniSetRandom(const Miniset &miniset, int rndper)",pending,,,
-levels/drlg_l1.cpp|devilution::SelectChamber(),pending,,,
-"levels/drlg_l1.cpp|devilution::CreateL5Dungeon(uint32_t rseed, lvl_entry entry)",pending,,,
-levels/drlg_l1.cpp|devilution::LoadPreL1Dungeon(const char *path),pending,,,
-"levels/drlg_l1.cpp|devilution::LoadL1Dungeon(const char *path, Point spawn)",pending,,,
+levels/crypt.cpp|devilution::ApplyCryptShadowsPatterns(),ported,,,src/levels/crypt.rs
+"levels/crypt.cpp|devilution::PlaceMiniSetRandom1x1(uint8_t search, uint8_t replace, int rndper)",ported,,,src/levels/crypt.rs
+levels/crypt.cpp|devilution::CryptCracked(int rndper),ported,,,src/levels/crypt.rs
+levels/crypt.cpp|devilution::CryptBroken(int rndper),ported,,,src/levels/crypt.rs
+levels/crypt.cpp|devilution::CryptLeaking(int rndper),ported,,,src/levels/crypt.rs
+levels/crypt.cpp|devilution::CryptSubstitions1(int rndper),ported,,,src/levels/crypt.rs
+levels/crypt.cpp|devilution::CryptSubstitions2(int rndper),ported,,,src/levels/crypt.rs
+levels/crypt.cpp|devilution::CryptFloor(int rndper),ported,,,src/levels/crypt.rs
+levels/crypt.cpp|devilution::InitCryptPieces(),ported,,,src/levels/crypt.rs
+levels/crypt.cpp|devilution::SetCryptRoom(),ported,,,src/levels/crypt.rs
+levels/crypt.cpp|devilution::SetCornerRoom(),ported,,,src/levels/crypt.rs
+levels/crypt.cpp|devilution::FixCryptDirtTiles(),ported,,,src/levels/crypt.rs
+levels/crypt.cpp|devilution::PlaceCryptStairs(lvl_entry entry),ported,,,src/levels/crypt.rs
+levels/crypt.cpp|devilution::CryptSubstitution(),ported,,,src/levels/crypt.rs
+levels/crypt.cpp|devilution::SetCryptSetPieceRoom(),ported,,,src/levels/crypt.rs
+levels/crypt.cpp|devilution::PlaceCryptLights(),ported,,,src/levels/crypt.rs
+levels/drlg_l1.cpp|devilution::ApplyShadowsPatterns(),ported,,,src/levels/drlg_l1.rs
+"levels/drlg_l1.cpp|devilution::CanReplaceTile(uint8_t replace, Point tile)",ported,,,src/levels/drlg_l1.rs
+levels/drlg_l1.cpp|devilution::FillFloor(),ported,,,src/levels/drlg_l1.rs
+levels/drlg_l1.cpp|devilution::LoadQuestSetPieces(),ported,,,src/levels/drlg_l1.rs
+levels/drlg_l1.cpp|devilution::InitDungeonPieces(),ported,,,src/levels/drlg_l1.rs
+levels/drlg_l1.cpp|devilution::InitDungeonFlags(),ported,,,src/levels/drlg_l1.rs
+levels/drlg_l1.cpp|devilution::MapRoom(Rectangle room),ported,,,src/levels/drlg_l1.rs
+levels/drlg_l1.cpp|devilution::CheckRoom(Rectangle room),ported,,,src/levels/drlg_l1.rs
+"levels/drlg_l1.cpp|devilution::GenerateRoom(Rectangle area, bool verticalLayout)",ported,,,src/levels/drlg_l1.rs
+levels/drlg_l1.cpp|devilution::FirstRoom(),ported,,,src/levels/drlg_l1.rs
+levels/drlg_l1.cpp|devilution::FindArea(),ported,,,src/levels/drlg_l1.rs
+levels/drlg_l1.cpp|devilution::MakeDmt(),ported,,,src/levels/drlg_l1.rs
+levels/drlg_l1.cpp|devilution::HorizontalWallOk(Point position),ported,,,src/levels/drlg_l1.rs
+levels/drlg_l1.cpp|devilution::VerticalWallOk(Point position),ported,,,src/levels/drlg_l1.rs
+"levels/drlg_l1.cpp|devilution::HorizontalWall(Point position, Tile start, int maxX)",ported,,,src/levels/drlg_l1.rs
+"levels/drlg_l1.cpp|devilution::VerticalWall(Point position, Tile start, int maxY)",ported,,,src/levels/drlg_l1.rs
+levels/drlg_l1.cpp|devilution::AddWall(),ported,,,src/levels/drlg_l1.rs
+"levels/drlg_l1.cpp|devilution::GenerateChamber(Point position, bool connectPrevious, bool connectNext, bool verticalLayout)",ported,,,src/levels/drlg_l1.rs
+"levels/drlg_l1.cpp|devilution::GenerateHall(Point start, int length, bool verticalLayout)",ported,,,src/levels/drlg_l1.rs
+levels/drlg_l1.cpp|devilution::FixTilesPatterns(),ported,,,src/levels/drlg_l1.rs
+levels/drlg_l1.cpp|devilution::Substitution(),ported,,,src/levels/drlg_l1.rs
+levels/drlg_l1.cpp|devilution::FillChambers(),ported,,,src/levels/drlg_l1.rs
+levels/drlg_l1.cpp|devilution::FixTransparency(),ported,,,src/levels/drlg_l1.rs
+levels/drlg_l1.cpp|devilution::FixDirtTiles(),ported,,,src/levels/drlg_l1.rs
+levels/drlg_l1.cpp|devilution::FixCornerTiles(),ported,,,src/levels/drlg_l1.rs
+levels/drlg_l1.cpp|devilution::PlaceCathedralStairs(lvl_entry entry),ported,,,src/levels/drlg_l1.rs
+levels/drlg_l1.cpp|devilution::PlaceStairs(lvl_entry entry),ported,,,src/levels/drlg_l1.rs
+levels/drlg_l1.cpp|devilution::GenerateLevel(lvl_entry entry),ported,,,src/levels/drlg_l1.rs
+levels/drlg_l1.cpp|devilution::Pass3(),ported,,,src/levels/drlg_l1.rs
+"levels/drlg_l1.cpp|devilution::PlaceMiniSetRandom(const Miniset &miniset, int rndper)",ported,,,src/levels/drlg_l1.rs
+levels/drlg_l1.cpp|devilution::SelectChamber(),ported,,,src/levels/drlg_l1.rs
+"levels/drlg_l1.cpp|devilution::CreateL5Dungeon(uint32_t rseed, lvl_entry entry)",ported,,,src/levels/drlg_l1.rs
+levels/drlg_l1.cpp|devilution::LoadPreL1Dungeon(const char *path),ported,,,src/levels/drlg_l1.rs
+"levels/drlg_l1.cpp|devilution::LoadL1Dungeon(const char *path, Point spawn)",ported,,,src/levels/drlg_l1.rs
 levels/drlg_l2.cpp|devilution::ApplyShadowsPatterns(),pending,,,
 "levels/drlg_l2.cpp|devilution::PlaceMiniSetRandom(const Miniset &miniset, int rndper)",pending,,,
 "levels/drlg_l2.cpp|devilution::PlaceMiniSetRandom1x1(uint8_t search, uint8_t replace, int rndper)",pending,,,
@@ -2202,39 +2202,39 @@ levels/setmaps.cpp|devilution::SetMapTransparency(const char *path),pending,,,
 "levels/setmaps.cpp|devilution::LoadCustomMap(const char *path, Point viewPosition)",pending,,,
 "levels/setmaps.cpp|devilution::LoadArenaMap(const char *path, Point viewPosition, Point exitTrigger)",pending,,,
 levels/setmaps.cpp|devilution::LoadSetMap(),pending,,,
-levels/themes.cpp|devilution::TFit_Shrine(int i),pending,,,
-"levels/themes.cpp|devilution::CheckThemeObj5(Point origin, int8_t regionId)",pending,,,
-levels/themes.cpp|devilution::TFit_Obj5(int t),pending,,,
-levels/themes.cpp|devilution::TFit_SkelRoom(int t),pending,,,
-levels/themes.cpp|devilution::TFit_GoatShrine(int t),pending,,,
-"levels/themes.cpp|devilution::CheckThemeObj3(Point origin, int8_t regionId, unsigned frequency = 0)",pending,,,
-levels/themes.cpp|devilution::TFit_Obj3(int8_t regionId),pending,,,
-levels/themes.cpp|devilution::CheckThemeReqs(theme_id t),pending,,,
-"levels/themes.cpp|devilution::SpecialThemeFit(int i, theme_id t)",pending,,,
-levels/themes.cpp|devilution::CheckThemeRoom(int tv),pending,,,
-"levels/themes.cpp|devilution::PlaceThemeMonsts(int t, int f)",pending,,,
-levels/themes.cpp|devilution::Theme_Barrel(int t),pending,,,
-levels/themes.cpp|devilution::Theme_Shrine(int t),pending,,,
-levels/themes.cpp|devilution::Theme_MonstPit(int t),pending,,,
-"levels/themes.cpp|devilution::SpawnObjectOrSkeleton(unsigned frequency, _object_id objectType, Point tile)",pending,,,
-levels/themes.cpp|devilution::Theme_SkelRoom(int t),pending,,,
-levels/themes.cpp|devilution::Theme_Treasure(int t),pending,,,
-levels/themes.cpp|devilution::Theme_Library(int t),pending,,,
-levels/themes.cpp|devilution::Theme_Torture(int t),pending,,,
-levels/themes.cpp|devilution::Theme_BloodFountain(int t),pending,,,
-levels/themes.cpp|devilution::Theme_Decap(int t),pending,,,
-levels/themes.cpp|devilution::Theme_PurifyingFountain(int t),pending,,,
-levels/themes.cpp|devilution::Theme_ArmorStand(int t),pending,,,
-levels/themes.cpp|devilution::Theme_GoatShrine(int t),pending,,,
-levels/themes.cpp|devilution::Theme_Cauldron(int t),pending,,,
-levels/themes.cpp|devilution::Theme_MurkyFountain(int t),pending,,,
-levels/themes.cpp|devilution::Theme_TearFountain(int t),pending,,,
-levels/themes.cpp|devilution::Theme_BrnCross(int t),pending,,,
-levels/themes.cpp|devilution::Theme_WeaponRack(int t),pending,,,
-levels/themes.cpp|devilution::UpdateL4Trans(),pending,,,
-levels/themes.cpp|devilution::InitThemes(),pending,,,
-levels/themes.cpp|devilution::HoldThemeRooms(),pending,,,
-levels/themes.cpp|devilution::CreateThemeRooms(),pending,,,
+levels/themes.cpp|devilution::TFit_Shrine(int i),ported,,,src/levels/themes.rs
+"levels/themes.cpp|devilution::CheckThemeObj5(Point origin, int8_t regionId)",ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::TFit_Obj5(int t),ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::TFit_SkelRoom(int t),ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::TFit_GoatShrine(int t),ported,,,src/levels/themes.rs
+"levels/themes.cpp|devilution::CheckThemeObj3(Point origin, int8_t regionId, unsigned frequency = 0)",ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::TFit_Obj3(int8_t regionId),ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::CheckThemeReqs(theme_id t),ported,,,src/levels/themes.rs
+"levels/themes.cpp|devilution::SpecialThemeFit(int i, theme_id t)",ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::CheckThemeRoom(int tv),ported,,,src/levels/themes.rs
+"levels/themes.cpp|devilution::PlaceThemeMonsts(int t, int f)",ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::Theme_Barrel(int t),ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::Theme_Shrine(int t),ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::Theme_MonstPit(int t),ported,,,src/levels/themes.rs
+"levels/themes.cpp|devilution::SpawnObjectOrSkeleton(unsigned frequency, _object_id objectType, Point tile)",ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::Theme_SkelRoom(int t),ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::Theme_Treasure(int t),ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::Theme_Library(int t),ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::Theme_Torture(int t),ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::Theme_BloodFountain(int t),ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::Theme_Decap(int t),ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::Theme_PurifyingFountain(int t),ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::Theme_ArmorStand(int t),ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::Theme_GoatShrine(int t),ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::Theme_Cauldron(int t),ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::Theme_MurkyFountain(int t),ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::Theme_TearFountain(int t),ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::Theme_BrnCross(int t),ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::Theme_WeaponRack(int t),ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::UpdateL4Trans(),ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::InitThemes(),ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::HoldThemeRooms(),ported,,,src/levels/themes.rs
+levels/themes.cpp|devilution::CreateThemeRooms(),ported,,,src/levels/themes.rs
 "levels/town.cpp|devilution::FillSector(const char *path, int xi, int yy)",ported,,,src/levels/town.rs
 "levels/town.cpp|devilution::FillTile(int xx, int yy, int t)",ported,,,src/levels/town.rs
 levels/town.cpp|devilution::TownCloseHive(),ported,,,src/levels/town.rs
@@ -3040,191 +3040,191 @@ nthread.cpp|devilution::nthread_cleanup(),ported,,,src/nthread.rs
 nthread.cpp|devilution::nthread_ignore_mutex(bool bStart),ported,,,src/nthread.rs
 nthread.cpp|devilution::nthread_has_500ms_passed(bool *drawGame),ported,,,src/nthread.rs
 nthread.cpp|devilution::nthread_UpdateProgressToNextGameTick(),ported,,,src/nthread.rs
-objdat.h|devilution::ObjectData::isAnimated(),pending,,,
-objdat.h|devilution::ObjectData::isSolid(),pending,,,
-objdat.h|devilution::ObjectData::missilesPassThrough(),pending,,,
-objdat.h|devilution::ObjectData::applyLighting(),pending,,,
-objdat.h|devilution::ObjectData::isTrap(),pending,,,
-objdat.h|devilution::ObjectData::isBreakable(),pending,,,
-"objects.cpp|devilution::RndLocOk(int xp, int yp)",pending,,,
-"objects.cpp|devilution::CanPlaceWallTrap(int xp, int yp)",pending,,,
-"objects.cpp|devilution::InitRndLocObj(int min, int max, _object_id objtype)",pending,,,
-"objects.cpp|devilution::InitRndLocBigObj(int min, int max, _object_id objtype)",pending,,,
-"objects.cpp|devilution::CanPlaceRandomObject(Point position, Displacement standoff)",pending,,,
-objects.cpp|devilution::GetRandomObjectPosition(Displacement standoff),pending,,,
-"objects.cpp|devilution::InitRndLocObj5x5(int min, int max, _object_id objtype)",pending,,,
-objects.cpp|devilution::ClrAllObjects(),pending,,,
-objects.cpp|devilution::AddTortures(),pending,,,
-objects.cpp|devilution::AddCandles(),pending,,,
-"objects.cpp|devilution::AddBookLever(_object_id type, WorldTileRectangle affectedArea, _speech_id msg)",pending,,,
-objects.cpp|devilution::InitRndBarrels(),pending,,,
-objects.cpp|devilution::AddL2Torches(),pending,,,
-objects.cpp|devilution::AddObjTraps(),pending,,,
-objects.cpp|devilution::AddChestTraps(),pending,,,
-"objects.cpp|devilution::LoadMapObjects(const char *path, Point start, WorldTileRectangle mapRange = {}, int leveridx = 0)",pending,,,
-objects.cpp|devilution::AddDiabObjs(),pending,,,
-"objects.cpp|devilution::AddCryptObject(Object &object, int a2)",pending,,,
-"objects.cpp|devilution::SetupObject(Object &object, Point position, _object_id ot)",pending,,,
-"objects.cpp|devilution::AddCryptBook(_object_id ot, int v2, Point position)",pending,,,
-objects.cpp|devilution::AddCryptStoryBook(int s),pending,,,
-objects.cpp|devilution::AddNakrulLever(),pending,,,
-"objects.cpp|devilution::AddNakrulBook(int a1, Point position)",pending,,,
-objects.cpp|devilution::AddNakrulGate(),pending,,,
-objects.cpp|devilution::AddStoryBooks(),pending,,,
-objects.cpp|devilution::AddHookedBodies(int freq),pending,,,
-objects.cpp|devilution::AddL4Goodies(),pending,,,
-objects.cpp|devilution::AddLazStand(),pending,,,
-"objects.cpp|devilution::DeleteObject(int oi, int i)",pending,,,
-objects.cpp|devilution::AddChest(Object &chest),pending,,,
-"objects.cpp|devilution::ObjSetMicro(Point position, int pn)",pending,,,
-"objects.cpp|devilution::DoorSet(Point position, bool isLeftDoor)",pending,,,
-"objects.cpp|devilution::CryptDoorSet(Point position, bool isLeftDoor)",pending,,,
-objects.cpp|devilution::SetDoorStateOpen(Object &door),pending,,,
-objects.cpp|devilution::SetDoorStateClosed(Object &door),pending,,,
-objects.cpp|devilution::AddDoor(Object &door),pending,,,
-objects.cpp|devilution::AddSarcophagus(Object &sarcophagus),pending,,,
-objects.cpp|devilution::AddFlameTrap(Object &flameTrap),pending,,,
-objects.cpp|devilution::AddFlameLever(Object &flameLever),pending,,,
-objects.cpp|devilution::AddTrap(Object &trap),pending,,,
-objects.cpp|devilution::AddObjectLight(Object &object),pending,,,
-objects.cpp|devilution::AddBarrel(Object &barrel),pending,,,
-objects.cpp|devilution::AddShrine(Object &shrine),pending,,,
-objects.cpp|devilution::AddBookcase(Object &bookcase),pending,,,
-objects.cpp|devilution::AddLargeFountain(Object &fountain),pending,,,
-objects.cpp|devilution::AddArmorStand(Object &armorStand),pending,,,
-objects.cpp|devilution::AddDecapitatedBody(Object &decapitatedBody),pending,,,
-objects.cpp|devilution::AddBookOfVileness(Object &bookOfVileness),pending,,,
-objects.cpp|devilution::AddMagicCircle(Object &magicCircle),pending,,,
-objects.cpp|devilution::AddPedestalOfBlood(Object &pedestalOfBlood),pending,,,
-objects.cpp|devilution::AddStoryBook(Object &storyBook),pending,,,
-objects.cpp|devilution::AddWeaponRack(Object &weaponRack),pending,,,
-objects.cpp|devilution::AddTorturedBody(Object &torturedBody),pending,,,
-objects.cpp|devilution::GetRndObjLoc(int randarea),pending,,,
-objects.cpp|devilution::AddMushPatch(),pending,,,
-"objects.cpp|devilution::IsLightVisible(Object &light, int lightRadius)",pending,,,
-"objects.cpp|devilution::UpdateObjectLight(Object &light, int lightRadius)",pending,,,
-objects.cpp|devilution::UpdateCircle(Object &circle),pending,,,
-objects.cpp|devilution::ObjectStopAnim(Object &object),pending,,,
-objects.cpp|devilution::IsDoorClear(const Object &door),pending,,,
-objects.cpp|devilution::UpdateDoor(Object &door),pending,,,
-objects.cpp|devilution::UpdateSarcophagus(Object &sarcophagus),pending,,,
-"objects.cpp|devilution::ActivateTrapLine(int ttype, int tid)",pending,,,
-objects.cpp|devilution::UpdateFlameTrap(Object &trap),pending,,,
-objects.cpp|devilution::UpdateBurningCrossDamage(Object &cross),pending,,,
-"objects.cpp|devilution::ObjSetMini(Point position, int v)",pending,,,
-"objects.cpp|devilution::ObjL1Special(int x1, int y1, int x2, int y2)",pending,,,
-"objects.cpp|devilution::ObjL2Special(int x1, int y1, int x2, int y2)",pending,,,
-objects.cpp|devilution::OpenDoor(Object &door),pending,,,
-objects.cpp|devilution::CloseDoor(Object &door),pending,,,
-"objects.cpp|devilution::OperateDoor(Object &door, bool sendflag)",pending,,,
-objects.cpp|devilution::AreAllLeversActivated(int leverId),pending,,,
-objects.cpp|devilution::UpdateLeverState(Object &object),pending,,,
-"objects.cpp|devilution::OperateLever(Object &object, bool sendmsg)",pending,,,
-"objects.cpp|devilution::OperateBook(Player &player, Object &book, bool sendmsg)",pending,,,
-"objects.cpp|devilution::OperateBookLever(Object &questBook, bool sendmsg)",pending,,,
-"objects.cpp|devilution::OperateChamberOfBoneBook(Object &questBook, bool sendmsg)",pending,,,
-"objects.cpp|devilution::OperateChest(const Player &player, Object &chest, bool sendLootMsg)",pending,,,
-"objects.cpp|devilution::OperateMushroomPatch(const Player &player, Object &mushroomPatch)",pending,,,
-"objects.cpp|devilution::OperateInnSignChest(const Player &player, Object &questContainer, bool sendmsg)",pending,,,
-"objects.cpp|devilution::OperateSlainHero(const Player &player, Object &corpse, bool sendmsg)",pending,,,
-objects.cpp|devilution::OperateTrapLever(Object &flameLever),pending,,,
-"objects.cpp|devilution::OperateSarcophagus(Object &sarcophagus, bool sendMsg, bool sendLootMsg)",pending,,,
-"objects.cpp|devilution::OperatePedestal(Player &player, Object &pedestal, bool sendmsg)",pending,,,
-objects.cpp|devilution::OperateShrineMysterious(Player &player),pending,,,
-objects.cpp|devilution::OperateShrineHidden(Player &player),pending,,,
-objects.cpp|devilution::OperateShrineGloomy(Player &player),pending,,,
-objects.cpp|devilution::OperateShrineWeird(Player &player),pending,,,
-objects.cpp|devilution::OperateShrineMagical(const Player &player),pending,,,
-objects.cpp|devilution::OperateShrineStone(Player &player),pending,,,
-objects.cpp|devilution::OperateShrineReligious(Player &player),pending,,,
-objects.cpp|devilution::OperateShrineEnchanted(Player &player),pending,,,
-objects.cpp|devilution::OperateShrineThaumaturgic(const Player &player),pending,,,
-"objects.cpp|devilution::OperateShrineCostOfWisdom(Player &player, SpellID spellId, diablo_message message)",pending,,,
-objects.cpp|devilution::OperateShrineCryptic(Player &player),pending,,,
-objects.cpp|devilution::OperateShrineEldritch(Player &player),pending,,,
-objects.cpp|devilution::OperateShrineEerie(Player &player),pending,,,
-"objects.cpp|devilution::OperateShrineDivine(Player &player, Point spawnPosition)",pending,,,
-objects.cpp|devilution::OperateShrineHoly(const Player &player),pending,,,
-objects.cpp|devilution::OperateShrineSpiritual(Player &player),pending,,,
-objects.cpp|devilution::OperateShrineSpooky(const Player &player),pending,,,
-objects.cpp|devilution::OperateShrineAbandoned(Player &player),pending,,,
-objects.cpp|devilution::OperateShrineCreepy(Player &player),pending,,,
-objects.cpp|devilution::OperateShrineQuiet(Player &player),pending,,,
-objects.cpp|devilution::OperateShrineSecluded(const Player &player),pending,,,
-objects.cpp|devilution::OperateShrineGlimmering(Player &player),pending,,,
-objects.cpp|devilution::OperateShrineTainted(const Player &player),pending,,,
-"objects.cpp|devilution::OperateShrineOily(Player &player, Point spawnPosition)",pending,,,
-objects.cpp|devilution::OperateShrineGlowing(Player &player),pending,,,
-objects.cpp|devilution::OperateShrineMendicant(Player &player),pending,,,
-"objects.cpp|devilution::OperateShrineSparkling(Player &player, Point spawnPosition)",pending,,,
-"objects.cpp|devilution::OperateShrineTown(const Player &player, Point spawnPosition)",pending,,,
-objects.cpp|devilution::OperateShrineShimmering(Player &player),pending,,,
-objects.cpp|devilution::OperateShrineSolar(Player &player),pending,,,
-objects.cpp|devilution::OperateShrineMurphys(Player &player),pending,,,
-"objects.cpp|devilution::OperateShrine(Player &player, Object &shrine, _sfx_id sType)",pending,,,
-"objects.cpp|devilution::OperateBookStand(Object &bookStand, bool sendmsg, bool sendLootMsg)",pending,,,
-"objects.cpp|devilution::OperateBookcase(Object &bookcase, bool sendmsg, bool sendLootMsg)",pending,,,
-"objects.cpp|devilution::OperateDecapitatedBody(Object &corpse, bool sendmsg, bool sendLootMsg)",pending,,,
-"objects.cpp|devilution::OperateArmorStand(Object &armorStand, bool sendmsg, bool sendLootMsg)",pending,,,
-objects.cpp|devilution::FindValidShrine(),pending,,,
-"objects.cpp|devilution::OperateGoatShrine(Player &player, Object &object, _sfx_id sType)",pending,,,
-"objects.cpp|devilution::OperateCauldron(Player &player, Object &object, _sfx_id sType)",pending,,,
-"objects.cpp|devilution::OperateFountains(Player &player, Object &fountain)",pending,,,
-"objects.cpp|devilution::OperateWeaponRack(Object &weaponRack, bool sendmsg, bool sendLootMsg)",pending,,,
-objects.cpp|devilution::OperateNakrulBook(int s),pending,,,
-objects.cpp|devilution::OperateStoryBook(Object &storyBook),pending,,,
-objects.cpp|devilution::OperateLazStand(Object &stand),pending,,,
-objects.cpp|devilution::AreAllCruxesOfTypeBroken(int cruxType),pending,,,
-"objects.cpp|devilution::BreakCrux(Object &crux, bool sendmsg)",pending,,,
-"objects.cpp|devilution::BreakBarrel(const Player &player, Object &barrel, bool forcebreak, bool sendmsg)",pending,,,
-objects.cpp|devilution::SyncCrux(const Object &crux),pending,,,
-objects.cpp|devilution::SyncLever(const Object &lever),pending,,,
-objects.cpp|devilution::SyncQSTLever(const Object &qstLever),pending,,,
-objects.cpp|devilution::SyncPedestal(const Object &pedestal),pending,,,
-objects.cpp|devilution::UpdatePedestalState(Object &pedestal),pending,,,
-objects.cpp|devilution::SyncDoor(Object &door),pending,,,
-"objects.cpp|devilution::ResyncDoors(WorldTilePosition p1, WorldTilePosition p2, bool sendmsg)",pending,,,
-"objects.cpp|devilution::UpdateState(Object &object, int frame)",pending,,,
-objects.cpp|devilution::Object::GetId(),pending,,,
+objdat.h|devilution::ObjectData::isAnimated(),ported,,,src/objects.rs
+objdat.h|devilution::ObjectData::isSolid(),ported,,,src/objects.rs
+objdat.h|devilution::ObjectData::missilesPassThrough(),ported,,,src/objects.rs
+objdat.h|devilution::ObjectData::applyLighting(),ported,,,src/objects.rs
+objdat.h|devilution::ObjectData::isTrap(),ported,,,src/objects.rs
+objdat.h|devilution::ObjectData::isBreakable(),ported,,,src/objects.rs
+"objects.cpp|devilution::RndLocOk(int xp, int yp)",ported,,,src/objects.rs
+"objects.cpp|devilution::CanPlaceWallTrap(int xp, int yp)",ported,,,src/objects.rs
+"objects.cpp|devilution::InitRndLocObj(int min, int max, _object_id objtype)",ported,,,src/objects.rs
+"objects.cpp|devilution::InitRndLocBigObj(int min, int max, _object_id objtype)",ported,,,src/objects.rs
+"objects.cpp|devilution::CanPlaceRandomObject(Point position, Displacement standoff)",ported,,,src/objects.rs
+objects.cpp|devilution::GetRandomObjectPosition(Displacement standoff),ported,,,src/objects.rs
+"objects.cpp|devilution::InitRndLocObj5x5(int min, int max, _object_id objtype)",ported,,,src/objects.rs
+objects.cpp|devilution::ClrAllObjects(),ported,,,src/objects.rs
+objects.cpp|devilution::AddTortures(),ported,,,src/objects.rs
+objects.cpp|devilution::AddCandles(),ported,,,src/objects.rs
+"objects.cpp|devilution::AddBookLever(_object_id type, WorldTileRectangle affectedArea, _speech_id msg)",ported,,,src/objects.rs
+objects.cpp|devilution::InitRndBarrels(),ported,,,src/objects.rs
+objects.cpp|devilution::AddL2Torches(),ported,,,src/objects.rs
+objects.cpp|devilution::AddObjTraps(),ported,,,src/objects.rs
+objects.cpp|devilution::AddChestTraps(),ported,,,src/objects.rs
+"objects.cpp|devilution::LoadMapObjects(const char *path, Point start, WorldTileRectangle mapRange = {}, int leveridx = 0)",ported,,,src/objects.rs
+objects.cpp|devilution::AddDiabObjs(),ported,,,src/objects.rs
+"objects.cpp|devilution::AddCryptObject(Object &object, int a2)",ported,,,src/objects.rs
+"objects.cpp|devilution::SetupObject(Object &object, Point position, _object_id ot)",ported,,,src/objects.rs
+"objects.cpp|devilution::AddCryptBook(_object_id ot, int v2, Point position)",ported,,,src/objects.rs
+objects.cpp|devilution::AddCryptStoryBook(int s),ported,,,src/objects.rs
+objects.cpp|devilution::AddNakrulLever(),ported,,,src/objects.rs
+"objects.cpp|devilution::AddNakrulBook(int a1, Point position)",ported,,,src/objects.rs
+objects.cpp|devilution::AddNakrulGate(),ported,,,src/objects.rs
+objects.cpp|devilution::AddStoryBooks(),ported,,,src/objects.rs
+objects.cpp|devilution::AddHookedBodies(int freq),ported,,,src/objects.rs
+objects.cpp|devilution::AddL4Goodies(),ported,,,src/objects.rs
+objects.cpp|devilution::AddLazStand(),ported,,,src/objects.rs
+"objects.cpp|devilution::DeleteObject(int oi, int i)",ported,,,src/objects.rs
+objects.cpp|devilution::AddChest(Object &chest),ported,,,src/objects.rs
+"objects.cpp|devilution::ObjSetMicro(Point position, int pn)",ported,,,src/objects.rs
+"objects.cpp|devilution::DoorSet(Point position, bool isLeftDoor)",ported,,,src/objects.rs
+"objects.cpp|devilution::CryptDoorSet(Point position, bool isLeftDoor)",ported,,,src/objects.rs
+objects.cpp|devilution::SetDoorStateOpen(Object &door),ported,,,src/objects.rs
+objects.cpp|devilution::SetDoorStateClosed(Object &door),ported,,,src/objects.rs
+objects.cpp|devilution::AddDoor(Object &door),ported,,,src/objects.rs
+objects.cpp|devilution::AddSarcophagus(Object &sarcophagus),ported,,,src/objects.rs
+objects.cpp|devilution::AddFlameTrap(Object &flameTrap),ported,,,src/objects.rs
+objects.cpp|devilution::AddFlameLever(Object &flameLever),ported,,,src/objects.rs
+objects.cpp|devilution::AddTrap(Object &trap),ported,,,src/objects.rs
+objects.cpp|devilution::AddObjectLight(Object &object),ported,,,src/objects.rs
+objects.cpp|devilution::AddBarrel(Object &barrel),ported,,,src/objects.rs
+objects.cpp|devilution::AddShrine(Object &shrine),ported,,,src/objects.rs
+objects.cpp|devilution::AddBookcase(Object &bookcase),ported,,,src/objects.rs
+objects.cpp|devilution::AddLargeFountain(Object &fountain),ported,,,src/objects.rs
+objects.cpp|devilution::AddArmorStand(Object &armorStand),ported,,,src/objects.rs
+objects.cpp|devilution::AddDecapitatedBody(Object &decapitatedBody),ported,,,src/objects.rs
+objects.cpp|devilution::AddBookOfVileness(Object &bookOfVileness),ported,,,src/objects.rs
+objects.cpp|devilution::AddMagicCircle(Object &magicCircle),ported,,,src/objects.rs
+objects.cpp|devilution::AddPedestalOfBlood(Object &pedestalOfBlood),ported,,,src/objects.rs
+objects.cpp|devilution::AddStoryBook(Object &storyBook),ported,,,src/objects.rs
+objects.cpp|devilution::AddWeaponRack(Object &weaponRack),ported,,,src/objects.rs
+objects.cpp|devilution::AddTorturedBody(Object &torturedBody),ported,,,src/objects.rs
+objects.cpp|devilution::GetRndObjLoc(int randarea),ported,,,src/objects.rs
+objects.cpp|devilution::AddMushPatch(),ported,,,src/objects.rs
+"objects.cpp|devilution::IsLightVisible(Object &light, int lightRadius)",ported,,,src/objects.rs
+"objects.cpp|devilution::UpdateObjectLight(Object &light, int lightRadius)",ported,,,src/objects.rs
+objects.cpp|devilution::UpdateCircle(Object &circle),ported,,,src/objects.rs
+objects.cpp|devilution::ObjectStopAnim(Object &object),ported,,,src/objects.rs
+objects.cpp|devilution::IsDoorClear(const Object &door),ported,,,src/objects.rs
+objects.cpp|devilution::UpdateDoor(Object &door),ported,,,src/objects.rs
+objects.cpp|devilution::UpdateSarcophagus(Object &sarcophagus),ported,,,src/objects.rs
+"objects.cpp|devilution::ActivateTrapLine(int ttype, int tid)",ported,,,src/objects.rs
+objects.cpp|devilution::UpdateFlameTrap(Object &trap),ported,,,src/objects.rs
+objects.cpp|devilution::UpdateBurningCrossDamage(Object &cross),ported,,,src/objects.rs
+"objects.cpp|devilution::ObjSetMini(Point position, int v)",ported,,,src/objects.rs
+"objects.cpp|devilution::ObjL1Special(int x1, int y1, int x2, int y2)",ported,,,src/objects.rs
+"objects.cpp|devilution::ObjL2Special(int x1, int y1, int x2, int y2)",ported,,,src/objects.rs
+objects.cpp|devilution::OpenDoor(Object &door),ported,,,src/objects.rs
+objects.cpp|devilution::CloseDoor(Object &door),ported,,,src/objects.rs
+"objects.cpp|devilution::OperateDoor(Object &door, bool sendflag)",ported,,,src/objects.rs
+objects.cpp|devilution::AreAllLeversActivated(int leverId),ported,,,src/objects.rs
+objects.cpp|devilution::UpdateLeverState(Object &object),ported,,,src/objects.rs
+"objects.cpp|devilution::OperateLever(Object &object, bool sendmsg)",ported,,,src/objects.rs
+"objects.cpp|devilution::OperateBook(Player &player, Object &book, bool sendmsg)",ported,,,src/objects.rs
+"objects.cpp|devilution::OperateBookLever(Object &questBook, bool sendmsg)",ported,,,src/objects.rs
+"objects.cpp|devilution::OperateChamberOfBoneBook(Object &questBook, bool sendmsg)",ported,,,src/objects.rs
+"objects.cpp|devilution::OperateChest(const Player &player, Object &chest, bool sendLootMsg)",ported,,,src/objects.rs
+"objects.cpp|devilution::OperateMushroomPatch(const Player &player, Object &mushroomPatch)",ported,,,src/objects.rs
+"objects.cpp|devilution::OperateInnSignChest(const Player &player, Object &questContainer, bool sendmsg)",ported,,,src/objects.rs
+"objects.cpp|devilution::OperateSlainHero(const Player &player, Object &corpse, bool sendmsg)",ported,,,src/objects.rs
+objects.cpp|devilution::OperateTrapLever(Object &flameLever),ported,,,src/objects.rs
+"objects.cpp|devilution::OperateSarcophagus(Object &sarcophagus, bool sendMsg, bool sendLootMsg)",ported,,,src/objects.rs
+"objects.cpp|devilution::OperatePedestal(Player &player, Object &pedestal, bool sendmsg)",ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineMysterious(Player &player),ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineHidden(Player &player),ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineGloomy(Player &player),ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineWeird(Player &player),ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineMagical(const Player &player),ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineStone(Player &player),ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineReligious(Player &player),ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineEnchanted(Player &player),ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineThaumaturgic(const Player &player),ported,,,src/objects.rs
+"objects.cpp|devilution::OperateShrineCostOfWisdom(Player &player, SpellID spellId, diablo_message message)",ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineCryptic(Player &player),ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineEldritch(Player &player),ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineEerie(Player &player),ported,,,src/objects.rs
+"objects.cpp|devilution::OperateShrineDivine(Player &player, Point spawnPosition)",ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineHoly(const Player &player),ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineSpiritual(Player &player),ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineSpooky(const Player &player),ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineAbandoned(Player &player),ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineCreepy(Player &player),ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineQuiet(Player &player),ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineSecluded(const Player &player),ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineGlimmering(Player &player),ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineTainted(const Player &player),ported,,,src/objects.rs
+"objects.cpp|devilution::OperateShrineOily(Player &player, Point spawnPosition)",ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineGlowing(Player &player),ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineMendicant(Player &player),ported,,,src/objects.rs
+"objects.cpp|devilution::OperateShrineSparkling(Player &player, Point spawnPosition)",ported,,,src/objects.rs
+"objects.cpp|devilution::OperateShrineTown(const Player &player, Point spawnPosition)",ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineShimmering(Player &player),ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineSolar(Player &player),ported,,,src/objects.rs
+objects.cpp|devilution::OperateShrineMurphys(Player &player),ported,,,src/objects.rs
+"objects.cpp|devilution::OperateShrine(Player &player, Object &shrine, _sfx_id sType)",ported,,,src/objects.rs
+"objects.cpp|devilution::OperateBookStand(Object &bookStand, bool sendmsg, bool sendLootMsg)",ported,,,src/objects.rs
+"objects.cpp|devilution::OperateBookcase(Object &bookcase, bool sendmsg, bool sendLootMsg)",ported,,,src/objects.rs
+"objects.cpp|devilution::OperateDecapitatedBody(Object &corpse, bool sendmsg, bool sendLootMsg)",ported,,,src/objects.rs
+"objects.cpp|devilution::OperateArmorStand(Object &armorStand, bool sendmsg, bool sendLootMsg)",ported,,,src/objects.rs
+objects.cpp|devilution::FindValidShrine(),ported,,,src/objects.rs
+"objects.cpp|devilution::OperateGoatShrine(Player &player, Object &object, _sfx_id sType)",ported,,,src/objects.rs
+"objects.cpp|devilution::OperateCauldron(Player &player, Object &object, _sfx_id sType)",ported,,,src/objects.rs
+"objects.cpp|devilution::OperateFountains(Player &player, Object &fountain)",ported,,,src/objects.rs
+"objects.cpp|devilution::OperateWeaponRack(Object &weaponRack, bool sendmsg, bool sendLootMsg)",ported,,,src/objects.rs
+objects.cpp|devilution::OperateNakrulBook(int s),ported,,,src/objects.rs
+objects.cpp|devilution::OperateStoryBook(Object &storyBook),ported,,,src/objects.rs
+objects.cpp|devilution::OperateLazStand(Object &stand),ported,,,src/objects.rs
+objects.cpp|devilution::AreAllCruxesOfTypeBroken(int cruxType),ported,,,src/objects.rs
+"objects.cpp|devilution::BreakCrux(Object &crux, bool sendmsg)",ported,,,src/objects.rs
+"objects.cpp|devilution::BreakBarrel(const Player &player, Object &barrel, bool forcebreak, bool sendmsg)",ported,,,src/objects.rs
+objects.cpp|devilution::SyncCrux(const Object &crux),ported,,,src/objects.rs
+objects.cpp|devilution::SyncLever(const Object &lever),ported,,,src/objects.rs
+objects.cpp|devilution::SyncQSTLever(const Object &qstLever),ported,,,src/objects.rs
+objects.cpp|devilution::SyncPedestal(const Object &pedestal),ported,,,src/objects.rs
+objects.cpp|devilution::UpdatePedestalState(Object &pedestal),ported,,,src/objects.rs
+objects.cpp|devilution::SyncDoor(Object &door),ported,,,src/objects.rs
+"objects.cpp|devilution::ResyncDoors(WorldTilePosition p1, WorldTilePosition p2, bool sendmsg)",ported,,,src/objects.rs
+"objects.cpp|devilution::UpdateState(Object &object, int frame)",ported,,,src/objects.rs
+objects.cpp|devilution::Object::GetId(),ported,,,src/objects.rs
 objects.cpp|devilution::Object::IsDisabled(),ported,,,src/objects.rs
 "objects.cpp|devilution::FindObjectAtPosition(Point position, bool considerLargeObjects)",ported,,,src/objects.rs
 objects.cpp|devilution::IsItemBlockingObjectAtPosition(Point position),ported,,,src/objects.rs
-objects.cpp|devilution::LoadLevelObjects(uint16_t filesWidths[65]),pending,,,
-objects.cpp|devilution::InitObjectGFX(),pending,,,
+objects.cpp|devilution::LoadLevelObjects(uint16_t filesWidths[65]),ported,,,src/objects.rs
+objects.cpp|devilution::InitObjectGFX(),ported,,,src/objects.rs
 objects.cpp|devilution::FreeObjectGFX(),ported,,,src/objects.rs
-"objects.cpp|devilution::AddL1Objs(int x1, int y1, int x2, int y2)",pending,,,
-"objects.cpp|devilution::AddL2Objs(int x1, int y1, int x2, int y2)",pending,,,
-"objects.cpp|devilution::AddL3Objs(int x1, int y1, int x2, int y2)",pending,,,
-"objects.cpp|devilution::AddCryptObjects(int x1, int y1, int x2, int y2)",pending,,,
-objects.cpp|devilution::AddSlainHero(),pending,,,
-objects.cpp|devilution::InitObjects(),pending,,,
-"objects.cpp|devilution::SetMapObjects(const uint16_t *dunData, int startx, int starty)",pending,,,
-"objects.cpp|devilution::AddObject(_object_id objType, Point objPos)",pending,,,
-objects.cpp|devilution::UpdateTrapState(Object &trap),pending,,,
-objects.cpp|devilution::OperateTrap(Object &trap),pending,,,
-objects.cpp|devilution::ProcessObjects(),pending,,,
-objects.cpp|devilution::RedoPlayerVision(),pending,,,
-objects.cpp|devilution::MonstCheckDoors(const Monster &monster),pending,,,
-"objects.cpp|devilution::ObjChangeMap(int x1, int y1, int x2, int y2)",pending,,,
-"objects.cpp|devilution::ObjChangeMapResync(int x1, int y1, int x2, int y2)",pending,,,
-objects.cpp|devilution::ItemMiscIdIdx(item_misc_id imiscid),pending,,,
-"objects.cpp|devilution::OperateObject(Player &player, Object &object)",pending,,,
-objects.cpp|devilution::DeltaSyncOpObject(Object &object),pending,,,
-objects.cpp|devilution::DeltaSyncCloseObj(Object &object),pending,,,
-"objects.cpp|devilution::SyncOpObject(Player &player, int cmd, Object &object)",pending,,,
-"objects.cpp|devilution::BreakObjectMissile(const Player *player, Object &object)",pending,,,
-"objects.cpp|devilution::BreakObject(const Player &player, Object &object)",pending,,,
-objects.cpp|devilution::DeltaSyncBreakObj(Object &object),pending,,,
-"objects.cpp|devilution::SyncBreakObj(const Player &player, Object &object)",pending,,,
-objects.cpp|devilution::SyncObjectAnim(Object &object),pending,,,
-objects.cpp|devilution::Object::name(),pending,,,
-objects.cpp|devilution::GetObjectStr(const Object &object),pending,,,
-objects.cpp|devilution::SyncNakrulRoom(),pending,,,
-"objects.h|devilution::Object::SetMapRange(WorldTilePosition topLeftPosition, WorldTilePosition bottomRightPosition)",pending,,,
-objects.h|devilution::Object::SetMapRange(WorldTileRectangle mapRange),pending,,,
-objects.h|devilution::Object::InitializeBook(WorldTileRectangle mapRange),pending,,,
-"objects.h|devilution::Object::InitializeQuestBook(WorldTileRectangle mapRange, int leverID, _speech_id message)",pending,,,
-"objects.h|devilution::Object::InitializeLoadedObject(WorldTileRectangle mapRange, int leverID)",pending,,,
+"objects.cpp|devilution::AddL1Objs(int x1, int y1, int x2, int y2)",ported,,,src/objects.rs
+"objects.cpp|devilution::AddL2Objs(int x1, int y1, int x2, int y2)",ported,,,src/objects.rs
+"objects.cpp|devilution::AddL3Objs(int x1, int y1, int x2, int y2)",ported,,,src/objects.rs
+"objects.cpp|devilution::AddCryptObjects(int x1, int y1, int x2, int y2)",ported,,,src/objects.rs
+objects.cpp|devilution::AddSlainHero(),ported,,,src/objects.rs
+objects.cpp|devilution::InitObjects(),ported,,,src/objects.rs
+"objects.cpp|devilution::SetMapObjects(const uint16_t *dunData, int startx, int starty)",ported,,,src/objects.rs
+"objects.cpp|devilution::AddObject(_object_id objType, Point objPos)",ported,,,src/objects.rs
+objects.cpp|devilution::UpdateTrapState(Object &trap),ported,,,src/objects.rs
+objects.cpp|devilution::OperateTrap(Object &trap),ported,,,src/objects.rs
+objects.cpp|devilution::ProcessObjects(),ported,,,src/objects.rs
+objects.cpp|devilution::RedoPlayerVision(),ported,,,src/objects.rs
+objects.cpp|devilution::MonstCheckDoors(const Monster &monster),ported,,,src/objects.rs
+"objects.cpp|devilution::ObjChangeMap(int x1, int y1, int x2, int y2)",ported,,,src/objects.rs
+"objects.cpp|devilution::ObjChangeMapResync(int x1, int y1, int x2, int y2)",ported,,,src/objects.rs
+objects.cpp|devilution::ItemMiscIdIdx(item_misc_id imiscid),ported,,,src/objects.rs
+"objects.cpp|devilution::OperateObject(Player &player, Object &object)",ported,,,src/objects.rs
+objects.cpp|devilution::DeltaSyncOpObject(Object &object),ported,,,src/objects.rs
+objects.cpp|devilution::DeltaSyncCloseObj(Object &object),ported,,,src/objects.rs
+"objects.cpp|devilution::SyncOpObject(Player &player, int cmd, Object &object)",ported,,,src/objects.rs
+"objects.cpp|devilution::BreakObjectMissile(const Player *player, Object &object)",ported,,,src/objects.rs
+"objects.cpp|devilution::BreakObject(const Player &player, Object &object)",ported,,,src/objects.rs
+objects.cpp|devilution::DeltaSyncBreakObj(Object &object),ported,,,src/objects.rs
+"objects.cpp|devilution::SyncBreakObj(const Player &player, Object &object)",ported,,,src/objects.rs
+objects.cpp|devilution::SyncObjectAnim(Object &object),ported,,,src/objects.rs
+objects.cpp|devilution::Object::name(),ported,,,src/objects.rs
+objects.cpp|devilution::GetObjectStr(const Object &object),ported,,,src/objects.rs
+objects.cpp|devilution::SyncNakrulRoom(),ported,,,src/objects.rs
+"objects.h|devilution::Object::SetMapRange(WorldTilePosition topLeftPosition, WorldTilePosition bottomRightPosition)",ported,,,src/objects.rs
+objects.h|devilution::Object::SetMapRange(WorldTileRectangle mapRange),ported,,,src/objects.rs
+objects.h|devilution::Object::InitializeBook(WorldTileRectangle mapRange),ported,,,src/objects.rs
+"objects.h|devilution::Object::InitializeQuestBook(WorldTileRectangle mapRange, int leverID, _speech_id message)",ported,,,src/objects.rs
+"objects.h|devilution::Object::InitializeLoadedObject(WorldTileRectangle mapRange, int leverID)",ported,,,src/objects.rs
 objects.h|devilution::Object::IsBreakable(),pending,,,
 objects.h|devilution::Object::IsBroken(),pending,,,
 objects.h|devilution::Object::IsBarrel(),pending,,,
@@ -3237,7 +3237,7 @@ objects.h|devilution::Object::isDoor(),pending,,,
 objects.h|devilution::Object::IsShrine(),pending,,,
 objects.h|devilution::Object::IsTrap(),pending,,,
 objects.h|devilution::IsObjectAtPosition(Point position),ported,,,src/objects.rs
-objects.h|devilution::ObjectAtPosition(Point position),pending,,,
+objects.h|devilution::ObjectAtPosition(Point position),ported,,,src/objects.rs
 options.cpp|devilution::GetIniPath(),ported,,,src/options.rs
 options.cpp|devilution::GetIni(),ported,,,src/options.rs
 "options.cpp|devilution::IniChangedChecker::IniChangedChecker(const char *sectionName, const char *keyName)",ported,,,src/options.rs

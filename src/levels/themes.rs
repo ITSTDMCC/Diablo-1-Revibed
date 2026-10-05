@@ -86,7 +86,7 @@ fn tile_has(ctx: &Ctx, x: i32, y: i32, p: TileProperties) -> bool {
 }
 
 /// Original: `TFit_Shrine` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::TFit_Shrine(int i)
+// @port levels/themes.cpp|devilution::TFit_Shrine(int i) sha=e0653f3ab616
 fn tfit_shrine(ctx: &mut Ctx, i: i32) -> bool {
     let mut xp = 0;
     let mut yp = 0;
@@ -135,7 +135,7 @@ fn tfit_shrine(ctx: &mut Ctx, i: i32) -> bool {
 }
 
 /// Original: `CheckThemeObj5` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::CheckThemeObj5(Point origin, int8_t regionId)
+// @port levels/themes.cpp|devilution::CheckThemeObj5(Point origin, int8_t regionId) sha=d2b27f544de4
 fn check_theme_obj5(ctx: &Ctx, origin: Point, region_id: i8) -> bool {
     for test_position in crate::engine::geometry::points_in_rectangle(Rectangle::from_center(origin, 2)) {
         // note out-of-bounds tiles are not solid, this function relies on the guard in TFit_Obj5 and dungeon border
@@ -151,7 +151,7 @@ fn check_theme_obj5(ctx: &Ctx, origin: Point, region_id: i8) -> bool {
 }
 
 /// Original: `TFit_Obj5` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::TFit_Obj5(int t)
+// @port levels/themes.cpp|devilution::TFit_Obj5(int t) sha=7d117c8dc2c0
 fn tfit_obj5(ctx: &mut Ctx, t: i32) -> bool {
     let target_candidates = ctx.rng.generate_rnd(5);
     if target_candidates < 0 {
@@ -177,7 +177,7 @@ fn tfit_obj5(ctx: &mut Ctx, t: i32) -> bool {
 }
 
 /// Original: `TFit_SkelRoom` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::TFit_SkelRoom(int t)
+// @port levels/themes.cpp|devilution::TFit_SkelRoom(int t) sha=5d19b3743d23
 fn tfit_skel_room(ctx: &mut Ctx, t: i32) -> bool {
     if !matches!(ctx.gendung.leveltype, DungeonType::Cathedral | DungeonType::Catacombs) {
         return false;
@@ -192,7 +192,7 @@ fn tfit_skel_room(ctx: &mut Ctx, t: i32) -> bool {
 }
 
 /// Original: `TFit_GoatShrine` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::TFit_GoatShrine(int t)
+// @port levels/themes.cpp|devilution::TFit_GoatShrine(int t) sha=ae576ab34601
 fn tfit_goat_shrine(ctx: &mut Ctx, t: i32) -> bool {
     for i in 0..ctx.monster.LevelMonsterTypeCount {
         if crate::monster::is_goat(ctx.monster.LevelMonsterTypes[i].type_) {
@@ -204,7 +204,7 @@ fn tfit_goat_shrine(ctx: &mut Ctx, t: i32) -> bool {
 }
 
 /// Original: `CheckThemeObj3` (levels/themes.cpp). `frequency` defaults to 0.
-// @port levels/themes.cpp|devilution::CheckThemeObj3(Point origin, int8_t regionId, unsigned frequency = 0)
+// @port levels/themes.cpp|devilution::CheckThemeObj3(Point origin, int8_t regionId, unsigned frequency = 0) sha=ed6128061eb9
 fn check_theme_obj3(ctx: &mut Ctx, origin: Point, region_id: i8, frequency: u32) -> bool {
     for test_position in crate::engine::geometry::points_in_rectangle(Rectangle::from_center(origin, 1)) {
         if !in_dungeon_bounds(test_position) {
@@ -228,7 +228,7 @@ fn check_theme_obj3(ctx: &mut Ctx, origin: Point, region_id: i8, frequency: u32)
 }
 
 /// Original: `TFit_Obj3` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::TFit_Obj3(int8_t regionId)
+// @port levels/themes.cpp|devilution::TFit_Obj3(int8_t regionId) sha=4f76ac60863f
 fn tfit_obj3(ctx: &mut Ctx, region_id: i8) -> bool {
     const OBJRND: [u32; 4] = [4, 4, 3, 5];
     for yp in 1..MAXDUNY as i32 - 1 {
@@ -245,7 +245,7 @@ fn tfit_obj3(ctx: &mut Ctx, region_id: i8) -> bool {
 }
 
 /// Original: `CheckThemeReqs` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::CheckThemeReqs(theme_id t)
+// @port levels/themes.cpp|devilution::CheckThemeReqs(theme_id t) sha=b2a33bbc5c53
 fn check_theme_reqs(ctx: &Ctx, t: theme_id) -> bool {
     let lt = ctx.gendung.leveltype;
     let s = &ctx.themes;
@@ -263,7 +263,7 @@ fn check_theme_reqs(ctx: &Ctx, t: theme_id) -> bool {
 }
 
 /// Original: `SpecialThemeFit` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::SpecialThemeFit(int i, theme_id t)
+// @port levels/themes.cpp|devilution::SpecialThemeFit(int i, theme_id t) sha=8c44a36d072f
 fn special_theme_fit(ctx: &mut Ctx, i: i32, t: theme_id) -> bool {
     let mut rv = check_theme_reqs(ctx, t);
     match t {
@@ -314,7 +314,7 @@ fn special_theme_fit(ctx: &mut Ctx, i: i32, t: theme_id) -> bool {
 }
 
 /// Original: `CheckThemeRoom` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::CheckThemeRoom(int tv)
+// @port levels/themes.cpp|devilution::CheckThemeRoom(int tv) sha=c8538a500cd9
 fn check_theme_room(ctx: &Ctx, tvv: i32) -> bool {
     for i in 0..ctx.trigs.numtrigs as usize {
         let p = ctx.trigs.trigs[i].position;
@@ -360,7 +360,7 @@ fn check_theme_room(ctx: &Ctx, tvv: i32) -> bool {
 }
 
 /// Original: `PlaceThemeMonsts` (levels/themes.cpp): places theme monsters with frequency 1/f.
-// @port levels/themes.cpp|devilution::PlaceThemeMonsts(int t, int f)
+// @port levels/themes.cpp|devilution::PlaceThemeMonsts(int t, int f) sha=268b591c759f
 fn place_theme_monsts(ctx: &mut Ctx, t: i32, f: i32) {
     let mut scattertypes: Vec<usize> = Vec::new();
     for i in 0..ctx.monster.LevelMonsterTypeCount {
@@ -383,7 +383,7 @@ fn place_theme_monsts(ctx: &mut Ctx, t: i32, f: i32) {
 }
 
 /// Original: `Theme_Barrel` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::Theme_Barrel(int t)
+// @port levels/themes.cpp|devilution::Theme_Barrel(int t) sha=dc92b5147a9d
 fn theme_barrel(ctx: &mut Ctx, t: i32) {
     const BARRND: [u32; 4] = [2, 6, 4, 8];
     const MONSTRND: [i32; 4] = [5, 7, 3, 9];
@@ -400,7 +400,7 @@ fn theme_barrel(ctx: &mut Ctx, t: i32) {
 }
 
 /// Original: `Theme_Shrine` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::Theme_Shrine(int t)
+// @port levels/themes.cpp|devilution::Theme_Shrine(int t) sha=007e95f8ecae
 fn theme_shrine(ctx: &mut Ctx, t: i32) {
     const MONSTRND: [i32; 4] = [6, 6, 3, 9];
     tfit_shrine(ctx, t);
@@ -418,7 +418,7 @@ fn theme_shrine(ctx: &mut Ctx, t: i32) {
 }
 
 /// Original: `Theme_MonstPit` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::Theme_MonstPit(int t)
+// @port levels/themes.cpp|devilution::Theme_MonstPit(int t) sha=aceb55486d73
 fn theme_monst_pit(ctx: &mut Ctx, t: i32) {
     const MONSTRND: [i32; 4] = [6, 7, 3, 9];
     let mut r = ctx.rng.generate_rnd(100) + 1;
@@ -447,7 +447,7 @@ fn theme_monst_pit(ctx: &mut Ctx, t: i32) {
 }
 
 /// Original: `SpawnObjectOrSkeleton` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::SpawnObjectOrSkeleton(unsigned frequency, _object_id objectType, Point tile)
+// @port levels/themes.cpp|devilution::SpawnObjectOrSkeleton(unsigned frequency, _object_id objectType, Point tile) sha=2a87ebbd8167
 fn spawn_object_or_skeleton(ctx: &mut Ctx, frequency: u32, object_type: _object_id, tile: Point) {
     if flip(ctx, frequency) {
         add_object(ctx, object_type, tile);
@@ -457,7 +457,7 @@ fn spawn_object_or_skeleton(ctx: &mut Ctx, frequency: u32, object_type: _object_
 }
 
 /// Original: `Theme_SkelRoom` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::Theme_SkelRoom(int t)
+// @port levels/themes.cpp|devilution::Theme_SkelRoom(int t) sha=2e64a2ab5737
 fn theme_skel_room(ctx: &mut Ctx, t: i32) {
     const MONSTRND: [u32; 4] = [6, 7, 3, 9];
     tfit_skel_room(ctx, t);
@@ -486,7 +486,7 @@ fn theme_skel_room(ctx: &mut Ctx, t: i32) {
 }
 
 /// Original: `Theme_Treasure` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::Theme_Treasure(int t)
+// @port levels/themes.cpp|devilution::Theme_Treasure(int t) sha=3cca6783c3ee
 fn theme_treasure(ctx: &mut Ctx, t: i32) {
     const TREASRND: [i8; 4] = [4, 9, 7, 10];
     const MONSTRND: [i32; 4] = [6, 8, 3, 7];
@@ -524,7 +524,7 @@ fn theme_treasure(ctx: &mut Ctx, t: i32) {
 }
 
 /// Original: `Theme_Library` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::Theme_Library(int t)
+// @port levels/themes.cpp|devilution::Theme_Library(int t) sha=e76b96ecd4f0
 fn theme_library(ctx: &mut Ctx, t: i32) {
     const LIBRND: [u32; 4] = [1, 2, 2, 5];
     const MONSTRND: [i32; 4] = [5, 7, 3, 9];
@@ -574,13 +574,13 @@ fn theme_scatter_obj3(ctx: &mut Ctx, t: i32, start: i32, end: i32, freq: [u32; 4
 }
 
 /// Original: `Theme_Torture` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::Theme_Torture(int t)
+// @port levels/themes.cpp|devilution::Theme_Torture(int t) sha=29f16ce3907c
 fn theme_torture(ctx: &mut Ctx, t: i32) {
     theme_scatter_obj3(ctx, t, 1, MAXDUNY as i32 - 1, [6, 8, 3, 8], OBJ_TNUDEM2, [6, 8, 3, 9]);
 }
 
 /// Original: `Theme_BloodFountain` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::Theme_BloodFountain(int t)
+// @port levels/themes.cpp|devilution::Theme_BloodFountain(int t) sha=e784ff869012
 fn theme_blood_fountain(ctx: &mut Ctx, t: i32) {
     theme_obj5(ctx, t, OBJ_BLOODFTN, [6, 8, 3, 9]);
 }
@@ -594,19 +594,19 @@ fn theme_obj5(ctx: &mut Ctx, t: i32, obj: _object_id, monstrnd: [i32; 4]) {
 }
 
 /// Original: `Theme_Decap` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::Theme_Decap(int t)
+// @port levels/themes.cpp|devilution::Theme_Decap(int t) sha=d4dd1f57a124
 fn theme_decap(ctx: &mut Ctx, t: i32) {
     theme_scatter_obj3(ctx, t, 1, MAXDUNY as i32 - 1, [6, 8, 3, 8], OBJ_DECAP, [6, 8, 3, 9]);
 }
 
 /// Original: `Theme_PurifyingFountain` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::Theme_PurifyingFountain(int t)
+// @port levels/themes.cpp|devilution::Theme_PurifyingFountain(int t) sha=b8518f5d6d7e
 fn theme_purifying_fountain(ctx: &mut Ctx, t: i32) {
     theme_obj5(ctx, t, OBJ_PURIFYINGFTN, [6, 7, 3, 9]);
 }
 
 /// Original: `Theme_ArmorStand` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::Theme_ArmorStand(int t)
+// @port levels/themes.cpp|devilution::Theme_ArmorStand(int t) sha=0c6b2b71ab85
 fn theme_armor_stand(ctx: &mut Ctx, t: i32) {
     if ctx.themes.armorFlag {
         let v = ttval(ctx, t) as i8;
@@ -619,7 +619,7 @@ fn theme_armor_stand(ctx: &mut Ctx, t: i32) {
 }
 
 /// Original: `Theme_GoatShrine` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::Theme_GoatShrine(int t)
+// @port levels/themes.cpp|devilution::Theme_GoatShrine(int t) sha=f1ab6a91c648
 fn theme_goat_shrine(ctx: &mut Ctx, t: i32) {
     tfit_goat_shrine(ctx, t);
     let (x, y) = (ctx.themes.themex, ctx.themes.themey);
@@ -636,31 +636,31 @@ fn theme_goat_shrine(ctx: &mut Ctx, t: i32) {
 }
 
 /// Original: `Theme_Cauldron` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::Theme_Cauldron(int t)
+// @port levels/themes.cpp|devilution::Theme_Cauldron(int t) sha=44cec75ae278
 fn theme_cauldron(ctx: &mut Ctx, t: i32) {
     theme_obj5(ctx, t, OBJ_CAULDRON, [6, 7, 3, 9]);
 }
 
 /// Original: `Theme_MurkyFountain` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::Theme_MurkyFountain(int t)
+// @port levels/themes.cpp|devilution::Theme_MurkyFountain(int t) sha=e3451c36f73b
 fn theme_murky_fountain(ctx: &mut Ctx, t: i32) {
     theme_obj5(ctx, t, OBJ_MURKYFTN, [6, 7, 3, 9]);
 }
 
 /// Original: `Theme_TearFountain` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::Theme_TearFountain(int t)
+// @port levels/themes.cpp|devilution::Theme_TearFountain(int t) sha=4c40b3196657
 fn theme_tear_fountain(ctx: &mut Ctx, t: i32) {
     theme_obj5(ctx, t, OBJ_TEARFTN, [6, 7, 3, 9]);
 }
 
 /// Original: `Theme_BrnCross` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::Theme_BrnCross(int t)
+// @port levels/themes.cpp|devilution::Theme_BrnCross(int t) sha=a0afd4e8101b
 fn theme_brn_cross(ctx: &mut Ctx, t: i32) {
     theme_scatter_obj3(ctx, t, 0, MAXDUNY as i32, [5, 7, 3, 8], OBJ_TBCROSS, [6, 8, 3, 9]);
 }
 
 /// Original: `Theme_WeaponRack` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::Theme_WeaponRack(int t)
+// @port levels/themes.cpp|devilution::Theme_WeaponRack(int t) sha=aa2264b610bb
 fn theme_weapon_rack(ctx: &mut Ctx, t: i32) {
     if ctx.themes.weaponFlag {
         let v = ttval(ctx, t) as i8;
@@ -673,7 +673,7 @@ fn theme_weapon_rack(ctx: &mut Ctx, t: i32) {
 }
 
 /// Original: `UpdateL4Trans` (levels/themes.cpp): sets each non-zero transparency value to 1.
-// @port levels/themes.cpp|devilution::UpdateL4Trans()
+// @port levels/themes.cpp|devilution::UpdateL4Trans() sha=955223e12767
 fn update_l4_trans(ctx: &mut Ctx) {
     for col in ctx.gendung.dTransVal.iter_mut() {
         for v in col.iter_mut() {
@@ -688,7 +688,7 @@ fn update_l4_trans(ctx: &mut Ctx) {
 const THEME_GOOD: [theme_id; 4] = [THEME_GOATSHRINE, THEME_SHRINE, THEME_SKELROOM, THEME_LIBRARY];
 
 /// Original: `devilution::InitThemes` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::InitThemes()
+// @port levels/themes.cpp|devilution::InitThemes() sha=51846925e0d7
 pub fn init_themes(ctx: &mut Ctx) {
     {
         let s = &mut ctx.themes;
@@ -751,7 +751,7 @@ pub fn init_themes(ctx: &mut Ctx) {
 }
 
 /// Original: `devilution::HoldThemeRooms` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::HoldThemeRooms()
+// @port levels/themes.cpp|devilution::HoldThemeRooms() sha=30692043c00b
 pub fn hold_theme_rooms(ctx: &mut Ctx) {
     if ctx.gendung.currlevel == 16 || matches!(ctx.gendung.leveltype, DungeonType::Nest | DungeonType::Crypt) {
         return;
@@ -773,7 +773,7 @@ pub fn hold_theme_rooms(ctx: &mut Ctx) {
 }
 
 /// Original: `devilution::CreateThemeRooms` (levels/themes.cpp).
-// @port levels/themes.cpp|devilution::CreateThemeRooms()
+// @port levels/themes.cpp|devilution::CreateThemeRooms() sha=a0fcf43b1eba
 pub fn create_theme_rooms(ctx: &mut Ctx) {
     if ctx.gendung.currlevel == 16 || matches!(ctx.gendung.leveltype, DungeonType::Nest | DungeonType::Crypt) {
         return;

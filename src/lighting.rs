@@ -711,4 +711,4 @@ pub fn lighting_color_cycling(ctx: &mut Ctx) {
     }
 }
 
-crate::pending_fn!(pub fn redo_player_vision(ctx: &mut Ctx), "objects.cpp|devilution::RedoPlayerVision()");
+pub use crate::objects::redo_player_vision;

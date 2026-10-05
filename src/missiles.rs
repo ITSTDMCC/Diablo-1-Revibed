@@ -599,3 +599,5 @@ pub fn process_missiles(ctx: &mut Ctx) {
     process_mana_shield(ctx);
     delete_missiles(ctx);
 }
+crate::pending_fn!(pub fn monster_trap_hit(ctx: &mut Ctx, monster_id: usize, mindam: i32, maxdam: i32, dist: i32, t: MissileID, damage_type: DamageType, shift: bool) -> bool, "missiles.cpp|devilution::MonsterTrapHit(int monsterId, int mindam, int maxdam, int dist, MissileID t, DamageType damageType, bool shift)");
+crate::pending_fn!(pub fn player_m_hit(ctx: &mut Ctx, pnum: usize, monster: Option<usize>, dist: i32, mind: i32, maxd: i32, mtype: MissileID, damage_type: DamageType, shift: bool, death_reason: DeathReason, blocked: &mut bool) -> bool, "missiles.cpp|devilution::PlayerMHit(int pnum, Monster *monster, int dist, int mind, int maxd, MissileID mtype, DamageType damageType, bool shift, DeathReason deathReason, bool *blocked)");

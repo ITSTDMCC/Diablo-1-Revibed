@@ -3824,4 +3824,4 @@ pub fn play_dung_msgs(ctx: &mut Ctx) {
     }
 }
 
-pub use crate::lighting::redo_player_vision;
+pub use crate::objects::redo_player_vision;
