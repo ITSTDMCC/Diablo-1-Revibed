@@ -127,13 +127,16 @@ Asked for by the owner on 2026-10-05 as an optional gameplay feature; `src/first
   (32 + (fx - fy) x 32, H - 16 + (fx + fy) x 16 - h x 45.25). Walls stand on the back edges of the
   tiles (x - 0.5 for the picture's left half, y - 0.5 for the right half), as the art draws them;
   a half counts as a wall when it has more than 64 pixels above the floor diamond. Wall art on a
-  tile the hero can walk (an archway) is only drawn above 1.9 tiles, as its painted opening would
+  tile the hero can walk (an archway) is only drawn above 1.25 tiles, as its painted opening would
   otherwise hide what is behind it.
 - Wall faces: a piece half counts as a wall only when its art stands on the edge from the floor
   up (two thirds of 16 samples along the edge opaque at 0.3 and 0.7 tiles); the raised tops of
   the rock between rooms (pieces showing a floor-like diamond at wall height) are not walls. The
   face is cut 16 picture rows below the highest art on the edge (the wall's top, which the eye
   below it cannot see).
+- Wall height: no wall face (or pillar) is drawn above the level's usual wall height, the face
+  height of its most common plain walls; above it the pictures show the raised rock tops behind
+  the walls. Archways (wall art on walkable tiles) draw only above 1.25 tiles.
 - Missing faces: the original never draws the sides of walls that face away from the isometric
   camera (the south and east sides of rooms). Where a ray goes from an open tile into solid rock
   with no wall art on that edge, the level's most common plain wall (solid along its whole edge)
@@ -170,7 +173,7 @@ Asked for by the owner on 2026-10-05 as an optional gameplay feature; `src/first
   next to the hero fits on screen, feet to head), horizon at 45% of the area below the control
   panel.
 - Known limits: the isometric art is a picture of 3D shapes seen from one side, so wall caps and
-  town houses look like sheared planes, arch openings are solid below 1.9 tiles, sprites are flat
+  town houses look like sheared planes, arch openings are open below 1.25 tiles, sprites are flat
   and pixelated up close, the player's own sprite is not drawn, there is no ceiling.
 - Test hooks: `DIABLO_FP_YAW=<degrees>|monster` sets the view direction when the view is switched
   on (`monster`: the nearest monster or NPC in plain sight); `DIABLO_FP_DUMP=<dir>` writes every

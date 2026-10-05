@@ -102,6 +102,9 @@ pub struct FirstPersonState {
     /// The level's most common wall pictures (left, right edge), for wall faces the original never
     /// drew (the sides of walls facing away from the isometric camera).
     fallback: [Option<Rc<PieceTex>>; 2],
+    /// The usual height of the level's walls (tiles): no wall face is drawn higher (above it the
+    /// pictures show the raised tops of the rock behind the wall).
+    wall_height: f32,
     // the last drawn frame, for aiming
     cam: (f32, f32),
     w: i32,
@@ -365,7 +368,7 @@ fn piece_tex(ctx: &Ctx, cache: &mut Vec<Option<Rc<PieceTex>>>, piece: usize) -> 
 
 /// Wall art on a tile the hero can walk through is an archway or an open doorway: its opening
 /// is painted dark in the isometric art, so only the part above this height (tiles) is drawn.
-const ARCH_TOP: f32 = 1.9;
+const ARCH_TOP: f32 = 1.25;
 
 /// The tile blocks the way like a wall (a solid tile, or a closed door).
 fn blocks(ctx: &Ctx, t: Point) -> bool {
@@ -794,6 +797,8 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
         ctx.firstperson.pieces.clear();
         let mut pieces = std::mem::take(&mut ctx.firstperson.pieces);
         ctx.firstperson.fallback = fallback_walls(ctx, &mut pieces);
+        let [l, r] = &ctx.firstperson.fallback;
+        ctx.firstperson.wall_height = l.as_ref().map_or(f32::MAX, |t| t.left_top).min(r.as_ref().map_or(f32::MAX, |t| t.right_top)) + 0.05;
         ctx.firstperson.pieces = pieces;
     }
     let yaw = ctx.firstperson.yaw;
@@ -863,7 +868,7 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
                         let hp = (cam.0 + ray.0 * dist, cam.1 + ray.1 * dist);
                         let (fx, fy) = if xside { (-0.5, hp.1 - to.y as f32) } else { (hp.0 - to.x as f32, -0.5) };
                         let light = light_at(ctx, from).saturating_add(fog(ctx, dist));
-                        let top = if xside { tex.left_top } else { tex.right_top };
+                        let top = (if xside { tex.left_top } else { tex.right_top }).min(ctx.firstperson.wall_height);
                         hits.push((dist, fx, fy, tex, light, 0.0, top));
                         continue;
                     }
@@ -878,7 +883,7 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
             let (fx, fy) = if xside { (-0.5, hp.1 - owner.y as f32) } else { (hp.0 - owner.x as f32, -0.5) };
             let light = light_at(ctx, owner).min(light_at(ctx, from)).saturating_add(fog(ctx, dist));
             let floor_of_art = if blocks(ctx, owner) { 0.0 } else { ARCH_TOP };
-            let top = if xside { tex.left_top } else { tex.right_top };
+            let top = (if xside { tex.left_top } else { tex.right_top }).min(ctx.firstperson.wall_height);
             hits.push((dist, fx, fy, tex, light, floor_of_art, top));
         }
         for row in 0..h {
@@ -962,9 +967,11 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
         // the picture's pixels; a sprite is drawn on black and on white to find the transparent ones
         let (px, op): (Vec<u8>, Vec<bool>) = match &b.prop {
             Some(t) => {
-                let (x0, x1, _) = t.prop.unwrap_or((0, 63, 0));
-                // within the floor diamond only the columns of the thing itself
-                let op = (0..sw * sh).map(|i| t.opaque[i as usize] && (i / 64 < t.h - 32 || (x0..=x1).contains(&(i % 64)))).collect();
+                let (x0, x1, base) = t.prop.unwrap_or((0, 63, t.h - 16));
+                // within the floor diamond only the columns of the thing itself; nothing above the
+                // level's wall height (the tops the eye cannot see)
+                let highest = base as f32 - ctx.firstperson.wall_height * PX_PER_TILE;
+                let op = (0..sw * sh).map(|i| t.opaque[i as usize] && (i / 64) as f32 >= highest && (i / 64 < t.h - 32 || (x0..=x1).contains(&(i % 64)))).collect();
                 (t.px.clone(), op)
             }
             None => {
