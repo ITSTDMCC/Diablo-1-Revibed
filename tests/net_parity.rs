@@ -63,3 +63,162 @@ fn secretbox_nacl() {
     forged[20] ^= 1;
     assert_eq!(secretbox_open_easy(&forged, &nonce, &key), None);
 }
+
+// ---------------------------------------------------------------------------------------------
+// dvlnet: packets, frames and the TCP provider
+
+use diablo1_rs::dvlnet::base::NetEnv;
+use diablo1_rs::dvlnet::packet::*;
+use diablo1_rs::dvlnet::tcp::TcpClient;
+use diablo1_rs::multi::MAX_PLRS;
+use diablo1_rs::storm::storm_net::{AbstractNet, SnetEvent, EVENT_TYPE_PLAYER_CREATE_GAME, EVENT_TYPE_PLAYER_LEAVE_GAME, PS_CONNECTED, PS_TURN_ARRIVED};
+
+#[test]
+fn packet_wire_format() {
+    let f = PacketFactory::new();
+    // fields in process_data order, little-endian, buffers last
+    assert_eq!(f.turn(1, PLR_BROADCAST, Turn { sequence_number: 7, value: 0x01020304 }).data(), &[PT_TURN, 1, 0xFF, 7, 4, 3, 2, 1]);
+    assert_eq!(f.join_accept(PLR_MASTER, PLR_BROADCAST, 0xAABBCCDD, 2, vec![9, 9]).data(), &[PT_JOIN_ACCEPT, 0xFE, 0xFF, 0xDD, 0xCC, 0xBB, 0xAA, 2, 9, 9]);
+    assert_eq!(f.disconnect(0, PLR_BROADCAST, 3, 0x40000006).data(), &[PT_DISCONNECT, 0, 0xFF, 3, 6, 0, 0, 0x40]);
+    let back = f.make_packet_in(f.message(2, 0, b"hi".to_vec()).data().to_vec()).unwrap();
+    assert_eq!((back.type_(), back.source(), back.destination(), back.message()), (PT_MESSAGE, 2, 0, &b"hi"[..]));
+    assert_eq!(f.make_packet_in(vec![PT_TURN, 0]).unwrap_err(), NetError::Packet);
+    assert_eq!(f.make_packet_in(vec![PT_TURN, 0, 0, 1, 2]).unwrap_err(), NetError::Packet);
+
+    // with a password: nonce || MAC || ciphertext, and only the same password opens it
+    let secure = PacketFactory::with_password("secret");
+    let pkt = secure.echo_request(1, 2, 1234);
+    assert_eq!(pkt.data().len(), 24 + 16 + 3 + 4);
+    let back = secure.make_packet_in(pkt.data().to_vec()).unwrap();
+    assert_eq!((back.type_(), back.time()), (PT_ECHO_REQUEST, 1234));
+    assert!(PacketFactory::with_password("other").make_packet_in(pkt.data().to_vec()).is_err());
+}
+
+#[test]
+fn frame_queue_reassembles() {
+    let mut q = FrameQueue::default();
+    let mut stream = FrameQueue::make_frame(b"abc");
+    stream.extend(FrameQueue::make_frame(b"defgh"));
+    assert_eq!(&stream[..4], &[3, 0, 0, 0]);
+    // arrives in odd pieces
+    for chunk in stream.chunks(3) {
+        q.write(chunk.to_vec());
+    }
+    assert!(q.packet_ready().unwrap());
+    assert_eq!(q.read_packet().unwrap(), b"abc");
+    assert!(q.packet_ready().unwrap());
+    assert_eq!(q.read_packet().unwrap(), b"defgh");
+    assert!(!q.packet_ready().unwrap());
+    q.write(vec![0, 0, 0, 0]);
+    assert_eq!(q.packet_ready(), Err(NetError::FrameQueue));
+}
+
+fn env(port: u16) -> NetEnv {
+    NetEnv { players: MAX_PLRS, ticks: 0, port, bind_address: "127.0.0.1".into() }
+}
+
+fn noop_handler(_: &mut diablo1_rs::ctx::Ctx, _: &SnetEvent) {}
+
+fn tcp_game(port: u16, password: Option<&str>) {
+    let game_info = (0u8..24).collect::<Vec<u8>>();
+    let mut host = TcpClient::default();
+    let mut guest = TcpClient::default();
+    for (c, info) in [(&mut host, game_info.clone()), (&mut guest, Vec::new())] {
+        c.set_env(env(port));
+        c.setup_gameinfo(info);
+        match password {
+            Some(p) => c.setup_password(p.into()),
+            None => c.clear_password(),
+        }
+        c.snet_register_event_handler(EVENT_TYPE_PLAYER_CREATE_GAME as u8, noop_handler);
+        c.snet_register_event_handler(EVENT_TYPE_PLAYER_LEAVE_GAME as u8, noop_handler);
+    }
+    let mut lb = false;
+    assert_eq!(host.create("127.0.0.1", &mut lb), 0, "host is player 0");
+    // the guest's join waits for the server, which the host's thread polls
+    let guest_thread = std::thread::spawn(move || {
+        let id = guest.join("127.0.0.1");
+        (guest, id)
+    });
+    let deadline = std::time::Instant::now() + std::time::Duration::from_secs(10);
+    while !guest_thread.is_finished() && std::time::Instant::now() < deadline {
+        let mut turns = 0;
+        host.snet_get_owner_turns_waiting(&mut turns);
+        std::thread::sleep(std::time::Duration::from_millis(5));
+    }
+    let (mut guest, id) = guest_thread.join().unwrap();
+    assert_eq!(id, 1, "guest is player 1: {:?}", guest.take_error());
+    // the guest learned the game from the join accept
+    let events = guest.take_events();
+    assert!(events.iter().any(|(_, e)| e.eventid == EVENT_TYPE_PLAYER_CREATE_GAME as u32 && e.data.as_deref() == Some(&game_info[..])));
+
+    // messages
+    assert!(host.snet_send_message(1, b"to guest"));
+    assert!(guest.snet_send_message(-2, b"to others"));
+    let mut got_guest = None;
+    let mut got_host = None;
+    for _ in 0..200 {
+        got_guest = got_guest.or_else(|| guest.snet_receive_message());
+        got_host = got_host.or_else(|| host.snet_receive_message());
+        if got_guest.is_some() && got_host.is_some() {
+            break;
+        }
+        std::thread::sleep(std::time::Duration::from_millis(5));
+    }
+    assert_eq!(got_guest, Some((0, b"to guest".to_vec())));
+    assert_eq!(got_host, Some((1, b"to others".to_vec())));
+
+    // turns: both send two, both receive the same sequence
+    for c in [&mut host, &mut guest] {
+        assert!(c.snet_send_turn(&100i32.to_le_bytes()));
+        assert!(c.snet_send_turn(&200i32.to_le_bytes()));
+    }
+    // both poll until each has both turns (the guest waits for the host's sequence numbers)
+    let mut received = [Vec::new(), Vec::new()];
+    for _ in 0..400 {
+        for (k, c) in [&mut host, &mut guest].into_iter().enumerate() {
+            let mut data: [Option<Vec<u8>>; MAX_PLRS] = Default::default();
+            let mut size = [0usize; MAX_PLRS];
+            let mut status = [0u32; MAX_PLRS];
+            if c.snet_receive_turns(MAX_PLRS, &mut data, &mut size, &mut status) {
+                for p in 0..2 {
+                    assert_ne!(status[p] & PS_CONNECTED, 0);
+                    assert_ne!(status[p] & PS_TURN_ARRIVED, 0);
+                }
+                received[k].push((data[0].clone().unwrap(), data[1].clone().unwrap()));
+            }
+        }
+        if received.iter().all(|r| r.len() == 2) {
+            break;
+        }
+        std::thread::sleep(std::time::Duration::from_millis(5));
+    }
+    for r in &received {
+        let values: Vec<(i32, i32)> = r.iter().map(|(a, b)| (i32::from_le_bytes(a[..].try_into().unwrap()), i32::from_le_bytes(b[..].try_into().unwrap()))).collect();
+        assert_eq!(values, vec![(100, 100), (200, 200)]);
+    }
+
+    // the guest leaves: the host is told
+    assert!(guest.snet_leave_game(0x40000004, &mut lb));
+    let mut left = false;
+    for _ in 0..400 {
+        let _ = host.snet_receive_message();
+        if host.take_events().iter().any(|(_, e)| e.eventid == EVENT_TYPE_PLAYER_LEAVE_GAME as u32 && e.playerid == 1) {
+            left = true;
+            break;
+        }
+        std::thread::sleep(std::time::Duration::from_millis(5));
+    }
+    assert!(left, "host sees the guest leave");
+    host.snet_leave_game(0x40000004, &mut lb);
+}
+
+#[test]
+fn tcp_game_public() {
+    tcp_game(26112, None);
+}
+
+#[test]
+fn tcp_game_with_password() {
+    tcp_game(26113, Some("hunter2"));
+}
