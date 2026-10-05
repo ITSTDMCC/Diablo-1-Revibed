@@ -138,7 +138,7 @@ fn ui_ok_dialog(ctx: &mut Ctx, caption: &str, text: &str, error: bool) {
     if !ctx.init.gb_active || ctx.dialogs.in_dialog {
         if !ctx.diablo.headless_mode {
             ctx.platform.show_cursor(true);
-            crate::platform::win32::show_error_message_box(caption, text);
+            show_message_box(ctx, caption, text);
         }
         return;
     }
@@ -150,7 +150,7 @@ fn ui_ok_dialog(ctx: &mut Ctx, caption: &str, text: &str, error: bool) {
     if !init(ctx, caption, text, error, !render_behind.is_empty()) {
         log::error!("{}
 {}", caption, text);
-        crate::platform::win32::show_error_message_box(caption, text);
+        show_message_box(ctx, caption, text);
     }
 
     ctx.dialogs.in_dialog = true;
@@ -159,6 +159,15 @@ fn ui_ok_dialog(ctx: &mut Ctx, caption: &str, text: &str, error: bool) {
     dialog_loop(ctx, &items, render_behind);
     deinit(ctx);
     ctx.dialogs.in_dialog = false;
+}
+
+/// `SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, ...)`. Without a window (`DIABLO_HEADLESS`
+/// test runs) the message only goes to the log, so an automated run never waits on a modal box.
+fn show_message_box(ctx: &Ctx, caption: &str, text: &str) {
+    if ctx.platform.headless {
+        return;
+    }
+    crate::platform::win32::show_error_message_box(caption, text);
 }
 
 /// Original: `UiErrorOkDialog(string_view caption, string_view text, bool error)` (DiabloUI/dialogs.cpp).
