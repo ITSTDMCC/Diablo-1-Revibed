@@ -27,20 +27,24 @@ pub struct ClxSprite {
 impl ClxSprite {
     const HEADER_SIZE: usize = 10;
 
+    // @port engine/clx_sprite.hpp|devilution::ClxSprite::width() sha=9971524140fa
     pub fn width(&self) -> u16 {
         le16(&self.data, self.start + 2)
     }
 
+    // @port engine/clx_sprite.hpp|devilution::ClxSprite::height() sha=c73fc21a7668
     pub fn height(&self) -> u16 {
         le16(&self.data, self.start + 4)
     }
 
     /// `pixelData()`
+    // @port engine/clx_sprite.hpp|devilution::ClxSprite::pixelData() sha=29ea235b47b0
     pub fn pixel_data(&self) -> &[u8] {
         &self.data[self.start + Self::HEADER_SIZE..self.start + self.size]
     }
 
     /// `pixelDataSize()`
+    // @port engine/clx_sprite.hpp|devilution::ClxSprite::pixelDataSize() sha=df87cb98a532
     pub fn pixel_data_size(&self) -> usize {
         self.size - Self::HEADER_SIZE
     }
@@ -73,11 +77,13 @@ impl ClxSpriteList {
     }
 
     /// `numSprites()`
+    // @port engine/clx_sprite.hpp|devilution::ClxSpriteList::numSprites() sha=721c348da60a
     pub fn num_sprites(&self) -> u32 {
         le32(&self.data, self.start)
     }
 
     /// `spriteOffset(i)`
+    // @port engine/clx_sprite.hpp|devilution::ClxSpriteList::spriteOffset(size_t spriteIndex) sha=39ad03afd3a5
     pub fn sprite_offset(&self, i: usize) -> u32 {
         le32(&self.data, self.start + 4 + i * 4)
     }
@@ -91,6 +97,7 @@ impl ClxSpriteList {
     }
 
     /// `nextSpriteSheetOffsetOrFileSize()`
+    // @port engine/clx_sprite.hpp|devilution::ClxSpriteList::nextSpriteSheetOffsetOrFileSize() sha=1fe677ac40f1
     pub fn next_sprite_sheet_offset_or_file_size(&self) -> u32 {
         le32(&self.data, self.start + 4 + self.num_sprites() as usize * 4)
     }
@@ -136,11 +143,13 @@ impl ClxSpriteSheet {
     }
 
     /// `numLists()`
+    // @port engine/clx_sprite.hpp|devilution::ClxSpriteSheet::numLists() sha=11323540d596
     pub fn num_lists(&self) -> u16 {
         self.num_lists
     }
 
     /// `sheetOffset(i)`
+    // @port engine/clx_sprite.hpp|devilution::ClxSpriteSheet::sheetOffset(size_t sheetIndex) sha=0a2174759a2b
     pub fn sheet_offset(&self, i: usize) -> u32 {
         assert!(i < self.num_lists as usize);
         le32(&self.data, 4 * i)
@@ -183,6 +192,7 @@ pub enum ClxSpriteListOrSheet {
 
 impl ClxSpriteListOrSheet {
     /// `OwnedClxSpriteListOrSheet::FromBuffer`
+    // @port engine/clx_sprite.hpp|devilution::OwnedClxSpriteListOrSheet::FromBuffer(std::unique_ptr<uint8_t[]> &&data, size_t size) sha=c5cc4da94898
     pub fn from_buffer(data: Vec<u8>) -> ClxSpriteListOrSheet {
         let n = get_num_lists_from_clx_list_or_sheet_buffer(&data, data.len());
         if n == 0 { ClxSpriteListOrSheet::List(ClxSpriteList::from_vec(data)) } else { ClxSpriteListOrSheet::Sheet(ClxSpriteSheet::from_vec(data, n)) }

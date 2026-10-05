@@ -47,19 +47,23 @@ impl Surface {
         self.pixels.is_null()
     }
 
+    // @port engine/surface.hpp|devilution::Surface::w() sha=023d1c394c6b
     pub fn w(&self) -> i32 {
         self.region.w
     }
 
+    // @port engine/surface.hpp|devilution::Surface::h() sha=0749dcf112d8
     pub fn h(&self) -> i32 {
         self.region.h
     }
 
+    // @port engine/surface.hpp|devilution::Surface::pitch() sha=889c6aa91ecb
     pub fn pitch(&self) -> i32 {
         self.pitch
     }
 
     /// `at(x, y)`: pointer to the pixel (region-relative).
+    // @port engine/surface.hpp|devilution::Surface::at(int x, int y) sha=b34cc8cedd0d
     pub fn at(&self, x: i32, y: i32) -> *mut u8 {
         // SAFETY: callers stay within the owner's buffer, as in the C++ code.
         unsafe { self.pixels.offset((self.region.x + x + self.pitch * (self.region.y + y)) as isize) }
@@ -82,6 +86,7 @@ impl Surface {
     }
 
     /// `SetPixel`: sets the pixel if it is in bounds.
+    // @port engine/surface.hpp|devilution::Surface::SetPixel(Point position, std::uint8_t col) sha=0e78738e2193
     pub fn set_pixel(&self, x: i32, y: i32, col: u8) {
         if self.in_bounds(x, y) {
             self.put(x, y, col);
@@ -89,16 +94,19 @@ impl Surface {
     }
 
     /// `InBounds`
+    // @port engine/surface.hpp|devilution::Surface::InBounds(Point position) sha=99fc6856ed8f
     pub fn in_bounds(&self, x: i32, y: i32) -> bool {
         x >= 0 && y >= 0 && x < self.region.w && y < self.region.h
     }
 
     /// `subregion`
+    // @port engine/surface.hpp|devilution::Surface::subregion(int x, int y, int w, int h) sha=d2cbe6f935ff
     pub fn subregion(&self, x: i32, y: i32, w: i32, h: i32) -> Surface {
         Surface { pixels: self.pixels, pitch: self.pitch, region: Rect::new(self.region.x + x, self.region.y + y, w, h) }
     }
 
     /// `subregionY`
+    // @port engine/surface.hpp|devilution::Surface::subregionY(int y, int h) sha=301b98823c00
     pub fn subregion_y(&self, y: i32, h: i32) -> Surface {
         let mut r = self.region;
         r.y += y;
@@ -107,6 +115,7 @@ impl Surface {
     }
 
     /// `Clip`
+    // @port engine/surface.hpp|devilution::Surface::Clip(SDL_Rect *srcRect, Point *targetPosition) sha=ca9dd732e238
     pub fn clip(&self, src_rect: &mut Rect, target: &mut (i32, i32)) {
         if target.0 < 0 {
             src_rect.x -= target.0;

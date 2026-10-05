@@ -33,12 +33,14 @@ const X_STEP: i32 = 2;
 pub struct LevelCelBlock(pub u16);
 
 impl LevelCelBlock {
+    // @port engine/render/dun_render.hpp|devilution::LevelCelBlock::hasValue() sha=36cc189fc14d
     pub fn has_value(self) -> bool {
         self.0 != 0
     }
     pub fn type_(self) -> TileType {
         TileType::from_raw(((self.0 & 0x7000) >> 12) as u8)
     }
+    // @port engine/render/dun_render.hpp|devilution::LevelCelBlock::frame() sha=c5939dbd5928
     pub fn frame(self) -> u16 {
         self.0 & 0xFFF
     }
@@ -137,6 +139,7 @@ unsafe fn render_line_transparent(c: Ctl, dst: *mut u8, src: *const u8, n: usize
 }
 
 /// `RenderLineTransparentOrOpaque<Light, Transparent>`
+// @port engine/render/dun_render.cpp|devilution::RenderLineTransparentOrOpaque(uint8_t *DVL_RESTRICT dst, const uint8_t *DVL_RESTRICT src, uint_fast8_t width, const uint8_t *DVL_RESTRICT tbl) sha=415b06d8b88a
 #[inline(always)]
 unsafe fn render_line_transparent_or_opaque(c: Ctl, transparent: bool, dst: *mut u8, src: *const u8, width: i32) {
     if width <= 0 {
@@ -150,6 +153,7 @@ unsafe fn render_line_transparent_or_opaque(c: Ctl, transparent: bool, dst: *mut
 }
 
 /// `RenderLineTransparentAndOpaque<Light, OpaquePrefix, PrefixIncrement>`
+// @port engine/render/dun_render.cpp|devilution::RenderLineTransparentAndOpaque(uint8_t *DVL_RESTRICT dst, const uint8_t *DVL_RESTRICT src, uint_fast8_t prefixWidth, uint_fast8_t width, const uint8_t *DVL_RESTRICT tbl) sha=a10dddf02aa6
 #[inline(always)]
 unsafe fn render_line_transparent_and_opaque(c: Ctl, opaque_prefix: bool, prefix_increment: i8, dst: *mut u8, src: *const u8, prefix_width: i32, width: i32) {
     let skip = skip_transparent_pixels(opaque_prefix, prefix_increment);
@@ -167,6 +171,7 @@ unsafe fn render_line_transparent_and_opaque(c: Ctl, opaque_prefix: bool, prefix
 }
 
 /// `RenderLine<Light, OpaquePrefix, PrefixIncrement>`
+// @port engine/render/dun_render.cpp|devilution::RenderLine(uint8_t *DVL_RESTRICT dst, const uint8_t *DVL_RESTRICT src, uint_fast8_t n, const uint8_t *DVL_RESTRICT tbl, int8_t prefix) sha=1357f5492401
 #[inline(always)]
 unsafe fn render_line(c: Ctl, opaque_prefix: bool, prefix_increment: i8, dst: *mut u8, src: *const u8, n: i32, prefix: i8) {
     let skip = skip_transparent_pixels(opaque_prefix, prefix_increment);
@@ -217,6 +222,7 @@ fn up(dst: *mut u8, n: isize) -> *mut u8 {
 }
 
 /// `RenderSquare` (full and clipped)
+// @port engine/render/dun_render.cpp|devilution::RenderSquare(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip) sha=3a681ce88fe3
 unsafe fn render_square(c: Ctl, transparent: bool, mut dst: *mut u8, pitch: isize, mut src: *const u8, clip: Clip) {
     if clip.width == WIDTH && clip.height == HEIGHT {
         for _ in 0..HEIGHT {
@@ -235,6 +241,7 @@ unsafe fn render_square(c: Ctl, transparent: bool, mut dst: *mut u8, pitch: isiz
 }
 
 /// `RenderTransparentSquareFull`
+// @port engine/render/dun_render.cpp|devilution::RenderTransparentSquareFull(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl) sha=310abff33214
 unsafe fn render_transparent_square_full(c: Ctl, opaque_prefix: bool, prefix_increment: i8, mut dst: *mut u8, pitch: isize, mut src: *const u8) {
     let mut prefix = init_prefix(prefix_increment);
     for _ in 0..HEIGHT {
@@ -257,6 +264,7 @@ unsafe fn render_transparent_square_full(c: Ctl, opaque_prefix: bool, prefix_inc
 }
 
 /// `RenderTransparentSquareClipped`
+// @port engine/render/dun_render.cpp|devilution::RenderTransparentSquareClipped(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip) sha=54579f8c2b4c
 unsafe fn render_transparent_square_clipped(c: Ctl, opaque_prefix: bool, prefix_increment: i8, mut dst: *mut u8, pitch: isize, mut src: *const u8, clip: Clip) {
     let skip_rest_of_the_line = |src: &mut *const u8, mut remaining_width: i32| {
         while remaining_width > 0 {
@@ -336,6 +344,7 @@ unsafe fn render_transparent_square_clipped(c: Ctl, opaque_prefix: bool, prefix_
 }
 
 /// `RenderTransparentSquare`
+// @port engine/render/dun_render.cpp|devilution::RenderTransparentSquare(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip) sha=4866e1d7bdd1
 unsafe fn render_transparent_square(c: Ctl, opaque_prefix: bool, prefix_increment: i8, dst: *mut u8, pitch: isize, src: *const u8, clip: Clip) {
     if clip.width == WIDTH && clip.height == HEIGHT {
         render_transparent_square_full(c, opaque_prefix, prefix_increment, dst, pitch, src);
@@ -378,6 +387,7 @@ fn calculate_triangle_source_skip_upper_bottom(num_lines: i32) -> usize {
 }
 
 /// `RenderLeftTriangleLower` (full; `dst`/`src` advanced as by reference)
+// @port engine/render/dun_render.cpp|devilution::RenderLeftTriangleLower(uint8_t *DVL_RESTRICT &dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT &src, const uint8_t *DVL_RESTRICT tbl) sha=321af08d4448
 unsafe fn render_left_triangle_lower(c: Ctl, transparent: bool, dst: &mut *mut u8, pitch: isize, src: &mut *const u8) {
     *dst = dst.wrapping_offset((X_STEP * (LOWER_HEIGHT - 1)) as isize);
     for i in 1..=LOWER_HEIGHT {
@@ -390,6 +400,7 @@ unsafe fn render_left_triangle_lower(c: Ctl, transparent: bool, dst: &mut *mut u
 }
 
 /// `RenderLeftTriangleLowerClipVertical`
+// @port engine/render/dun_render.cpp|devilution::RenderLeftTriangleLowerClipVertical(const DiamondClipY &clipY, uint8_t *DVL_RESTRICT &dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT &src, const uint8_t *DVL_RESTRICT tbl) sha=dedc9499e0d3
 unsafe fn render_left_triangle_lower_clip_vertical(c: Ctl, transparent: bool, clip_y: &DiamondClipY, dst: &mut *mut u8, pitch: isize, src: &mut *const u8) {
     *src = src.add(calculate_triangle_source_skip_lower_bottom(clip_y.lower_bottom));
     *dst = dst.wrapping_offset((X_STEP * (LOWER_HEIGHT - clip_y.lower_bottom - 1)) as isize);
@@ -404,6 +415,7 @@ unsafe fn render_left_triangle_lower_clip_vertical(c: Ctl, transparent: bool, cl
 }
 
 /// `RenderLeftTriangleLowerClipLeftAndVertical`
+// @port engine/render/dun_render.cpp|devilution::RenderLeftTriangleLowerClipLeftAndVertical(int_fast16_t clipLeft, const DiamondClipY &clipY, uint8_t *DVL_RESTRICT &dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT &src, const uint8_t *DVL_RESTRICT tbl) sha=522635b696b7
 unsafe fn render_left_triangle_lower_clip_left_and_vertical(c: Ctl, transparent: bool, clip_left: i32, clip_y: &DiamondClipY, dst: &mut *mut u8, pitch: isize, src: &mut *const u8) {
     *src = src.add(calculate_triangle_source_skip_lower_bottom(clip_y.lower_bottom));
     *dst = dst.wrapping_offset((X_STEP * (LOWER_HEIGHT - clip_y.lower_bottom - 1) - clip_left) as isize);
@@ -422,6 +434,7 @@ unsafe fn render_left_triangle_lower_clip_left_and_vertical(c: Ctl, transparent:
 }
 
 /// `RenderLeftTriangleLowerClipRightAndVertical`
+// @port engine/render/dun_render.cpp|devilution::RenderLeftTriangleLowerClipRightAndVertical(int_fast16_t clipRight, const DiamondClipY &clipY, uint8_t *DVL_RESTRICT &dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT &src, const uint8_t *DVL_RESTRICT tbl) sha=593f2a935b7d
 unsafe fn render_left_triangle_lower_clip_right_and_vertical(c: Ctl, transparent: bool, clip_right: i32, clip_y: &DiamondClipY, dst: &mut *mut u8, pitch: isize, src: &mut *const u8) {
     *src = src.add(calculate_triangle_source_skip_lower_bottom(clip_y.lower_bottom));
     *dst = dst.wrapping_offset((X_STEP * (LOWER_HEIGHT - clip_y.lower_bottom - 1)) as isize);
@@ -438,6 +451,7 @@ unsafe fn render_left_triangle_lower_clip_right_and_vertical(c: Ctl, transparent
 }
 
 /// `RenderLeftTriangle` (all clip variants)
+// @port engine/render/dun_render.cpp|devilution::RenderLeftTriangle(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip) sha=85ae44df9169
 unsafe fn render_left_triangle(c: Ctl, transparent: bool, mut dst: *mut u8, pitch: isize, mut src: *const u8, clip: Clip) {
     if clip.width == WIDTH {
         if clip.height == TRIANGLE_HEIGHT {
@@ -505,6 +519,7 @@ unsafe fn render_left_triangle(c: Ctl, transparent: bool, mut dst: *mut u8, pitc
 }
 
 /// `RenderRightTriangleLower`
+// @port engine/render/dun_render.cpp|devilution::RenderRightTriangleLower(uint8_t *DVL_RESTRICT &dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT &src, const uint8_t *DVL_RESTRICT tbl) sha=33ea1ee18525
 unsafe fn render_right_triangle_lower(c: Ctl, transparent: bool, dst: &mut *mut u8, pitch: isize, src: &mut *const u8) {
     for i in 1..=LOWER_HEIGHT {
         let width = X_STEP * i;
@@ -515,6 +530,7 @@ unsafe fn render_right_triangle_lower(c: Ctl, transparent: bool, dst: &mut *mut 
 }
 
 /// `RenderRightTriangleLowerClipVertical`
+// @port engine/render/dun_render.cpp|devilution::RenderRightTriangleLowerClipVertical(const DiamondClipY &clipY, uint8_t *DVL_RESTRICT &dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT &src, const uint8_t *DVL_RESTRICT tbl) sha=bd34e3aa9fa8
 unsafe fn render_right_triangle_lower_clip_vertical(c: Ctl, transparent: bool, clip_y: &DiamondClipY, dst: &mut *mut u8, pitch: isize, src: &mut *const u8) {
     *src = src.add(calculate_triangle_source_skip_lower_bottom(clip_y.lower_bottom));
     let lower_max = LOWER_HEIGHT - clip_y.lower_top;
@@ -527,6 +543,7 @@ unsafe fn render_right_triangle_lower_clip_vertical(c: Ctl, transparent: bool, c
 }
 
 /// `RenderRightTriangleLowerClipLeftAndVertical`
+// @port engine/render/dun_render.cpp|devilution::RenderRightTriangleLowerClipLeftAndVertical(int_fast16_t clipLeft, const DiamondClipY &clipY, uint8_t *DVL_RESTRICT &dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT &src, const uint8_t *DVL_RESTRICT tbl) sha=521885d5a48e
 unsafe fn render_right_triangle_lower_clip_left_and_vertical(c: Ctl, transparent: bool, clip_left: i32, clip_y: &DiamondClipY, dst: &mut *mut u8, pitch: isize, src: &mut *const u8) {
     *src = src.add(calculate_triangle_source_skip_lower_bottom(clip_y.lower_bottom));
     let lower_max = LOWER_HEIGHT - clip_y.lower_top;
@@ -541,6 +558,7 @@ unsafe fn render_right_triangle_lower_clip_left_and_vertical(c: Ctl, transparent
 }
 
 /// `RenderRightTriangleLowerClipRightAndVertical`
+// @port engine/render/dun_render.cpp|devilution::RenderRightTriangleLowerClipRightAndVertical(int_fast16_t clipRight, const DiamondClipY &clipY, uint8_t *DVL_RESTRICT &dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT &src, const uint8_t *DVL_RESTRICT tbl) sha=49a64f9c7f8d
 unsafe fn render_right_triangle_lower_clip_right_and_vertical(c: Ctl, transparent: bool, clip_right: i32, clip_y: &DiamondClipY, dst: &mut *mut u8, pitch: isize, src: &mut *const u8) {
     *src = src.add(calculate_triangle_source_skip_lower_bottom(clip_y.lower_bottom));
     let lower_max = LOWER_HEIGHT - clip_y.lower_top;
@@ -556,6 +574,7 @@ unsafe fn render_right_triangle_lower_clip_right_and_vertical(c: Ctl, transparen
 }
 
 /// `RenderRightTriangle` (all clip variants)
+// @port engine/render/dun_render.cpp|devilution::RenderRightTriangle(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip) sha=c7f8fff99b3a
 unsafe fn render_right_triangle(c: Ctl, transparent: bool, mut dst: *mut u8, pitch: isize, mut src: *const u8, clip: Clip) {
     if clip.width == WIDTH {
         if clip.height == TRIANGLE_HEIGHT {
@@ -610,6 +629,7 @@ unsafe fn render_right_triangle(c: Ctl, transparent: bool, mut dst: *mut u8, pit
 }
 
 /// `RenderTrapezoidUpperHalf`
+// @port engine/render/dun_render.cpp|devilution::RenderTrapezoidUpperHalf(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl) sha=79119d3af1ff
 unsafe fn render_trapezoid_upper_half(c: Ctl, opaque_prefix: bool, prefix_increment: i8, mut dst: *mut u8, pitch: isize, mut src: *const u8) {
     let src_end = src.add((WIDTH * TRAPEZOID_UPPER_HEIGHT) as usize);
     if prefix_increment != 0 {
@@ -659,6 +679,7 @@ unsafe fn render_trapezoid_upper_half_clipped(c: Ctl, opaque_prefix: bool, prefi
 }
 
 /// `RenderLeftTrapezoid` (all clip variants)
+// @port engine/render/dun_render.cpp|devilution::RenderLeftTrapezoid(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip) sha=83b890370957
 unsafe fn render_left_trapezoid(c: Ctl, opaque_prefix: bool, prefix_increment: i8, mut dst: *mut u8, pitch: isize, mut src: *const u8, clip: Clip) {
     let lower_transparent = lower_half_transparent(opaque_prefix, prefix_increment);
     if clip.width == WIDTH {
@@ -689,6 +710,7 @@ unsafe fn render_left_trapezoid(c: Ctl, opaque_prefix: bool, prefix_increment: i
 }
 
 /// `RenderRightTrapezoid` (all clip variants)
+// @port engine/render/dun_render.cpp|devilution::RenderRightTrapezoid(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip) sha=42afa3125501
 unsafe fn render_right_trapezoid(c: Ctl, opaque_prefix: bool, prefix_increment: i8, mut dst: *mut u8, pitch: isize, mut src: *const u8, clip: Clip) {
     let lower_transparent = lower_half_transparent(opaque_prefix, prefix_increment);
     if clip.width == WIDTH {
@@ -715,6 +737,7 @@ unsafe fn render_right_trapezoid(c: Ctl, opaque_prefix: bool, prefix_increment: 
 }
 
 /// `RenderTileType<Light, Transparent>`
+// @port engine/render/dun_render.cpp|devilution::RenderTileType(TileType tile, uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip) sha=7171c3a790ed
 unsafe fn render_tile_type(c: Ctl, transparent: bool, tile: TileType, dst: *mut u8, pitch: isize, src: *const u8, clip: Clip) {
     match tile {
         TileType::Square => render_square(c, transparent, dst, pitch, src, clip),

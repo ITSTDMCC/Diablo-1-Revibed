@@ -177,15 +177,18 @@ impl DrawStringFormatArg {
         matches!(self.value, FormatValue::Str(_))
     }
     /// `GetFormatted`
+    // @port engine/render/text_render.hpp|devilution::DrawStringFormatArg::GetFormatted() sha=319cb5945293
     pub fn get_formatted(&self) -> &str {
         match &self.value {
             FormatValue::Str(s) => s,
             FormatValue::Int(_) => self.formatted.as_deref().unwrap_or(""),
         }
     }
+    // @port engine/render/text_render.hpp|devilution::DrawStringFormatArg::HasFormatted() sha=bb184db050dc
     fn has_formatted(&self) -> bool {
         self.is_string() || self.formatted.as_ref().is_some_and(|s| !s.is_empty())
     }
+    // @port engine/render/text_render.hpp|devilution::DrawStringFormatArg::GetFlags() sha=0815bbc39fe6
     pub fn get_flags(&self) -> UiFlags {
         self.flags
     }
@@ -451,6 +454,7 @@ impl FmtArgParser {
         Some(result)
     }
 
+    // @port engine/render/text_render.cpp|devilution::FmtArgParser::offset() sha=583d8ad1b8dc
     fn offset(&self) -> usize {
         self.next
     }
@@ -836,6 +840,7 @@ pub fn draw_string_at(ctx: &mut Ctx, out: &Surface, text: &str, position: (i32, 
 
 /// Original: `devilution::DrawStringWithColors` (engine/render/text_render.cpp).
 // @port engine/render/text_render.cpp|devilution::DrawStringWithColors(const Surface &out, string_view fmt, DrawStringFormatArg *args, std::size_t argsLen, const Rectangle &rect, UiFlags flags, int spacing, int lineHeight) sha=a2a49d77af5a
+// @port engine/render/text_render.hpp|devilution::DrawStringWithColors(const Surface &out, string_view fmt, std::vector<DrawStringFormatArg> args, const Rectangle &rect, UiFlags flags = UiFlags::None, int spacing = 1, int lineHeight = -1) sha=fd3da154b5f0
 pub fn draw_string_with_colors(ctx: &mut Ctx, out: &Surface, fmt: &str, args: &mut [DrawStringFormatArg], rect: Rect, flags: UiFlags, spacing: i32, line_height: i32) {
     let size = get_size_from_flags(flags);
     let color = get_color_from_flags(flags);

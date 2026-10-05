@@ -43,6 +43,7 @@ pub struct PlayerAnimationData {
 
 impl PlayerAnimationData {
     /// `spritesForDirection`
+    // @port player.h|devilution::PlayerAnimationData::spritesForDirection(Direction direction) sha=b67100296237
     pub fn sprites_for_direction(&self, direction: Direction) -> Option<ClxSpriteList> {
         self.sprites.as_ref().map(|s| s.get(direction as usize))
     }
@@ -306,11 +307,13 @@ impl Default for Player {
 
 impl Player {
     /// `CanUseItem`
+    // @port player.h|devilution::Player::CanUseItem(const Item &item) sha=ebdbf405900a
     pub fn can_use_item(&self, item: &Item) -> bool {
         self._pStrength >= item._iMinStr as i32 && self._pMagic >= item._iMinMag as i32 && self._pDexterity >= item._iMinDex as i32
     }
 
     /// `GetMostValuableItem`: belt, then body, then inventory.
+    // @port player.h|devilution::Player::GetMostValuableItem(const TPredicate &itemPredicate) sha=5f69fbe86ee6
     pub fn get_most_valuable_item(&self, pred: &dyn Fn(&Item) -> bool) -> Option<&Item> {
         let mut best: Option<&Item> = None;
         let n = self._pNumInv as usize;
@@ -419,6 +422,7 @@ impl Player {
     }
 
     /// `GetItemLocation`
+    // @port player.h|devilution::Player::GetItemLocation(const Item &item) sha=2b6e3ee66073
     pub fn get_item_location(&self, item: &Item) -> item_equip_type {
         if self._pClass == HeroClass::Barbarian && item._iLoc == ILOC_TWOHAND && matches!(item._itype, ItemType::Sword | ItemType::Mace) {
             return ILOC_ONEHAND;
@@ -427,11 +431,13 @@ impl Player {
     }
 
     /// `GetArmor`
+    // @port player.h|devilution::Player::GetArmor() sha=2236da046dbc
     pub fn get_armor(&self) -> i32 {
         self._pIBonusAC + self._pIAC + self._pDexterity / 5
     }
 
     /// `GetMeleeToHit`
+    // @port player.h|devilution::Player::GetMeleeToHit() sha=0d8776e5a7fd
     pub fn get_melee_to_hit(&self) -> i32 {
         let mut hper = self._pLevel as i32 + self._pDexterity / 2 + self._pIBonusToHit + BaseHitChance;
         if self._pClass == HeroClass::Warrior {
@@ -441,6 +447,7 @@ impl Player {
     }
 
     /// `GetMeleePiercingToHit`
+    // @port player.h|devilution::Player::GetMeleePiercingToHit() sha=6e1ef405a3d3
     pub fn get_melee_piercing_to_hit(&self, hellfire: bool) -> i32 {
         let mut hper = self.get_melee_to_hit();
         if !hellfire {
@@ -450,6 +457,7 @@ impl Player {
     }
 
     /// `GetRangedToHit`
+    // @port player.h|devilution::Player::GetRangedToHit() sha=1dcf7aeb899d
     pub fn get_ranged_to_hit(&self) -> i32 {
         let mut hper = self._pLevel as i32 + self._pDexterity + self._pIBonusToHit + BaseHitChance;
         if self._pClass == HeroClass::Rogue {
@@ -461,6 +469,7 @@ impl Player {
     }
 
     /// `GetRangedPiercingToHit`
+    // @port player.h|devilution::Player::GetRangedPiercingToHit() sha=a5a14c57aca4
     pub fn get_ranged_piercing_to_hit(&self, hellfire: bool) -> i32 {
         let mut hper = self.get_ranged_to_hit();
         if !hellfire {
@@ -470,6 +479,7 @@ impl Player {
     }
 
     /// `GetMagicToHit`
+    // @port player.h|devilution::Player::GetMagicToHit() sha=6fb22043d76a
     pub fn get_magic_to_hit(&self) -> i32 {
         let mut hper = self._pMagic + BaseHitChance;
         if self._pClass == HeroClass::Sorcerer {
@@ -481,6 +491,7 @@ impl Player {
     }
 
     /// `GetBlockChance` (`useLevel` defaults to true)
+    // @port player.h|devilution::Player::GetBlockChance(bool useLevel = true) sha=47c2e66cd145
     pub fn get_block_chance(&self, use_level: bool) -> i32 {
         let mut blkper = self._pDexterity + self._pBaseToBlk;
         if use_level {
@@ -490,6 +501,7 @@ impl Player {
     }
 
     /// `GetSpellLevel`
+    // @port player.h|devilution::Player::GetSpellLevel(SpellID spell) sha=6899ea293d9a
     pub fn get_spell_level(&self, spell: SpellID) -> i32 {
         if spell == SpellID::Invalid || spell as i8 as usize >= self._pSplLvl.len() {
             return 0;
@@ -498,6 +510,7 @@ impl Player {
     }
 
     /// `CalculateArmorPierce`
+    // @port player.h|devilution::Player::CalculateArmorPierce(int monsterArmor, bool isMelee) sha=320534ae18dd
     pub fn calculate_armor_pierce(&self, monster_armor: i32, is_melee: bool, hellfire: bool) -> i32 {
         let mut tmac = monster_armor;
         if self._pIEnAc > 0 {
@@ -517,6 +530,7 @@ impl Player {
     }
 
     /// `UpdateHitPointPercentage`
+    // @port player.h|devilution::Player::UpdateHitPointPercentage() sha=50183bc7bae7
     pub fn update_hit_point_percentage(&mut self) -> i32 {
         if self._pMaxHP <= 0 {
             self._pHPPer = 0;
@@ -527,6 +541,7 @@ impl Player {
     }
 
     /// `UpdateManaPercentage`
+    // @port player.h|devilution::Player::UpdateManaPercentage() sha=1202af98118c
     pub fn update_mana_percentage(&mut self) -> i32 {
         if self._pMaxMana <= 0 {
             self._pManaPer = 0;
@@ -537,12 +552,14 @@ impl Player {
     }
 
     /// `RestoreFullLife`
+    // @port player.h|devilution::Player::RestoreFullLife() sha=d3f3ff2d7b81
     pub fn restore_full_life(&mut self) {
         self._pHitPoints = self._pMaxHP;
         self._pHPBase = self._pMaxHPBase;
     }
 
     /// `RestoreFullMana`
+    // @port player.h|devilution::Player::RestoreFullMana() sha=9126422f2b6b
     pub fn restore_full_mana(&mut self) {
         if self._pIFlags.has_none_of(ItemSpecialEffect::NoMana) {
             self._pMana = self._pMaxMana;
@@ -551,11 +568,13 @@ impl Player {
     }
 
     /// `UsesRangedWeapon`
+    // @port player.h|devilution::Player::UsesRangedWeapon() sha=1cb39d87a9ee
     pub fn uses_ranged_weapon(&self) -> bool {
         self._pgfxnum & 0xF == PlayerWeaponGraphic::Bow as u8
     }
 
     /// `CanChangeAction`
+    // @port player.h|devilution::Player::CanChangeAction() sha=ee1289dd71a2
     pub fn can_change_action(&self) -> bool {
         match self._pmode {
             PM_STAND => true,
@@ -619,6 +638,7 @@ impl Player {
     }
 
     /// `isOnArenaLevel`
+    // @port player.h|devilution::Player::isOnArenaLevel() sha=7dcc01987241
     pub fn is_on_arena_level(&self) -> bool {
         self.plrIsOnSetLevel && crate::levels::gendung::is_arena_level(self.plrlevel as _setlevels)
     }
@@ -661,11 +681,13 @@ pub fn my_player_exists(ctx: &Ctx) -> bool {
 }
 
 /// `IsInspectingPlayer`
+// @port player.h|devilution::IsInspectingPlayer() sha=2374d6f2e543
 pub fn is_inspecting_player(ctx: &Ctx) -> bool {
     ctx.players.MyPlayer != ctx.players.InspectPlayer
 }
 
 /// `Player::isOnActiveLevel`
+// @port player.h|devilution::Player::isOnActiveLevel() sha=7d83a4a99c35
 pub fn is_on_active_level(ctx: &Ctx, pnum: usize) -> bool {
     let p = &ctx.players.Players[pnum];
     if ctx.gendung.setlevel {

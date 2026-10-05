@@ -69,7 +69,7 @@ DiabloUI/diabloui.cpp|devilution::UiRenderItems(const std::vector<std::unique_pt
 "DiabloUI/diabloui.cpp|devilution::UiItemMouseEvents(SDL_Event *event, const std::vector<UiItemBase *> &items)",ported,,,src/diablo_ui/diabloui.rs
 "DiabloUI/diabloui.cpp|devilution::UiItemMouseEvents(SDL_Event *event, const std::vector<std::unique_ptr<UiItemBase>> &items)",ported,,,src/diablo_ui/diabloui.rs
 DiabloUI/diabloui.cpp|devilution::DrawMouse(),ported,,,src/diablo_ui/diabloui.rs
-DiabloUI/diabloui.h|devilution::DiabloUiSurface(),pending,,,
+DiabloUI/diabloui.h|devilution::DiabloUiSurface(),ported,,,src/diablo_ui/diabloui.rs
 DiabloUI/dialogs.cpp|devilution::DialogActionOK(),ported,,,src/diablo_ui/dialogs.rs
 "DiabloUI/dialogs.cpp|devilution::LoadDialogSprite(bool hasCaption, bool isError)",ported,,,src/diablo_ui/dialogs.rs
 "DiabloUI/dialogs.cpp|devilution::Init(string_view caption, string_view text, bool error, bool renderBehind)",ported,,,src/diablo_ui/dialogs.rs
@@ -187,13 +187,13 @@ DiabloUI/settingsmenu.cpp|devilution::UiSettingsMenu(),ported,,,src/diablo_ui/se
 DiabloUI/title.cpp|devilution::TitleLoad(),ported,,,src/diablo_ui/title.rs
 DiabloUI/title.cpp|devilution::TitleFree(),ported,,,src/diablo_ui/title.rs
 DiabloUI/title.cpp|devilution::UiTitleDialog(),ported,,,src/diablo_ui/title.rs
-DiabloUI/ui_item.h|devilution::UiItemBase::GetType(),pending,,,
-DiabloUI/ui_item.h|devilution::UiItemBase::IsType(UiType testType),pending,,,
-DiabloUI/ui_item.h|devilution::UiItemBase::GetFlags(),pending,,,
-DiabloUI/ui_item.h|devilution::UiItemBase::IsHidden(),pending,,,
-DiabloUI/ui_item.h|devilution::UiItemBase::IsNotInteractive(),pending,,,
-DiabloUI/ui_item.h|devilution::UiItemBase::Hide(),pending,,,
-DiabloUI/ui_item.h|devilution::UiItemBase::Show(),pending,,,
+DiabloUI/ui_item.h|devilution::UiItemBase::GetType(),ported,,,src/diablo_ui/ui_item.rs
+DiabloUI/ui_item.h|devilution::UiItemBase::IsType(UiType testType),ported,,,src/diablo_ui/ui_item.rs
+DiabloUI/ui_item.h|devilution::UiItemBase::GetFlags(),ported,,,src/diablo_ui/ui_item.rs
+DiabloUI/ui_item.h|devilution::UiItemBase::IsHidden(),ported,,,src/diablo_ui/ui_item.rs
+DiabloUI/ui_item.h|devilution::UiItemBase::IsNotInteractive(),ported,,,src/diablo_ui/ui_item.rs
+DiabloUI/ui_item.h|devilution::UiItemBase::Hide(),ported,,,src/diablo_ui/ui_item.rs
+DiabloUI/ui_item.h|devilution::UiItemBase::Show(),ported,,,src/diablo_ui/ui_item.rs
 "DiabloUI/ui_item.h|devilution::UiItemBase::UiItemBase(UiType type, SDL_Rect rect, UiFlags flags)",pending,,,
 DiabloUI/ui_item.h|devilution::UiItemBase::SetFlags(UiFlags flags),pending,,,
 "DiabloUI/ui_item.h|devilution::UiImageClx::UiImageClx(ClxSprite sprite, SDL_Rect rect, UiFlags flags = UiFlags::None)",pending,,,
@@ -226,9 +226,9 @@ DiabloUI/ui_item.h|devilution::UiButton::Release(),pending,,,
 "DiabloUI/ui_item.h|devilution::UiListItem::UiListItem(string_view text = """", int value = 0, UiFlags uiFlags = UiFlags::None)",pending,,,
 "DiabloUI/ui_item.h|devilution::UiListItem::UiListItem(string_view text, std::vector<DrawStringFormatArg> &args, int value = 0, UiFlags uiFlags = UiFlags::None)",pending,,,
 "DiabloUI/ui_item.h|devilution::UiList::UiList(const vUiListItem &vItems, size_t viewportMaxSize, Sint16 x, Sint16 y, Uint16 item_width, Uint16 item_height, UiFlags flags = UiFlags::None, int spacing = 1)",pending,,,
-DiabloUI/ui_item.h|devilution::UiList::itemRect(int i),pending,,,
-DiabloUI/ui_item.h|devilution::UiList::indexAt(Sint16 y),pending,,,
-DiabloUI/ui_item.h|devilution::UiList::GetItem(std::size_t i),pending,,,
+DiabloUI/ui_item.h|devilution::UiList::itemRect(int i),ported,,,src/diablo_ui/ui_item.rs
+DiabloUI/ui_item.h|devilution::UiList::indexAt(Sint16 y),ported,,,src/diablo_ui/ui_item.rs
+DiabloUI/ui_item.h|devilution::UiList::GetItem(std::size_t i),ported,,,src/diablo_ui/ui_item.rs
 DiabloUI/ui_item.h|devilution::UiList::GetSpacing(),pending,,,
 DiabloUI/ui_item.h|devilution::UiList::IsPressed(size_t index),pending,,,
 DiabloUI/ui_item.h|devilution::UiList::Press(size_t index),pending,,,
@@ -239,7 +239,7 @@ appfat.cpp|devilution::app_fatal(string_view str),ported,,,src/appfat.rs
 "appfat.cpp|devilution::ErrDlg(const char *title, string_view error, string_view logFilePath, int logLineNr)",ported,,,src/appfat.rs
 appfat.cpp|devilution::InsertCDDlg(string_view archiveName),ported,,,src/appfat.rs
 appfat.cpp|devilution::DirErrorDlg(string_view error),ported,,,src/appfat.rs
-automap.cpp|devilution::AutomapTile::HasFlag(Flags test),pending,,,
+automap.cpp|devilution::AutomapTile::HasFlag(Flags test),ported,,,src/automap.rs
 "automap.cpp|devilution::DrawDiamond(const Surface &out, Point center, uint8_t color)",ported,,,src/automap.rs
 "automap.cpp|devilution::DrawMapVerticalDoor(const Surface &out, Point center, uint8_t colorBright, uint8_t colorDim)",ported,,,src/automap.rs
 "automap.cpp|devilution::DrawMapHorizontalDoor(const Surface &out, Point center, uint8_t colorBright, uint8_t colorDim)",ported,,,src/automap.rs
@@ -644,7 +644,7 @@ dead.cpp|devilution::MoveLightToCorpse(Monster &monster),ported,,,src/dead.rs
 dead.cpp|devilution::InitCorpses(),ported,,,src/dead.rs
 "dead.cpp|devilution::AddCorpse(Point tilePosition, int8_t dv, Direction ddir)",ported,,,src/dead.rs
 dead.cpp|devilution::MoveLightsToCorpses(),ported,,,src/dead.rs
-dead.h|devilution::Corpse::spritesForDirection(Direction direction),pending,,,
+dead.h|devilution::Corpse::spritesForDirection(Direction direction),ported,,,src/dead.rs
 diablo.cpp|devilution::StartGame(interface_mode uMsg),ported,,,src/diablo_game.rs
 diablo.cpp|devilution::FreeGame(),ported,,,src/diablo_game.rs
 diablo.cpp|devilution::ProcessInput(),ported,,,src/diablo_game.rs
@@ -1005,8 +1005,8 @@ engine/animationinfo.cpp|devilution::AnimationInfo::getAnimationProgress(),porte
 "engine/animationinfo.cpp|devilution::AnimationInfo::changeAnimationData(OptionalClxSpriteList celSprite, int8_t numberOfFrames, int8_t ticksPerFrame)",ported,,,src/engine/animationinfo.rs
 engine/animationinfo.cpp|devilution::AnimationInfo::processAnimation(bool reverseAnimation),ported,,,src/engine/animationinfo.rs
 engine/animationinfo.cpp|devilution::AnimationInfo::getProgressToNextGameTick(),ported,,,src/engine/animationinfo.rs
-engine/animationinfo.h|devilution::AnimationInfo::currentSprite(),pending,,,
-engine/animationinfo.h|devilution::AnimationInfo::isLastFrame(),pending,,,
+engine/animationinfo.h|devilution::AnimationInfo::currentSprite(),ported,,,src/engine/animationinfo.rs
+engine/animationinfo.h|devilution::AnimationInfo::isLastFrame(),ported,,,src/engine/animationinfo.rs
 engine/assets.cpp|devilution::IsDebugLogging(),pending,,,
 engine/assets.cpp|devilution::OpenOptionalRWops(const std::string &path),pending,,,
 "engine/assets.cpp|devilution::FindMpqFile(const char *filename, MpqArchive **archive, uint32_t *fileNumber)",ported,,,src/engine/assets.rs
@@ -1020,14 +1020,14 @@ engine/assets.hpp|devilution::AssetRef::operator=(AssetRef &&other),pending,,,
 engine/assets.hpp|devilution::AssetRef::~AssetRef(),pending,,,
 engine/assets.hpp|devilution::AssetRef::ok(),pending,,,
 engine/assets.hpp|devilution::AssetRef::error(),pending,,,
-engine/assets.hpp|devilution::AssetRef::size(),pending,,,
+engine/assets.hpp|devilution::AssetRef::size(),ported,,,src/engine/assets.rs
 engine/assets.hpp|devilution::AssetHandle::AssetHandle(SDL_RWops *handle),pending,,,
 engine/assets.hpp|devilution::AssetHandle::AssetHandle(AssetHandle &&other),pending,,,
 engine/assets.hpp|devilution::AssetHandle::operator=(AssetHandle &&other),pending,,,
 engine/assets.hpp|devilution::AssetHandle::~AssetHandle(),pending,,,
 engine/assets.hpp|devilution::AssetHandle::ok(),pending,,,
-"engine/assets.hpp|devilution::AssetHandle::read(void *buffer, size_t len)",pending,,,
-engine/assets.hpp|devilution::AssetHandle::seek(long pos),pending,,,
+"engine/assets.hpp|devilution::AssetHandle::read(void *buffer, size_t len)",ported,,,src/engine/assets.rs
+engine/assets.hpp|devilution::AssetHandle::seek(long pos),ported,,,src/engine/assets.rs
 engine/assets.hpp|devilution::AssetHandle::error(),pending,,,
 engine/assets.hpp|devilution::AssetHandle::release(),pending,,,
 "engine/assets.hpp|devilution::FailedToOpenFileError(const char *path, const char *error)",ported,,,src/engine/assets.rs
@@ -1046,18 +1046,18 @@ engine/backbuffer_state.cpp|devilution::RedrawComponentComplete(PanelDrawCompone
 engine/backbuffer_state.cpp|devilution::GetDrawnCursor(),ported,,,src/engine/backbuffer_state.rs
 engine/circle.hpp|devilution::Circle::contains(Point point),ported,,,src/engine/geometry.rs
 "engine/clx_sprite.hpp|devilution::ClxSprite::ClxSprite(const uint8_t *data, uint32_t dataSize)",pending,,,
-engine/clx_sprite.hpp|devilution::ClxSprite::width(),pending,,,
-engine/clx_sprite.hpp|devilution::ClxSprite::height(),pending,,,
-engine/clx_sprite.hpp|devilution::ClxSprite::pixelData(),pending,,,
-engine/clx_sprite.hpp|devilution::ClxSprite::pixelDataSize(),pending,,,
+engine/clx_sprite.hpp|devilution::ClxSprite::width(),ported,,,src/engine/clx_sprite.rs
+engine/clx_sprite.hpp|devilution::ClxSprite::height(),ported,,,src/engine/clx_sprite.rs
+engine/clx_sprite.hpp|devilution::ClxSprite::pixelData(),ported,,,src/engine/clx_sprite.rs
+engine/clx_sprite.hpp|devilution::ClxSprite::pixelDataSize(),ported,,,src/engine/clx_sprite.rs
 engine/clx_sprite.hpp|devilution::ClxSprite::operator==(const ClxSprite &other),pending,,,
 engine/clx_sprite.hpp|devilution::ClxSprite::operator!=(const ClxSprite &other),pending,,,
 engine/clx_sprite.hpp|devilution::ClxSprite::ClxSprite(),pending,,,
 engine/clx_sprite.hpp|devilution::ClxSpriteList::ClxSpriteList(const uint8_t *data),pending,,,
-engine/clx_sprite.hpp|devilution::ClxSpriteList::numSprites(),pending,,,
+engine/clx_sprite.hpp|devilution::ClxSpriteList::numSprites(),ported,,,src/engine/clx_sprite.rs
 engine/clx_sprite.hpp|devilution::ClxSpriteList::operator[](size_t spriteIndex),pending,,,
-engine/clx_sprite.hpp|devilution::ClxSpriteList::spriteOffset(size_t spriteIndex),pending,,,
-engine/clx_sprite.hpp|devilution::ClxSpriteList::nextSpriteSheetOffsetOrFileSize(),pending,,,
+engine/clx_sprite.hpp|devilution::ClxSpriteList::spriteOffset(size_t spriteIndex),ported,,,src/engine/clx_sprite.rs
+engine/clx_sprite.hpp|devilution::ClxSpriteList::nextSpriteSheetOffsetOrFileSize(),ported,,,src/engine/clx_sprite.rs
 engine/clx_sprite.hpp|devilution::ClxSpriteList::data(),pending,,,
 engine/clx_sprite.hpp|devilution::ClxSpriteList::ClxSpriteList(),pending,,,
 "engine/clx_sprite.hpp|devilution::ClxSpriteListIterator::ClxSpriteListIterator(ClxSpriteList list, size_t index)",pending,,,
@@ -1069,9 +1069,9 @@ engine/clx_sprite.hpp|devilution::ClxSpriteListIterator::operator!=(const ClxSpr
 engine/clx_sprite.hpp|devilution::ClxSpriteList::begin(),pending,,,
 engine/clx_sprite.hpp|devilution::ClxSpriteList::end(),pending,,,
 "engine/clx_sprite.hpp|devilution::ClxSpriteSheet::ClxSpriteSheet(const uint8_t *data, uint16_t numLists)",pending,,,
-engine/clx_sprite.hpp|devilution::ClxSpriteSheet::numLists(),pending,,,
+engine/clx_sprite.hpp|devilution::ClxSpriteSheet::numLists(),ported,,,src/engine/clx_sprite.rs
 engine/clx_sprite.hpp|devilution::ClxSpriteSheet::operator[](size_t sheetIndex),pending,,,
-engine/clx_sprite.hpp|devilution::ClxSpriteSheet::sheetOffset(size_t sheetIndex),pending,,,
+engine/clx_sprite.hpp|devilution::ClxSpriteSheet::sheetOffset(size_t sheetIndex),ported,,,src/engine/clx_sprite.rs
 engine/clx_sprite.hpp|devilution::ClxSpriteSheet::data(),pending,,,
 engine/clx_sprite.hpp|devilution::ClxSpriteSheet::ClxSpriteSheet(),pending,,,
 "engine/clx_sprite.hpp|devilution::ClxSpriteSheetIterator::ClxSpriteSheetIterator(ClxSpriteSheet sheet, size_t index)",pending,,,
@@ -1099,7 +1099,7 @@ engine/clx_sprite.hpp|devilution::ClxSpriteListOrSheet::list(),pending,,,
 engine/clx_sprite.hpp|devilution::ClxSpriteListOrSheet::sheet(),pending,,,
 engine/clx_sprite.hpp|devilution::ClxSpriteListOrSheet::isSheet(),pending,,,
 engine/clx_sprite.hpp|devilution::ClxSpriteListOrSheet::ClxSpriteListOrSheet(),pending,,,
-"engine/clx_sprite.hpp|devilution::OwnedClxSpriteListOrSheet::FromBuffer(std::unique_ptr<uint8_t[]> &&data, size_t size)",pending,,,
+"engine/clx_sprite.hpp|devilution::OwnedClxSpriteListOrSheet::FromBuffer(std::unique_ptr<uint8_t[]> &&data, size_t size)",ported,,,src/engine/clx_sprite.rs
 "engine/clx_sprite.hpp|devilution::OwnedClxSpriteListOrSheet::OwnedClxSpriteListOrSheet(std::unique_ptr<uint8_t[]> &&data, uint16_t numLists)",pending,,,
 engine/clx_sprite.hpp|devilution::OwnedClxSpriteListOrSheet::OwnedClxSpriteListOrSheet(OwnedClxSpriteSheet &&sheet),pending,,,
 engine/clx_sprite.hpp|devilution::OwnedClxSpriteListOrSheet::OwnedClxSpriteListOrSheet(OwnedClxSpriteList &&list),pending,,,
@@ -1125,8 +1125,8 @@ engine/demomode.cpp|devilution::demo::IsRecording(),ported,,,src/engine/demomode
 "engine/demomode.cpp|devilution::demo::FetchMessage(SDL_Event *event, uint16_t *modState)",pending,,,
 engine/demomode.cpp|devilution::demo::RecordGameLoopResult(bool runGameLoop),pending,,,
 "engine/demomode.cpp|devilution::demo::RecordMessage(const SDL_Event &event, uint16_t modState)",pending,,,
-engine/demomode.cpp|devilution::demo::NotifyGameLoopStart(),pending,,,
-engine/demomode.cpp|devilution::demo::NotifyGameLoopEnd(),pending,,,
+engine/demomode.cpp|devilution::demo::NotifyGameLoopStart(),ported,,,src/engine/demomode.rs
+engine/demomode.cpp|devilution::demo::NotifyGameLoopEnd(),ported,,,src/engine/demomode.rs
 engine/direction.cpp|devilution::DirectionToString(Direction direction),ported,,,src/engine/geometry.rs
 engine/direction.hpp|devilution::Left(Direction facing),ported,,,src/engine/geometry.rs
 engine/direction.hpp|devilution::Right(Direction facing),ported,,,src/engine/geometry.rs
@@ -1228,7 +1228,7 @@ engine/palette.cpp|devilution::palette_update_caves(),ported,,,src/engine/palett
 engine/palette.cpp|devilution::palette_update_crypt(),ported,,,src/engine/palette.rs
 engine/palette.cpp|devilution::palette_update_hive(),ported,,,src/engine/palette.rs
 engine/palette.cpp|devilution::palette_update_quest_palette(int n),ported,,,src/engine/palette.rs
-engine/path.cpp|devilution::PathNode::position(),pending,,,
+engine/path.cpp|devilution::PathNode::position(),ported,,,src/engine/path.rs
 engine/path.cpp|devilution::PathNode::addChild(uint16_t childIndex),ported,,,src/engine/path.rs
 engine/path.cpp|devilution::GetNode1(Point targetPosition),ported,,,src/engine/path.rs
 engine/path.cpp|devilution::NextNode(uint16_t front),ported,,,src/engine/path.rs
@@ -1374,38 +1374,38 @@ engine/render/dun_render.cpp|devilution::InitPrefix(int8_t y),pending,,,
 "engine/render/dun_render.cpp|devilution::RenderLineTransparent<LightType::FullyDark>(uint8_t *DVL_RESTRICT dst, [[maybe_unused]] const uint8_t *DVL_RESTRICT src, uint_fast8_t n, [[maybe_unused]] const uint8_t *DVL_RESTRICT tbl)",pending,,,
 "engine/render/dun_render.cpp|devilution::RenderLineTransparent<LightType::FullyLit>(uint8_t *DVL_RESTRICT dst, const uint8_t *DVL_RESTRICT src, uint_fast8_t n, [[maybe_unused]] const uint8_t *DVL_RESTRICT tbl)",pending,,,
 "engine/render/dun_render.cpp|devilution::RenderLineTransparent<LightType::PartiallyLit>(uint8_t *DVL_RESTRICT dst, const uint8_t *DVL_RESTRICT src, uint_fast8_t n, const uint8_t *DVL_RESTRICT tbl)",pending,,,
-"engine/render/dun_render.cpp|devilution::RenderLineTransparentOrOpaque(uint8_t *DVL_RESTRICT dst, const uint8_t *DVL_RESTRICT src, uint_fast8_t width, const uint8_t *DVL_RESTRICT tbl)",pending,,,
-"engine/render/dun_render.cpp|devilution::RenderLineTransparentAndOpaque(uint8_t *DVL_RESTRICT dst, const uint8_t *DVL_RESTRICT src, uint_fast8_t prefixWidth, uint_fast8_t width, const uint8_t *DVL_RESTRICT tbl)",pending,,,
-"engine/render/dun_render.cpp|devilution::RenderLine(uint8_t *DVL_RESTRICT dst, const uint8_t *DVL_RESTRICT src, uint_fast8_t n, const uint8_t *DVL_RESTRICT tbl, int8_t prefix)",pending,,,
+"engine/render/dun_render.cpp|devilution::RenderLineTransparentOrOpaque(uint8_t *DVL_RESTRICT dst, const uint8_t *DVL_RESTRICT src, uint_fast8_t width, const uint8_t *DVL_RESTRICT tbl)",ported,,,src/engine/render/dun_render.rs
+"engine/render/dun_render.cpp|devilution::RenderLineTransparentAndOpaque(uint8_t *DVL_RESTRICT dst, const uint8_t *DVL_RESTRICT src, uint_fast8_t prefixWidth, uint_fast8_t width, const uint8_t *DVL_RESTRICT tbl)",ported,,,src/engine/render/dun_render.rs
+"engine/render/dun_render.cpp|devilution::RenderLine(uint8_t *DVL_RESTRICT dst, const uint8_t *DVL_RESTRICT src, uint_fast8_t n, const uint8_t *DVL_RESTRICT tbl, int8_t prefix)",ported,,,src/engine/render/dun_render.rs
 "engine/render/dun_render.cpp|devilution::CalculateClip(int_fast16_t x, int_fast16_t y, int_fast16_t w, int_fast16_t h, const Surface &out)",ported,,,src/engine/render/dun_render.rs
 "engine/render/dun_render.cpp|devilution::RenderSquareFull(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl)",pending,,,
 "engine/render/dun_render.cpp|devilution::RenderSquareClipped(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",pending,,,
-"engine/render/dun_render.cpp|devilution::RenderSquare(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",pending,,,
-"engine/render/dun_render.cpp|devilution::RenderTransparentSquareFull(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl)",pending,,,
-"engine/render/dun_render.cpp|devilution::RenderTransparentSquareClipped(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",pending,,,
-"engine/render/dun_render.cpp|devilution::RenderTransparentSquare(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",pending,,,
+"engine/render/dun_render.cpp|devilution::RenderSquare(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",ported,,,src/engine/render/dun_render.rs
+"engine/render/dun_render.cpp|devilution::RenderTransparentSquareFull(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl)",ported,,,src/engine/render/dun_render.rs
+"engine/render/dun_render.cpp|devilution::RenderTransparentSquareClipped(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",ported,,,src/engine/render/dun_render.rs
+"engine/render/dun_render.cpp|devilution::RenderTransparentSquare(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",ported,,,src/engine/render/dun_render.rs
 engine/render/dun_render.cpp|devilution::CalculateDiamondClipY(const Clip &clip),ported,,,src/engine/render/dun_render.rs
 engine/render/dun_render.cpp|devilution::CalculateTriangleSourceSkipLowerBottom(int_fast16_t numLines),ported,,,src/engine/render/dun_render.rs
 engine/render/dun_render.cpp|devilution::CalculateTriangleSourceSkipUpperBottom(int_fast16_t numLines),ported,,,src/engine/render/dun_render.rs
-"engine/render/dun_render.cpp|devilution::RenderLeftTriangleLower(uint8_t *DVL_RESTRICT &dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT &src, const uint8_t *DVL_RESTRICT tbl)",pending,,,
-"engine/render/dun_render.cpp|devilution::RenderLeftTriangleLowerClipVertical(const DiamondClipY &clipY, uint8_t *DVL_RESTRICT &dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT &src, const uint8_t *DVL_RESTRICT tbl)",pending,,,
-"engine/render/dun_render.cpp|devilution::RenderLeftTriangleLowerClipLeftAndVertical(int_fast16_t clipLeft, const DiamondClipY &clipY, uint8_t *DVL_RESTRICT &dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT &src, const uint8_t *DVL_RESTRICT tbl)",pending,,,
-"engine/render/dun_render.cpp|devilution::RenderLeftTriangleLowerClipRightAndVertical(int_fast16_t clipRight, const DiamondClipY &clipY, uint8_t *DVL_RESTRICT &dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT &src, const uint8_t *DVL_RESTRICT tbl)",pending,,,
+"engine/render/dun_render.cpp|devilution::RenderLeftTriangleLower(uint8_t *DVL_RESTRICT &dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT &src, const uint8_t *DVL_RESTRICT tbl)",ported,,,src/engine/render/dun_render.rs
+"engine/render/dun_render.cpp|devilution::RenderLeftTriangleLowerClipVertical(const DiamondClipY &clipY, uint8_t *DVL_RESTRICT &dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT &src, const uint8_t *DVL_RESTRICT tbl)",ported,,,src/engine/render/dun_render.rs
+"engine/render/dun_render.cpp|devilution::RenderLeftTriangleLowerClipLeftAndVertical(int_fast16_t clipLeft, const DiamondClipY &clipY, uint8_t *DVL_RESTRICT &dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT &src, const uint8_t *DVL_RESTRICT tbl)",ported,,,src/engine/render/dun_render.rs
+"engine/render/dun_render.cpp|devilution::RenderLeftTriangleLowerClipRightAndVertical(int_fast16_t clipRight, const DiamondClipY &clipY, uint8_t *DVL_RESTRICT &dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT &src, const uint8_t *DVL_RESTRICT tbl)",ported,,,src/engine/render/dun_render.rs
 "engine/render/dun_render.cpp|devilution::RenderLeftTriangleFull(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl)",pending,,,
 "engine/render/dun_render.cpp|devilution::RenderLeftTriangleClipVertical(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",pending,,,
 "engine/render/dun_render.cpp|devilution::RenderLeftTriangleClipLeftAndVertical(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",pending,,,
 "engine/render/dun_render.cpp|devilution::RenderLeftTriangleClipRightAndVertical(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",pending,,,
-"engine/render/dun_render.cpp|devilution::RenderLeftTriangle(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",pending,,,
-"engine/render/dun_render.cpp|devilution::RenderRightTriangleLower(uint8_t *DVL_RESTRICT &dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT &src, const uint8_t *DVL_RESTRICT tbl)",pending,,,
-"engine/render/dun_render.cpp|devilution::RenderRightTriangleLowerClipVertical(const DiamondClipY &clipY, uint8_t *DVL_RESTRICT &dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT &src, const uint8_t *DVL_RESTRICT tbl)",pending,,,
-"engine/render/dun_render.cpp|devilution::RenderRightTriangleLowerClipLeftAndVertical(int_fast16_t clipLeft, const DiamondClipY &clipY, uint8_t *DVL_RESTRICT &dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT &src, const uint8_t *DVL_RESTRICT tbl)",pending,,,
-"engine/render/dun_render.cpp|devilution::RenderRightTriangleLowerClipRightAndVertical(int_fast16_t clipRight, const DiamondClipY &clipY, uint8_t *DVL_RESTRICT &dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT &src, const uint8_t *DVL_RESTRICT tbl)",pending,,,
+"engine/render/dun_render.cpp|devilution::RenderLeftTriangle(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",ported,,,src/engine/render/dun_render.rs
+"engine/render/dun_render.cpp|devilution::RenderRightTriangleLower(uint8_t *DVL_RESTRICT &dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT &src, const uint8_t *DVL_RESTRICT tbl)",ported,,,src/engine/render/dun_render.rs
+"engine/render/dun_render.cpp|devilution::RenderRightTriangleLowerClipVertical(const DiamondClipY &clipY, uint8_t *DVL_RESTRICT &dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT &src, const uint8_t *DVL_RESTRICT tbl)",ported,,,src/engine/render/dun_render.rs
+"engine/render/dun_render.cpp|devilution::RenderRightTriangleLowerClipLeftAndVertical(int_fast16_t clipLeft, const DiamondClipY &clipY, uint8_t *DVL_RESTRICT &dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT &src, const uint8_t *DVL_RESTRICT tbl)",ported,,,src/engine/render/dun_render.rs
+"engine/render/dun_render.cpp|devilution::RenderRightTriangleLowerClipRightAndVertical(int_fast16_t clipRight, const DiamondClipY &clipY, uint8_t *DVL_RESTRICT &dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT &src, const uint8_t *DVL_RESTRICT tbl)",ported,,,src/engine/render/dun_render.rs
 "engine/render/dun_render.cpp|devilution::RenderRightTriangleFull(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl)",pending,,,
 "engine/render/dun_render.cpp|devilution::RenderRightTriangleClipVertical(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",pending,,,
 "engine/render/dun_render.cpp|devilution::RenderRightTriangleClipLeftAndVertical(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",pending,,,
 "engine/render/dun_render.cpp|devilution::RenderRightTriangleClipRightAndVertical(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",pending,,,
-"engine/render/dun_render.cpp|devilution::RenderRightTriangle(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",pending,,,
-"engine/render/dun_render.cpp|devilution::RenderTrapezoidUpperHalf(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl)",pending,,,
+"engine/render/dun_render.cpp|devilution::RenderRightTriangle(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",ported,,,src/engine/render/dun_render.rs
+"engine/render/dun_render.cpp|devilution::RenderTrapezoidUpperHalf(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl)",ported,,,src/engine/render/dun_render.rs
 "engine/render/dun_render.cpp|devilution::RenderTrapezoidUpperHalfClipVertical(const Clip &clip, const DiamondClipY &clipY, uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl)",pending,,,
 "engine/render/dun_render.cpp|devilution::RenderTrapezoidUpperHalfClipLeftAndVertical(const Clip &clip, const DiamondClipY &clipY, uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl)",pending,,,
 "engine/render/dun_render.cpp|devilution::RenderTrapezoidUpperHalfClipRightAndVertical(const Clip &clip, const DiamondClipY &clipY, uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl)",pending,,,
@@ -1413,13 +1413,13 @@ engine/render/dun_render.cpp|devilution::CalculateTriangleSourceSkipUpperBottom(
 "engine/render/dun_render.cpp|devilution::RenderLeftTrapezoidClipVertical(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",pending,,,
 "engine/render/dun_render.cpp|devilution::RenderLeftTrapezoidClipLeftAndVertical(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",pending,,,
 "engine/render/dun_render.cpp|devilution::RenderLeftTrapezoidClipRightAndVertical(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",pending,,,
-"engine/render/dun_render.cpp|devilution::RenderLeftTrapezoid(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",pending,,,
+"engine/render/dun_render.cpp|devilution::RenderLeftTrapezoid(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",ported,,,src/engine/render/dun_render.rs
 "engine/render/dun_render.cpp|devilution::RenderRightTrapezoidFull(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl)",pending,,,
 "engine/render/dun_render.cpp|devilution::RenderRightTrapezoidClipVertical(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",pending,,,
 "engine/render/dun_render.cpp|devilution::RenderRightTrapezoidClipLeftAndVertical(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",pending,,,
 "engine/render/dun_render.cpp|devilution::RenderRightTrapezoidClipRightAndVertical(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",pending,,,
-"engine/render/dun_render.cpp|devilution::RenderRightTrapezoid(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",pending,,,
-"engine/render/dun_render.cpp|devilution::RenderTileType(TileType tile, uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",pending,,,
+"engine/render/dun_render.cpp|devilution::RenderRightTrapezoid(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",ported,,,src/engine/render/dun_render.rs
+"engine/render/dun_render.cpp|devilution::RenderTileType(TileType tile, uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",ported,,,src/engine/render/dun_render.rs
 "engine/render/dun_render.cpp|devilution::RenderTransparentSquareDispatch(uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",pending,,,
 "engine/render/dun_render.cpp|devilution::RenderLeftTrapezoidOrTransparentSquare(TileType tile, uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",pending,,,
 "engine/render/dun_render.cpp|devilution::RenderRightTrapezoidOrTransparentSquare(TileType tile, uint8_t *DVL_RESTRICT dst, uint16_t dstPitch, const uint8_t *DVL_RESTRICT src, const uint8_t *DVL_RESTRICT tbl, Clip clip)",pending,,,
@@ -1433,9 +1433,9 @@ engine/render/dun_render.cpp|devilution::CalculateTriangleSourceSkipUpperBottom(
 "engine/render/dun_render.cpp|devilution::RenderTile(const Surface &out, Point position, LevelCelBlock levelCelBlock, MaskType maskType, const uint8_t *tbl)",ported,,,src/engine/render/dun_render.rs
 "engine/render/dun_render.cpp|devilution::world_draw_black_tile(const Surface &out, int sx, int sy)",ported,,,src/engine/render/dun_render.rs
 engine/render/dun_render.hpp|devilution::LevelCelBlock::LevelCelBlock(uint16_t data),pending,,,
-engine/render/dun_render.hpp|devilution::LevelCelBlock::hasValue(),pending,,,
+engine/render/dun_render.hpp|devilution::LevelCelBlock::hasValue(),ported,,,src/engine/render/dun_render.rs
 engine/render/dun_render.hpp|devilution::LevelCelBlock::type(),pending,,,
-engine/render/dun_render.hpp|devilution::LevelCelBlock::frame(),pending,,,
+engine/render/dun_render.hpp|devilution::LevelCelBlock::frame(),ported,,,src/engine/render/dun_render.rs
 engine/render/scrollrt.cpp|devilution::PointHash::operator()(),pending,,,
 "engine/render/scrollrt.cpp|devilution::CouldMissileCollide(Point tile, bool checkPlayerAndMonster)",ported,,,src/engine/render/scrollrt.rs
 "engine/render/scrollrt.cpp|devilution::UpdateMissilePositionForRendering(Missile &m, int progress)",ported,,,src/engine/render/scrollrt.rs
@@ -1498,7 +1498,7 @@ engine/render/text_render.cpp|devilution::IsFullWidthPunct(char32_t c),ported,,,
 "engine/render/text_render.cpp|devilution::CountNewlines(string_view fmt, const DrawStringFormatArg *args, std::size_t argsLen)",ported,,,src/engine/render/text_render.rs
 "engine/render/text_render.cpp|devilution::FmtArgParser::FmtArgParser(string_view fmt, DrawStringFormatArg *args, size_t len, size_t offset = 0)",pending,,,
 engine/render/text_render.cpp|devilution::FmtArgParser::operator()(),ported,,,src/engine/render/text_render.rs
-engine/render/text_render.cpp|devilution::FmtArgParser::offset(),pending,,,
+engine/render/text_render.cpp|devilution::FmtArgParser::offset(),ported,,,src/engine/render/text_render.rs
 engine/render/text_render.cpp|devilution::ContainsSmallFontTallCodepoints(string_view text),ported,,,src/engine/render/text_render.rs
 "engine/render/text_render.cpp|devilution::GetLineHeight(string_view fmt, DrawStringFormatArg *args, std::size_t argsLen, GameFontTables fontIndex)",ported,,,src/engine/render/text_render.rs
 "engine/render/text_render.cpp|devilution::ClipSurface(const Surface &out, Rectangle rect)",ported,,,src/engine/render/text_render.rs
@@ -1518,13 +1518,13 @@ engine/render/text_render.cpp|devilution::PentSpn2Spin(),ported,,,src/engine/ren
 "engine/render/text_render.hpp|devilution::DrawStringFormatArg::DrawStringFormatArg(string_view value, UiFlags flags)",pending,,,
 "engine/render/text_render.hpp|devilution::DrawStringFormatArg::DrawStringFormatArg(int value, UiFlags flags)",pending,,,
 engine/render/text_render.hpp|devilution::DrawStringFormatArg::GetType(),pending,,,
-engine/render/text_render.hpp|devilution::DrawStringFormatArg::GetFormatted(),pending,,,
+engine/render/text_render.hpp|devilution::DrawStringFormatArg::GetFormatted(),ported,,,src/engine/render/text_render.rs
 engine/render/text_render.hpp|devilution::DrawStringFormatArg::SetFormatted(std::string &&value),pending,,,
-engine/render/text_render.hpp|devilution::DrawStringFormatArg::HasFormatted(),pending,,,
+engine/render/text_render.hpp|devilution::DrawStringFormatArg::HasFormatted(),ported,,,src/engine/render/text_render.rs
 engine/render/text_render.hpp|devilution::DrawStringFormatArg::GetIntValue(),pending,,,
-engine/render/text_render.hpp|devilution::DrawStringFormatArg::GetFlags(),pending,,,
+engine/render/text_render.hpp|devilution::DrawStringFormatArg::GetFlags(),ported,,,src/engine/render/text_render.rs
 "engine/render/text_render.hpp|devilution::DrawString(const Surface &out, string_view text, const Point &position, UiFlags flags = UiFlags::None, int spacing = 1, int lineHeight = -1)",ported,,,src/engine/render/text_render.rs
-"engine/render/text_render.hpp|devilution::DrawStringWithColors(const Surface &out, string_view fmt, std::vector<DrawStringFormatArg> args, const Rectangle &rect, UiFlags flags = UiFlags::None, int spacing = 1, int lineHeight = -1)",pending,,,
+"engine/render/text_render.hpp|devilution::DrawStringWithColors(const Surface &out, string_view fmt, std::vector<DrawStringFormatArg> args, const Rectangle &rect, UiFlags flags = UiFlags::None, int spacing = 1, int lineHeight = -1)",ported,,,src/engine/render/text_render.rs
 "engine/size.hpp|devilution::SizeOf::SizeOf(SizeT width, SizeT height)",ported,,,src/engine/geometry.rs
 engine/size.hpp|devilution::SizeOf::SizeOf(SizeT size),ported,,,src/engine/geometry.rs
 engine/size.hpp|devilution::SizeOf::operator==(const SizeOf<SizeT> &other),ported,,,src/engine/geometry.rs
@@ -1556,7 +1556,7 @@ engine/sound.cpp|devilution::sound_get_or_set_music_volume(int volume),ported,,,
 engine/sound.cpp|devilution::sound_get_or_set_sound_volume(int volume),ported,,,src/engine/sound.rs
 engine/sound.cpp|devilution::music_mute(),ported,,,src/engine/sound.rs
 engine/sound.cpp|devilution::music_unmute(),ported,,,src/engine/sound.rs
-engine/sound.h|devilution::TSnd::isPlaying(),pending,,,
+engine/sound.h|devilution::TSnd::isPlaying(),ported,,,src/engine/sound.rs
 "engine/sound_position.cpp|devilution::CalculateSoundPosition(Point soundPosition, int *plVolume, int *plPan)",ported,,,src/engine/sound.rs
 engine/sound_stubs.cpp|devilution::ClearDuplicateSounds(),replaced,none,NOSOUND build-variant stubs; not compiled into the shipped exe,
 "engine/sound_stubs.cpp|devilution::snd_play_snd(TSnd *pSnd, int lVolume, int lPan)",replaced,none,NOSOUND build-variant stubs; not compiled into the shipped exe,
@@ -1578,18 +1578,18 @@ engine/sound_stubs.cpp|devilution::GetLevelMusic(dungeon_type dungeonType),repla
 engine/surface.hpp|devilution::Surface::Surface(),pending,,,
 engine/surface.hpp|devilution::Surface::Surface(SDL_Surface *surface),pending,,,
 "engine/surface.hpp|devilution::Surface::Surface(SDL_Surface *surface, SDL_Rect region)",pending,,,
-engine/surface.hpp|devilution::Surface::w(),pending,,,
-engine/surface.hpp|devilution::Surface::h(),pending,,,
+engine/surface.hpp|devilution::Surface::w(),ported,,,src/engine/surface.rs
+engine/surface.hpp|devilution::Surface::h(),ported,,,src/engine/surface.rs
 engine/surface.hpp|devilution::Surface::operator[](Point p),pending,,,
-"engine/surface.hpp|devilution::Surface::at(int x, int y)",pending,,,
+"engine/surface.hpp|devilution::Surface::at(int x, int y)",ported,,,src/engine/surface.rs
 engine/surface.hpp|devilution::Surface::begin(),pending,,,
 engine/surface.hpp|devilution::Surface::end(),pending,,,
-"engine/surface.hpp|devilution::Surface::SetPixel(Point position, std::uint8_t col)",pending,,,
-engine/surface.hpp|devilution::Surface::pitch(),pending,,,
-engine/surface.hpp|devilution::Surface::InBounds(Point position),pending,,,
-"engine/surface.hpp|devilution::Surface::subregion(int x, int y, int w, int h)",pending,,,
-"engine/surface.hpp|devilution::Surface::subregionY(int y, int h)",pending,,,
-"engine/surface.hpp|devilution::Surface::Clip(SDL_Rect *srcRect, Point *targetPosition)",pending,,,
+"engine/surface.hpp|devilution::Surface::SetPixel(Point position, std::uint8_t col)",ported,,,src/engine/surface.rs
+engine/surface.hpp|devilution::Surface::pitch(),ported,,,src/engine/surface.rs
+engine/surface.hpp|devilution::Surface::InBounds(Point position),ported,,,src/engine/surface.rs
+"engine/surface.hpp|devilution::Surface::subregion(int x, int y, int w, int h)",ported,,,src/engine/surface.rs
+"engine/surface.hpp|devilution::Surface::subregionY(int y, int h)",ported,,,src/engine/surface.rs
+"engine/surface.hpp|devilution::Surface::Clip(SDL_Rect *srcRect, Point *targetPosition)",ported,,,src/engine/surface.rs
 engine/surface.hpp|devilution::OwnedSurface::OwnedSurface(SDLSurfaceUniquePtr surface),pending,,,
 "engine/surface.hpp|devilution::OwnedSurface::OwnedSurface(int width, int height)",pending,,,
 engine/surface.hpp|devilution::OwnedSurface::OwnedSurface(Size size),pending,,,
@@ -1647,15 +1647,15 @@ gmenu.cpp|devilution::gmenu_left_mouse(bool isDown),ported,,,src/gmenu.rs
 "gmenu.cpp|devilution::gmenu_slider_set(TMenuItem *pItem, int min, int max, int value)",ported,,,src/gmenu.rs
 "gmenu.cpp|devilution::gmenu_slider_get(TMenuItem *pItem, int min, int max)",ported,,,src/gmenu.rs
 "gmenu.cpp|devilution::gmenu_slider_steps(TMenuItem *pItem, int steps)",ported,,,src/gmenu.rs
-gmenu.h|devilution::TMenuItem::enabled(),pending,,,
-gmenu.h|devilution::TMenuItem::isSlider(),pending,,,
-gmenu.h|devilution::TMenuItem::sliderStep(),pending,,,
-gmenu.h|devilution::TMenuItem::setSliderStep(uint16_t step),pending,,,
-gmenu.h|devilution::TMenuItem::sliderSteps(),pending,,,
-gmenu.h|devilution::TMenuItem::setSliderSteps(uint16_t steps),pending,,,
-gmenu.h|devilution::TMenuItem::addFlags(uint32_t flags),pending,,,
-gmenu.h|devilution::TMenuItem::removeFlags(uint32_t flags),pending,,,
-gmenu.h|devilution::TMenuItem::setEnabled(bool enabled),pending,,,
+gmenu.h|devilution::TMenuItem::enabled(),ported,,,src/gmenu.rs
+gmenu.h|devilution::TMenuItem::isSlider(),ported,,,src/gmenu.rs
+gmenu.h|devilution::TMenuItem::sliderStep(),ported,,,src/gmenu.rs
+gmenu.h|devilution::TMenuItem::setSliderStep(uint16_t step),ported,,,src/gmenu.rs
+gmenu.h|devilution::TMenuItem::sliderSteps(),ported,,,src/gmenu.rs
+gmenu.h|devilution::TMenuItem::setSliderSteps(uint16_t steps),ported,,,src/gmenu.rs
+gmenu.h|devilution::TMenuItem::addFlags(uint32_t flags),ported,,,src/gmenu.rs
+gmenu.h|devilution::TMenuItem::removeFlags(uint32_t flags),ported,,,src/gmenu.rs
+gmenu.h|devilution::TMenuItem::setEnabled(bool enabled),ported,,,src/gmenu.rs
 help.cpp|devilution::LineHeight(),ported,,,src/help.rs
 help.cpp|devilution::BlankLineHeight(),ported,,,src/help.rs
 help.cpp|devilution::DividerLineMarginY(),ported,,,src/help.rs
@@ -1679,15 +1679,15 @@ hwcursor.cpp|devilution::SetHardwareCursorFromSprite(int pcurs),ported,,,src/hwc
 hwcursor.cpp|devilution::GetCurrentCursorInfo(),ported,,,src/hwcursor.rs
 hwcursor.cpp|devilution::SetHardwareCursor(CursorInfo cursorInfo),ported,,,src/hwcursor.rs
 hwcursor.hpp|devilution::IsHardwareCursorEnabled(),ported,,,src/hwcursor.rs
-hwcursor.hpp|devilution::CursorInfo::UserInterfaceCursor(),pending,,,
-hwcursor.hpp|devilution::CursorInfo::GameCursor(int gameSpriteId),pending,,,
-hwcursor.hpp|devilution::CursorInfo::UnknownCursor(),pending,,,
+hwcursor.hpp|devilution::CursorInfo::UserInterfaceCursor(),ported,,,src/hwcursor.rs
+hwcursor.hpp|devilution::CursorInfo::GameCursor(int gameSpriteId),ported,,,src/hwcursor.rs
+hwcursor.hpp|devilution::CursorInfo::UnknownCursor(),ported,,,src/hwcursor.rs
 hwcursor.hpp|devilution::CursorInfo::type(),pending,,,
-hwcursor.hpp|devilution::CursorInfo::id(),pending,,,
-hwcursor.hpp|devilution::CursorInfo::Enabled(),pending,,,
-hwcursor.hpp|devilution::CursorInfo::SetEnabled(bool value),pending,,,
-hwcursor.hpp|devilution::CursorInfo::needsReinitialization(),pending,,,
-hwcursor.hpp|devilution::CursorInfo::setNeedsReinitialization(bool value),pending,,,
+hwcursor.hpp|devilution::CursorInfo::id(),ported,,,src/hwcursor.rs
+hwcursor.hpp|devilution::CursorInfo::Enabled(),ported,,,src/hwcursor.rs
+hwcursor.hpp|devilution::CursorInfo::SetEnabled(bool value),ported,,,src/hwcursor.rs
+hwcursor.hpp|devilution::CursorInfo::needsReinitialization(),ported,,,src/hwcursor.rs
+hwcursor.hpp|devilution::CursorInfo::setNeedsReinitialization(bool value),ported,,,src/hwcursor.rs
 hwcursor.hpp|devilution::CursorInfo::operator==(const CursorInfo &other),pending,,,
 hwcursor.hpp|devilution::CursorInfo::operator!=(const CursorInfo &other),pending,,,
 "hwcursor.hpp|devilution::CursorInfo::CursorInfo(CursorType type, int id = 0)",pending,,,
@@ -1788,14 +1788,14 @@ inv.cpp|devilution::CalculateGold(Player &player),ported,,,src/inv.rs
 inv.cpp|devilution::GetInventorySize(const Item &item),ported,,,src/inv.rs
 "inv.h|devilution::HasInventoryItem(Player &player, Predicate &&predicate)",pending,,,
 "inv.h|devilution::HasBeltItem(Player &player, Predicate &&predicate)",pending,,,
-"inv.h|devilution::HasInventoryOrBeltItem(Player &player, Predicate &&predicate)",pending,,,
-"inv.h|devilution::HasInventoryItemWithId(Player &player, _item_indexes id)",pending,,,
+"inv.h|devilution::HasInventoryOrBeltItem(Player &player, Predicate &&predicate)",ported,,,src/inv.rs
+"inv.h|devilution::HasInventoryItemWithId(Player &player, _item_indexes id)",ported,,,src/inv.rs
 "inv.h|devilution::HasBeltItemWithId(Player &player, _item_indexes id)",pending,,,
 "inv.h|devilution::HasInventoryOrBeltItemWithId(Player &player, _item_indexes id)",pending,,,
-"inv.h|devilution::RemoveInventoryItem(Player &player, Predicate &&predicate)",pending,,,
-"inv.h|devilution::RemoveBeltItem(Player &player, Predicate &&predicate)",pending,,,
-"inv.h|devilution::RemoveInventoryOrBeltItem(Player &player, Predicate &&predicate)",pending,,,
-"inv.h|devilution::RemoveInventoryItemById(Player &player, _item_indexes id)",pending,,,
+"inv.h|devilution::RemoveInventoryItem(Player &player, Predicate &&predicate)",ported,,,src/inv.rs
+"inv.h|devilution::RemoveBeltItem(Player &player, Predicate &&predicate)",ported,,,src/inv.rs
+"inv.h|devilution::RemoveInventoryOrBeltItem(Player &player, Predicate &&predicate)",ported,,,src/inv.rs
+"inv.h|devilution::RemoveInventoryItemById(Player &player, _item_indexes id)",ported,,,src/inv.rs
 "inv.h|devilution::RemoveBeltItemById(Player &player, _item_indexes id)",pending,,,
 "inv.h|devilution::RemoveInventoryOrBeltItemById(Player &player, _item_indexes id)",pending,,,
 "inv_iterators.hpp|devilution::ItemsContainerRange::Iterator::Iterator(Item *items, std::size_t count, std::size_t index)",pending,,,
@@ -1984,22 +1984,22 @@ items.cpp|devilution::initItemGetRecords(),ported,,,src/items.rs
 "items.cpp|devilution::RechargeItem(Item &item, Player &player)",ported,,,src/items.rs
 "items.cpp|devilution::ApplyOilToItem(Item &item, Player &player)",ported,,,src/items.rs
 "items.cpp|devilution::UpdateHellfireFlag(Item &item, const char *identifiedItemName)",ported,,,src/items.rs
-items.h|devilution::Item::pop(),pending,,,
-items.h|devilution::Item::clear(),pending,,,
-items.h|devilution::Item::isEmpty(),pending,,,
-items.h|devilution::Item::isEquipment(),pending,,,
-items.h|devilution::Item::isWeapon(),pending,,,
-items.h|devilution::Item::isArmor(),pending,,,
-items.h|devilution::Item::isHelm(),pending,,,
-items.h|devilution::Item::isShield(),pending,,,
-items.h|devilution::Item::isJewelry(),pending,,,
-items.h|devilution::Item::isScroll(),pending,,,
-items.h|devilution::Item::isScrollOf(SpellID spellId),pending,,,
-items.h|devilution::Item::isRune(),pending,,,
-items.h|devilution::Item::isRuneOf(SpellID spellId),pending,,,
-"items.h|devilution::Item::keyAttributesMatch(uint32_t seed, _item_indexes itemIndex, uint16_t createInfo)",pending,,,
-items.h|devilution::Item::getTextColor(),pending,,,
-items.h|devilution::Item::getTextColorWithStatCheck(),pending,,,
+items.h|devilution::Item::pop(),ported,,,src/items.rs
+items.h|devilution::Item::clear(),ported,,,src/items.rs
+items.h|devilution::Item::isEmpty(),ported,,,src/items.rs
+items.h|devilution::Item::isEquipment(),ported,,,src/items.rs
+items.h|devilution::Item::isWeapon(),ported,,,src/items.rs
+items.h|devilution::Item::isArmor(),ported,,,src/items.rs
+items.h|devilution::Item::isHelm(),ported,,,src/items.rs
+items.h|devilution::Item::isShield(),ported,,,src/items.rs
+items.h|devilution::Item::isJewelry(),ported,,,src/items.rs
+items.h|devilution::Item::isScroll(),ported,,,src/items.rs
+items.h|devilution::Item::isScrollOf(SpellID spellId),ported,,,src/items.rs
+items.h|devilution::Item::isRune(),ported,,,src/items.rs
+items.h|devilution::Item::isRuneOf(SpellID spellId),ported,,,src/items.rs
+"items.h|devilution::Item::keyAttributesMatch(uint32_t seed, _item_indexes itemIndex, uint16_t createInfo)",ported,,,src/items.rs
+items.h|devilution::Item::getTextColor(),ported,,,src/items.rs
+items.h|devilution::Item::getTextColorWithStatCheck(),ported,,,src/items.rs
 levels/crypt.cpp|devilution::ApplyCryptShadowsPatterns(),ported,,,src/levels/crypt.rs
 "levels/crypt.cpp|devilution::PlaceMiniSetRandom1x1(uint8_t search, uint8_t replace, int rndper)",ported,,,src/levels/crypt.rs
 levels/crypt.cpp|devilution::CryptCracked(int rndper),ported,,,src/levels/crypt.rs
@@ -2315,17 +2315,17 @@ loadsave.cpp|devilution::LoadHelper::Next(),pending,,,
 loadsave.cpp|devilution::LoadHelper::IsValid(size_t size = 1),pending,,,
 loadsave.cpp|devilution::LoadHelper::Skip(size_t count = 1),pending,,,
 loadsave.cpp|devilution::LoadHelper::Skip(size_t size),pending,,,
-"loadsave.cpp|devilution::LoadHelper::NextBytes(void *bytes, size_t size)",pending,,,
+"loadsave.cpp|devilution::LoadHelper::NextBytes(void *bytes, size_t size)",ported,,,src/loadsave.rs
 loadsave.cpp|devilution::LoadHelper::NextLE(),pending,,,
 loadsave.cpp|devilution::LoadHelper::NextBE(),pending,,,
 loadsave.cpp|devilution::LoadHelper::NextLENarrow(TSource modifier = 0),pending,,,
-loadsave.cpp|devilution::LoadHelper::NextBool8(),pending,,,
-loadsave.cpp|devilution::LoadHelper::NextBool32(),pending,,,
+loadsave.cpp|devilution::LoadHelper::NextBool8(),ported,,,src/loadsave.rs
+loadsave.cpp|devilution::LoadHelper::NextBool32(),ported,,,src/loadsave.rs
 "loadsave.cpp|devilution::SaveHelper::SaveHelper(SaveWriter &mpqWriter, const char *szFileName, size_t bufferLen)",ported,,,src/loadsave.rs
 loadsave.cpp|devilution::SaveHelper::IsValid(size_t len = 1),pending,,,
 loadsave.cpp|devilution::SaveHelper::Skip(size_t count = 1),pending,,,
 loadsave.cpp|devilution::SaveHelper::Skip(size_t len),pending,,,
-"loadsave.cpp|devilution::SaveHelper::WriteBytes(const void *bytes, size_t len)",pending,,,
+"loadsave.cpp|devilution::SaveHelper::WriteBytes(const void *bytes, size_t len)",ported,,,src/loadsave.rs
 loadsave.cpp|devilution::SaveHelper::WriteLE(T value),pending,,,
 loadsave.cpp|devilution::SaveHelper::WriteBE(T value),pending,,,
 loadsave.cpp|devilution::SaveHelper::~SaveHelper(),ported,,,src/loadsave.rs
@@ -2386,7 +2386,7 @@ loadsave.cpp|devilution::SaveGame(),ported,,,src/loadsave.rs
 loadsave.cpp|devilution::SaveLevel(SaveWriter &saveWriter),ported,,,src/loadsave.rs
 loadsave.cpp|devilution::LoadLevel(),ported,,,src/loadsave.rs
 main.cpp|__asan_default_options(),pending,,,
-"main.cpp|main(int argc, char **argv)",pending,,,
+"main.cpp|main(int argc, char **argv)",ported,,,src/main.rs
 menu.cpp|devilution::NextTrack(),ported,,,src/menu.rs
 menu.cpp|devilution::RefreshMusic(),ported,,,src/menu.rs
 menu.cpp|devilution::InitMenu(_selhero_selections type),ported,,,src/menu.rs
@@ -2579,12 +2579,12 @@ missiles.cpp|devilution::ProcessManaShield(),ported,,,src/missiles.rs
 missiles.cpp|devilution::ProcessMissiles(),ported,,,src/missiles.rs
 missiles.cpp|devilution::missiles_process_charge(),ported,,,src/missiles.rs
 missiles.cpp|devilution::RedoMissileFlags(),ported,,,src/missiles.rs
-missiles.h|devilution::MissilePosition::StopMissile(),pending,,,
-missiles.h|devilution::Missile::IsTrap(),pending,,,
-missiles.h|devilution::Missile::sourcePlayer(),pending,,,
-missiles.h|devilution::Missile::sourceMonster(),pending,,,
-missiles.h|devilution::Missile::isSameSource(Missile &missile),pending,,,
-missiles.h|devilution::Missile::sourceType(),pending,,,
+missiles.h|devilution::MissilePosition::StopMissile(),ported,,,src/missiles.rs
+missiles.h|devilution::Missile::IsTrap(),ported,,,src/missiles.rs
+missiles.h|devilution::Missile::sourcePlayer(),ported,,,src/missiles.rs
+missiles.h|devilution::Missile::sourceMonster(),ported,,,src/missiles.rs
+missiles.h|devilution::Missile::isSameSource(Missile &missile),ported,,,src/missiles.rs
+missiles.h|devilution::Missile::sourceType(),ported,,,src/missiles.rs
 "missiles.h|devilution::SetMissDir(Missile &missile, Direction dir)",pending,,,
 "missiles.h|devilution::SetMissDir(Missile &missile, Direction16 dir)",pending,,,
 monstdat.cpp|devilution::Uniq(_unique_items item),pending,,,
@@ -2770,7 +2770,7 @@ monster.cpp|devilution::Monster::getVisualMonsterMode(),ported,,,src/monster.rs
 monster.cpp|devilution::Monster::toHitSpecial(_difficulty difficulty),ported,,,src/monster.rs
 monster.h|devilution::IsMonsterModeMove(MonsterMode mode),ported,,,src/monster.rs
 monster.h|devilution::AnimStruct::spritesForDirection(Direction direction),ported,,,src/monster.rs
-monster.h|devilution::CMonster::getAnimData(MonsterGraphic graphic),pending,,,
+monster.h|devilution::CMonster::getAnimData(MonsterGraphic graphic),ported,,,src/monster.rs
 "monster.h|devilution::Monster::changeAnimationData(MonsterGraphic graphic, Direction desiredDirection)",ported,,,src/monster.rs
 monster.h|devilution::Monster::changeAnimationData(MonsterGraphic graphic),ported,,,src/monster.rs
 monster.h|devilution::Monster::type(),ported,,,src/monster.rs
@@ -3226,15 +3226,15 @@ objects.h|devilution::Object::InitializeBook(WorldTileRectangle mapRange),ported
 "objects.h|devilution::Object::InitializeQuestBook(WorldTileRectangle mapRange, int leverID, _speech_id message)",ported,,,src/objects.rs
 "objects.h|devilution::Object::InitializeLoadedObject(WorldTileRectangle mapRange, int leverID)",ported,,,src/objects.rs
 objects.h|devilution::Object::IsBreakable(),pending,,,
-objects.h|devilution::Object::IsBroken(),pending,,,
-objects.h|devilution::Object::IsBarrel(),pending,,,
-objects.h|devilution::Object::isExplosive(),pending,,,
-objects.h|devilution::Object::IsChest(),pending,,,
-objects.h|devilution::Object::IsTrappedChest(),pending,,,
-objects.h|devilution::Object::IsUntrappedChest(),pending,,,
-objects.h|devilution::Object::IsCrux(),pending,,,
-objects.h|devilution::Object::isDoor(),pending,,,
-objects.h|devilution::Object::IsShrine(),pending,,,
+objects.h|devilution::Object::IsBroken(),ported,,,src/objects.rs
+objects.h|devilution::Object::IsBarrel(),ported,,,src/objects.rs
+objects.h|devilution::Object::isExplosive(),ported,,,src/objects.rs
+objects.h|devilution::Object::IsChest(),ported,,,src/objects.rs
+objects.h|devilution::Object::IsTrappedChest(),ported,,,src/objects.rs
+objects.h|devilution::Object::IsUntrappedChest(),ported,,,src/objects.rs
+objects.h|devilution::Object::IsCrux(),ported,,,src/objects.rs
+objects.h|devilution::Object::isDoor(),ported,,,src/objects.rs
+objects.h|devilution::Object::IsShrine(),ported,,,src/objects.rs
 objects.h|devilution::Object::IsTrap(),pending,,,
 objects.h|devilution::IsObjectAtPosition(Point position),ported,,,src/objects.rs
 objects.h|devilution::ObjectAtPosition(Point position),ported,,,src/objects.rs
@@ -3714,32 +3714,32 @@ player.cpp|devilution::CheckStats(Player &player),ported,,,src/player.rs
 "player.cpp|devilution::SetPlrVit(Player &player, int v)",ported,,,src/player.rs
 player.cpp|devilution::InitDungMsgs(Player &player),ported,,,src/player.rs
 player.cpp|devilution::PlayDungMsgs(),ported,,,src/player.rs
-player.h|devilution::PlayerAnimationData::spritesForDirection(Direction direction),pending,,,
-player.h|devilution::Player::CanUseItem(const Item &item),pending,,,
-player.h|devilution::Player::GetMostValuableItem(const TPredicate &itemPredicate),pending,,,
-player.h|devilution::Player::GetItemLocation(const Item &item),pending,,,
-player.h|devilution::Player::GetArmor(),pending,,,
-player.h|devilution::Player::GetMeleeToHit(),pending,,,
-player.h|devilution::Player::GetMeleePiercingToHit(),pending,,,
-player.h|devilution::Player::GetRangedToHit(),pending,,,
-player.h|devilution::Player::GetRangedPiercingToHit(),pending,,,
-player.h|devilution::Player::GetMagicToHit(),pending,,,
-player.h|devilution::Player::GetBlockChance(bool useLevel = true),pending,,,
-player.h|devilution::Player::GetSpellLevel(SpellID spell),pending,,,
-"player.h|devilution::Player::CalculateArmorPierce(int monsterArmor, bool isMelee)",pending,,,
-player.h|devilution::Player::UpdateHitPointPercentage(),pending,,,
-player.h|devilution::Player::UpdateManaPercentage(),pending,,,
-player.h|devilution::Player::RestoreFullLife(),pending,,,
-player.h|devilution::Player::RestoreFullMana(),pending,,,
-player.h|devilution::Player::UsesRangedWeapon(),pending,,,
-player.h|devilution::Player::CanChangeAction(),pending,,,
-player.h|devilution::Player::isOnActiveLevel(),pending,,,
+player.h|devilution::PlayerAnimationData::spritesForDirection(Direction direction),ported,,,src/player.rs
+player.h|devilution::Player::CanUseItem(const Item &item),ported,,,src/player.rs
+player.h|devilution::Player::GetMostValuableItem(const TPredicate &itemPredicate),ported,,,src/player.rs
+player.h|devilution::Player::GetItemLocation(const Item &item),ported,,,src/player.rs
+player.h|devilution::Player::GetArmor(),ported,,,src/player.rs
+player.h|devilution::Player::GetMeleeToHit(),ported,,,src/player.rs
+player.h|devilution::Player::GetMeleePiercingToHit(),ported,,,src/player.rs
+player.h|devilution::Player::GetRangedToHit(),ported,,,src/player.rs
+player.h|devilution::Player::GetRangedPiercingToHit(),ported,,,src/player.rs
+player.h|devilution::Player::GetMagicToHit(),ported,,,src/player.rs
+player.h|devilution::Player::GetBlockChance(bool useLevel = true),ported,,,src/player.rs
+player.h|devilution::Player::GetSpellLevel(SpellID spell),ported,,,src/player.rs
+"player.h|devilution::Player::CalculateArmorPierce(int monsterArmor, bool isMelee)",ported,,,src/player.rs
+player.h|devilution::Player::UpdateHitPointPercentage(),ported,,,src/player.rs
+player.h|devilution::Player::UpdateManaPercentage(),ported,,,src/player.rs
+player.h|devilution::Player::RestoreFullLife(),ported,,,src/player.rs
+player.h|devilution::Player::RestoreFullMana(),ported,,,src/player.rs
+player.h|devilution::Player::UsesRangedWeapon(),ported,,,src/player.rs
+player.h|devilution::Player::CanChangeAction(),ported,,,src/player.rs
+player.h|devilution::Player::isOnActiveLevel(),ported,,,src/player.rs
 player.h|devilution::Player::isOnLevel(uint8_t level),pending,,,
 player.h|devilution::Player::isOnLevel(_setlevels level),pending,,,
-player.h|devilution::Player::isOnArenaLevel(),pending,,,
+player.h|devilution::Player::isOnArenaLevel(),ported,,,src/player.rs
 player.h|devilution::Player::setLevel(uint8_t level),pending,,,
 player.h|devilution::Player::setLevel(_setlevels level),pending,,,
-player.h|devilution::IsInspectingPlayer(),pending,,,
+player.h|devilution::IsInspectingPlayer(),ported,,,src/player.rs
 plrmsg.cpp|devilution::CountLinesOfText(string_view text),ported,,,src/plrmsg.rs
 plrmsg.cpp|devilution::GetNextMessage(),ported,,,src/plrmsg.rs
 plrmsg.cpp|devilution::plrmsg_delay(bool delay),ported,,,src/plrmsg.rs
@@ -3833,8 +3833,8 @@ qol/stash.cpp|devilution::CloseGoldWithdraw(),ported,,,src/qol/stash.rs
 qol/stash.cpp|devilution::GoldWithdrawNewText(string_view text),ported,,,src/qol/stash.rs
 "qol/stash.cpp|devilution::AutoPlaceItemInStash(Player &player, const Item &item, bool persistItem)",ported,,,src/qol/stash.rs
 qol/stash.h|devilution::StashStruct::GetPage(),pending,,,
-qol/stash.h|devilution::StashStruct::GetCurrentGrid(),pending,,,
-qol/stash.h|devilution::StashStruct::GetItemIdAtPosition(Point gridPosition),pending,,,
+qol/stash.h|devilution::StashStruct::GetCurrentGrid(),ported,,,src/qol/stash.rs
+qol/stash.h|devilution::StashStruct::GetItemIdAtPosition(Point gridPosition),ported,,,src/qol/stash.rs
 qol/stash.h|devilution::StashStruct::IsItemAtPosition(Point gridPosition),pending,,,
 "qol/xpbar.cpp|devilution::DrawBar(const Surface &out, Point screenPosition, int width, const ColorGradient &gradient)",ported,,,src/qol/xpbar.rs
 "qol/xpbar.cpp|devilution::DrawEndCap(const Surface &out, Point point, int idx, const ColorGradient &gradient)",ported,,,src/qol/xpbar.rs
@@ -3900,9 +3900,9 @@ spells.cpp|devilution::EnsureValidReadiedSpell(Player &player),ported,,,src/spel
 spells.cpp|devilution::GetSpellBookLevel(SpellID s),ported,,,src/spells.rs
 spells.cpp|devilution::GetSpellStaffLevel(SpellID s),ported,,,src/spells.rs
 spells.h|devilution::GetSpellBitmask(SpellID spellId),ported,,,src/spells.rs
-stores.cpp|devilution::STextStruct::isDivider(),pending,,,
-stores.cpp|devilution::STextStruct::isSelectable(),pending,,,
-stores.cpp|devilution::STextStruct::hasText(),pending,,,
+stores.cpp|devilution::STextStruct::isDivider(),ported,,,src/stores.rs
+stores.cpp|devilution::STextStruct::isSelectable(),ported,,,src/stores.rs
+stores.cpp|devilution::STextStruct::hasText(),ported,,,src/stores.rs
 stores.cpp|devilution::BackButtonLine(),ported,,,src/stores.rs
 stores.cpp|devilution::LineHeight(),ported,,,src/stores.rs
 stores.cpp|devilution::TextHeight(),ported,,,src/stores.rs
@@ -4096,7 +4096,7 @@ towners.cpp|devilution::ProcessTowners(),ported,,,src/towners.rs
 "towners.cpp|devilution::TalkToTowner(Player &player, int t)",ported,,,src/towners.rs
 towners.cpp|devilution::UpdateGirlAnimAfterQuestComplete(),ported,,,src/towners.rs
 towners.cpp|devilution::UpdateCowFarmerAnimAfterQuestComplete(),ported,,,src/towners.rs
-towners.h|devilution::Towner::currentSprite(),pending,,,
+towners.h|devilution::Towner::currentSprite(),ported,,,src/towners.rs
 track.cpp|devilution::RepeatWalk(Player &player),ported,,,src/track.rs
 track.cpp|devilution::InvalidateTargets(),ported,,,src/track.rs
 track.cpp|devilution::RepeatMouseAction(),ported,,,src/track.rs
@@ -4386,14 +4386,14 @@ utils/soundsample.cpp|devilution::SoundSample::Play(int numIterations),ported,,,
 "utils/soundsample.cpp|devilution::SoundSample::SetVolume(int logVolume, int logMin, int logMax)",ported,,,src/utils/soundsample.rs
 utils/soundsample.cpp|devilution::SoundSample::SetStereoPosition(int logPan),ported,,,src/utils/soundsample.rs
 utils/soundsample.cpp|devilution::SoundSample::GetLength(),ported,,,src/utils/soundsample.rs
-utils/soundsample.h|devilution::SoundSample::IsLoaded(),pending,,,
+utils/soundsample.h|devilution::SoundSample::IsLoaded(),ported,,,src/utils/soundsample.rs
 utils/soundsample.h|devilution::SoundSample::SetFinishCallback(Aulib::Stream::Callback &&callback),pending,,,
-utils/soundsample.h|devilution::SoundSample::IsStreaming(),pending,,,
-utils/soundsample.h|devilution::SoundSample::DuplicateFrom(const SoundSample &other),pending,,,
-"utils/soundsample.h|devilution::SoundSample::PlayWithVolumeAndPan(int logSoundVolume, int logUserVolume, int logPan)",pending,,,
-utils/soundsample.h|devilution::SoundSample::Stop(),pending,,,
-utils/soundsample.h|devilution::SoundSample::Mute(),pending,,,
-utils/soundsample.h|devilution::SoundSample::Unmute(),pending,,,
+utils/soundsample.h|devilution::SoundSample::IsStreaming(),ported,,,src/utils/soundsample.rs
+utils/soundsample.h|devilution::SoundSample::DuplicateFrom(const SoundSample &other),ported,,,src/utils/soundsample.rs
+"utils/soundsample.h|devilution::SoundSample::PlayWithVolumeAndPan(int logSoundVolume, int logUserVolume, int logPan)",ported,,,src/utils/soundsample.rs
+utils/soundsample.h|devilution::SoundSample::Stop(),ported,,,src/utils/soundsample.rs
+utils/soundsample.h|devilution::SoundSample::Mute(),ported,,,src/utils/soundsample.rs
+utils/soundsample.h|devilution::SoundSample::Unmute(),ported,,,src/utils/soundsample.rs
 utils/static_vector.hpp|devilution::StaticVector::StaticVector(std::initializer_list<U> elements),replaced,Rust std (Vec / fixed arrays),container template,
 utils/static_vector.hpp|devilution::StaticVector::begin(),replaced,Rust std (Vec / fixed arrays),container template,
 utils/static_vector.hpp|devilution::StaticVector::end(),replaced,Rust std (Vec / fixed arrays),container template,

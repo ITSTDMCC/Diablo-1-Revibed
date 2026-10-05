@@ -25,6 +25,7 @@ pub struct TSnd {
 }
 
 impl TSnd {
+    // @port engine/sound.h|devilution::TSnd::isPlaying() sha=bcd891dec0ee
     pub fn is_playing(&self) -> bool {
         self.dsb.is_playing()
     }

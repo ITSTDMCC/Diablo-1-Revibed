@@ -677,18 +677,21 @@ fn check_inv_cut(ctx: &mut Ctx, pnum: usize, cursor_position: Point, automatic_m
 }
 
 /// `HasInventoryItemWithId` (inv.h): the inventory range skips empty items.
+// @port inv.h|devilution::HasInventoryItemWithId(Player &player, _item_indexes id) sha=53deeeb17fac
 pub fn has_inventory_item_with_id(ctx: &Ctx, pnum: usize, id: _item_indexes) -> bool {
     let p = &ctx.players.Players[pnum];
     p.InvList[..p._pNumInv as usize].iter().any(|i| !i.is_empty() && i.IDidx == id)
 }
 
 /// `HasInventoryOrBeltItem` (inv.h)
+// @port inv.h|devilution::HasInventoryOrBeltItem(Player &player, Predicate &&predicate) sha=c8db1c360421
 pub fn has_inventory_or_belt_item(ctx: &Ctx, pnum: usize, pred: impl Fn(&Item) -> bool) -> bool {
     let p = &ctx.players.Players[pnum];
     p.InvList[..p._pNumInv as usize].iter().any(|i| !i.is_empty() && pred(i)) || p.SpdList.iter().any(|i| !i.is_empty() && pred(i))
 }
 
 /// `RemoveInventoryItem` (inv.h)
+// @port inv.h|devilution::RemoveInventoryItem(Player &player, Predicate &&predicate) sha=53f17008c059
 pub fn remove_inventory_item(ctx: &mut Ctx, pnum: usize, pred: impl Fn(&Item) -> bool) -> bool {
     let p = &ctx.players.Players[pnum];
     let Some(i) = p.InvList[..p._pNumInv as usize].iter().position(|i| !i.is_empty() && pred(i)) else { return false };
@@ -697,6 +700,7 @@ pub fn remove_inventory_item(ctx: &mut Ctx, pnum: usize, pred: impl Fn(&Item) ->
 }
 
 /// `RemoveBeltItem` (inv.h)
+// @port inv.h|devilution::RemoveBeltItem(Player &player, Predicate &&predicate) sha=6afe0be792d0
 pub fn remove_belt_item(ctx: &mut Ctx, pnum: usize, pred: impl Fn(&Item) -> bool) -> bool {
     let Some(i) = ctx.players.Players[pnum].SpdList.iter().position(|i| !i.is_empty() && pred(i)) else { return false };
     crate::player::remove_spd_bar_item(ctx, pnum, i as i32);
@@ -704,11 +708,13 @@ pub fn remove_belt_item(ctx: &mut Ctx, pnum: usize, pred: impl Fn(&Item) -> bool
 }
 
 /// `RemoveInventoryOrBeltItem` (inv.h)
+// @port inv.h|devilution::RemoveInventoryOrBeltItem(Player &player, Predicate &&predicate) sha=412e26950379
 pub fn remove_inventory_or_belt_item(ctx: &mut Ctx, pnum: usize, pred: impl Fn(&Item) -> bool) -> bool {
     remove_inventory_item(ctx, pnum, &pred) || remove_belt_item(ctx, pnum, &pred)
 }
 
 /// `RemoveInventoryItemById` (inv.h)
+// @port inv.h|devilution::RemoveInventoryItemById(Player &player, _item_indexes id) sha=fc5d7a903557
 pub fn remove_inventory_item_by_id(ctx: &mut Ctx, pnum: usize, id: _item_indexes) -> bool {
     remove_inventory_item(ctx, pnum, |i| i.IDidx == id)
 }

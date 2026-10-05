@@ -67,6 +67,7 @@ impl Default for Towner {
 
 impl Towner {
     /// `currentSprite`
+    // @port towners.h|devilution::Towner::currentSprite() sha=76409873bb84
     pub fn current_sprite(&self) -> ClxSprite {
         self.anim.as_ref().expect("towner anim").get(self._tAnimFrame as usize)
     }

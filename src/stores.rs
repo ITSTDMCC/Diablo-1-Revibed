@@ -40,12 +40,15 @@ struct STextStruct {
 }
 
 impl STextStruct {
+    // @port stores.cpp|devilution::STextStruct::isDivider() sha=863e7106aaf5
     fn is_divider(&self) -> bool {
         self.type_ == STextType::Divider
     }
+    // @port stores.cpp|devilution::STextStruct::isSelectable() sha=ac77c2b49e23
     fn is_selectable(&self) -> bool {
         self.type_ == STextType::Selectable
     }
+    // @port stores.cpp|devilution::STextStruct::hasText() sha=20b04c1e83e4
     fn has_text(&self) -> bool {
         !self.text.is_empty()
     }

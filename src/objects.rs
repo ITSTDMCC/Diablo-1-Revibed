@@ -81,30 +81,39 @@ impl Object {
     pub fn is_breakable(&self) -> bool {
         self._oBreak == 1
     }
+    // @port objects.h|devilution::Object::IsBroken() sha=38740a1b2425
     pub fn is_broken(&self) -> bool {
         self._oBreak == -1
     }
+    // @port objects.h|devilution::Object::IsBarrel() sha=ad278960c9b1
     pub fn is_barrel(&self) -> bool {
         matches!(self._otype, OBJ_BARREL | OBJ_BARRELEX | OBJ_POD | OBJ_PODEX | OBJ_URN | OBJ_URNEX)
     }
+    // @port objects.h|devilution::Object::isExplosive() sha=3184a32043cb
     pub fn is_explosive(&self) -> bool {
         matches!(self._otype, OBJ_BARRELEX | OBJ_PODEX | OBJ_URNEX)
     }
+    // @port objects.h|devilution::Object::IsChest() sha=2832eeb05261
     pub fn is_chest(&self) -> bool {
         matches!(self._otype, OBJ_CHEST1 | OBJ_CHEST2 | OBJ_CHEST3 | OBJ_TCHEST1 | OBJ_TCHEST2 | OBJ_TCHEST3)
     }
+    // @port objects.h|devilution::Object::IsTrappedChest() sha=b166cc55b5f3
     pub fn is_trapped_chest(&self) -> bool {
         matches!(self._otype, OBJ_TCHEST1 | OBJ_TCHEST2 | OBJ_TCHEST3) && self._oTrapFlag
     }
+    // @port objects.h|devilution::Object::IsUntrappedChest() sha=851c85e311d5
     pub fn is_untrapped_chest(&self) -> bool {
         matches!(self._otype, OBJ_CHEST1 | OBJ_CHEST2 | OBJ_CHEST3) && !self._oTrapFlag
     }
+    // @port objects.h|devilution::Object::IsCrux() sha=0fc6549a73db
     pub fn is_crux(&self) -> bool {
         matches!(self._otype, OBJ_CRUX1 | OBJ_CRUX2 | OBJ_CRUX3)
     }
+    // @port objects.h|devilution::Object::isDoor() sha=e12cd73efc2d
     pub fn is_door(&self) -> bool {
         matches!(self._otype, OBJ_L1LDOOR | OBJ_L1RDOOR | OBJ_L2LDOOR | OBJ_L2RDOOR | OBJ_L3LDOOR | OBJ_L3RDOOR | OBJ_L5LDOOR | OBJ_L5RDOOR)
     }
+    // @port objects.h|devilution::Object::IsShrine() sha=55478a23da35
     pub fn is_shrine(&self) -> bool {
         matches!(self._otype, OBJ_SHRINEL | OBJ_SHRINER)
     }

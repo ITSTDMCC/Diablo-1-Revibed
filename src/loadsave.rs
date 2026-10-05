@@ -90,6 +90,7 @@ impl LoadHelper {
         self.cur += size;
     }
 
+    // @port loadsave.cpp|devilution::LoadHelper::NextBytes(void *bytes, size_t size) sha=8e461be8bdd7
     pub fn next_bytes(&mut self, out: &mut [u8]) {
         if !self.is_valid(out.len()) {
             return;
@@ -123,10 +124,12 @@ impl LoadHelper {
         self.next_u32().clamp(u8::MIN as u32, u8::MAX as u32) as u8
     }
 
+    // @port loadsave.cpp|devilution::LoadHelper::NextBool8() sha=d91e147e0661
     pub fn next_bool8(&mut self) -> bool {
         self.next_u8() != 0
     }
 
+    // @port loadsave.cpp|devilution::LoadHelper::NextBool32() sha=c9f7c07a1855
     pub fn next_bool32(&mut self) -> bool {
         self.next_u32() != 0
     }
@@ -153,6 +156,7 @@ impl SaveHelper {
         self.buffer.resize(self.buffer.len() + len, 0);
     }
 
+    // @port loadsave.cpp|devilution::SaveHelper::WriteBytes(const void *bytes, size_t len) sha=09da0b4b5290
     pub fn write_bytes(&mut self, bytes: &[u8]) {
         if !self.is_valid(bytes.len()) {
             return;

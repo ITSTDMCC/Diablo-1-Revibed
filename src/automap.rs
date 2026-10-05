@@ -77,6 +77,7 @@ pub struct AutomapTile {
 }
 
 impl AutomapTile {
+    // @port automap.cpp|devilution::AutomapTile::HasFlag(Flags test) sha=6aba64c19ff4
     const fn has_flag(&self, test: u8) -> bool {
         (self.flags & test) != 0
     }

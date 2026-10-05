@@ -30,6 +30,7 @@ impl StashStruct {
     }
 
     /// `GetCurrentGrid` (creates the page like `std::map::operator[]`)
+    // @port qol/stash.h|devilution::StashStruct::GetCurrentGrid() sha=350e5f3d1d9d
     pub fn get_current_grid(&mut self) -> &mut StashGrid {
         let p = self.page;
         self.stashGrids.entry(p).or_default()
@@ -184,6 +185,7 @@ fn stash_grid_range() -> impl Iterator<Item = Point> {
 
 impl StashStruct {
     /// `GetItemIdAtPosition`: adds a blank grid if it doesn't exist.
+    // @port qol/stash.h|devilution::StashStruct::GetItemIdAtPosition(Point gridPosition) sha=b01526d0503a
     pub fn get_item_id_at_position(&mut self, grid_position: Point) -> StashCell {
         let cell = self.get_current_grid()[grid_position.x as usize][grid_position.y as usize];
         cell.wrapping_sub(1)

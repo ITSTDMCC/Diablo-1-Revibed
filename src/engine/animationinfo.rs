@@ -28,11 +28,13 @@ impl AnimationInfo {
     pub const BASE_VALUE_FRACTION: i32 = 128;
 
     /// `currentSprite`
+    // @port engine/animationinfo.h|devilution::AnimationInfo::currentSprite() sha=2a90a70fb849
     pub fn current_sprite(&self, progress_to_next_game_tick: u8) -> ClxSprite {
         self.sprites.as_ref().expect("sprites").get(self.get_frame_to_use_for_rendering(progress_to_next_game_tick) as usize)
     }
 
     /// `isLastFrame`
+    // @port engine/animationinfo.h|devilution::AnimationInfo::isLastFrame() sha=8992c21eb5cb
     pub fn is_last_frame(&self) -> bool {
         self.currentFrame >= self.numberOfFrames - 1
     }

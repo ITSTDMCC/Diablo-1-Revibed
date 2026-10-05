@@ -13,6 +13,7 @@ fn run_game(platform: Platform, args: Vec<String>) {
     std::process::exit(code);
 }
 
+// @port main.cpp|main(int argc, char **argv) sha=6675298b394f
 fn main() {
     let args: Vec<String> = std::env::args().collect();
     let headless = std::env::var_os("DIABLO_HEADLESS").is_some_and(|v| v != "0");

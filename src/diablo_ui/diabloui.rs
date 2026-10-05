@@ -153,6 +153,7 @@ impl Default for DiabloUiState {
 }
 
 /// `DiabloUiSurface()`: the back buffer.
+// @port DiabloUI/diabloui.h|devilution::DiabloUiSurface() sha=78ed28380182
 pub fn diablo_ui_surface(ctx: &mut Ctx) -> Surface {
     match ctx.dx.pal_surface.as_mut() {
         Some(s) => Surface::of(s),

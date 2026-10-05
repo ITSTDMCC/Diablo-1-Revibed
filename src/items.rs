@@ -188,6 +188,7 @@ fn add16(a: i16, b: i32) -> i16 {
 
 impl Item {
     /// `pop`: clears this item and returns the old value.
+    // @port items.h|devilution::Item::pop() sha=0f91f5182dd1
     pub fn pop(&mut self) -> Item {
         let temp = self.clone();
         self.clear();
@@ -195,14 +196,17 @@ impl Item {
     }
 
     /// `clear`: resets the item so `isEmpty()` returns true.
+    // @port items.h|devilution::Item::clear() sha=1643fed50bad
     pub fn clear(&mut self) {
         self._itype = ItemType::None;
     }
 
+    // @port items.h|devilution::Item::isEmpty() sha=5b1c0fa437f4
     pub fn is_empty(&self) -> bool {
         self._itype == ItemType::None
     }
 
+    // @port items.h|devilution::Item::isEquipment() sha=f3e34a5347d8
     pub fn is_equipment(&self) -> bool {
         if self.is_empty() {
             return false;
@@ -210,6 +214,7 @@ impl Item {
         matches!(self._iLoc, ILOC_AMULET | ILOC_ARMOR | ILOC_HELM | ILOC_ONEHAND | ILOC_RING | ILOC_TWOHAND)
     }
 
+    // @port items.h|devilution::Item::isWeapon() sha=cffb72000084
     pub fn is_weapon(&self) -> bool {
         if self.is_empty() {
             return false;
@@ -217,6 +222,7 @@ impl Item {
         matches!(self._itype, ItemType::Axe | ItemType::Bow | ItemType::Mace | ItemType::Staff | ItemType::Sword)
     }
 
+    // @port items.h|devilution::Item::isArmor() sha=9002669fc2d4
     pub fn is_armor(&self) -> bool {
         if self.is_empty() {
             return false;
@@ -224,14 +230,17 @@ impl Item {
         matches!(self._itype, ItemType::HeavyArmor | ItemType::LightArmor | ItemType::MediumArmor)
     }
 
+    // @port items.h|devilution::Item::isHelm() sha=ac3c3abf0bf2
     pub fn is_helm(&self) -> bool {
         !self.is_empty() && self._itype == ItemType::Helm
     }
 
+    // @port items.h|devilution::Item::isShield() sha=ab714161120e
     pub fn is_shield(&self) -> bool {
         !self.is_empty() && self._itype == ItemType::Shield
     }
 
+    // @port items.h|devilution::Item::isJewelry() sha=439c015cd939
     pub fn is_jewelry(&self) -> bool {
         if self.is_empty() {
             return false;
@@ -239,18 +248,22 @@ impl Item {
         matches!(self._itype, ItemType::Amulet | ItemType::Ring)
     }
 
+    // @port items.h|devilution::Item::isScroll() sha=0ae7c6523309
     pub fn is_scroll(&self) -> bool {
         matches!(self._iMiscId, IMISC_SCROLL | IMISC_SCROLLT)
     }
 
+    // @port items.h|devilution::Item::isScrollOf(SpellID spellId) sha=34e49400e661
     pub fn is_scroll_of(&self, spell_id: SpellID) -> bool {
         self.is_scroll() && self._iSpell == spell_id
     }
 
+    // @port items.h|devilution::Item::isRune() sha=751b60db97cd
     pub fn is_rune(&self) -> bool {
         self._iMiscId > IMISC_RUNEFIRST && self._iMiscId < IMISC_RUNELAST
     }
 
+    // @port items.h|devilution::Item::isRuneOf(SpellID spellId) sha=ba7a8b6b3394
     pub fn is_rune_of(&self, spell_id: SpellID) -> bool {
         if !self.is_rune() {
             return false;
@@ -265,10 +278,12 @@ impl Item {
         }
     }
 
+    // @port items.h|devilution::Item::keyAttributesMatch(uint32_t seed, _item_indexes itemIndex, uint16_t createInfo) sha=dbbcc003ed39
     pub fn key_attributes_match(&self, seed: u32, item_index: _item_indexes, create_info: u16) -> bool {
         self._iSeed == seed && self.IDidx == item_index && self._iCreateInfo == create_info
     }
 
+    // @port items.h|devilution::Item::getTextColor() sha=4c84182a8518
     pub fn get_text_color(&self) -> UiFlags {
         match self._iMagical {
             ITEM_QUALITY_MAGIC => UiFlags::COLOR_BLUE,
@@ -277,6 +292,7 @@ impl Item {
         }
     }
 
+    // @port items.h|devilution::Item::getTextColorWithStatCheck() sha=0b535365d4ec
     pub fn get_text_color_with_stat_check(&self) -> UiFlags {
         if !self._iStatFlag {
             return UiFlags::COLOR_RED;

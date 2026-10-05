@@ -33,32 +33,40 @@ impl PartialEq for CursorInfo {
 
 impl CursorInfo {
     /// Original: `CursorInfo::UserInterfaceCursor` (hwcursor.hpp).
+    // @port hwcursor.hpp|devilution::CursorInfo::UserInterfaceCursor() sha=9d38d3af76f3
     pub fn user_interface_cursor() -> CursorInfo {
         CursorInfo { type_: CursorType::UserInterface, ..Default::default() }
     }
     /// Original: `CursorInfo::GameCursor` (hwcursor.hpp).
+    // @port hwcursor.hpp|devilution::CursorInfo::GameCursor(int gameSpriteId) sha=a2b08a754c14
     pub fn game_cursor(game_sprite_id: i32) -> CursorInfo {
         CursorInfo { type_: CursorType::Game, id: game_sprite_id, ..Default::default() }
     }
     /// Original: `CursorInfo::UnknownCursor` (hwcursor.hpp).
+    // @port hwcursor.hpp|devilution::CursorInfo::UnknownCursor() sha=3ea8cb3a61e4
     pub fn unknown_cursor() -> CursorInfo {
         CursorInfo { type_: CursorType::Unknown, ..Default::default() }
     }
     pub fn cursor_type(&self) -> CursorType {
         self.type_
     }
+    // @port hwcursor.hpp|devilution::CursorInfo::id() sha=63a7a2dc4cc8
     pub fn id(&self) -> i32 {
         self.id
     }
+    // @port hwcursor.hpp|devilution::CursorInfo::Enabled() sha=caee0fe24fdc
     pub fn enabled(&self) -> bool {
         self.enabled
     }
+    // @port hwcursor.hpp|devilution::CursorInfo::SetEnabled(bool value) sha=a992974e2cc8
     pub fn set_enabled(&mut self, value: bool) {
         self.enabled = value;
     }
+    // @port hwcursor.hpp|devilution::CursorInfo::needsReinitialization() sha=5b4dc4fa2970
     pub fn needs_reinitialization(&self) -> bool {
         self.needs_reinitialization
     }
+    // @port hwcursor.hpp|devilution::CursorInfo::setNeedsReinitialization(bool value) sha=4700d40895ab
     pub fn set_needs_reinitialization(&mut self, value: bool) {
         self.needs_reinitialization = value;
     }

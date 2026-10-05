@@ -42,6 +42,7 @@ impl Default for PathNode {
 }
 
 impl PathNode {
+    // @port engine/path.cpp|devilution::PathNode::position() sha=4f76dccae5c3
     fn position(&self) -> Point {
         Point::new(self.x as i32, self.y as i32)
     }

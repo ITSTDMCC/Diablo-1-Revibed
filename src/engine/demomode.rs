@@ -40,6 +40,7 @@ crate::pending_fn!(pub fn record_game_loop_result(ctx: &mut Ctx, run_game_loop: 
 
 /// `demo::NotifyGameLoopStart` (engine/demomode.cpp): nothing to do unless recording or playing
 /// back, which is still pending.
+// @port engine/demomode.cpp|devilution::demo::NotifyGameLoopStart() sha=369a9b27c392
 pub fn notify_game_loop_start(ctx: &mut Ctx) {
     if is_recording(ctx) || is_running(ctx) {
         crate::unported!("engine/demomode.cpp|devilution::demo::NotifyGameLoopStart()");
@@ -47,6 +48,7 @@ pub fn notify_game_loop_start(ctx: &mut Ctx) {
 }
 
 /// `demo::NotifyGameLoopEnd` (engine/demomode.cpp): as `notify_game_loop_start`.
+// @port engine/demomode.cpp|devilution::demo::NotifyGameLoopEnd() sha=d44a4f2193d2
 pub fn notify_game_loop_end(ctx: &mut Ctx) {
     if is_recording(ctx) || is_running(ctx) {
         crate::unported!("engine/demomode.cpp|devilution::demo::NotifyGameLoopEnd()");

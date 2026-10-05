@@ -498,6 +498,7 @@ fn rnd(ctx: &mut Ctx, v: i32) -> i32 {
 }
 
 /// `CMonster::getAnimData`
+// @port monster.h|devilution::CMonster::getAnimData(MonsterGraphic graphic) sha=a2d364e455b7
 pub fn get_anim_data(ctx: &Ctx, m: usize, graphic: MonsterGraphic) -> &AnimStruct {
     &monster_type(ctx, m).anims[graphic as usize]
 }

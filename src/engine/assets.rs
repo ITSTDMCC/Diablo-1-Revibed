@@ -128,11 +128,13 @@ impl AssetHandle {
         self.error.as_deref().unwrap_or("")
     }
 
+    // @port engine/assets.hpp|devilution::AssetRef::size() sha=a738d2da1952
     pub fn size(&self) -> usize {
         self.data.len()
     }
 
     /// `read`: exactly `buf.len()` bytes or false.
+    // @port engine/assets.hpp|devilution::AssetHandle::read(void *buffer, size_t len) sha=bbc679e4b5f1
     pub fn read(&mut self, buf: &mut [u8]) -> bool {
         if self.pos + buf.len() > self.data.len() {
             return false;
@@ -142,6 +144,7 @@ impl AssetHandle {
         true
     }
 
+    // @port engine/assets.hpp|devilution::AssetHandle::seek(long pos) sha=337306143280
     pub fn seek(&mut self, pos: usize) -> bool {
         if pos > self.data.len() {
             return false;

@@ -26,31 +26,40 @@ impl TMenuItem {
     pub fn new(dw_flags: u32, psz_str: Option<&str>, fn_menu: Option<fn(&mut Ctx, bool)>) -> TMenuItem {
         TMenuItem { dw_flags, psz_str: psz_str.map(str::to_string), fn_menu }
     }
+    // @port gmenu.h|devilution::TMenuItem::enabled() sha=e25d301d5952
     pub fn enabled(&self) -> bool {
         (self.dw_flags & GMENU_ENABLED) != 0
     }
+    // @port gmenu.h|devilution::TMenuItem::isSlider() sha=c648202c7008
     pub fn is_slider(&self) -> bool {
         (self.dw_flags & GMENU_SLIDER) != 0
     }
+    // @port gmenu.h|devilution::TMenuItem::sliderStep() sha=c424679fdeba
     pub fn slider_step(&self) -> u16 {
         (self.dw_flags & 0xFFF) as u16
     }
+    // @port gmenu.h|devilution::TMenuItem::setSliderStep(uint16_t step) sha=d4d8a74bf62e
     pub fn set_slider_step(&mut self, step: u16) {
         self.dw_flags &= 0xFFFFF000;
         self.dw_flags |= step as u32;
     }
+    // @port gmenu.h|devilution::TMenuItem::sliderSteps() sha=bb8b4febe882
     pub fn slider_steps(&self) -> u16 {
         ((self.dw_flags & 0xFFF000) >> 12) as u16
     }
+    // @port gmenu.h|devilution::TMenuItem::setSliderSteps(uint16_t steps) sha=2bebadf73a9b
     pub fn set_slider_steps(&mut self, steps: u16) {
         self.dw_flags |= ((steps as u32) << 12) & 0xFFF000;
     }
+    // @port gmenu.h|devilution::TMenuItem::addFlags(uint32_t flags) sha=b672c51e2fa7
     pub fn add_flags(&mut self, flags: u32) {
         self.dw_flags |= flags;
     }
+    // @port gmenu.h|devilution::TMenuItem::removeFlags(uint32_t flags) sha=f3d21e00741b
     pub fn remove_flags(&mut self, flags: u32) {
         self.dw_flags &= !flags;
     }
+    // @port gmenu.h|devilution::TMenuItem::setEnabled(bool enabled) sha=a7fcfb380665
     pub fn set_enabled(&mut self, enabled: bool) {
         if enabled {
             self.add_flags(GMENU_ENABLED);

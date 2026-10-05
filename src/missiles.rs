@@ -488,11 +488,13 @@ pub enum MissileSource {
 
 impl Missile {
     /// `IsTrap`
+    // @port missiles.h|devilution::Missile::IsTrap() sha=61aa47a68e1e
     pub fn is_trap(&self) -> bool {
         self._misource == -1
     }
 
     /// `sourceMonster` (index into `Monsters`)
+    // @port missiles.h|devilution::Missile::sourceMonster() sha=e5598b74116a
     pub fn source_monster(&self) -> Option<usize> {
         if self._micaster != TARGET_PLAYERS || self._misource == -1 {
             return None;
@@ -501,11 +503,13 @@ impl Missile {
     }
 
     /// `sourcePlayer` (index into `Players`)
+    // @port missiles.h|devilution::Missile::sourcePlayer() sha=739ea88a7a8f
     pub fn source_player(&self) -> Option<usize> {
         missile_source_player(self)
     }
 
     /// `sourceType`
+    // @port missiles.h|devilution::Missile::sourceType() sha=bfd684b81013
     pub fn source_type(&self) -> MissileSource {
         if self._misource == -1 {
             return MissileSource::Trap;
@@ -517,6 +521,7 @@ impl Missile {
     }
 
     /// `isSameSource`
+    // @port missiles.h|devilution::Missile::isSameSource(Missile &missile) sha=645817269f33
     pub fn is_same_source(&self, other: &Missile) -> bool {
         self.source_type() == other.source_type() && self._misource == other._misource
     }
@@ -524,6 +529,7 @@ impl Missile {
 
 impl MissilePosition {
     /// `StopMissile`
+    // @port missiles.h|devilution::MissilePosition::StopMissile() sha=5aeff0e82b5d
     pub fn stop_missile(&mut self) {
         self.velocity = Displacement::default();
         if self.tileForRendering == self.tile {

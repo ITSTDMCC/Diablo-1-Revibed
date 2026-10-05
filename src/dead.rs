@@ -18,6 +18,7 @@ pub struct Corpse {
 
 impl Corpse {
     /// `spritesForDirection`
+    // @port dead.h|devilution::Corpse::spritesForDirection(Direction direction) sha=bfa2752e9df8
     pub fn sprites_for_direction(&self, direction: Direction) -> ClxSpriteList {
         let s = self.sprites.as_ref().expect("corpse sprites");
         if s.is_sheet() {

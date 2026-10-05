@@ -61,6 +61,7 @@ pub struct SoundSample {
 }
 
 impl SoundSample {
+    // @port utils/soundsample.h|devilution::SoundSample::IsLoaded() sha=a9fd4ad0eeeb
     pub fn is_loaded(&self) -> bool {
         self.stream.is_some()
     }
@@ -77,6 +78,7 @@ impl SoundSample {
         self.stream.as_ref().is_some_and(|s| s.is_playing())
     }
 
+    // @port utils/soundsample.h|devilution::SoundSample::IsStreaming() sha=ad102236d80b
     pub fn is_streaming(&self) -> bool {
         self.streaming
     }
@@ -136,6 +138,7 @@ impl SoundSample {
     }
 
     /// `SoundSample::DuplicateFrom`: shares the decoded samples.
+    // @port utils/soundsample.h|devilution::SoundSample::DuplicateFrom(const SoundSample &other) sha=e1fa615e6956
     pub fn duplicate_from(&mut self, other: &SoundSample) -> i32 {
         match &other.stream {
             Some(s) => {
@@ -150,11 +153,13 @@ impl SoundSample {
     }
 
     /// `SoundSample::Stop`
+    // @port utils/soundsample.h|devilution::SoundSample::Stop() sha=3353a4f98939
     pub fn stop(&mut self) {
         self.stream.as_ref().expect("stream").stop();
     }
 
     /// `SoundSample::PlayWithVolumeAndPan`
+    // @port utils/soundsample.h|devilution::SoundSample::PlayWithVolumeAndPan(int logSoundVolume, int logUserVolume, int logPan) sha=3084f4119cab
     pub fn play_with_volume_and_pan(&mut self, log_sound_volume: i32, log_user_volume: i32, log_pan: i32) -> bool {
         self.set_volume(log_sound_volume + log_user_volume * (ATTENUATION_MIN / crate::engine::sound::VOLUME_MIN), ATTENUATION_MIN, 0);
         self.set_stereo_position(log_pan);
@@ -173,10 +178,12 @@ impl SoundSample {
         self.stream.as_ref().expect("stream").set_stereo_position(pan_log_to_linear(log_pan));
     }
 
+    // @port utils/soundsample.h|devilution::SoundSample::Mute() sha=a9e1edfb74fa
     pub fn mute(&mut self) {
         self.stream.as_ref().expect("stream").mute();
     }
 
+    // @port utils/soundsample.h|devilution::SoundSample::Unmute() sha=68b96dfddecb
     pub fn unmute(&mut self) {
         self.stream.as_ref().expect("stream").unmute();
     }

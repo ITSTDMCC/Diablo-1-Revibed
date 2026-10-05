@@ -83,11 +83,13 @@ pub struct UiList {
 
 impl UiList {
     /// `itemRect`
+    // @port DiabloUI/ui_item.h|devilution::UiList::itemRect(int i) sha=da617a1e082a
     pub fn item_rect(&self, i: i32) -> Rect {
         Rect::new(self.m_x, self.m_y + self.m_height * i, self.m_width, self.m_height)
     }
 
     /// `indexAt`
+    // @port DiabloUI/ui_item.h|devilution::UiList::indexAt(Sint16 y) sha=8ef7b12e3bb3
     pub fn index_at(&self, list_rect: Rect, y: i32) -> usize {
         debug_assert!(y >= list_rect.y);
         let index = ((y - list_rect.y) / self.m_height) as usize;
@@ -96,6 +98,7 @@ impl UiList {
     }
 
     /// `GetItem`
+    // @port DiabloUI/ui_item.h|devilution::UiList::GetItem(std::size_t i) sha=a38777be6818
     pub fn get_item(&self, i: usize) -> UiListItemRef {
         self.m_vec_items[i].clone()
     }
@@ -218,6 +221,7 @@ impl UiItem {
     }
 
     /// `GetType`
+    // @port DiabloUI/ui_item.h|devilution::UiItemBase::GetType() sha=ba540d613497
     pub fn get_type(&self) -> UiType {
         match &self.kind {
             UiKind::Text { .. } => UiType::Text,
@@ -232,10 +236,12 @@ impl UiItem {
         }
     }
 
+    // @port DiabloUI/ui_item.h|devilution::UiItemBase::IsType(UiType testType) sha=c778fdcdc880
     pub fn is_type(&self, t: UiType) -> bool {
         self.get_type() == t
     }
 
+    // @port DiabloUI/ui_item.h|devilution::UiItemBase::GetFlags() sha=ff62de79dfc4
     pub fn get_flags(&self) -> UiFlags {
         self.ui_flags
     }
@@ -244,18 +250,22 @@ impl UiItem {
         self.ui_flags = flags;
     }
 
+    // @port DiabloUI/ui_item.h|devilution::UiItemBase::IsHidden() sha=469f53f6c29a
     pub fn is_hidden(&self) -> bool {
         self.ui_flags.has(UiFlags::ELEMENT_HIDDEN)
     }
 
+    // @port DiabloUI/ui_item.h|devilution::UiItemBase::IsNotInteractive() sha=4fc43306f689
     pub fn is_not_interactive(&self) -> bool {
         self.ui_flags.has(UiFlags::ELEMENT_HIDDEN | UiFlags::ELEMENT_DISABLED)
     }
 
+    // @port DiabloUI/ui_item.h|devilution::UiItemBase::Hide() sha=fcaa70ac2a36
     pub fn hide(&mut self) {
         self.ui_flags |= UiFlags::ELEMENT_HIDDEN;
     }
 
+    // @port DiabloUI/ui_item.h|devilution::UiItemBase::Show() sha=4ad2e2d2d643
     pub fn show(&mut self) {
         self.ui_flags &= !UiFlags::ELEMENT_HIDDEN;
     }
