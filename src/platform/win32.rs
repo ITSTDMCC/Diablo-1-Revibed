@@ -149,6 +149,37 @@ pub fn show_error_message_box(caption: &str, text: &str) {
     eprintln!("{caption}: {text}");
 }
 
+/// `localtime(&t)`: (year, month 1-12, day, hour, minute, second) of a Unix time in local time.
+#[cfg(windows)]
+pub fn localtime(t: i64) -> Option<(u32, u32, u32, u32, u32, u32)> {
+    let ft: u64 = (t as u64).wrapping_mul(10_000_000).wrapping_add(116_444_736_000_000_000);
+    let mut local: u64 = 0;
+    let mut st = [0u16; 8];
+    unsafe {
+        if ffi::FileTimeToLocalFileTime(&ft, &mut local) == 0 || ffi::FileTimeToSystemTime(&local, &mut st) == 0 {
+            return None;
+        }
+    }
+    Some((st[0] as u32, st[1] as u32, st[3] as u32, st[4] as u32, st[5] as u32, st[6] as u32))
+}
+
+/// `localtime(&t)` (UTC on non-Windows builds).
+#[cfg(not(windows))]
+pub fn localtime(t: i64) -> Option<(u32, u32, u32, u32, u32, u32)> {
+    // Howard Hinnant's civil_from_days.
+    let z = t.div_euclid(86400) + 719468;
+    let era = z.div_euclid(146097);
+    let doe = z - era * 146097;
+    let yoe = (doe - doe / 1460 + doe / 36524 - doe / 146096) / 365;
+    let doy = doe - (365 * yoe + yoe / 4 - yoe / 100);
+    let mp = (5 * doy + 2) / 153;
+    let d = doy - (153 * mp + 2) / 5 + 1;
+    let m = if mp < 10 { mp + 3 } else { mp - 9 };
+    let y = yoe + era * 400 + if m <= 2 { 1 } else { 0 };
+    let s = t.rem_euclid(86400) as u32;
+    Some((y as u32, m as u32, d as u32, s / 3600, s / 60 % 60, s % 60))
+}
+
 /// `localtime(&t)`: the local hour, minute and second of a Unix time.
 #[cfg(windows)]
 pub fn localtime_hms(t: i64) -> Option<(u32, u32, u32)> {

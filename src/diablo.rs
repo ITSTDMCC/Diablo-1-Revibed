@@ -597,8 +597,9 @@ fn game_info(ctx: &mut Ctx) {
     crate::plrmsg::event_plr_msg_style(ctx, &msg, crate::engine::render::text_render::UiFlags::COLOR_WHITE);
 }
 
-/// Original: `devilution::InitPadmapActions` (diablo.cpp). As `init_keymap_actions`, the
-/// registration is complete and the action bodies are pending.
+/// Original: `devilution::InitPadmapActions` (diablo.cpp). The lambda bodies live in
+/// `controls::plrctrls`.
+// @port diablo.cpp|devilution::InitPadmapActions() sha=b3a4ffc55a91
 pub fn init_padmap_actions(ctx: &mut Ctx) {
     use crate::controls::controller_buttons::{ControllerButton as B, ControllerButtonCombo as C};
     use std::rc::Rc;

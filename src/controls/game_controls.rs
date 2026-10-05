@@ -23,7 +23,18 @@ pub enum GameActionType {
     SendKey,
 }
 
-crate::pending_fn!(pub fn to_string(ctx: &Ctx, button: ControllerButton) -> String, "controls/controller_buttons.cpp|devilution::ToString(ControllerButton button)");
+/// Original: `devilution::ToString` (controls/controller_buttons.cpp).
+// @port controls/controller_buttons.cpp|devilution::ToString(ControllerButton button) sha=b417d11f46c9
+pub fn to_string(ctx: &Ctx, button: ControllerButton) -> String {
+    use super::controller_buttons::*;
+    match ctx.controls.gamepad_type {
+        GamepadLayout::PlayStation => to_play_station_icon(button),
+        GamepadLayout::Nintendo => to_nintendo_icon(button),
+        GamepadLayout::Xbox => to_xbox_icon(button),
+        GamepadLayout::Generic => to_generic_button_text(button),
+    }
+    .to_string()
+}
 
 /// `GamepadLayout`
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Default)]

@@ -4,28 +4,111 @@
 use crate::ctx::Ctx;
 
 
-crate::pending_fn!(pub fn primary_action_pressed(ctx: &mut crate::ctx::Ctx), "diablo.cpp|devilution::InitPadmapActions() PrimaryAction lambda");
+// The bodies of the gamepad actions registered by `devilution::InitPadmapActions` (diablo.cpp).
 
-crate::pending_fn!(pub fn secondary_action_pressed(ctx: &mut crate::ctx::Ctx), "diablo.cpp|devilution::InitPadmapActions() SecondaryAction lambda");
+use super::game_controls::GameActionType;
+use crate::diablo::MouseActionType;
 
-crate::pending_fn!(pub fn spell_action_pressed(ctx: &mut crate::ctx::Ctx), "diablo.cpp|devilution::InitPadmapActions() SpellAction lambda");
+fn pad_action_down(ctx: &mut Ctx, action: GameActionType) {
+    ctx.controls.controller_action_held = action;
+    ctx.diablo.last_mouse_button_action = MouseActionType::None;
+}
 
-crate::pending_fn!(pub fn cancel_action_pressed(ctx: &mut crate::ctx::Ctx), "diablo.cpp|devilution::InitPadmapActions() CancelAction lambda");
+/// `PrimaryAction` (pressed).
+pub fn primary_action_pressed(ctx: &mut Ctx) {
+    pad_action_down(ctx, GameActionType::PrimaryAction);
+    perform_primary_action(ctx);
+}
 
-crate::pending_fn!(pub fn cancel_action_enabled(ctx: &crate::ctx::Ctx) -> bool, "diablo.cpp|devilution::InitPadmapActions() CancelAction enable lambda");
+/// `SecondaryAction` (pressed).
+pub fn secondary_action_pressed(ctx: &mut Ctx) {
+    pad_action_down(ctx, GameActionType::SecondaryAction);
+    perform_secondary_action(ctx);
+}
 
-crate::pending_fn!(pub fn controller_action_released(ctx: &mut crate::ctx::Ctx), "diablo.cpp|devilution::InitPadmapActions() action release lambda");
+/// `SpellAction` (pressed).
+pub fn spell_action_pressed(ctx: &mut Ctx) {
+    pad_action_down(ctx, GameActionType::CastSpell);
+    perform_spell_action(ctx);
+}
 
-crate::pending_fn!(pub fn pad_left_mouse_down(ctx: &mut crate::ctx::Ctx), "diablo.cpp|devilution::InitPadmapActions() leftMouseDown");
+/// `PrimaryAction` / `SecondaryAction` / `SpellAction` (released).
+pub fn controller_action_released(ctx: &mut Ctx) {
+    pad_action_down(ctx, GameActionType::None);
+}
 
-crate::pending_fn!(pub fn pad_left_mouse_up(ctx: &mut crate::ctx::Ctx), "diablo.cpp|devilution::InitPadmapActions() leftMouseUp");
+/// `CancelAction` (pressed).
+pub fn cancel_action_pressed(ctx: &mut Ctx) {
+    if ctx.doom.DoomFlag {
+        crate::doom::doom_close(ctx);
+        return;
+    }
 
-crate::pending_fn!(pub fn pad_right_mouse_down(ctx: &mut crate::ctx::Ctx), "diablo.cpp|devilution::InitPadmapActions() rightMouseDown");
+    let mut action = GameActionType::None;
+    if ctx.control.spselflag {
+        action = GameActionType::ToggleQuickSpellMenu;
+    } else if ctx.inv.invflag {
+        action = GameActionType::ToggleInventory;
+    } else if ctx.control.sbookflag {
+        action = GameActionType::ToggleSpellBook;
+    } else if ctx.quests.QuestLogIsOpen {
+        action = GameActionType::ToggleQuestLog;
+    } else if ctx.control.chrflag {
+        action = GameActionType::ToggleCharacterInfo;
+    }
+    process_game_action(ctx, action);
+}
 
-crate::pending_fn!(pub fn pad_right_mouse_up(ctx: &mut crate::ctx::Ctx), "diablo.cpp|devilution::InitPadmapActions() rightMouseUp");
+/// `CancelAction` (enabled).
+pub fn cancel_action_enabled(ctx: &Ctx) -> bool {
+    ctx.doom.DoomFlag || ctx.control.spselflag || ctx.inv.invflag || ctx.control.sbookflag || ctx.quests.QuestLogIsOpen || ctx.control.chrflag
+}
 
-crate::pending_fn!(pub fn pad_toggle_game_menu(ctx: &mut crate::ctx::Ctx), "diablo.cpp|devilution::InitPadmapActions() toggleGameMenu");
+fn pad_stand_ground(ctx: &Ctx) -> bool {
+    let stand_ground_combo = ctx.options.padmapper.button_combo_for_action("StandGround");
+    ctx.controls.stand_toggle || super::controller::is_controller_button_combo_pressed(ctx, stand_ground_combo)
+}
 
+/// `leftMouseDown`
+pub fn pad_left_mouse_down(ctx: &mut Ctx) {
+    let stand_ground = pad_stand_ground(ctx);
+    ctx.diablo.sgb_mouse_down = crate::enums::CLICK_LEFT;
+    crate::diablo_game::left_mouse_down(ctx, if stand_ground { crate::platform::events::KMOD_SHIFT } else { 0 });
+}
+
+/// `leftMouseUp`
+pub fn pad_left_mouse_up(ctx: &mut Ctx) {
+    let stand_ground = pad_stand_ground(ctx);
+    ctx.diablo.last_mouse_button_action = MouseActionType::None;
+    ctx.diablo.sgb_mouse_down = crate::enums::CLICK_NONE;
+    crate::diablo_game::left_mouse_up(ctx, if stand_ground { crate::platform::events::KMOD_SHIFT } else { 0 });
+}
+
+/// `rightMouseDown`
+pub fn pad_right_mouse_down(ctx: &mut Ctx) {
+    let stand_ground = pad_stand_ground(ctx);
+    ctx.diablo.last_mouse_button_action = MouseActionType::None;
+    ctx.diablo.sgb_mouse_down = crate::enums::CLICK_RIGHT;
+    crate::diablo_game::right_mouse_down(ctx, stand_ground);
+}
+
+/// `rightMouseUp`
+pub fn pad_right_mouse_up(ctx: &mut Ctx) {
+    ctx.diablo.last_mouse_button_action = MouseActionType::None;
+    ctx.diablo.sgb_mouse_down = crate::enums::CLICK_NONE;
+}
+
+/// `toggleGameMenu`
+pub fn pad_toggle_game_menu(ctx: &mut Ctx) {
+    let in_menu = crate::gmenu::gmenu_is_active(ctx);
+    crate::diablo_game::press_esc_key(ctx);
+    ctx.diablo.last_mouse_button_action = MouseActionType::None;
+    ctx.controls.pad_hotspell_menu_active = false;
+    ctx.controls.pad_menu_navigator_active = false;
+    if !in_menu {
+        crate::gamemenu::gamemenu_on(ctx);
+    }
+}
 
 use super::controller::ControllerButtonEvent;
 use super::ControlTypes;

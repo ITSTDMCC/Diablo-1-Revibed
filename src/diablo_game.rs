@@ -173,7 +173,7 @@ fn try_open_dungeon_with_mouse(ctx: &mut Ctx) -> bool {
 
 /// Original: `LeftMouseDown` (diablo.cpp).
 // @port diablo.cpp|devilution::LeftMouseDown(uint16_t modState) sha=073813f6a9fc
-fn left_mouse_down(ctx: &mut Ctx, mod_state: u16) {
+pub(crate) fn left_mouse_down(ctx: &mut Ctx, mod_state: u16) {
     ctx.diablo.last_mouse_button_action = MouseActionType::None;
     if crate::gmenu::gmenu_left_mouse(ctx, true) {
         return;
@@ -259,7 +259,7 @@ fn left_mouse_down(ctx: &mut Ctx, mod_state: u16) {
 
 /// Original: `LeftMouseUp` (diablo.cpp).
 // @port diablo.cpp|devilution::LeftMouseUp(uint16_t modState) sha=6e184a4487e3
-fn left_mouse_up(ctx: &mut Ctx, mod_state: u16) {
+pub(crate) fn left_mouse_up(ctx: &mut Ctx, mod_state: u16) {
     crate::gmenu::gmenu_left_mouse(ctx, false);
     crate::control::control_release_talk_btn(ctx);
     if ctx.control.panbtndown {
@@ -281,7 +281,7 @@ fn left_mouse_up(ctx: &mut Ctx, mod_state: u16) {
 
 /// Original: `RightMouseDown` (diablo.cpp).
 // @port diablo.cpp|devilution::RightMouseDown(bool isShiftHeld) sha=a60f8df05488
-fn right_mouse_down(ctx: &mut Ctx, is_shift_held: bool) {
+pub(crate) fn right_mouse_down(ctx: &mut Ctx, is_shift_held: bool) {
     ctx.diablo.last_mouse_button_action = MouseActionType::None;
     if crate::gmenu::gmenu_is_active(ctx) || ctx.diablo.sgn_timeout_curs != CURSOR_NONE || ctx.diablo.pause_mode == 2 || ctx.players.Players[me(ctx)]._pInvincible {
         return;

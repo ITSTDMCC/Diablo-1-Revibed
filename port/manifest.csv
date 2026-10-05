@@ -70,11 +70,11 @@ DiabloUI/diabloui.cpp|devilution::UiRenderItems(const std::vector<std::unique_pt
 "DiabloUI/diabloui.cpp|devilution::UiItemMouseEvents(SDL_Event *event, const std::vector<std::unique_ptr<UiItemBase>> &items)",ported,,,src/diablo_ui/diabloui.rs
 DiabloUI/diabloui.cpp|devilution::DrawMouse(),ported,,,src/diablo_ui/diabloui.rs
 DiabloUI/diabloui.h|devilution::DiabloUiSurface(),pending,,,
-DiabloUI/dialogs.cpp|devilution::DialogActionOK(),pending,,,
-"DiabloUI/dialogs.cpp|devilution::LoadDialogSprite(bool hasCaption, bool isError)",pending,,,
-"DiabloUI/dialogs.cpp|devilution::Init(string_view caption, string_view text, bool error, bool renderBehind)",pending,,,
-DiabloUI/dialogs.cpp|devilution::Deinit(),pending,,,
-"DiabloUI/dialogs.cpp|devilution::DialogLoop(const std::vector<std::unique_ptr<UiItemBase>> &items, const std::vector<std::unique_ptr<UiItemBase>> &renderBehind)",pending,,,
+DiabloUI/dialogs.cpp|devilution::DialogActionOK(),ported,,,src/diablo_ui/dialogs.rs
+"DiabloUI/dialogs.cpp|devilution::LoadDialogSprite(bool hasCaption, bool isError)",ported,,,src/diablo_ui/dialogs.rs
+"DiabloUI/dialogs.cpp|devilution::Init(string_view caption, string_view text, bool error, bool renderBehind)",ported,,,src/diablo_ui/dialogs.rs
+DiabloUI/dialogs.cpp|devilution::Deinit(),ported,,,src/diablo_ui/dialogs.rs
+"DiabloUI/dialogs.cpp|devilution::DialogLoop(const std::vector<std::unique_ptr<UiItemBase>> &items, const std::vector<std::unique_ptr<UiItemBase>> &renderBehind)",ported,,,src/diablo_ui/dialogs.rs
 "DiabloUI/dialogs.cpp|devilution::UiOkDialog(string_view caption, string_view text, bool error, const std::vector<std::unique_ptr<UiItemBase>> &renderBehind)",ported,,,src/diablo_ui/dialogs.rs
 "DiabloUI/dialogs.cpp|devilution::UiErrorOkDialog(string_view caption, string_view text, const std::vector<std::unique_ptr<UiItemBase>> &renderBehind)",pending,,,
 "DiabloUI/dialogs.cpp|devilution::UiErrorOkDialog(string_view caption, string_view text, bool error)",ported,,,src/diablo_ui/dialogs.rs
@@ -283,13 +283,13 @@ automap.cpp|devilution::DrawAutomap(const Surface &out),ported,,,src/automap.rs
 "automap.cpp|devilution::SetAutomapView(Point position, MapExplorationType explorer)",ported,,,src/automap.rs
 automap.cpp|devilution::AutomapZoomReset(),ported,,,src/automap.rs
 automap.h|devilution::AmLine(int x),ported,,,src/automap.rs
-"capture.cpp|devilution::CaptureHdr(int16_t width, int16_t height, FILE *out)",pending,,,
-"capture.cpp|devilution::CapturePal(SDL_Color *palette, FILE *out)",pending,,,
-"capture.cpp|devilution::CaptureEnc(uint8_t *src, uint8_t *dst, int width)",pending,,,
-"capture.cpp|devilution::CapturePix(const Surface &buf, FILE *out)",pending,,,
-capture.cpp|devilution::CaptureFile(std::string *dstPath),pending,,,
-capture.cpp|devilution::RedPalette(),pending,,,
-capture.cpp|devilution::CaptureScreen(),pending,,,
+"capture.cpp|devilution::CaptureHdr(int16_t width, int16_t height, FILE *out)",ported,,,src/capture.rs
+"capture.cpp|devilution::CapturePal(SDL_Color *palette, FILE *out)",ported,,,src/capture.rs
+"capture.cpp|devilution::CaptureEnc(uint8_t *src, uint8_t *dst, int width)",ported,,,src/capture.rs
+"capture.cpp|devilution::CapturePix(const Surface &buf, FILE *out)",ported,,,src/capture.rs
+capture.cpp|devilution::CaptureFile(std::string *dstPath),ported,,,src/capture.rs
+capture.cpp|devilution::RedPalette(),ported,,,src/capture.rs
+capture.cpp|devilution::CaptureScreen(),ported,,,src/capture.rs
 codec.cpp|devilution::CodecInitKey(const char *pszPassword),ported,,,src/codec.rs
 codec.cpp|devilution::GetCodecSignature(byte *src),pending,,,
 "codec.cpp|devilution::SetCodecSignature(byte *dst, CodecSignature sig)",pending,,,
@@ -380,11 +380,11 @@ controls/controller.cpp|devilution::IsControllerButtonPressed(ControllerButton b
 controls/controller.cpp|devilution::IsControllerButtonComboPressed(ControllerButtonCombo combo),ported,,,src/controls/controller.rs
 controls/controller.cpp|devilution::HandleControllerAddedOrRemovedEvent(const SDL_Event &event),ported,,,src/controls/controller.rs
 "controls/controller.h|devilution::ControllerButtonEvent::ControllerButtonEvent(ControllerButton button, bool up)",pending,,,
-controls/controller_buttons.cpp|devilution::ToPlayStationIcon(ControllerButton button),pending,,,
-controls/controller_buttons.cpp|devilution::ToNintendoIcon(ControllerButton button),pending,,,
-controls/controller_buttons.cpp|devilution::ToXboxIcon(ControllerButton button),pending,,,
-controls/controller_buttons.cpp|devilution::ToGenericButtonText(ControllerButton button),pending,,,
-controls/controller_buttons.cpp|devilution::ToString(ControllerButton button),pending,,,
+controls/controller_buttons.cpp|devilution::ToPlayStationIcon(ControllerButton button),ported,,,src/controls/controller_buttons.rs
+controls/controller_buttons.cpp|devilution::ToNintendoIcon(ControllerButton button),ported,,,src/controls/controller_buttons.rs
+controls/controller_buttons.cpp|devilution::ToXboxIcon(ControllerButton button),ported,,,src/controls/controller_buttons.rs
+controls/controller_buttons.cpp|devilution::ToGenericButtonText(ControllerButton button),ported,,,src/controls/controller_buttons.rs
+controls/controller_buttons.cpp|devilution::ToString(ControllerButton button),ported,,,src/controls/game_controls.rs
 controls/controller_buttons.h|devilution::ControllerButtonCombo::ControllerButtonCombo(),pending,,,
 controls/controller_buttons.h|devilution::ControllerButtonCombo::ControllerButtonCombo(ControllerButton button),pending,,,
 "controls/controller_buttons.h|devilution::ControllerButtonCombo::ControllerButtonCombo(ControllerButton modifier, ControllerButton button)",pending,,,
@@ -691,7 +691,7 @@ diablo.cpp|devilution::IsPlayerDead(),ported,,,src/diablo_game.rs
 diablo.cpp|devilution::IsGameRunning(),ported,,,src/diablo_game.rs
 diablo.cpp|devilution::CanPlayerTakeAction(),ported,,,src/diablo_game.rs
 diablo.cpp|devilution::InitKeymapActions(),ported,,,src/diablo.rs
-diablo.cpp|devilution::InitPadmapActions(),pending,,,
+diablo.cpp|devilution::InitPadmapActions(),ported,,,src/diablo.rs
 diablo.cpp|devilution::SetCursorPos(Point position),ported,,,src/controls/mod.rs
 diablo.cpp|devilution::FreeGameMem(),ported,,,src/diablo.rs
 "diablo.cpp|devilution::StartGame(bool bNewGame, bool bSinglePlayer)",ported,,,src/diablo_game.rs
