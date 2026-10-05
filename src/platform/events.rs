@@ -19,6 +19,8 @@ pub enum Event {
     Custom(crate::enums::interface_mode),
     /// Test hook (input script `warp <level>`): enter that dungeon level as if taking the stairs down.
     TestWarp(i32),
+    /// Test hook (input script `setwarp <setlevel> <dungeon type>`): enter that quest level.
+    TestSetWarp(i32, i32),
 }
 
 pub const BUTTON_LEFT: u8 = 1;

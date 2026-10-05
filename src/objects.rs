@@ -1975,7 +1975,7 @@ fn are_all_levers_activated(ctx: &Ctx, lever_id: i32) -> bool {
 
 /// `ObjectAtPosition`: the object whose tile (or large-object footprint) covers `position`.
 // @port objects.h|devilution::ObjectAtPosition(Point position) sha=f5d485084297
-fn object_at_position(ctx: &Ctx, position: Point) -> usize {
+pub fn object_at_position(ctx: &Ctx, position: Point) -> usize {
     (ctx.gendung.dObject[position.x as usize][position.y as usize] as i32).unsigned_abs() as usize - 1
 }
 

@@ -2195,13 +2195,13 @@ levels/gendung.h|devilution::IsTileVisible(Point position),ported,,,src/levels/g
 levels/gendung.h|devilution::IsTileLit(Point position),ported,,,src/levels/gendung.rs
 "levels/gendung.h|devilution::Miniset::matches(WorldTilePosition position, bool respectProtected = true)",ported,,,src/levels/gendung.rs
 "levels/gendung.h|devilution::Miniset::place(WorldTilePosition position, bool protect = false)",ported,,,src/levels/gendung.rs
-levels/setmaps.cpp|devilution::AddSKingObjs(),pending,,,
-levels/setmaps.cpp|devilution::AddSChamObjs(),pending,,,
-levels/setmaps.cpp|devilution::AddVileObjs(),pending,,,
-levels/setmaps.cpp|devilution::SetMapTransparency(const char *path),pending,,,
-"levels/setmaps.cpp|devilution::LoadCustomMap(const char *path, Point viewPosition)",pending,,,
-"levels/setmaps.cpp|devilution::LoadArenaMap(const char *path, Point viewPosition, Point exitTrigger)",pending,,,
-levels/setmaps.cpp|devilution::LoadSetMap(),pending,,,
+levels/setmaps.cpp|devilution::AddSKingObjs(),ported,,,src/levels/setmaps.rs
+levels/setmaps.cpp|devilution::AddSChamObjs(),ported,,,src/levels/setmaps.rs
+levels/setmaps.cpp|devilution::AddVileObjs(),ported,,,src/levels/setmaps.rs
+levels/setmaps.cpp|devilution::SetMapTransparency(const char *path),ported,,,src/levels/setmaps.rs
+"levels/setmaps.cpp|devilution::LoadCustomMap(const char *path, Point viewPosition)",ported,,,src/levels/setmaps.rs
+"levels/setmaps.cpp|devilution::LoadArenaMap(const char *path, Point viewPosition, Point exitTrigger)",ported,,,src/levels/setmaps.rs
+levels/setmaps.cpp|devilution::LoadSetMap(),ported,,,src/levels/setmaps.rs
 levels/themes.cpp|devilution::TFit_Shrine(int i),ported,,,src/levels/themes.rs
 "levels/themes.cpp|devilution::CheckThemeObj5(Point origin, int8_t regionId)",ported,,,src/levels/themes.rs
 levels/themes.cpp|devilution::TFit_Obj5(int t),ported,,,src/levels/themes.rs

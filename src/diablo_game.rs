@@ -590,6 +590,13 @@ pub fn game_event_handler(ctx: &mut Ctx, event: &Event, mod_state: u16) {
                 crate::player::start_new_lvl(ctx, me, WM_DIABNEXTLVL, *lvl);
             }
         }
+        Event::TestSetWarp(lvl, ltype) => {
+            // Test hook: behave like entering quest level `lvl` (of dungeon type `ltype`) from its trigger.
+            if let Some(me) = ctx.players.MyPlayer {
+                ctx.gendung.setlvltype = crate::levels::gendung::DungeonType::from_i8(*ltype as i8);
+                crate::player::start_new_lvl(ctx, me, WM_DIABSETLVL, *lvl);
+            }
+        }
         Event::Custom(mode) => {
             if ctx.init.gb_is_multiplayer {
                 crate::pfile::pfile_write_hero(ctx, true);
