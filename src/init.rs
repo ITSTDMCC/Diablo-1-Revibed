@@ -110,7 +110,7 @@ fn are_extra_fonts_out_of_date_archive(ctx: &mut Ctx) -> bool {
 pub fn init_cleanup(ctx: &mut Ctx) {
     if ctx.init.gb_is_multiplayer && ctx.diablo.gb_run_game {
         crate::pfile::pfile_write_hero(ctx, false);
-        crate::qol::stash::sfile_write_stash(ctx);
+        crate::pfile::sfile_write_stash(ctx);
     }
     ctx.init.archives = Archives::default();
     crate::multi::net_close(ctx);

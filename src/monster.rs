@@ -98,6 +98,12 @@ impl Monster {
     pub fn is_unique(&self) -> bool {
         self.uniqueType != UniqueMonsterType::None
     }
+
+    /// Original: `Monster::isPlayerMinion` (monster.cpp).
+    // @port monster.cpp|devilution::Monster::isPlayerMinion() sha=b5440c18f430
+    pub fn is_player_minion(&self) -> bool {
+        (self.flags & MFLAG_GOLEM as u32) != 0 && (self.flags & MFLAG_BERSERK as u32) == 0
+    }
 }
 
 /// Globals of monster.cpp.
@@ -165,6 +171,64 @@ pub fn monster_level(ctx: &Ctx, m: usize, difficulty: _difficulty) -> u32 {
     }
     base_level
 }
+
+const NightmareToHitBonus: u32 = 85;
+const HellToHitBonus: u32 = 120;
+
+/// Original: `Monster::getVisualMonsterMode` (monster.cpp).
+// @port monster.cpp|devilution::Monster::getVisualMonsterMode() sha=1d03c63af0d2
+pub fn get_visual_monster_mode(ctx: &Ctx, m: usize) -> MonsterMode {
+    let mode = ctx.monster.Monsters[m].mode;
+    if mode != MonsterMode::Petrified {
+        return mode;
+    }
+    for missile in ctx.missiles.Missiles.iter() {
+        if missile._mitype == MissileID::StoneCurse && missile.var2 as usize == m {
+            return MonsterMode::from_raw(missile.var1 as u8);
+        }
+    }
+    MonsterMode::Petrified
+}
+
+/// Original: `Monster::isWalking` (monster.cpp).
+// @port monster.cpp|devilution::Monster::isWalking() sha=d84d130aeb7a
+pub fn is_walking(ctx: &Ctx, m: usize) -> bool {
+    matches!(get_visual_monster_mode(ctx, m), MonsterMode::MoveNorthwards | MonsterMode::MoveSouthwards | MonsterMode::MoveSideways)
+}
+
+/// Original: `Monster::toHitSpecial` (monster.cpp).
+// @port monster.cpp|devilution::Monster::toHitSpecial(_difficulty difficulty) sha=cb47955b3224
+pub fn to_hit_special(ctx: &Ctx, m: usize, difficulty: _difficulty) -> u32 {
+    let mon = &ctx.monster.Monsters[m];
+    let mut base_to_hit_special = monster_data(ctx, m).toHitSpecial as u32;
+    if mon.is_unique() && UniqueMonstersData[mon.uniqueType as u8 as usize].customToHit != 0 {
+        base_to_hit_special = UniqueMonstersData[mon.uniqueType as u8 as usize].customToHit as u32;
+    }
+    if difficulty == DIFF_NIGHTMARE {
+        base_to_hit_special += NightmareToHitBonus;
+    } else if difficulty == DIFF_HELL {
+        base_to_hit_special += HellToHitBonus;
+    }
+    base_to_hit_special
+}
+
+/// Original: `Monster::exp` (monster.h).
+// @port monster.h|devilution::Monster::exp(_difficulty difficulty) sha=cdc47f00d80e
+pub fn monster_exp(ctx: &Ctx, m: usize, difficulty: _difficulty) -> u32 {
+    let mut monster_exp = monster_data(ctx, m).exp as u32;
+    if difficulty == DIFF_NIGHTMARE {
+        monster_exp = 2 * (monster_exp + 1000);
+    } else if difficulty == DIFF_HELL {
+        monster_exp = 4 * (monster_exp + 1000);
+    }
+    if ctx.monster.Monsters[m].is_unique() {
+        monster_exp *= 2;
+    }
+    monster_exp
+}
+
+crate::pending_fn!(pub fn sync_monster_anim(ctx: &mut Ctx, m: usize), "monster.cpp|devilution::SyncMonsterAnim(Monster &monster)");
+crate::pending_fn!(pub fn is_diablo_alive(ctx: &mut Ctx, play_sfx: bool) -> bool, "monster.cpp|devilution::IsDiabloAlive(bool playSFX)");
 
 /// Original: `devilution::FreeMonsters` (monster.cpp).
 // @port monster.cpp|devilution::FreeMonsters() sha=924991731d90

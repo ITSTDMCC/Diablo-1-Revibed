@@ -1977,33 +1977,60 @@ impl std::ops::Not for MissileDataFlags {
 }
 
 // misdat.h
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
-#[repr(u8)]
-pub enum MissileGraphicsFlags {
-    None = 0,
-    MonsterOwned = 1,
-    NotAnimated = 2,
-}
-impl Default for MissileGraphicsFlags {
-    fn default() -> Self {
-        MissileGraphicsFlags::None
-    }
-}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Default, PartialOrd, Ord)]
+pub struct MissileGraphicsFlags(pub u8);
 impl MissileGraphicsFlags {
-    pub const fn from_repr(v: u8) -> Option<MissileGraphicsFlags> {
-        match v {
-            0 => Some(MissileGraphicsFlags::None),
-            1 => Some(MissileGraphicsFlags::MonsterOwned),
-            2 => Some(MissileGraphicsFlags::NotAnimated),
-            _ => Option::None,
-        }
+    pub const None_: MissileGraphicsFlags = MissileGraphicsFlags(0);
+    pub const None: MissileGraphicsFlags = MissileGraphicsFlags(0);
+    pub const MonsterOwned: MissileGraphicsFlags = MissileGraphicsFlags(1);
+    pub const NotAnimated: MissileGraphicsFlags = MissileGraphicsFlags(2);
+    pub const fn has_any_of(self, f: Self) -> bool {
+        self.0 & f.0 != 0
     }
-    /// Panics on a value that is not an enumerator (the C++ cast would be UB-adjacent).
-    pub fn from_raw(v: u8) -> MissileGraphicsFlags {
-        Self::from_repr(v).unwrap_or_else(|| panic!("invalid MissileGraphicsFlags {v}"))
+    pub const fn has_none_of(self, f: Self) -> bool {
+        self.0 & f.0 == 0
     }
-    pub const fn raw(self) -> u8 {
-        self as u8
+    pub const fn has_all_of(self, f: Self) -> bool {
+        self.0 & f.0 == f.0
+    }
+}
+impl std::ops::BitOr for MissileGraphicsFlags {
+    type Output = MissileGraphicsFlags;
+    fn bitor(self, o: MissileGraphicsFlags) -> MissileGraphicsFlags {
+        MissileGraphicsFlags(self.0 | o.0)
+    }
+}
+impl std::ops::BitOrAssign for MissileGraphicsFlags {
+    fn bitor_assign(&mut self, o: MissileGraphicsFlags) {
+        self.0 = self.0 | o.0;
+    }
+}
+impl std::ops::BitAnd for MissileGraphicsFlags {
+    type Output = MissileGraphicsFlags;
+    fn bitand(self, o: MissileGraphicsFlags) -> MissileGraphicsFlags {
+        MissileGraphicsFlags(self.0 & o.0)
+    }
+}
+impl std::ops::BitAndAssign for MissileGraphicsFlags {
+    fn bitand_assign(&mut self, o: MissileGraphicsFlags) {
+        self.0 = self.0 & o.0;
+    }
+}
+impl std::ops::BitXor for MissileGraphicsFlags {
+    type Output = MissileGraphicsFlags;
+    fn bitxor(self, o: MissileGraphicsFlags) -> MissileGraphicsFlags {
+        MissileGraphicsFlags(self.0 ^ o.0)
+    }
+}
+impl std::ops::BitXorAssign for MissileGraphicsFlags {
+    fn bitxor_assign(&mut self, o: MissileGraphicsFlags) {
+        self.0 = self.0 ^ o.0;
+    }
+}
+impl std::ops::Not for MissileGraphicsFlags {
+    type Output = MissileGraphicsFlags;
+    fn not(self) -> MissileGraphicsFlags {
+        MissileGraphicsFlags(!self.0)
     }
 }
 

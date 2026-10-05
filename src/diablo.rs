@@ -59,6 +59,8 @@ pub struct DiabloState {
     pub game_was_already_paused: bool,
     /// `MinimizePaused`
     pub minimize_paused: bool,
+    /// `glSeedTbl`
+    pub glSeedTbl: [u32; crate::player::NUMLEVELS],
 }
 
 /// `MouseActionType`
@@ -107,6 +109,7 @@ impl Default for DiabloState {
             last_mouse_button_action: MouseActionType::None,
             game_was_already_paused: false,
             minimize_paused: false,
+            glSeedTbl: [0; crate::player::NUMLEVELS],
         }
     }
 }
@@ -702,3 +705,5 @@ pub fn diablo_focus_unpause(ctx: &mut Ctx) {
 }
 
 crate::pending_fn!(pub fn start_game(ctx: &mut Ctx, b_new_game: bool, b_single_player: bool) -> bool, "diablo.cpp|devilution::StartGame(bool bNewGame, bool bSinglePlayer)");
+
+crate::pending_fn!(pub fn load_game_level(ctx: &mut Ctx, first_flag: bool, lvldir: crate::enums::lvl_entry), "diablo.cpp|devilution::LoadGameLevel(bool firstflag, lvl_entry lvldir)");

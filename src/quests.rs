@@ -59,3 +59,5 @@ crate::pending_fn!(pub fn use_multiplayer_quests(ctx: &Ctx) -> bool, "quests.cpp
 crate::pending_fn!(pub fn opens_hive(ctx: &Ctx, position: Point) -> bool, "items.cpp|devilution::OpensHive(Point position)");
 crate::pending_fn!(pub fn opens_grave(ctx: &Ctx, position: Point) -> bool, "items.cpp|devilution::OpensGrave(Point position)");
 crate::pending_fn!(pub fn init_quests(ctx: &mut Ctx), "quests.cpp|devilution::InitQuests()");
+
+crate::pending_fn!(pub fn resync_quests(ctx: &mut Ctx), "quests.cpp|devilution::ResyncQuests()");

@@ -290,14 +290,14 @@ automap.h|devilution::AmLine(int x),pending,,,
 capture.cpp|devilution::CaptureFile(std::string *dstPath),pending,,,
 capture.cpp|devilution::RedPalette(),pending,,,
 capture.cpp|devilution::CaptureScreen(),pending,,,
-codec.cpp|devilution::CodecInitKey(const char *pszPassword),pending,,,
+codec.cpp|devilution::CodecInitKey(const char *pszPassword),ported,,,src/codec.rs
 codec.cpp|devilution::GetCodecSignature(byte *src),pending,,,
 "codec.cpp|devilution::SetCodecSignature(byte *dst, CodecSignature sig)",pending,,,
 codec.cpp|devilution::ByteSwapBlock(uint32_t *data),pending,,,
-"codec.cpp|devilution::XorBlock(const uint32_t *shaResult, uint32_t *out)",pending,,,
-"codec.cpp|devilution::codec_decode(byte *pbSrcDst, std::size_t size, const char *pszPassword)",pending,,,
-codec.cpp|devilution::codec_get_encoded_len(std::size_t dwSrcBytes),pending,,,
-"codec.cpp|devilution::codec_encode(byte *pbSrcDst, std::size_t size, std::size_t size64, const char *pszPassword)",pending,,,
+"codec.cpp|devilution::XorBlock(const uint32_t *shaResult, uint32_t *out)",ported,,,src/codec.rs
+"codec.cpp|devilution::codec_decode(byte *pbSrcDst, std::size_t size, const char *pszPassword)",ported,,,src/codec.rs
+codec.cpp|devilution::codec_get_encoded_len(std::size_t dwSrcBytes),ported,,,src/codec.rs
+"codec.cpp|devilution::codec_encode(byte *pbSrcDst, std::size_t size, std::size_t size64, const char *pszPassword)",ported,,,src/codec.rs
 control.cpp|devilution::GetMainPanel(),ported,,,src/control.rs
 control.cpp|devilution::GetLeftPanel(),ported,,,src/control.rs
 control.cpp|devilution::GetRightPanel(),ported,,,src/control.rs
@@ -976,7 +976,7 @@ effects_stubs.cpp|devilution::GetSFXLength(int nSFX),replaced,none,NOSOUND build
 "encrypt.cpp|devilution::Decrypt(uint32_t *castBlock, uint32_t size, uint32_t key)",ported,,,src/encrypt.rs
 "encrypt.cpp|devilution::Encrypt(uint32_t *castBlock, uint32_t size, uint32_t key)",ported,,,src/encrypt.rs
 "encrypt.cpp|devilution::Hash(const char *s, int type)",ported,,,src/encrypt.rs
-"encrypt.cpp|devilution::PkwareCompress(byte *srcData, uint32_t size)",pending,,,
+"encrypt.cpp|devilution::PkwareCompress(byte *srcData, uint32_t size)",ported,,,src/encrypt.rs
 "encrypt.cpp|devilution::PkwareDecompress(byte *inBuff, uint32_t recvSize, int maxBytes)",ported,,,src/encrypt.rs
 "engine.cpp|devilution::DrawHalfTransparentUnalignedBlendedRectTo(const Surface &out, unsigned sx, unsigned sy, unsigned width, unsigned height)",ported,,,src/engine/mod.rs
 "engine.cpp|devilution::DrawHalfTransparentAligned32BlendedRectTo(const Surface &out, unsigned sx, unsigned sy, unsigned width, unsigned height)",pending,,,
@@ -1770,8 +1770,8 @@ inv.cpp|devilution::RoomForGold(),pending,,,
 "inv.cpp|devilution::SyncGetItem(Point position, uint32_t iseed, _item_indexes idx, uint16_t ci)",pending,,,
 inv.cpp|devilution::CanPut(Point position),pending,,,
 "inv.cpp|devilution::ClampDurability(const Item &item, int durability)",ported,,,src/inv.rs
-"inv.cpp|devilution::ClampToHit(const Item &item, int16_t toHit)",pending,,,
-"inv.cpp|devilution::ClampMaxDam(const Item &item, uint8_t maxDam)",pending,,,
+"inv.cpp|devilution::ClampToHit(const Item &item, int16_t toHit)",ported,,,src/inv.rs
+"inv.cpp|devilution::ClampMaxDam(const Item &item, uint8_t maxDam)",ported,,,src/inv.rs
 "inv.cpp|devilution::SyncDropItem(Point position, _item_indexes idx, uint16_t icreateinfo, int iseed, int id, int dur, int mdur, int ch, int mch, int ivalue, uint32_t ibuff, int toHit, int maxDam)",pending,,,
 "inv.cpp|devilution::SyncDropEar(Point position, uint16_t icreateinfo, uint32_t iseed, uint8_t cursval, string_view heroname)",pending,,,
 inv.cpp|devilution::CheckInvHLight(),pending,,,
@@ -2311,7 +2311,7 @@ lighting.cpp|devilution::lighting_color_cycling(),ported,,,src/lighting.rs
 loadsave.cpp|devilution::SwapLE(T in),pending,,,
 loadsave.cpp|devilution::SwapBE(T in),pending,,,
 loadsave.cpp|devilution::LoadHelper::Next(),pending,,,
-"loadsave.cpp|devilution::LoadHelper::LoadHelper(std::optional<SaveReader> archive, const char *szFileName)",pending,,,
+"loadsave.cpp|devilution::LoadHelper::LoadHelper(std::optional<SaveReader> archive, const char *szFileName)",ported,,,src/loadsave.rs
 loadsave.cpp|devilution::LoadHelper::IsValid(size_t size = 1),pending,,,
 loadsave.cpp|devilution::LoadHelper::Skip(size_t count = 1),pending,,,
 loadsave.cpp|devilution::LoadHelper::Skip(size_t size),pending,,,
@@ -2321,70 +2321,70 @@ loadsave.cpp|devilution::LoadHelper::NextBE(),pending,,,
 loadsave.cpp|devilution::LoadHelper::NextLENarrow(TSource modifier = 0),pending,,,
 loadsave.cpp|devilution::LoadHelper::NextBool8(),pending,,,
 loadsave.cpp|devilution::LoadHelper::NextBool32(),pending,,,
-"loadsave.cpp|devilution::SaveHelper::SaveHelper(SaveWriter &mpqWriter, const char *szFileName, size_t bufferLen)",pending,,,
+"loadsave.cpp|devilution::SaveHelper::SaveHelper(SaveWriter &mpqWriter, const char *szFileName, size_t bufferLen)",ported,,,src/loadsave.rs
 loadsave.cpp|devilution::SaveHelper::IsValid(size_t len = 1),pending,,,
 loadsave.cpp|devilution::SaveHelper::Skip(size_t count = 1),pending,,,
 loadsave.cpp|devilution::SaveHelper::Skip(size_t len),pending,,,
 "loadsave.cpp|devilution::SaveHelper::WriteBytes(const void *bytes, size_t len)",pending,,,
 loadsave.cpp|devilution::SaveHelper::WriteLE(T value),pending,,,
 loadsave.cpp|devilution::SaveHelper::WriteBE(T value),pending,,,
-loadsave.cpp|devilution::SaveHelper::~SaveHelper(),pending,,,
-"loadsave.cpp|devilution::LoadItemData(LoadHelper &file, Item &item)",pending,,,
-"loadsave.cpp|devilution::LoadAndValidateItemData(LoadHelper &file, Item &item)",pending,,,
-"loadsave.cpp|devilution::LoadPlayer(LoadHelper &file, Player &player)",pending,,,
-"loadsave.cpp|devilution::LoadMonster(LoadHelper *file, Monster &monster, MonsterConversionData *monsterConversionData = nullptr)",pending,,,
-loadsave.cpp|devilution::SyncPackSize(Monster &leader),pending,,,
-loadsave.cpp|devilution::LoadMissile(LoadHelper *file),pending,,,
-loadsave.cpp|devilution::ConvertFromHellfireObject(_object_id type),pending,,,
-"loadsave.cpp|devilution::LoadObject(LoadHelper &file, Object &object)",pending,,,
-"loadsave.cpp|devilution::LoadItem(LoadHelper &file, Item &item)",pending,,,
-"loadsave.cpp|devilution::LoadPremium(LoadHelper &file, int i)",pending,,,
-"loadsave.cpp|devilution::LoadQuest(LoadHelper *file, int i)",pending,,,
-"loadsave.cpp|devilution::LoadLighting(LoadHelper *file, Light *pLight)",pending,,,
-"loadsave.cpp|devilution::LoadPortal(LoadHelper *file, int i)",pending,,,
-"loadsave.cpp|devilution::GetLevelNames(string_view prefix, char *out)",pending,,,
-loadsave.cpp|devilution::GetTempLevelNames(char *szTemp),pending,,,
-loadsave.cpp|devilution::GetPermLevelNames(char *szPerm),pending,,,
-loadsave.cpp|devilution::LevelFileExists(SaveWriter &archive),pending,,,
-loadsave.cpp|devilution::IsShopPriceValid(const Item &item),pending,,,
-"loadsave.cpp|devilution::LoadMatchingItems(LoadHelper &file, const Player &player, const int n, Item *pItem)",pending,,,
-"loadsave.cpp|devilution::LoadDroppedItems(LoadHelper &file, size_t savedItemCount)",pending,,,
-loadsave.cpp|devilution::getHellfireLevelType(int type),pending,,,
-"loadsave.cpp|devilution::SaveItem(SaveHelper &file, const Item &item)",pending,,,
-"loadsave.cpp|devilution::SavePlayer(SaveHelper &file, const Player &player)",pending,,,
-"loadsave.cpp|devilution::SaveMonster(SaveHelper *file, Monster &monster, MonsterConversionData *monsterConversionData = nullptr)",pending,,,
-"loadsave.cpp|devilution::SaveMissile(SaveHelper *file, const Missile &missile)",pending,,,
-loadsave.cpp|devilution::ConvertToHellfireObject(_object_id type),pending,,,
-"loadsave.cpp|devilution::SaveObject(SaveHelper &file, const Object &object)",pending,,,
-"loadsave.cpp|devilution::SaveQuest(SaveHelper *file, int i)",pending,,,
-"loadsave.cpp|devilution::SaveLighting(SaveHelper *file, Light *pLight, bool vision = false)",pending,,,
-"loadsave.cpp|devilution::SavePortal(SaveHelper *file, int i)",pending,,,
-loadsave.cpp|devilution::SaveDroppedItems(SaveHelper &file),pending,,,
-"loadsave.cpp|devilution::SaveDroppedItemLocations(SaveHelper &file, const std::unordered_map<uint8_t, uint8_t> &itemIndexes)",pending,,,
-loadsave.cpp|devilution::SaveAdditionalMissiles(SaveWriter &saveWriter),pending,,,
-loadsave.cpp|devilution::LoadAdditionalMissiles(),pending,,,
-"loadsave.cpp|devilution::SaveLevel(SaveWriter &saveWriter, LevelConversionData *levelConversionData)",pending,,,
-loadsave.cpp|devilution::LoadLevel(LevelConversionData *levelConversionData),pending,,,
-loadsave.cpp|devilution::ConvertLevels(SaveWriter &saveWriter),pending,,,
-loadsave.cpp|devilution::RemoveInvalidItem(Item &item),pending,,,
+loadsave.cpp|devilution::SaveHelper::~SaveHelper(),ported,,,src/loadsave.rs
+"loadsave.cpp|devilution::LoadItemData(LoadHelper &file, Item &item)",ported,,,src/loadsave.rs
+"loadsave.cpp|devilution::LoadAndValidateItemData(LoadHelper &file, Item &item)",ported,,,src/loadsave.rs
+"loadsave.cpp|devilution::LoadPlayer(LoadHelper &file, Player &player)",ported,,,src/loadsave.rs
+"loadsave.cpp|devilution::LoadMonster(LoadHelper *file, Monster &monster, MonsterConversionData *monsterConversionData = nullptr)",ported,,,src/loadsave.rs
+loadsave.cpp|devilution::SyncPackSize(Monster &leader),ported,,,src/loadsave.rs
+loadsave.cpp|devilution::LoadMissile(LoadHelper *file),ported,,,src/loadsave.rs
+loadsave.cpp|devilution::ConvertFromHellfireObject(_object_id type),ported,,,src/loadsave.rs
+"loadsave.cpp|devilution::LoadObject(LoadHelper &file, Object &object)",ported,,,src/loadsave.rs
+"loadsave.cpp|devilution::LoadItem(LoadHelper &file, Item &item)",ported,,,src/loadsave.rs
+"loadsave.cpp|devilution::LoadPremium(LoadHelper &file, int i)",ported,,,src/loadsave.rs
+"loadsave.cpp|devilution::LoadQuest(LoadHelper *file, int i)",ported,,,src/loadsave.rs
+"loadsave.cpp|devilution::LoadLighting(LoadHelper *file, Light *pLight)",ported,,,src/loadsave.rs
+"loadsave.cpp|devilution::LoadPortal(LoadHelper *file, int i)",ported,,,src/loadsave.rs
+"loadsave.cpp|devilution::GetLevelNames(string_view prefix, char *out)",ported,,,src/loadsave.rs
+loadsave.cpp|devilution::GetTempLevelNames(char *szTemp),ported,,,src/loadsave.rs
+loadsave.cpp|devilution::GetPermLevelNames(char *szPerm),ported,,,src/loadsave.rs
+loadsave.cpp|devilution::LevelFileExists(SaveWriter &archive),ported,,,src/loadsave.rs
+loadsave.cpp|devilution::IsShopPriceValid(const Item &item),ported,,,src/loadsave.rs
+"loadsave.cpp|devilution::LoadMatchingItems(LoadHelper &file, const Player &player, const int n, Item *pItem)",ported,,,src/loadsave.rs
+"loadsave.cpp|devilution::LoadDroppedItems(LoadHelper &file, size_t savedItemCount)",ported,,,src/loadsave.rs
+loadsave.cpp|devilution::getHellfireLevelType(int type),ported,,,src/loadsave.rs
+"loadsave.cpp|devilution::SaveItem(SaveHelper &file, const Item &item)",ported,,,src/loadsave.rs
+"loadsave.cpp|devilution::SavePlayer(SaveHelper &file, const Player &player)",ported,,,src/loadsave.rs
+"loadsave.cpp|devilution::SaveMonster(SaveHelper *file, Monster &monster, MonsterConversionData *monsterConversionData = nullptr)",ported,,,src/loadsave.rs
+"loadsave.cpp|devilution::SaveMissile(SaveHelper *file, const Missile &missile)",ported,,,src/loadsave.rs
+loadsave.cpp|devilution::ConvertToHellfireObject(_object_id type),ported,,,src/loadsave.rs
+"loadsave.cpp|devilution::SaveObject(SaveHelper &file, const Object &object)",ported,,,src/loadsave.rs
+"loadsave.cpp|devilution::SaveQuest(SaveHelper *file, int i)",ported,,,src/loadsave.rs
+"loadsave.cpp|devilution::SaveLighting(SaveHelper *file, Light *pLight, bool vision = false)",ported,,,src/loadsave.rs
+"loadsave.cpp|devilution::SavePortal(SaveHelper *file, int i)",ported,,,src/loadsave.rs
+loadsave.cpp|devilution::SaveDroppedItems(SaveHelper &file),ported,,,src/loadsave.rs
+"loadsave.cpp|devilution::SaveDroppedItemLocations(SaveHelper &file, const std::unordered_map<uint8_t, uint8_t> &itemIndexes)",ported,,,src/loadsave.rs
+loadsave.cpp|devilution::SaveAdditionalMissiles(SaveWriter &saveWriter),ported,,,src/loadsave.rs
+loadsave.cpp|devilution::LoadAdditionalMissiles(),ported,,,src/loadsave.rs
+"loadsave.cpp|devilution::SaveLevel(SaveWriter &saveWriter, LevelConversionData *levelConversionData)",ported,,,src/loadsave.rs
+loadsave.cpp|devilution::LoadLevel(LevelConversionData *levelConversionData),ported,,,src/loadsave.rs
+loadsave.cpp|devilution::ConvertLevels(SaveWriter &saveWriter),ported,,,src/loadsave.rs
+loadsave.cpp|devilution::RemoveInvalidItem(Item &item),ported,,,src/loadsave.rs
 loadsave.cpp|devilution::RemapItemIdxFromDiablo(_item_indexes i),ported,,,src/loadsave.rs
 loadsave.cpp|devilution::RemapItemIdxToDiablo(_item_indexes i),ported,,,src/loadsave.rs
 loadsave.cpp|devilution::RemapItemIdxFromSpawn(_item_indexes i),ported,,,src/loadsave.rs
 loadsave.cpp|devilution::RemapItemIdxToSpawn(_item_indexes i),ported,,,src/loadsave.rs
-loadsave.cpp|devilution::IsHeaderValid(uint32_t magicNumber),pending,,,
-loadsave.cpp|devilution::HotkeysSize(size_t nHotkeys = NumHotkeys),pending,,,
-loadsave.cpp|devilution::LoadHotkeys(),pending,,,
-"loadsave.cpp|devilution::SaveHotkeys(SaveWriter &saveWriter, const Player &player)",pending,,,
-loadsave.cpp|devilution::LoadHeroItems(Player &player),pending,,,
-loadsave.cpp|devilution::LoadStash(),pending,,,
-loadsave.cpp|devilution::RemoveEmptyInventory(Player &player),pending,,,
-loadsave.cpp|devilution::LoadGame(bool firstflag),pending,,,
-"loadsave.cpp|devilution::SaveHeroItems(SaveWriter &saveWriter, Player &player)",pending,,,
-loadsave.cpp|devilution::SaveStash(SaveWriter &stashWriter),pending,,,
-loadsave.cpp|devilution::SaveGameData(SaveWriter &saveWriter),pending,,,
-loadsave.cpp|devilution::SaveGame(),pending,,,
-loadsave.cpp|devilution::SaveLevel(SaveWriter &saveWriter),pending,,,
-loadsave.cpp|devilution::LoadLevel(),pending,,,
+loadsave.cpp|devilution::IsHeaderValid(uint32_t magicNumber),ported,,,src/loadsave.rs
+loadsave.cpp|devilution::HotkeysSize(size_t nHotkeys = NumHotkeys),ported,,,src/loadsave.rs
+loadsave.cpp|devilution::LoadHotkeys(),ported,,,src/loadsave.rs
+"loadsave.cpp|devilution::SaveHotkeys(SaveWriter &saveWriter, const Player &player)",ported,,,src/loadsave.rs
+loadsave.cpp|devilution::LoadHeroItems(Player &player),ported,,,src/loadsave.rs
+loadsave.cpp|devilution::LoadStash(),ported,,,src/loadsave.rs
+loadsave.cpp|devilution::RemoveEmptyInventory(Player &player),ported,,,src/loadsave.rs
+loadsave.cpp|devilution::LoadGame(bool firstflag),ported,,,src/loadsave.rs
+"loadsave.cpp|devilution::SaveHeroItems(SaveWriter &saveWriter, Player &player)",ported,,,src/loadsave.rs
+loadsave.cpp|devilution::SaveStash(SaveWriter &stashWriter),ported,,,src/loadsave.rs
+loadsave.cpp|devilution::SaveGameData(SaveWriter &saveWriter),ported,,,src/loadsave.rs
+loadsave.cpp|devilution::SaveGame(),ported,,,src/loadsave.rs
+loadsave.cpp|devilution::SaveLevel(SaveWriter &saveWriter),ported,,,src/loadsave.rs
+loadsave.cpp|devilution::LoadLevel(),ported,,,src/loadsave.rs
 main.cpp|__asan_default_options(),pending,,,
 "main.cpp|main(int argc, char **argv)",pending,,,
 menu.cpp|devilution::NextTrack(),ported,,,src/menu.rs
@@ -2759,15 +2759,15 @@ monster.cpp|devilution::Monster::setLeader(const Monster *leader),pending,,,
 monster.cpp|devilution::Monster::distanceToEnemy(),pending,,,
 monster.cpp|devilution::Monster::checkStandAnimationIsLoaded(Direction mdir),pending,,,
 monster.cpp|devilution::Monster::petrify(),pending,,,
-monster.cpp|devilution::Monster::isWalking(),pending,,,
+monster.cpp|devilution::Monster::isWalking(),ported,,,src/monster.rs
 "monster.cpp|devilution::Monster::isImmune(MissileID missileType, DamageType missileElement)",pending,,,
 "monster.cpp|devilution::Monster::isResistant(MissileID missileType, DamageType missileElement)",pending,,,
-monster.cpp|devilution::Monster::isPlayerMinion(),pending,,,
+monster.cpp|devilution::Monster::isPlayerMinion(),ported,,,src/monster.rs
 monster.cpp|devilution::Monster::isPossibleToHit(),pending,,,
 monster.cpp|devilution::Monster::tag(const Player &tagger),pending,,,
 monster.cpp|devilution::Monster::tryLiftGargoyle(),pending,,,
-monster.cpp|devilution::Monster::getVisualMonsterMode(),pending,,,
-monster.cpp|devilution::Monster::toHitSpecial(_difficulty difficulty),pending,,,
+monster.cpp|devilution::Monster::getVisualMonsterMode(),ported,,,src/monster.rs
+monster.cpp|devilution::Monster::toHitSpecial(_difficulty difficulty),ported,,,src/monster.rs
 monster.h|devilution::IsMonsterModeMove(MonsterMode mode),pending,,,
 monster.h|devilution::AnimStruct::spritesForDirection(Direction direction),pending,,,
 monster.h|devilution::CMonster::getAnimData(MonsterGraphic graphic),pending,,,
@@ -2776,7 +2776,7 @@ monster.h|devilution::Monster::changeAnimationData(MonsterGraphic graphic),pendi
 monster.h|devilution::Monster::type(),pending,,,
 monster.h|devilution::Monster::data(),pending,,,
 monster.h|devilution::Monster::name(),pending,,,
-monster.h|devilution::Monster::exp(_difficulty difficulty),pending,,,
+monster.h|devilution::Monster::exp(_difficulty difficulty),ported,,,src/monster.rs
 monster.h|devilution::Monster::level(_difficulty difficulty),pending,,,
 monster.h|devilution::Monster::hasLeashedMinions(),pending,,,
 monster.h|devilution::Monster::isUnique(),pending,,,
@@ -2808,29 +2808,29 @@ mpq/mpq_sdl_rwops.cpp|devilution::MpqFileRwSize(struct SDL_RWops *context),pendi
 mpq/mpq_sdl_rwops.cpp|devilution::MpqFileRwClose(struct SDL_RWops *context),pending,,,
 "mpq/mpq_sdl_rwops.cpp|devilution::SDL_RWops_FromMpqFile(MpqArchive &mpqArchive, uint32_t fileNumber, const char *filename, bool threadsafe)",pending,,,
 mpq/mpq_writer.cpp|devilution::ByteSwapHdr(MpqFileHeader *hdr),pending,,,
-mpq/mpq_writer.cpp|devilution::IsAllocatedUnusedBlock(const MpqBlockEntry *block),pending,,,
-mpq/mpq_writer.cpp|devilution::IsUnallocatedBlock(const MpqBlockEntry *block),pending,,,
-mpq/mpq_writer.cpp|devilution::MpqWriter::MpqWriter(const char *path),pending,,,
-mpq/mpq_writer.cpp|devilution::MpqWriter::~MpqWriter(),pending,,,
-mpq/mpq_writer.cpp|devilution::MpqWriter::FetchHandle(const char *filename),pending,,,
-mpq/mpq_writer.cpp|devilution::MpqWriter::InitDefaultMpqHeader(MpqFileHeader *hdr),pending,,,
-mpq/mpq_writer.cpp|devilution::MpqWriter::IsValidMpqHeader(MpqFileHeader *hdr),pending,,,
-mpq/mpq_writer.cpp|devilution::MpqWriter::ReadMPQHeader(MpqFileHeader *hdr),pending,,,
-mpq/mpq_writer.cpp|devilution::MpqWriter::NewBlock(uint32_t *blockIndex),pending,,,
-"mpq/mpq_writer.cpp|devilution::MpqWriter::AllocBlock(uint32_t blockOffset, uint32_t blockSize)",pending,,,
-mpq/mpq_writer.cpp|devilution::MpqWriter::FindFreeBlock(uint32_t size),pending,,,
-"mpq/mpq_writer.cpp|devilution::MpqWriter::GetHashIndex(uint32_t index, uint32_t hashA, uint32_t hashB)",pending,,,
-mpq/mpq_writer.cpp|devilution::MpqWriter::WriteHeaderAndTables(),pending,,,
-"mpq/mpq_writer.cpp|devilution::MpqWriter::AddFile(const char *filename, MpqBlockEntry *block, uint32_t blockIndex)",pending,,,
-"mpq/mpq_writer.cpp|devilution::MpqWriter::WriteFileContents(const char *filename, const byte *fileData, size_t fileSize, MpqBlockEntry *block)",pending,,,
-mpq/mpq_writer.cpp|devilution::MpqWriter::WriteHeader(),pending,,,
-mpq/mpq_writer.cpp|devilution::MpqWriter::WriteBlockTable(),pending,,,
-mpq/mpq_writer.cpp|devilution::MpqWriter::WriteHashTable(),pending,,,
-mpq/mpq_writer.cpp|devilution::MpqWriter::RemoveHashEntry(const char *filename),pending,,,
-"mpq/mpq_writer.cpp|devilution::MpqWriter::RemoveHashEntries(bool (*fnGetName)(uint8_t, char *))",pending,,,
-"mpq/mpq_writer.cpp|devilution::MpqWriter::WriteFile(const char *filename, const byte *data, size_t size)",pending,,,
-"mpq/mpq_writer.cpp|devilution::MpqWriter::RenameFile(const char *name, const char *newName)",pending,,,
-mpq/mpq_writer.cpp|devilution::MpqWriter::HasFile(const char *name),pending,,,
+mpq/mpq_writer.cpp|devilution::IsAllocatedUnusedBlock(const MpqBlockEntry *block),ported,,,src/mpq_writer.rs
+mpq/mpq_writer.cpp|devilution::IsUnallocatedBlock(const MpqBlockEntry *block),ported,,,src/mpq_writer.rs
+mpq/mpq_writer.cpp|devilution::MpqWriter::MpqWriter(const char *path),ported,,,src/mpq_writer.rs
+mpq/mpq_writer.cpp|devilution::MpqWriter::~MpqWriter(),ported,,,src/mpq_writer.rs
+mpq/mpq_writer.cpp|devilution::MpqWriter::FetchHandle(const char *filename),ported,,,src/mpq_writer.rs
+mpq/mpq_writer.cpp|devilution::MpqWriter::InitDefaultMpqHeader(MpqFileHeader *hdr),ported,,,src/mpq_writer.rs
+mpq/mpq_writer.cpp|devilution::MpqWriter::IsValidMpqHeader(MpqFileHeader *hdr),ported,,,src/mpq_writer.rs
+mpq/mpq_writer.cpp|devilution::MpqWriter::ReadMPQHeader(MpqFileHeader *hdr),ported,,,src/mpq_writer.rs
+mpq/mpq_writer.cpp|devilution::MpqWriter::NewBlock(uint32_t *blockIndex),ported,,,src/mpq_writer.rs
+"mpq/mpq_writer.cpp|devilution::MpqWriter::AllocBlock(uint32_t blockOffset, uint32_t blockSize)",ported,,,src/mpq_writer.rs
+mpq/mpq_writer.cpp|devilution::MpqWriter::FindFreeBlock(uint32_t size),ported,,,src/mpq_writer.rs
+"mpq/mpq_writer.cpp|devilution::MpqWriter::GetHashIndex(uint32_t index, uint32_t hashA, uint32_t hashB)",ported,,,src/mpq_writer.rs
+mpq/mpq_writer.cpp|devilution::MpqWriter::WriteHeaderAndTables(),ported,,,src/mpq_writer.rs
+"mpq/mpq_writer.cpp|devilution::MpqWriter::AddFile(const char *filename, MpqBlockEntry *block, uint32_t blockIndex)",ported,,,src/mpq_writer.rs
+"mpq/mpq_writer.cpp|devilution::MpqWriter::WriteFileContents(const char *filename, const byte *fileData, size_t fileSize, MpqBlockEntry *block)",ported,,,src/mpq_writer.rs
+mpq/mpq_writer.cpp|devilution::MpqWriter::WriteHeader(),ported,,,src/mpq_writer.rs
+mpq/mpq_writer.cpp|devilution::MpqWriter::WriteBlockTable(),ported,,,src/mpq_writer.rs
+mpq/mpq_writer.cpp|devilution::MpqWriter::WriteHashTable(),ported,,,src/mpq_writer.rs
+mpq/mpq_writer.cpp|devilution::MpqWriter::RemoveHashEntry(const char *filename),ported,,,src/mpq_writer.rs
+"mpq/mpq_writer.cpp|devilution::MpqWriter::RemoveHashEntries(bool (*fnGetName)(uint8_t, char *))",ported,,,src/mpq_writer.rs
+"mpq/mpq_writer.cpp|devilution::MpqWriter::WriteFile(const char *filename, const byte *data, size_t size)",ported,,,src/mpq_writer.rs
+"mpq/mpq_writer.cpp|devilution::MpqWriter::RenameFile(const char *name, const char *newName)",ported,,,src/mpq_writer.rs
+mpq/mpq_writer.cpp|devilution::MpqWriter::HasFile(const char *name),ported,,,src/mpq_writer.rs
 mpq/mpq_writer.hpp|devilution::MpqWriter::MpqWriter(const std::string &path),pending,,,
 msg.cpp|devilution::EventFailedPacket(const char *playerName),pending,,,
 "msg.cpp|devilution::LogFailedPacket(const char *condition, const char *name, T value)",pending,,,
@@ -3481,46 +3481,46 @@ panels/spell_list.cpp|devilution::SetSpell(),pending,,,
 panels/spell_list.cpp|devilution::SetSpeedSpell(size_t slot),pending,,,
 panels/spell_list.cpp|devilution::ToggleSpell(size_t slot),pending,,,
 panels/spell_list.cpp|devilution::DoSpeedBook(),pending,,,
-"pfile.cpp|devilution::GetSavePath(uint32_t saveNum, string_view savePrefix = {})",pending,,,
-pfile.cpp|devilution::GetStashSavePath(),pending,,,
-"pfile.cpp|devilution::GetSaveNames(uint8_t index, string_view prefix, char *out)",pending,,,
-"pfile.cpp|devilution::GetPermSaveNames(uint8_t dwIndex, char *szPerm)",pending,,,
-"pfile.cpp|devilution::GetTempSaveNames(uint8_t dwIndex, char *szTemp)",pending,,,
-pfile.cpp|devilution::RenameTempToPerm(SaveWriter &saveWriter),pending,,,
-"pfile.cpp|devilution::ReadHero(SaveReader &archive, PlayerPack *pPack)",pending,,,
-"pfile.cpp|devilution::EncodeHero(SaveWriter &saveWriter, const PlayerPack *pack)",pending,,,
-pfile.cpp|devilution::GetSaveWriter(uint32_t saveNum),pending,,,
-pfile.cpp|devilution::GetStashWriter(),pending,,,
-"pfile.cpp|devilution::CopySaveFile(uint32_t saveNum, std::string targetPath)",pending,,,
-"pfile.cpp|devilution::Game2UiPlayer(const Player &player, _uiheroinfo *heroinfo, bool bHasSaveFile)",pending,,,
-"pfile.cpp|devilution::GetFileName(uint8_t lvl, char *dst)",pending,,,
-pfile.cpp|devilution::ArchiveContainsGame(SaveReader &hsArchive),pending,,,
-pfile.cpp|devilution::CreateSaveReader(std::string &&path),pending,,,
+"pfile.cpp|devilution::GetSavePath(uint32_t saveNum, string_view savePrefix = {})",ported,,,src/pfile.rs
+pfile.cpp|devilution::GetStashSavePath(),ported,,,src/pfile.rs
+"pfile.cpp|devilution::GetSaveNames(uint8_t index, string_view prefix, char *out)",ported,,,src/pfile.rs
+"pfile.cpp|devilution::GetPermSaveNames(uint8_t dwIndex, char *szPerm)",ported,,,src/pfile.rs
+"pfile.cpp|devilution::GetTempSaveNames(uint8_t dwIndex, char *szTemp)",ported,,,src/pfile.rs
+pfile.cpp|devilution::RenameTempToPerm(SaveWriter &saveWriter),ported,,,src/pfile.rs
+"pfile.cpp|devilution::ReadHero(SaveReader &archive, PlayerPack *pPack)",ported,,,src/pfile.rs
+"pfile.cpp|devilution::EncodeHero(SaveWriter &saveWriter, const PlayerPack *pack)",ported,,,src/pfile.rs
+pfile.cpp|devilution::GetSaveWriter(uint32_t saveNum),ported,,,src/pfile.rs
+pfile.cpp|devilution::GetStashWriter(),ported,,,src/pfile.rs
+"pfile.cpp|devilution::CopySaveFile(uint32_t saveNum, std::string targetPath)",ported,,,src/pfile.rs
+"pfile.cpp|devilution::Game2UiPlayer(const Player &player, _uiheroinfo *heroinfo, bool bHasSaveFile)",ported,,,src/pfile.rs
+"pfile.cpp|devilution::GetFileName(uint8_t lvl, char *dst)",ported,,,src/pfile.rs
+pfile.cpp|devilution::ArchiveContainsGame(SaveReader &hsArchive),ported,,,src/pfile.rs
+pfile.cpp|devilution::CreateSaveReader(std::string &&path),ported,,,src/pfile.rs
 pfile.cpp|devilution::CompareCounter::max(),pending,,,
 "pfile.cpp|devilution::CompareCounter::checkIfDataExists(int count, CompareInfo &compareInfoReference, CompareInfo &compareInfoActual)",pending,,,
 "pfile.cpp|devilution::string_ends_with(string_view value, string_view suffix)",pending,,,
 "pfile.cpp|devilution::CreateDetailDiffs(string_view prefix, string_view memoryMapFile, CompareInfo &compareInfoReference, CompareInfo &compareInfoActual, std::unordered_map<std::string, size_t> &foundDiffs)",pending,,,
 "pfile.cpp|devilution::CompareSaves(const std::string &actualSavePath, const std::string &referenceSavePath, bool logDetails)",pending,,,
-"pfile.cpp|devilution::pfile_write_hero(SaveWriter &saveWriter, bool writeGameData)",pending,,,
-pfile.cpp|devilution::RemoveAllInvalidItems(Player &player),pending,,,
-pfile.cpp|devilution::OpenSaveArchive(uint32_t saveNum),pending,,,
-pfile.cpp|devilution::OpenStashArchive(),pending,,,
-"pfile.cpp|devilution::ReadArchive(SaveReader &archive, const char *pszName, size_t *pdwLen)",pending,,,
-pfile.cpp|devilution::pfile_get_password(),pending,,,
-pfile.cpp|devilution::pfile_write_hero(bool writeGameData),pending,,,
-pfile.cpp|devilution::pfile_write_hero_demo(int demo),pending,,,
+"pfile.cpp|devilution::pfile_write_hero(SaveWriter &saveWriter, bool writeGameData)",ported,,,src/pfile.rs
+pfile.cpp|devilution::RemoveAllInvalidItems(Player &player),ported,,,src/pfile.rs
+pfile.cpp|devilution::OpenSaveArchive(uint32_t saveNum),ported,,,src/pfile.rs
+pfile.cpp|devilution::OpenStashArchive(),ported,,,src/pfile.rs
+"pfile.cpp|devilution::ReadArchive(SaveReader &archive, const char *pszName, size_t *pdwLen)",ported,,,src/pfile.rs
+pfile.cpp|devilution::pfile_get_password(),ported,,,src/pfile.rs
+pfile.cpp|devilution::pfile_write_hero(bool writeGameData),ported,,,src/pfile.rs
+pfile.cpp|devilution::pfile_write_hero_demo(int demo),ported,,,src/pfile.rs
 "pfile.cpp|devilution::pfile_compare_hero_demo(int demo, bool logDetails)",pending,,,
-pfile.cpp|devilution::sfile_write_stash(),pending,,,
-pfile.cpp|devilution::pfile_ui_set_hero_infos(bool (*uiAddHeroInfo)(_uiheroinfo *)),pending,,,
-"pfile.cpp|devilution::pfile_ui_set_class_stats(unsigned int playerClass, _uidefaultstats *classStats)",pending,,,
-pfile.cpp|devilution::pfile_ui_get_first_unused_save_num(),pending,,,
-pfile.cpp|devilution::pfile_ui_save_create(_uiheroinfo *heroinfo),pending,,,
-pfile.cpp|devilution::pfile_delete_save(_uiheroinfo *heroInfo),pending,,,
-"pfile.cpp|devilution::pfile_read_player_from_save(uint32_t saveNum, Player &player)",pending,,,
-pfile.cpp|devilution::pfile_save_level(),pending,,,
-pfile.cpp|devilution::pfile_convert_levels(),pending,,,
-pfile.cpp|devilution::pfile_remove_temp_files(),pending,,,
-pfile.cpp|devilution::pfile_update(bool forceSave),pending,,,
+pfile.cpp|devilution::sfile_write_stash(),ported,,,src/pfile.rs
+pfile.cpp|devilution::pfile_ui_set_hero_infos(bool (*uiAddHeroInfo)(_uiheroinfo *)),ported,,,src/pfile.rs
+"pfile.cpp|devilution::pfile_ui_set_class_stats(unsigned int playerClass, _uidefaultstats *classStats)",ported,,,src/pfile.rs
+pfile.cpp|devilution::pfile_ui_get_first_unused_save_num(),ported,,,src/pfile.rs
+pfile.cpp|devilution::pfile_ui_save_create(_uiheroinfo *heroinfo),ported,,,src/pfile.rs
+pfile.cpp|devilution::pfile_delete_save(_uiheroinfo *heroInfo),ported,,,src/pfile.rs
+"pfile.cpp|devilution::pfile_read_player_from_save(uint32_t saveNum, Player &player)",ported,,,src/pfile.rs
+pfile.cpp|devilution::pfile_save_level(),ported,,,src/pfile.rs
+pfile.cpp|devilution::pfile_convert_levels(),ported,,,src/pfile.rs
+pfile.cpp|devilution::pfile_remove_temp_files(),ported,,,src/pfile.rs
+pfile.cpp|devilution::pfile_update(bool forceSave),ported,,,src/pfile.rs
 platform/android/android.cpp|devilution::AreExtraFontsOutOfDateForMpqPath(const char *mpqPath),replaced,none,Android-only code; not a target platform,
 "platform/android/android.cpp|Java_org_diasurgical_devilutionx_DevilutionXSDLActivity_areFontsOutOfDate(JNIEnv *env, jclass cls, jstring fonts_mpq)",replaced,none,Android-only code; not a target platform,
 platform/ctr/asio/net/if.c|if_nametoindex(const char *__ifname),replaced,none,Nintendo 3DS-only code; not a target platform,
@@ -3821,11 +3821,11 @@ qol/stash.cpp|devilution::DrawStash(const Surface &out),pending,,,
 "qol/stash.cpp|devilution::CheckStashItem(Point mousePosition, bool isShiftHeld, bool isCtrlHeld)",pending,,,
 qol/stash.cpp|devilution::CheckStashHLight(Point mousePosition),pending,,,
 qol/stash.cpp|devilution::UseStashItem(uint16_t c),pending,,,
-qol/stash.cpp|devilution::StashStruct::RemoveStashItem(StashStruct::StashCell iv),pending,,,
-qol/stash.cpp|devilution::StashStruct::SetPage(unsigned newPage),pending,,,
-qol/stash.cpp|devilution::StashStruct::NextPage(unsigned offset),pending,,,
-qol/stash.cpp|devilution::StashStruct::PreviousPage(unsigned offset),pending,,,
-qol/stash.cpp|devilution::StashStruct::RefreshItemStatFlags(),pending,,,
+qol/stash.cpp|devilution::StashStruct::RemoveStashItem(StashStruct::StashCell iv),ported,,,src/qol/stash.rs
+qol/stash.cpp|devilution::StashStruct::SetPage(unsigned newPage),ported,,,src/qol/stash.rs
+qol/stash.cpp|devilution::StashStruct::NextPage(unsigned offset),ported,,,src/qol/stash.rs
+qol/stash.cpp|devilution::StashStruct::PreviousPage(unsigned offset),ported,,,src/qol/stash.rs
+qol/stash.cpp|devilution::StashStruct::RefreshItemStatFlags(),ported,,,src/qol/stash.rs
 qol/stash.cpp|devilution::StartGoldWithdraw(),pending,,,
 qol/stash.cpp|devilution::WithdrawGoldKeyPress(SDL_Keycode vkey),pending,,,
 "qol/stash.cpp|devilution::DrawGoldWithdraw(const Surface &out, int amount)",pending,,,
@@ -3874,10 +3874,10 @@ quests.cpp|devilution::QuestlogESC(),pending,,,
 quests.cpp|devilution::UseMultiplayerQuests(),pending,,,
 quests.cpp|devilution::Quest::IsAvailable(),pending,,,
 restrict.cpp|devilution::ReadOnlyTest(),ported,,,src/diablo.rs
-"sha.cpp|devilution::SHA1CircularShift(uint32_t word, size_t bits)",pending,,,
-sha.cpp|devilution::SHA1ProcessMessageBlock(SHA1Context *context),pending,,,
-"sha.cpp|devilution::SHA1Result(SHA1Context &context, uint32_t messageDigest[SHA1HashSize])",pending,,,
-"sha.cpp|devilution::SHA1Calculate(SHA1Context &context, const uint32_t data[BlockSize])",pending,,,
+"sha.cpp|devilution::SHA1CircularShift(uint32_t word, size_t bits)",ported,,,src/sha.rs
+sha.cpp|devilution::SHA1ProcessMessageBlock(SHA1Context *context),ported,,,src/sha.rs
+"sha.cpp|devilution::SHA1Result(SHA1Context &context, uint32_t messageDigest[SHA1HashSize])",ported,,,src/sha.rs
+"sha.cpp|devilution::SHA1Calculate(SHA1Context &context, const uint32_t data[BlockSize])",ported,,,src/sha.rs
 spelldat.h|devilution::SpellData::type(),pending,,,
 spelldat.h|devilution::SpellData::bookCost(),pending,,,
 spelldat.h|devilution::SpellData::staffCost(),pending,,,

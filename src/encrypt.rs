@@ -89,6 +89,18 @@ pub fn pkware_decompress(buf: &mut Vec<u8>, recv_size: usize, max_bytes: usize) 
     out.len()
 }
 
+/// Original: `devilution::PkwareCompress` (encrypt.cpp). Compresses `buf[..size]` in place when
+/// that makes it smaller and returns the resulting size (unchanged if it would not shrink).
+// @port encrypt.cpp|devilution::PkwareCompress(byte *srcData, uint32_t size) sha=2924cf2b1f12
+pub fn pkware_compress(buf: &mut Vec<u8>, size: usize) -> usize {
+    let packed = crate::implode::implode(&buf[..size], crate::implode::CMP_BINARY, 4096).expect("implode");
+    if packed.len() < size {
+        buf[..packed.len()].copy_from_slice(&packed);
+        return packed.len();
+    }
+    size
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

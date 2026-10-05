@@ -85,6 +85,10 @@ pub struct Ctx {
     pub help: crate::help::HelpState,
     /// `msg.cpp`
     pub msg: crate::msg::MsgState,
+    /// `loadsave.cpp`
+    pub loadsave: crate::loadsave::LoadsaveState,
+    /// `pfile.cpp`
+    pub pfile: crate::pfile::PfileState,
 }
 
 impl Ctx {
@@ -131,6 +135,8 @@ impl Ctx {
             trigs: Default::default(),
             help: Default::default(),
             msg: Default::default(),
+            loadsave: Default::default(),
+            pfile: Default::default(),
         }
     }
 }

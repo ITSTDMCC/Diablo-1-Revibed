@@ -710,3 +710,5 @@ pub fn lighting_color_cycling(ctx: &mut Ctx) {
         light_table[1..32].rotate_left(1);
     }
 }
+
+crate::pending_fn!(pub fn redo_player_vision(ctx: &mut Ctx), "objects.cpp|devilution::RedoPlayerVision()");

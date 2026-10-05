@@ -39,3 +39,21 @@ pub fn clamp_durability(item: &Item, durability: i32) -> i32 {
     }
     durability.clamp(1, item._iMaxDur)
 }
+
+/// Original: `devilution::ClampToHit` (inv.cpp).
+// @port inv.cpp|devilution::ClampToHit(const Item &item, int16_t toHit) sha=18586eacac58
+pub fn clamp_to_hit(item: &Item, to_hit: i16) -> i16 {
+    if to_hit < item._iPLToHit || to_hit > 51 {
+        return item._iPLToHit;
+    }
+    to_hit
+}
+
+/// Original: `devilution::ClampMaxDam` (inv.cpp).
+// @port inv.cpp|devilution::ClampMaxDam(const Item &item, uint8_t maxDam) sha=531f9e9f87d4
+pub fn clamp_max_dam(item: &Item, max_dam: u8) -> u8 {
+    if max_dam < item._iMaxDam || max_dam as i32 - item._iMinDam as i32 > 30 {
+        return item._iMaxDam;
+    }
+    max_dam
+}

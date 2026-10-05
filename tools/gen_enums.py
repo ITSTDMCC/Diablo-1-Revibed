@@ -28,7 +28,7 @@ SKIP = {
     'Status', 'Type', 'text_color',
 }
 # Unscoped enums used as bit flags (and with an enumerator named None).
-FORCE_FLAGS = {'AnimationDistributionFlags'}
+FORCE_FLAGS = {'AnimationDistributionFlags', 'MissileGraphicsFlags'}
 RUST_INT = {
     'uint8_t': 'u8', 'int8_t': 'i8', 'uint16_t': 'u16', 'int16_t': 'i16', 'uint32_t': 'u32', 'int32_t': 'i32',
     'int': 'i32', 'unsigned': 'u32', 'std::uint8_t': 'u8', 'std::int8_t': 'i8', '': 'i32',

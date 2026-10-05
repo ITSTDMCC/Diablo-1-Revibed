@@ -164,3 +164,5 @@ crate::pending_fn!(pub fn is_object_at_position(ctx: &Ctx, position: Point) -> b
 crate::pending_fn!(pub fn is_item_blocking_object_at_position(ctx: &Ctx, position: Point) -> bool, "objects.cpp|devilution::IsItemBlockingObjectAtPosition(Point position)");
 crate::pending_fn!(pub fn break_object(ctx: &mut Ctx, pnum: usize, oi: usize), "objects.cpp|devilution::BreakObject(const Player &player, Object &object)");
 crate::pending_fn!(pub fn operate_object(ctx: &mut Ctx, pnum: usize, oi: usize), "objects.cpp|devilution::OperateObject(Player &player, Object &object)");
+
+crate::pending_fn!(pub fn sync_object_anim(ctx: &mut Ctx, oi: usize), "objects.cpp|devilution::SyncObjectAnim(Object &object)");

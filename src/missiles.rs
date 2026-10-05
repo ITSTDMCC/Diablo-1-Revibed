@@ -96,3 +96,7 @@ crate::pending_fn!(
     pub fn add_missile(ctx: &mut Ctx, src: Point, dst: Point, midir: Direction, mitype: MissileID, micaster: mienemy_type, id: i32, midam: i32, spllvl: i32, parent: Option<usize>) -> Option<usize>,
     "missiles.cpp|devilution::AddMissile(Point src, Point dst, Direction midir, MissileID mitype, mienemy_type micaster, int id, int midam, int spllvl, Missile *parent, std::optional<_sfx_id> lSFX)"
 );
+
+crate::pending_fn!(pub fn redo_missile_flags(ctx: &mut Ctx), "missiles.cpp|devilution::RedoMissileFlags()");
+crate::pending_fn!(pub fn missiles_process_charge(ctx: &mut Ctx), "missiles.cpp|devilution::missiles_process_charge()");
+crate::pending_fn!(pub fn tile_contains_missile(ctx: &Ctx, position: Point) -> bool, "missiles.cpp|devilution::TileContainsMissile(Point position)");
