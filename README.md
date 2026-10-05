@@ -97,6 +97,8 @@ view to the hero's eyes and back.
   in front.
 - The mouse still aims: whatever is under (or right next to) the cursor in the first-person view
   is what a click attacks, picks up, opens or talks to, and where a spell is cast. Clicking the floor walks there.
+- The control panel moves to the top of the screen while the view is on, and your hero shows at the
+  bottom of the view, seen from just behind, so you see your sword, shield, bow and spells.
 - Panels, inventory, belt, spells and menus work as usual. While the view is on, **S** walks back
   instead of opening the speedbook.
 - The walls, floors, monsters and items are the game's own isometric art, re-projected, so it is

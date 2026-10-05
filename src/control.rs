@@ -136,7 +136,11 @@ pub fn get_right_panel(ctx: &Ctx) -> Rect {
 // @port control.cpp|devilution::CalculatePanelAreas() sha=d8704acf252e
 pub fn calculate_panel_areas(ctx: &mut Ctx) {
     let (sw, sh) = (ctx.dx.gn_screen_width, ctx.dx.gn_screen_height);
-    let main = Rect::new((sw - 640) / 2, sh - 128, 640, 128);
+    let mut main = Rect::new((sw - 640) / 2, sh - 128, 640, 128);
+    if crate::firstperson::active(ctx) {
+        // first-person view (not in the original): the panel moves to the top of the screen
+        main.y = 0;
+    }
     let mut left = Rect::new(0, 0, SIDE_PANEL_SIZE.0, SIDE_PANEL_SIZE.1);
     let mut right = Rect::new(0, 0, SIDE_PANEL_SIZE.0, SIDE_PANEL_SIZE.1);
     let virtual_gamepad = ctx.controls.control_mode == crate::controls::ControlTypes::VirtualGamepad;
@@ -146,6 +150,9 @@ pub fn calculate_panel_areas(ctx: &mut Ctx) {
         left.x = (sw - left.w - right.w - main.w) / 2;
     }
     left.y = (sh - left.h - main.h) / 2;
+    if main.y == 0 {
+        left.y += main.h;
+    }
     if virtual_gamepad {
         right.x = sw / 2;
     } else {

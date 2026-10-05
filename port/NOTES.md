@@ -147,8 +147,14 @@ Asked for by the owner on 2026-10-05 as an optional gameplay feature; `src/first
 - Controller: the left stick walks relative to the view, the right stick turns (it no longer moves
   the mouse cursor while the view is on), and the hero faces the view direction so the gamepad's
   automatic targeting looks ahead. Clicks within 10 pixels of a monster, item or object take it.
-- View: 90 degree field of view, eye 1.2 tiles up, horizon at 42% of the area above the control
-  panel (so a monster next to the hero is not hidden behind the panel).
+- Control panel: `CalculatePanelAreas` puts the main panel at y = 0 while the view is on (the
+  side panels below it); the view uses the rows below the panel. The flask domes that stick out
+  above the panel fall off the top of the screen. Recalculated when the view is switched.
+- The hero: its current sprite for the direction facing away from the viewer, cut 26 pixels above
+  its ground point at the bottom edge, 1/80 of the visible height per sprite pixel, a little right
+  of the middle; walking, attacking, bows and casting animate as in the isometric view.
+- View: 90 degree field of view, eye 1.2 tiles up, horizon at 45% of the area below the control
+  panel.
 - Known limits: the isometric art is a picture of 3D shapes seen from one side, so wall caps and
   town houses look like sheared planes, arch openings are solid below 1.9 tiles, sprites are flat
   and pixelated up close, the player's own sprite is not drawn, there is no ceiling.

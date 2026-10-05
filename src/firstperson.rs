@@ -33,9 +33,16 @@ const EYE: f32 = 1.2;
 const FOV_DEG: f32 = 90.0;
 /// How far the view reaches, in tiles.
 const MAX_DIST: f32 = 40.0;
-/// Where the horizon sits in the part of the view the control panel leaves visible (0 = top),
-/// high enough that a monster next to the hero is not hidden behind the panel.
-const HORIZON: f32 = 0.42;
+/// Where the horizon sits in the part of the view the control panel leaves visible (0 = top).
+const HORIZON: f32 = 0.45;
+/// The hero's own sprite at the bottom of the view (weapon, shield, spells): its size relative
+/// to the visible height, and which part of the sprite sits on the bottom edge (pixels above the
+/// sprite's ground point; the hero is about 75 pixels tall).
+const HERO_VIEW_SCALE: f32 = 1.0 / 80.0;
+const HERO_VIEW_CUT: f32 = 26.0;
+/// The hero stands a little right of the middle (looking over the left shoulder), so the middle
+/// of the view stays clear.
+const HERO_VIEW_X: f32 = 0.58;
 /// How far around the mouse a click still finds a monster, item or object (pixels).
 const PICK_SLACK: i32 = 10;
 /// Turning speed, degrees per second.
@@ -135,6 +142,7 @@ pub fn press_key(ctx: &mut Ctx, vkey: i32) -> bool {
             }
             ctx.firstperson.last_ms = None;
         }
+        crate::control::calculate_panel_areas(ctx);
         crate::engine::backbuffer_state::redraw_everything(ctx);
         return true;
     }
@@ -667,7 +675,8 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
     let pull = (first_wall(ctx, &mut pieces, at, back, CAMERA_BACK + 0.15) - 0.15).clamp(0.0, CAMERA_BACK);
     let cam = (at.0 + back.0 * pull, at.1 + back.1 * pull);
     let (w, h) = (out.w(), out.h());
-    let horizon = crate::control::get_main_panel(ctx).y.clamp(h / 2, h) as f32 * HORIZON;
+    let (top, bottom) = visible_rows(ctx, h);
+    let horizon = top + (bottom - top) * HORIZON;
     let half = (FOV_DEG.to_radians() / 2.0).tan();
     let focal = (w as f32 / 2.0) / half;
     let mut depth = vec![f32::MAX; (w * h) as usize];
@@ -819,6 +828,7 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
             }
         }
     }
+    draw_hero_view(ctx, out, me, fwd, bottom);
     let s = &mut ctx.firstperson;
     s.cam = cam;
     s.w = w;
@@ -828,6 +838,72 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
     s.pick = pick;
     s.picked = picked;
     true
+}
+
+/// The rows of the view the control panel leaves visible (it sits at the top in this view).
+fn visible_rows(ctx: &Ctx, h: i32) -> (f32, f32) {
+    let panel = crate::control::get_main_panel(ctx);
+    if panel.y == 0 {
+        (panel.h.min(h / 2) as f32, h as f32)
+    } else {
+        (0.0, panel.y.clamp(h / 2, h) as f32)
+    }
+}
+
+/// The hero's own sprite as the viewer sees it from behind (facing away, North in the pictures).
+fn hero_sprite(ctx: &Ctx, me: usize, view: (f32, f32)) -> Option<ClxSprite> {
+    let p = &ctx.players.Players[me];
+    let cur = p.AnimInfo.sprites.as_ref()?;
+    let frame = p.AnimInfo.get_frame_to_use_for_rendering(ctx.nthread.ProgressToNextGameTick) as usize;
+    let shown = rotated(p._pdir, view);
+    let first = cur.get(0);
+    for a in p.AnimationData.iter() {
+        if a.sprites_for_direction(p._pdir).is_some_and(|l| l.get(0) == first) {
+            return Some(a.sprites_for_direction(shown).unwrap_or_else(|| cur.clone()).get(frame));
+        }
+    }
+    Some(cur.get(frame))
+}
+
+/// Draws the hero, seen from just behind, cut off at the bottom of the view: the weapon, shield,
+/// bow swings and spell casting show as in the isometric view.
+fn draw_hero_view(ctx: &Ctx, out: &Surface, me: usize, fwd: (f32, f32), bottom: f32) {
+    let Some(sprite) = hero_sprite(ctx, me, fwd) else { return };
+    let (sw, sh) = (sprite.width() as i32, sprite.height() as i32);
+    if sw <= 0 || sh <= 0 {
+        return;
+    }
+    let mut a = OwnedSurface::new(sw, sh);
+    let mut b = OwnedSurface::new(sw, sh);
+    b.pixels.iter_mut().for_each(|p| *p = 255);
+    for s in [&mut a, &mut b] {
+        clx_draw(&s.view(), (0, sh - 1), &sprite);
+    }
+    let (av, bv) = (a.view(), b.view());
+    let (w, h) = (out.w(), out.h());
+    let scale = (bottom - visible_rows(ctx, h).0) * HERO_VIEW_SCALE;
+    // sprite row of the ground point: 16 pixels above the bottom (as the isometric view places it)
+    let cut_row = (sh - 16) as f32 - HERO_VIEW_CUT;
+    let top = bottom - cut_row * scale;
+    let left = w as f32 * HERO_VIEW_X - sw as f32 * scale / 2.0;
+    let (x0, x1) = (left.max(0.0) as i32, (left + sw as f32 * scale).min(w as f32) as i32);
+    let (y0, y1) = (top.max(0.0) as i32, bottom as i32);
+    for row in y0..y1 {
+        let v = ((row as f32 + 0.5 - top) / scale) as i32;
+        if v < 0 || v >= sh {
+            continue;
+        }
+        for col in x0..x1 {
+            let u = ((col as f32 + 0.5 - left) / scale) as i32;
+            if u < 0 || u >= sw {
+                continue;
+            }
+            let c = av.get(u, v);
+            if c == bv.get(u, v) {
+                out.put(col, row, c);
+            }
+        }
+    }
 }
 
 /// `CheckCursMove` in the first-person view: the tile under the mouse (a monster, item or

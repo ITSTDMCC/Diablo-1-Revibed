@@ -193,7 +193,11 @@ fn parse_script(text: &str) -> VecDeque<ScriptedEvent> {
                 let k = nums()[0];
                 vec![Event::KeyDown { key: k, mods: 0 }, Event::KeyUp { key: k, mods: 0 }]
             }
-            "keydown" => vec![Event::KeyDown { key: nums()[0], mods: 0 }],
+            // `keydown <key> [modifier state]`
+            "keydown" => {
+                let v = nums();
+                vec![Event::KeyDown { key: v[0], mods: v.get(1).copied().unwrap_or(0) as u16 }]
+            }
             "keyup" => vec![Event::KeyUp { key: nums()[0], mods: 0 }],
             "click" => {
                 let v = nums();
