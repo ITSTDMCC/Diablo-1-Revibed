@@ -78,6 +78,7 @@ impl Default for Object {
 }
 
 impl Object {
+    // @port objects.h|devilution::Object::IsBreakable() sha=c5e43b7807ec
     pub fn is_breakable(&self) -> bool {
         self._oBreak == 1
     }
@@ -117,6 +118,7 @@ impl Object {
     pub fn is_shrine(&self) -> bool {
         matches!(self._otype, OBJ_SHRINEL | OBJ_SHRINER)
     }
+    // @port objects.h|devilution::Object::IsTrap() sha=2efdd609d892
     pub fn is_trap(&self) -> bool {
         matches!(self._otype, OBJ_TRAPL | OBJ_TRAPR)
     }

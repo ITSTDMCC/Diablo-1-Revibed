@@ -241,6 +241,7 @@ pub fn do_crawl_range(min_radius: u32, max_radius: u32, function: &mut dyn FnMut
 }
 
 /// `Crawl(radius, F)`: the first `Some` the function returns.
+// @port lighting.h|devilution::Crawl(unsigned radius, F function) sha=c1751d96e170
 pub fn crawl<T>(radius: u32, function: &mut dyn FnMut(Displacement) -> Option<T>) -> Option<T> {
     let mut result = None;
     do_crawl(radius, &mut |d| {
@@ -251,6 +252,7 @@ pub fn crawl<T>(radius: u32, function: &mut dyn FnMut(Displacement) -> Option<T>
 }
 
 /// `Crawl(minRadius, maxRadius, F)`: the first `Some` the function returns.
+// @port lighting.h|devilution::Crawl(unsigned minRadius, unsigned maxRadius, F function) sha=6d1d7aacbdef
 pub fn crawl_range<T>(min_radius: u32, max_radius: u32, function: &mut dyn FnMut(Displacement) -> Option<T>) -> Option<T> {
     let mut result = None;
     do_crawl_range(min_radius, max_radius, &mut |d| {

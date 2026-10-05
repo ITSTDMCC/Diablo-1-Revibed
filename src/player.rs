@@ -628,11 +628,13 @@ impl Player {
     }
 
     /// `isOnLevel(uint8_t)`
+    // @port player.h|devilution::Player::isOnLevel(uint8_t level) sha=c434a52d21f9
     pub fn is_on_level(&self, level: u8) -> bool {
         !self.plrIsOnSetLevel && self.plrlevel == level
     }
 
     /// `isOnLevel(_setlevels)`
+    // @port player.h|devilution::Player::isOnLevel(_setlevels level) sha=67f9f2d3eb05
     pub fn is_on_set_level(&self, level: _setlevels) -> bool {
         self.plrIsOnSetLevel && self.plrlevel == level as u8
     }
@@ -644,12 +646,14 @@ impl Player {
     }
 
     /// `setLevel(uint8_t)`
+    // @port player.h|devilution::Player::setLevel(uint8_t level) sha=ce7b028928d3
     pub fn set_level(&mut self, level: u8) {
         self.plrlevel = level;
         self.plrIsOnSetLevel = false;
     }
 
     /// `setLevel(_setlevels)`
+    // @port player.h|devilution::Player::setLevel(_setlevels level) sha=6cf79e4e550b
     pub fn set_set_level(&mut self, level: _setlevels) {
         self.plrlevel = level as u8;
         self.plrIsOnSetLevel = true;

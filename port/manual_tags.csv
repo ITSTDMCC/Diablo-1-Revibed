@@ -1,0 +1,21 @@
+key,rust_file,fn_name,occurrence
+"lighting.h|devilution::Crawl(unsigned radius, F function)",src/lighting.rs,crawl,0
+"lighting.h|devilution::Crawl(unsigned minRadius, unsigned maxRadius, F function)",src/lighting.rs,crawl_range,0
+player.h|devilution::Player::isOnLevel(uint8_t level),src/player.rs,is_on_level,0
+player.h|devilution::Player::isOnLevel(_setlevels level),src/player.rs,is_on_set_level,0
+player.h|devilution::Player::setLevel(uint8_t level),src/player.rs,set_level,0
+player.h|devilution::Player::setLevel(_setlevels level),src/player.rs,set_set_level,0
+objects.h|devilution::Object::IsBreakable(),src/objects.rs,is_breakable,0
+objects.h|devilution::Object::IsTrap(),src/objects.rs,is_trap,0
+"utils/bitset2d.hpp|devilution::Bitset2d::test(size_t x, size_t y)",src/levels/gendung.rs,test,0
+"utils/bitset2d.hpp|devilution::Bitset2d::set(size_t x, size_t y, bool value = true)",src/levels/gendung.rs,set_value,0
+"utils/bitset2d.hpp|devilution::Bitset2d::reset(size_t x, size_t y)",src/levels/gendung.rs,reset_at,0
+utils/bitset2d.hpp|devilution::Bitset2d::reset(),src/levels/gendung.rs,reset,0
+utils/bitset2d.hpp|devilution::Bitset2d::count(),src/levels/gendung.rs,count,0
+"utils/bitset2d.hpp|devilution::Bitset2d::index(size_t x, size_t y)",src/levels/gendung.rs,index,0
+"missiles.h|devilution::SetMissDir(Missile &missile, Direction dir)",src/missiles.rs,set_miss_dir,0
+"missiles.h|devilution::SetMissDir(Missile &missile, Direction16 dir)",src/missiles.rs,set_miss_dir,0
+platform/locale.cpp|devilution::GetLocales(),src/platform/win32.rs,get_locales,0
+"msg.cpp|devilution::PrepareItemForNetwork(const Item &item, TCmdGItem &message)",src/msg.rs,prepare_item_for_network,0
+"msg.cpp|devilution::PrepareItemForNetwork(const Item &item, TCmdPItem &message)",src/msg.rs,prepare_item_for_network,0
+"msg.cpp|devilution::PrepareItemForNetwork(const Item &item, TCmdChItem &message)",src/msg.rs,prepare_item_for_network,0

@@ -2306,8 +2306,8 @@ lighting.cpp|devilution::SavePreLighting(),ported,,,src/lighting.rs
 "lighting.cpp|devilution::ChangeVisionXY(int id, Point position)",ported,,,src/lighting.rs
 lighting.cpp|devilution::ProcessVisionList(),ported,,,src/lighting.rs
 lighting.cpp|devilution::lighting_color_cycling(),ported,,,src/lighting.rs
-"lighting.h|devilution::Crawl(unsigned radius, F function)",pending,,,
-"lighting.h|devilution::Crawl(unsigned minRadius, unsigned maxRadius, F function)",pending,,,
+"lighting.h|devilution::Crawl(unsigned radius, F function)",ported,,,src/lighting.rs
+"lighting.h|devilution::Crawl(unsigned minRadius, unsigned maxRadius, F function)",ported,,,src/lighting.rs
 loadsave.cpp|devilution::SwapLE(T in),pending,,,
 loadsave.cpp|devilution::SwapBE(T in),pending,,,
 loadsave.cpp|devilution::LoadHelper::Next(),pending,,,
@@ -2585,8 +2585,8 @@ missiles.h|devilution::Missile::sourcePlayer(),ported,,,src/missiles.rs
 missiles.h|devilution::Missile::sourceMonster(),ported,,,src/missiles.rs
 missiles.h|devilution::Missile::isSameSource(Missile &missile),ported,,,src/missiles.rs
 missiles.h|devilution::Missile::sourceType(),ported,,,src/missiles.rs
-"missiles.h|devilution::SetMissDir(Missile &missile, Direction dir)",pending,,,
-"missiles.h|devilution::SetMissDir(Missile &missile, Direction16 dir)",pending,,,
+"missiles.h|devilution::SetMissDir(Missile &missile, Direction dir)",ported,,,src/missiles.rs
+"missiles.h|devilution::SetMissDir(Missile &missile, Direction16 dir)",ported,,,src/missiles.rs
 monstdat.cpp|devilution::Uniq(_unique_items item),pending,,,
 monster.cpp|devilution::GetNumAnims(const MonsterData &monsterData),ported,,,src/monster.rs
 monster.cpp|devilution::InitMonsterTRN(CMonster &monst),ported,,,src/monster.rs
@@ -2876,9 +2876,9 @@ msg.cpp|devilution::NetSendCmdExtra(const TCmdGItem &item),ported,,,src/msg.rs
 "msg.cpp|devilution::OnGotoGetItem(const TCmd *pCmd, Player &player)",ported,,,src/msg.rs
 msg.cpp|devilution::IsGItemValid(const TCmdGItem &message),ported,,,src/msg.rs
 "msg.cpp|devilution::IsPItemValid(const TCmdPItem &message, const Player &player)",ported,,,src/msg.rs
-"msg.cpp|devilution::PrepareItemForNetwork(const Item &item, TCmdGItem &message)",pending,,,
-"msg.cpp|devilution::PrepareItemForNetwork(const Item &item, TCmdPItem &message)",pending,,,
-"msg.cpp|devilution::PrepareItemForNetwork(const Item &item, TCmdChItem &message)",pending,,,
+"msg.cpp|devilution::PrepareItemForNetwork(const Item &item, TCmdGItem &message)",ported,,,src/msg.rs
+"msg.cpp|devilution::PrepareItemForNetwork(const Item &item, TCmdPItem &message)",ported,,,src/msg.rs
+"msg.cpp|devilution::PrepareItemForNetwork(const Item &item, TCmdChItem &message)",ported,,,src/msg.rs
 "msg.cpp|devilution::RecreateItem(const Player &player, const TCmdPItem &message, Item &item)",ported,,,src/msg.rs
 "msg.cpp|devilution::RecreateItem(const Player &player, const TCmdChItem &message, Item &item)",ported,,,src/msg.rs
 "msg.cpp|devilution::SyncDropItem(Point position, const TItem &item)",ported,,,src/msg.rs
@@ -3225,7 +3225,7 @@ objects.h|devilution::Object::SetMapRange(WorldTileRectangle mapRange),ported,,,
 objects.h|devilution::Object::InitializeBook(WorldTileRectangle mapRange),ported,,,src/objects.rs
 "objects.h|devilution::Object::InitializeQuestBook(WorldTileRectangle mapRange, int leverID, _speech_id message)",ported,,,src/objects.rs
 "objects.h|devilution::Object::InitializeLoadedObject(WorldTileRectangle mapRange, int leverID)",ported,,,src/objects.rs
-objects.h|devilution::Object::IsBreakable(),pending,,,
+objects.h|devilution::Object::IsBreakable(),ported,,,src/objects.rs
 objects.h|devilution::Object::IsBroken(),ported,,,src/objects.rs
 objects.h|devilution::Object::IsBarrel(),ported,,,src/objects.rs
 objects.h|devilution::Object::isExplosive(),ported,,,src/objects.rs
@@ -3235,7 +3235,7 @@ objects.h|devilution::Object::IsUntrappedChest(),ported,,,src/objects.rs
 objects.h|devilution::Object::IsCrux(),ported,,,src/objects.rs
 objects.h|devilution::Object::isDoor(),ported,,,src/objects.rs
 objects.h|devilution::Object::IsShrine(),ported,,,src/objects.rs
-objects.h|devilution::Object::IsTrap(),pending,,,
+objects.h|devilution::Object::IsTrap(),ported,,,src/objects.rs
 objects.h|devilution::IsObjectAtPosition(Point position),ported,,,src/objects.rs
 objects.h|devilution::ObjectAtPosition(Point position),ported,,,src/objects.rs
 options.cpp|devilution::GetIniPath(),ported,,,src/options.rs
@@ -3558,7 +3558,7 @@ platform/ctr/system.cpp|ctr_check_dsp(),replaced,none,Nintendo 3DS-only code; no
 platform/ctr/system.cpp|ctr_is_n3ds(),replaced,none,Nintendo 3DS-only code; not a target platform,
 platform/ctr/system.cpp|ctr_should_disable_backlight(),replaced,none,Nintendo 3DS-only code; not a target platform,
 platform/ctr/system.cpp|ctr_sys_init(),replaced,none,Nintendo 3DS-only code; not a target platform,
-platform/locale.cpp|devilution::GetLocales(),pending,,,
+platform/locale.cpp|devilution::GetLocales(),ported,,,src/platform/win32.rs
 platform/switch/asio/net/if.c|if_nametoindex(const char *__ifname),replaced,none,Nintendo Switch-only code; not a target platform,
 "platform/switch/asio/net/if.c|if_indextoname(unsigned int __ifindex, char *__ifname)",replaced,none,Nintendo Switch-only code; not a target platform,
 platform/switch/asio/net/if.c|if_freenameindex(struct if_nameindex *__ptr),replaced,none,Nintendo Switch-only code; not a target platform,
@@ -3734,11 +3734,11 @@ player.h|devilution::Player::RestoreFullMana(),ported,,,src/player.rs
 player.h|devilution::Player::UsesRangedWeapon(),ported,,,src/player.rs
 player.h|devilution::Player::CanChangeAction(),ported,,,src/player.rs
 player.h|devilution::Player::isOnActiveLevel(),ported,,,src/player.rs
-player.h|devilution::Player::isOnLevel(uint8_t level),pending,,,
-player.h|devilution::Player::isOnLevel(_setlevels level),pending,,,
+player.h|devilution::Player::isOnLevel(uint8_t level),ported,,,src/player.rs
+player.h|devilution::Player::isOnLevel(_setlevels level),ported,,,src/player.rs
 player.h|devilution::Player::isOnArenaLevel(),ported,,,src/player.rs
-player.h|devilution::Player::setLevel(uint8_t level),pending,,,
-player.h|devilution::Player::setLevel(_setlevels level),pending,,,
+player.h|devilution::Player::setLevel(uint8_t level),ported,,,src/player.rs
+player.h|devilution::Player::setLevel(_setlevels level),ported,,,src/player.rs
 player.h|devilution::IsInspectingPlayer(),ported,,,src/player.rs
 plrmsg.cpp|devilution::CountLinesOfText(string_view text),ported,,,src/plrmsg.rs
 plrmsg.cpp|devilution::GetNextMessage(),ported,,,src/plrmsg.rs
@@ -4102,12 +4102,12 @@ track.cpp|devilution::InvalidateTargets(),ported,,,src/track.rs
 track.cpp|devilution::RepeatMouseAction(),ported,,,src/track.rs
 track.cpp|devilution::track_isscrolling(),ported,,,src/track.rs
 utils/aulib.hpp|devilution::CreateAulibResampler(int sourceRate),replaced,platform::audio mixer,Aulib::Decoder/resampler interface; the port's mixer resamples linearly and never seeks push streams,
-"utils/bitset2d.hpp|devilution::Bitset2d::test(size_t x, size_t y)",pending,,,
-"utils/bitset2d.hpp|devilution::Bitset2d::set(size_t x, size_t y, bool value = true)",pending,,,
-"utils/bitset2d.hpp|devilution::Bitset2d::reset(size_t x, size_t y)",pending,,,
-utils/bitset2d.hpp|devilution::Bitset2d::reset(),pending,,,
-utils/bitset2d.hpp|devilution::Bitset2d::count(),pending,,,
-"utils/bitset2d.hpp|devilution::Bitset2d::index(size_t x, size_t y)",pending,,,
+"utils/bitset2d.hpp|devilution::Bitset2d::test(size_t x, size_t y)",ported,,,src/levels/gendung.rs
+"utils/bitset2d.hpp|devilution::Bitset2d::set(size_t x, size_t y, bool value = true)",ported,,,src/levels/gendung.rs
+"utils/bitset2d.hpp|devilution::Bitset2d::reset(size_t x, size_t y)",ported,,,src/levels/gendung.rs
+utils/bitset2d.hpp|devilution::Bitset2d::reset(),ported,,,src/levels/gendung.rs
+utils/bitset2d.hpp|devilution::Bitset2d::count(),ported,,,src/levels/gendung.rs
+"utils/bitset2d.hpp|devilution::Bitset2d::index(size_t x, size_t y)",ported,,,src/levels/gendung.rs
 utils/cel_to_clx.cpp|devilution::IsCelTransparent(uint8_t control),ported,,,src/utils/cel_to_clx.rs
 utils/cel_to_clx.cpp|devilution::GetCelTransparentWidth(uint8_t control),ported,,,src/utils/cel_to_clx.rs
 "utils/cel_to_clx.cpp|devilution::CelToClx(const uint8_t *data, size_t size, PointerOrValue<uint16_t> widthOrWidths)",ported,,,src/utils/cel_to_clx.rs

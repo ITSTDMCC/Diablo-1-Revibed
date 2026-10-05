@@ -2299,6 +2299,9 @@ fn on_open_grave(ctx: &mut Ctx) -> usize {
 }
 
 /// Original: `devilution::PrepareItemForNetwork(const Item &item, TItem &messageItem)` (msg.cpp).
+// @port msg.cpp|devilution::PrepareItemForNetwork(const Item &item, TCmdChItem &message) sha=769f189f9d1c
+// @port msg.cpp|devilution::PrepareItemForNetwork(const Item &item, TCmdPItem &message) sha=36460c42d2b1
+// @port msg.cpp|devilution::PrepareItemForNetwork(const Item &item, TCmdGItem &message) sha=ee39c7165c57
 // @port msg.cpp|devilution::PrepareItemForNetwork(const Item &item, TItem &messageItem) sha=0aad1868d38e
 pub fn prepare_item_for_network(item: &Item, m: &mut NetItem) {
     m.0[8] = item._iIdentified as u8;

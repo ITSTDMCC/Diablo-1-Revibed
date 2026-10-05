@@ -1536,6 +1536,8 @@ pub fn player_m_hit(ctx: &mut Ctx, pnum: usize, monster: Option<usize>, dist: i3
 }
 
 /// Original: `devilution::SetMissDir` (missiles.cpp).
+// @port missiles.h|devilution::SetMissDir(Missile &missile, Direction16 dir) sha=56ec96b7471e
+// @port missiles.h|devilution::SetMissDir(Missile &missile, Direction dir) sha=85d99e7ff129
 // @port missiles.cpp|devilution::SetMissDir(Missile &missile, int dir) sha=917f5c38d488
 pub fn set_miss_dir(ctx: &mut Ctx, mi: usize, dir: i32) {
     ctx.missiles.Missiles[mi]._mimfnum = dir;

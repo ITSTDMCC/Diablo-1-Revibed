@@ -114,28 +114,34 @@ impl Default for Bitset2d {
 }
 
 impl Bitset2d {
+    // @port utils/bitset2d.hpp|devilution::Bitset2d::index(size_t x, size_t y) sha=ce085462f20c
     fn index(x: i32, y: i32) -> usize {
         let i = y as i64 * DMAXX as i64 + x as i64;
         assert!((0..(DMAXX * DMAXY) as i64).contains(&i), "bitset::test: out_of_range");
         i as usize
     }
+    // @port utils/bitset2d.hpp|devilution::Bitset2d::test(size_t x, size_t y) sha=0471f3c65f2d
     pub fn test(&self, x: i32, y: i32) -> bool {
         self.bits[Self::index(x, y)]
     }
     pub fn set(&mut self, x: i32, y: i32) {
         self.bits[Self::index(x, y)] = true;
     }
+    // @port utils/bitset2d.hpp|devilution::Bitset2d::set(size_t x, size_t y, bool value = true) sha=b1f93cedefbc
     pub fn set_value(&mut self, x: i32, y: i32, v: bool) {
         self.bits[Self::index(x, y)] = v;
     }
     /// `reset(x, y)`
+    // @port utils/bitset2d.hpp|devilution::Bitset2d::reset(size_t x, size_t y) sha=cca27b7368b6
     pub fn reset_at(&mut self, x: i32, y: i32) {
         self.bits[Self::index(x, y)] = false;
     }
+    // @port utils/bitset2d.hpp|devilution::Bitset2d::reset() sha=ceab7821f115
     pub fn reset(&mut self) {
         self.bits = [false; DMAXX * DMAXY];
     }
     /// `count`
+    // @port utils/bitset2d.hpp|devilution::Bitset2d::count() sha=96b9167bf434
     pub fn count(&self) -> usize {
         self.bits.iter().filter(|&&b| b).count()
     }

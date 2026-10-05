@@ -48,6 +48,7 @@ fn ietf_to_posix(lang: &str) -> String {
 
 /// `GetLocales` (platform/locale.cpp), Windows branch. As in the original, the offset into the
 /// preferred-language list advances by the length of the *first* entry each time.
+// @port platform/locale.cpp|devilution::GetLocales() sha=5a17b1d9cc71
 #[cfg(windows)]
 pub fn get_locales() -> Vec<String> {
     let mut locales = Vec::new();
