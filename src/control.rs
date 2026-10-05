@@ -236,7 +236,7 @@ pub fn can_panels_cover_view(ctx: &Ctx) -> bool {
 /// `IncrementAttributeButtonSize`
 const INCREMENT_ATTRIBUTE_BUTTON_SIZE: Size = Size::new(41, 22);
 /// `ChrBtnsRect`: maps from attribute_id to the rectangle on screen used for attribute increment buttons.
-const CHR_BTNS_RECT: [Rectangle; 4] = [
+pub const CHR_BTNS_RECT: [Rectangle; 4] = [
     Rectangle::new(Point::new(137, 138), INCREMENT_ATTRIBUTE_BUTTON_SIZE),
     Rectangle::new(Point::new(137, 166), INCREMENT_ATTRIBUTE_BUTTON_SIZE),
     Rectangle::new(Point::new(137, 195), INCREMENT_ATTRIBUTE_BUTTON_SIZE),

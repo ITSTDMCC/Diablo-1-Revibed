@@ -452,40 +452,40 @@ controls/modifier_hints.cpp|devilution::InitModifierHints(),ported,,,src/control
 controls/modifier_hints.cpp|devilution::FreeModifierHints(),ported,,,src/controls/modifier_hints.rs
 controls/modifier_hints.cpp|devilution::DrawControllerModifierHints(const Surface &out),ported,,,src/controls/modifier_hints.rs
 controls/plrctrls.cpp|devilution::InGameMenu(),ported,,,src/controls/plrctrls.rs
-controls/plrctrls.cpp|devilution::GetRotaryDistance(Point destination),pending,,,
-controls/plrctrls.cpp|devilution::GetMinDistance(Point position),pending,,,
-"controls/plrctrls.cpp|devilution::GetDistance(Point destination, int maxDistance)",pending,,,
-controls/plrctrls.cpp|devilution::GetDistanceRanged(Point destination),pending,,,
-controls/plrctrls.cpp|devilution::FindItemOrObject(),pending,,,
-controls/plrctrls.cpp|devilution::CheckTownersNearby(),pending,,,
-controls/plrctrls.cpp|devilution::HasRangedSpell(),pending,,,
-controls/plrctrls.cpp|devilution::CanTargetMonster(const Monster &monster),pending,,,
-controls/plrctrls.cpp|devilution::FindRangedTarget(),pending,,,
-controls/plrctrls.cpp|devilution::FindMeleeTarget(),pending,,,
-controls/plrctrls.cpp|devilution::CheckMonstersNearby(),pending,,,
-controls/plrctrls.cpp|devilution::CheckPlayerNearby(),pending,,,
-controls/plrctrls.cpp|devilution::FindActor(),pending,,,
-controls/plrctrls.cpp|devilution::FindTrigger(),pending,,,
+controls/plrctrls.cpp|devilution::GetRotaryDistance(Point destination),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::GetMinDistance(Point position),ported,,,src/controls/plrctrls.rs
+"controls/plrctrls.cpp|devilution::GetDistance(Point destination, int maxDistance)",ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::GetDistanceRanged(Point destination),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::FindItemOrObject(),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::CheckTownersNearby(),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::HasRangedSpell(),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::CanTargetMonster(const Monster &monster),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::FindRangedTarget(),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::FindMeleeTarget(),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::CheckMonstersNearby(),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::CheckPlayerNearby(),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::FindActor(),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::FindTrigger(),ported,,,src/controls/plrctrls.rs
 controls/plrctrls.cpp|devilution::IsStandingGround(),ported,,,src/controls/plrctrls.rs
-controls/plrctrls.cpp|devilution::Interact(),pending,,,
-controls/plrctrls.cpp|devilution::AttrIncBtnSnap(AxisDirection dir),pending,,,
-controls/plrctrls.cpp|devilution::InvGetEquipSlotCoord(const inv_body_loc invSlot),pending,,,
-controls/plrctrls.cpp|devilution::InvGetEquipSlotCoordFromInvSlot(const inv_xy_slot slot),pending,,,
-controls/plrctrls.cpp|devilution::GetSlotCoord(int slot),pending,,,
-controls/plrctrls.cpp|devilution::GetItemIdOnSlot(int slot),pending,,,
-controls/plrctrls.cpp|devilution::GetItemSizeOnSlot(int slot),pending,,,
-controls/plrctrls.cpp|devilution::FindFirstSlotOnItem(int8_t itemInvId),pending,,,
-controls/plrctrls.cpp|devilution::FindFirstStashSlotOnItem(StashStruct::StashCell itemInvId),pending,,,
-controls/plrctrls.cpp|devilution::ResetInvCursorPosition(),pending,,,
-controls/plrctrls.cpp|devilution::FindClosestInventorySlot(Point mousePos),pending,,,
-controls/plrctrls.cpp|devilution::FindClosestStashSlot(Point mousePos),pending,,,
-controls/plrctrls.cpp|devilution::InventoryMoveToBody(int slot),pending,,,
-controls/plrctrls.cpp|devilution::InventoryMove(AxisDirection dir),pending,,,
-controls/plrctrls.cpp|devilution::CheckInventoryMove(AxisDirection dir),pending,,,
-controls/plrctrls.cpp|devilution::BlurInventory(),pending,,,
-controls/plrctrls.cpp|devilution::StashMove(AxisDirection dir),pending,,,
-controls/plrctrls.cpp|devilution::HotSpellMove(AxisDirection dir),pending,,,
-controls/plrctrls.cpp|devilution::SpellBookMove(AxisDirection dir),pending,,,
+controls/plrctrls.cpp|devilution::Interact(),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::AttrIncBtnSnap(AxisDirection dir),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::InvGetEquipSlotCoord(const inv_body_loc invSlot),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::InvGetEquipSlotCoordFromInvSlot(const inv_xy_slot slot),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::GetSlotCoord(int slot),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::GetItemIdOnSlot(int slot),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::GetItemSizeOnSlot(int slot),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::FindFirstSlotOnItem(int8_t itemInvId),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::FindFirstStashSlotOnItem(StashStruct::StashCell itemInvId),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::ResetInvCursorPosition(),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::FindClosestInventorySlot(Point mousePos),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::FindClosestStashSlot(Point mousePos),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::InventoryMoveToBody(int slot),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::InventoryMove(AxisDirection dir),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::CheckInventoryMove(AxisDirection dir),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::BlurInventory(),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::StashMove(AxisDirection dir),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::HotSpellMove(AxisDirection dir),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::SpellBookMove(AxisDirection dir),ported,,,src/controls/plrctrls.rs
 "controls/plrctrls.cpp|devilution::IsPathBlocked(Point position, Direction dir)",ported,,,src/controls/plrctrls.rs
 "controls/plrctrls.cpp|devilution::WalkInDir(size_t playerId, AxisDirection dir)",ported,,,src/controls/plrctrls.rs
 controls/plrctrls.cpp|devilution::QuestLogMove(AxisDirection moveDir),ported,,,src/controls/plrctrls.rs
@@ -504,7 +504,7 @@ controls/plrctrls.cpp|devilution::ControlTypeToString(ControlTypes controlType),
 controls/plrctrls.cpp|devilution::GamepadTypeToString(GamepadLayout gamepadLayout),pending,,,
 controls/plrctrls.cpp|devilution::LogGamepadChange(GamepadLayout newGamepad),pending,,,
 "controls/plrctrls.cpp|devilution::DetectInputMethod(const SDL_Event &event, const ControllerButtonEvent &gamepadEvent)",ported,,,src/controls/plrctrls.rs
-controls/plrctrls.cpp|devilution::ProcessGameAction(const GameAction &action),pending,,,
+controls/plrctrls.cpp|devilution::ProcessGameAction(const GameAction &action),ported,,,src/controls/plrctrls.rs
 controls/plrctrls.cpp|devilution::HandleRightStickMotion(),ported,,,src/controls/plrctrls.rs
 controls/plrctrls.cpp|devilution::InvalidateInventorySlot(),ported,,,src/controls/plrctrls.rs
 controls/plrctrls.cpp|devilution::FocusOnInventory(),ported,,,src/controls/plrctrls.rs
@@ -514,16 +514,16 @@ controls/plrctrls.cpp|devilution::IsMovementHandlerActive(),ported,,,src/control
 controls/plrctrls.cpp|devilution::plrctrls_after_check_curs_move(),ported,,,src/controls/plrctrls.rs
 controls/plrctrls.cpp|devilution::plrctrls_every_frame(),ported,,,src/controls/plrctrls.rs
 controls/plrctrls.cpp|devilution::plrctrls_after_game_logic(),ported,,,src/controls/plrctrls.rs
-controls/plrctrls.cpp|devilution::UseBeltItem(int type),pending,,,
-controls/plrctrls.cpp|devilution::PerformPrimaryAction(),pending,,,
-controls/plrctrls.cpp|devilution::SpellHasActorTarget(),pending,,,
-controls/plrctrls.cpp|devilution::UpdateSpellTarget(SpellID spell),pending,,,
-controls/plrctrls.cpp|devilution::TryDropItem(),pending,,,
-controls/plrctrls.cpp|devilution::PerformSpellAction(),pending,,,
-controls/plrctrls.cpp|devilution::CtrlUseInvItem(),pending,,,
-controls/plrctrls.cpp|devilution::CtrlUseStashItem(),pending,,,
-controls/plrctrls.cpp|devilution::PerformSecondaryAction(),pending,,,
-controls/plrctrls.cpp|devilution::QuickCast(size_t slot),pending,,,
+controls/plrctrls.cpp|devilution::UseBeltItem(int type),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::PerformPrimaryAction(),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::SpellHasActorTarget(),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::UpdateSpellTarget(SpellID spell),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::TryDropItem(),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::PerformSpellAction(),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::CtrlUseInvItem(),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::CtrlUseStashItem(),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::PerformSecondaryAction(),ported,,,src/controls/plrctrls.rs
+controls/plrctrls.cpp|devilution::QuickCast(size_t slot),ported,,,src/controls/plrctrls.rs
 controls/remap_keyboard.h|devilution::remap_keyboard_key(SDL_Keycode *sym),pending,,,
 "controls/touch/event_handlers.cpp|devilution::ScaleToScreenCoordinates(float x, float y)",replaced,none,touch-screen controls for mobile builds; not a target platform,
 controls/touch/event_handlers.cpp|devilution::SimulateMouseMovement(const SDL_Event &event),replaced,none,touch-screen controls for mobile builds; not a target platform,
@@ -3760,10 +3760,10 @@ portal.cpp|devilution::SetCurrentPortal(size_t p),ported,,,src/portal.rs
 portal.cpp|devilution::GetPortalLevel(),ported,,,src/portal.rs
 portal.cpp|devilution::GetPortalLvlPos(),ported,,,src/portal.rs
 "portal.cpp|devilution::PosOkPortal(int lvl, Point position)",ported,,,src/portal.rs
-qol/autopickup.cpp|devilution::HasRoomForGold(),pending,,,
-qol/autopickup.cpp|devilution::NumMiscItemsInInv(int iMiscId),pending,,,
-qol/autopickup.cpp|devilution::DoPickup(Item item),pending,,,
-qol/autopickup.cpp|devilution::AutoPickup(const Player &player),pending,,,
+qol/autopickup.cpp|devilution::HasRoomForGold(),ported,,,src/qol/autopickup.rs
+qol/autopickup.cpp|devilution::NumMiscItemsInInv(int iMiscId),ported,,,src/qol/autopickup.rs
+qol/autopickup.cpp|devilution::DoPickup(Item item),ported,,,src/qol/autopickup.rs
+qol/autopickup.cpp|devilution::AutoPickup(const Player &player),ported,,,src/qol/autopickup.rs
 qol/chatlog.cpp|devilution::LineHeight(),ported,,,src/qol/chatlog.rs
 qol/chatlog.cpp|devilution::BlankLineHeight(),ported,,,src/qol/chatlog.rs
 qol/chatlog.cpp|devilution::DividerLineMarginY(),ported,,,src/qol/chatlog.rs

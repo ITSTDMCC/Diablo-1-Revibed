@@ -315,6 +315,11 @@ pub fn can_use_staff(ctx: &Ctx, pnum: usize, spell: SpellID) -> bool {
 }
 
 impl crate::tables::spelldat::SpellData {
+    /// `SpellData::isTargeted`
+    pub fn is_targeted(&self) -> bool {
+        (self.flags.0 & SpellDataFlags::Targeted.0) == SpellDataFlags::Targeted.0
+    }
+
     /// `SpellData::isAllowedInTown`
     pub fn is_allowed_in_town(&self) -> bool {
         (self.flags.0 & SpellDataFlags::AllowedInTown.0) == SpellDataFlags::AllowedInTown.0

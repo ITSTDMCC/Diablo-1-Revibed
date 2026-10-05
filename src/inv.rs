@@ -1907,7 +1907,6 @@ pub fn get_inventory_size(item: &Item) -> Size {
 
 crate::pending_fn!(pub fn use_belt_item_slot(ctx: &mut Ctx, i: usize), "diablo.cpp|devilution::InitKeymapActions() BeltItem lambda");
 
-crate::pending_fn!(pub fn use_belt_item(ctx: &mut Ctx, type_: i32), "controls/plrctrls.cpp|devilution::UseBeltItem(int type)");
 
 /// Original: `devilution::InvDrawSlotBack` (inv.cpp): tints the slot background under an item
 /// (`targetPosition` is the bottom-left corner; rows are drawn upwards). The original only
@@ -2082,3 +2081,5 @@ pub fn draw_inv_belt(ctx: &mut Ctx, out: &crate::engine::surface::Surface) {
         }
     }
 }
+
+pub use crate::controls::plrctrls::use_belt_item;

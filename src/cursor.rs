@@ -209,7 +209,7 @@ pub fn init_level_cursor(ctx: &mut Ctx) {
 
 /// Original: `CheckTown` (cursor.cpp).
 // @port cursor.cpp|devilution::CheckTown() sha=ca5139b1e897
-fn check_town(ctx: &mut Ctx) {
+pub fn check_town(ctx: &mut Ctx) {
     for mi in 0..ctx.missiles.Missiles.len() {
         let missile = &ctx.missiles.Missiles[mi];
         if missile._mitype == MissileID::TownPortal && crate::levels::trigs::entrance_boundary_contains(missile.position.tile, ctx.cursor.cursPosition) {
@@ -225,7 +225,7 @@ fn check_town(ctx: &mut Ctx) {
 
 /// Original: `CheckRportal` (cursor.cpp).
 // @port cursor.cpp|devilution::CheckRportal() sha=ae9960bd3b03
-fn check_rportal(ctx: &mut Ctx) {
+pub fn check_rportal(ctx: &mut Ctx) {
     for mi in 0..ctx.missiles.Missiles.len() {
         let missile = &ctx.missiles.Missiles[mi];
         if missile._mitype == MissileID::RedPortal && crate::levels::trigs::entrance_boundary_contains(missile.position.tile, ctx.cursor.cursPosition) {

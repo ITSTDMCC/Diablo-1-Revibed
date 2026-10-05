@@ -61,6 +61,11 @@ impl Default for AxisDirectionRepeater {
 }
 
 impl AxisDirectionRepeater {
+    /// `AxisDirectionRepeater(int min_interval_ms)`
+    pub fn new(min_interval_ms: i32) -> AxisDirectionRepeater {
+        AxisDirectionRepeater { min_interval_ms, ..Default::default() }
+    }
+
     /// Original: `AxisDirectionRepeater::Get` (controls/axis_direction.cpp).
     // @port controls/axis_direction.cpp|devilution::AxisDirectionRepeater::Get(AxisDirection axisDirection) sha=98ba142a106c
     pub fn get(&mut self, now: u32, mut d: AxisDirection) -> AxisDirection {
