@@ -313,3 +313,10 @@ pub fn can_use_scroll(ctx: &Ctx, pnum: usize, spell: SpellID) -> bool {
 pub fn can_use_staff(ctx: &Ctx, pnum: usize, spell: SpellID) -> bool {
     crate::inv::can_use_staff(ctx, pnum, spell)
 }
+
+impl crate::tables::spelldat::SpellData {
+    /// `SpellData::isAllowedInTown`
+    pub fn is_allowed_in_town(&self) -> bool {
+        (self.flags.0 & SpellDataFlags::AllowedInTown.0) == SpellDataFlags::AllowedInTown.0
+    }
+}

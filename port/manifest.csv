@@ -79,31 +79,31 @@ DiabloUI/dialogs.cpp|devilution::Deinit(),pending,,,
 "DiabloUI/dialogs.cpp|devilution::UiErrorOkDialog(string_view caption, string_view text, const std::vector<std::unique_ptr<UiItemBase>> &renderBehind)",pending,,,
 "DiabloUI/dialogs.cpp|devilution::UiErrorOkDialog(string_view caption, string_view text, bool error)",ported,,,src/diablo_ui/dialogs.rs
 "DiabloUI/dialogs.cpp|devilution::UiErrorOkDialog(string_view text, const std::vector<std::unique_ptr<UiItemBase>> &renderBehind)",pending,,,
-DiabloUI/hero/selhero.cpp|devilution::SelheroUiFocusNavigationYesNo(),pending,,,
-DiabloUI/hero/selhero.cpp|devilution::SelheroFree(),pending,,,
-DiabloUI/hero/selhero.cpp|devilution::SelheroSetStats(),pending,,,
-DiabloUI/hero/selhero.cpp|devilution::RenderDifficultyIndicators(),pending,,,
-DiabloUI/hero/selhero.cpp|devilution::SelHeroGetHeroInfo(_uiheroinfo *pInfo),pending,,,
-DiabloUI/hero/selhero.cpp|devilution::SelheroListFocus(int value),pending,,,
-DiabloUI/hero/selhero.cpp|devilution::SelheroListDeleteYesNo(),pending,,,
-DiabloUI/hero/selhero.cpp|devilution::SelheroListSelect(int value),pending,,,
-DiabloUI/hero/selhero.cpp|devilution::SelheroListEsc(),pending,,,
-DiabloUI/hero/selhero.cpp|devilution::SelheroClassSelectorFocus(int value),pending,,,
-DiabloUI/hero/selhero.cpp|devilution::ShouldPrefillHeroName(),pending,,,
-DiabloUI/hero/selhero.cpp|devilution::RemoveSelHeroBackground(),pending,,,
-DiabloUI/hero/selhero.cpp|devilution::AddSelHeroBackground(),pending,,,
-DiabloUI/hero/selhero.cpp|devilution::SelheroClassSelectorSelect(int value),pending,,,
-DiabloUI/hero/selhero.cpp|devilution::SelheroClassSelectorEsc(),pending,,,
-DiabloUI/hero/selhero.cpp|devilution::SelheroNameSelect(int),pending,,,
-DiabloUI/hero/selhero.cpp|devilution::SelheroNameEsc(),pending,,,
-DiabloUI/hero/selhero.cpp|devilution::SelheroLoadFocus(int value),pending,,,
-DiabloUI/hero/selhero.cpp|devilution::SelheroLoadSelect(int value),pending,,,
-DiabloUI/hero/selhero.cpp|devilution::SelheroGenerateName(HeroClass heroClass),pending,,,
-DiabloUI/hero/selhero.cpp|devilution::selhero_Init(),pending,,,
-DiabloUI/hero/selhero.cpp|devilution::selhero_List_Init(),pending,,,
-"DiabloUI/hero/selhero.cpp|devilution::UiSelHeroDialog(bool (*fninfo)(bool (*fninfofunc)(_uiheroinfo *)), bool (*fncreate)(_uiheroinfo *), void (*fnstats)(unsigned int, _uidefaultstats *), bool (*fnremove)(_uiheroinfo *), _selhero_selections *dlgresult, uint32_t *saveNumber)",pending,,,
-"DiabloUI/hero/selhero.cpp|devilution::UiSelHeroSingDialog(bool (*fninfo)(bool (*fninfofunc)(_uiheroinfo *)), bool (*fncreate)(_uiheroinfo *), bool (*fnremove)(_uiheroinfo *), void (*fnstats)(unsigned int, _uidefaultstats *), _selhero_selections *dlgresult, uint32_t *saveNumber, _difficulty *difficulty)",pending,,,
-"DiabloUI/hero/selhero.cpp|devilution::UiSelHeroMultDialog(bool (*fninfo)(bool (*fninfofunc)(_uiheroinfo *)), bool (*fncreate)(_uiheroinfo *), bool (*fnremove)(_uiheroinfo *), void (*fnstats)(unsigned int, _uidefaultstats *), _selhero_selections *dlgresult, uint32_t *saveNumber)",pending,,,
+DiabloUI/hero/selhero.cpp|devilution::SelheroUiFocusNavigationYesNo(),ported,,,src/diablo_ui/selhero.rs
+DiabloUI/hero/selhero.cpp|devilution::SelheroFree(),ported,,,src/diablo_ui/selhero.rs
+DiabloUI/hero/selhero.cpp|devilution::SelheroSetStats(),ported,,,src/diablo_ui/selhero.rs
+DiabloUI/hero/selhero.cpp|devilution::RenderDifficultyIndicators(),ported,,,src/diablo_ui/selhero.rs
+DiabloUI/hero/selhero.cpp|devilution::SelHeroGetHeroInfo(_uiheroinfo *pInfo),ported,,,src/diablo_ui/selhero.rs
+DiabloUI/hero/selhero.cpp|devilution::SelheroListFocus(int value),ported,,,src/diablo_ui/selhero.rs
+DiabloUI/hero/selhero.cpp|devilution::SelheroListDeleteYesNo(),ported,,,src/diablo_ui/selhero.rs
+DiabloUI/hero/selhero.cpp|devilution::SelheroListSelect(int value),ported,,,src/diablo_ui/selhero.rs
+DiabloUI/hero/selhero.cpp|devilution::SelheroListEsc(),ported,,,src/diablo_ui/selhero.rs
+DiabloUI/hero/selhero.cpp|devilution::SelheroClassSelectorFocus(int value),ported,,,src/diablo_ui/selhero.rs
+DiabloUI/hero/selhero.cpp|devilution::ShouldPrefillHeroName(),ported,,,src/diablo_ui/selhero.rs
+DiabloUI/hero/selhero.cpp|devilution::RemoveSelHeroBackground(),ported,,,src/diablo_ui/selhero.rs
+DiabloUI/hero/selhero.cpp|devilution::AddSelHeroBackground(),ported,,,src/diablo_ui/selhero.rs
+DiabloUI/hero/selhero.cpp|devilution::SelheroClassSelectorSelect(int value),ported,,,src/diablo_ui/selhero.rs
+DiabloUI/hero/selhero.cpp|devilution::SelheroClassSelectorEsc(),ported,,,src/diablo_ui/selhero.rs
+DiabloUI/hero/selhero.cpp|devilution::SelheroNameSelect(int),ported,,,src/diablo_ui/selhero.rs
+DiabloUI/hero/selhero.cpp|devilution::SelheroNameEsc(),ported,,,src/diablo_ui/selhero.rs
+DiabloUI/hero/selhero.cpp|devilution::SelheroLoadFocus(int value),ported,,,src/diablo_ui/selhero.rs
+DiabloUI/hero/selhero.cpp|devilution::SelheroLoadSelect(int value),ported,,,src/diablo_ui/selhero.rs
+DiabloUI/hero/selhero.cpp|devilution::SelheroGenerateName(HeroClass heroClass),ported,,,src/diablo_ui/selhero.rs
+DiabloUI/hero/selhero.cpp|devilution::selhero_Init(),ported,,,src/diablo_ui/selhero.rs
+DiabloUI/hero/selhero.cpp|devilution::selhero_List_Init(),ported,,,src/diablo_ui/selhero.rs
+"DiabloUI/hero/selhero.cpp|devilution::UiSelHeroDialog(bool (*fninfo)(bool (*fninfofunc)(_uiheroinfo *)), bool (*fncreate)(_uiheroinfo *), void (*fnstats)(unsigned int, _uidefaultstats *), bool (*fnremove)(_uiheroinfo *), _selhero_selections *dlgresult, uint32_t *saveNumber)",ported,,,src/diablo_ui/selhero.rs
+"DiabloUI/hero/selhero.cpp|devilution::UiSelHeroSingDialog(bool (*fninfo)(bool (*fninfofunc)(_uiheroinfo *)), bool (*fncreate)(_uiheroinfo *), bool (*fnremove)(_uiheroinfo *), void (*fnstats)(unsigned int, _uidefaultstats *), _selhero_selections *dlgresult, uint32_t *saveNumber, _difficulty *difficulty)",ported,,,src/diablo_ui/selhero.rs
+"DiabloUI/hero/selhero.cpp|devilution::UiSelHeroMultDialog(bool (*fninfo)(bool (*fninfofunc)(_uiheroinfo *)), bool (*fncreate)(_uiheroinfo *), bool (*fnremove)(_uiheroinfo *), void (*fnstats)(unsigned int, _uidefaultstats *), _selhero_selections *dlgresult, uint32_t *saveNumber)",ported,,,src/diablo_ui/selhero.rs
 DiabloUI/mainmenu.cpp|devilution::UiMainMenuSelect(int value),ported,,,src/diablo_ui/mainmenu.rs
 DiabloUI/mainmenu.cpp|devilution::MainmenuEsc(),ported,,,src/diablo_ui/mainmenu.rs
 DiabloUI/mainmenu.cpp|devilution::MainmenuLoad(const char *name),ported,,,src/diablo_ui/mainmenu.rs
@@ -116,31 +116,31 @@ DiabloUI/multi/selconn.cpp|devilution::SelconnEsc(),pending,,,
 DiabloUI/multi/selconn.cpp|devilution::SelconnFocus(int value),pending,,,
 DiabloUI/multi/selconn.cpp|devilution::SelconnSelect(int value),pending,,,
 DiabloUI/multi/selconn.cpp|devilution::UiSelectProvider(GameData *gameData),pending,,,
-DiabloUI/multi/selgame.cpp|devilution::selgame_FreeVectors(),pending,,,
-DiabloUI/multi/selgame.cpp|devilution::selgame_Init(),pending,,,
-DiabloUI/multi/selgame.cpp|devilution::selgame_Free(),pending,,,
-DiabloUI/multi/selgame.cpp|devilution::IsGameCompatible(const GameData &data),pending,,,
-DiabloUI/multi/selgame.cpp|devilution::GetErrorMessageIncompatibility(const GameData &data),pending,,,
-DiabloUI/multi/selgame.cpp|devilution::UiInitGameSelectionList(string_view search),pending,,,
-DiabloUI/multi/selgame.cpp|devilution::selgame_GameSelection_Init(),pending,,,
-DiabloUI/multi/selgame.cpp|devilution::selgame_GameSelection_Focus(int value),pending,,,
-DiabloUI/multi/selgame.cpp|devilution::UpdateHeroLevel(_uiheroinfo *pInfo),pending,,,
-DiabloUI/multi/selgame.cpp|devilution::selgame_GameSelection_Select(int value),pending,,,
-DiabloUI/multi/selgame.cpp|devilution::selgame_GameSelection_Esc(),pending,,,
-DiabloUI/multi/selgame.cpp|devilution::selgame_Diff_Focus(int value),pending,,,
-DiabloUI/multi/selgame.cpp|devilution::IsDifficultyAllowed(int value),pending,,,
-DiabloUI/multi/selgame.cpp|devilution::selgame_Diff_Select(int value),pending,,,
-DiabloUI/multi/selgame.cpp|devilution::selgame_Diff_Esc(),pending,,,
-DiabloUI/multi/selgame.cpp|devilution::selgame_GameSpeedSelection(),pending,,,
-DiabloUI/multi/selgame.cpp|devilution::selgame_Speed_Focus(int value),pending,,,
-DiabloUI/multi/selgame.cpp|devilution::selgame_Speed_Esc(),pending,,,
-DiabloUI/multi/selgame.cpp|devilution::selgame_Speed_Select(int value),pending,,,
-DiabloUI/multi/selgame.cpp|devilution::selgame_Password_Init(int),pending,,,
-DiabloUI/multi/selgame.cpp|devilution::IsGameCompatibleWithErrorMessage(const GameData &data),pending,,,
-DiabloUI/multi/selgame.cpp|devilution::selgame_Password_Select(int),pending,,,
-DiabloUI/multi/selgame.cpp|devilution::selgame_Password_Esc(),pending,,,
-DiabloUI/multi/selgame.cpp|devilution::RefreshGameList(),pending,,,
-"DiabloUI/multi/selgame.cpp|devilution::UiSelectGame(GameData *gameData, int *playerId)",pending,,,
+DiabloUI/multi/selgame.cpp|devilution::selgame_FreeVectors(),ported,,,src/diablo_ui/selgame.rs
+DiabloUI/multi/selgame.cpp|devilution::selgame_Init(),ported,,,src/diablo_ui/selgame.rs
+DiabloUI/multi/selgame.cpp|devilution::selgame_Free(),ported,,,src/diablo_ui/selgame.rs
+DiabloUI/multi/selgame.cpp|devilution::IsGameCompatible(const GameData &data),ported,,,src/diablo_ui/selgame.rs
+DiabloUI/multi/selgame.cpp|devilution::GetErrorMessageIncompatibility(const GameData &data),ported,,,src/diablo_ui/selgame.rs
+DiabloUI/multi/selgame.cpp|devilution::UiInitGameSelectionList(string_view search),ported,,,src/diablo_ui/selgame.rs
+DiabloUI/multi/selgame.cpp|devilution::selgame_GameSelection_Init(),ported,,,src/diablo_ui/selgame.rs
+DiabloUI/multi/selgame.cpp|devilution::selgame_GameSelection_Focus(int value),ported,,,src/diablo_ui/selgame.rs
+DiabloUI/multi/selgame.cpp|devilution::UpdateHeroLevel(_uiheroinfo *pInfo),ported,,,src/diablo_ui/selgame.rs
+DiabloUI/multi/selgame.cpp|devilution::selgame_GameSelection_Select(int value),ported,,,src/diablo_ui/selgame.rs
+DiabloUI/multi/selgame.cpp|devilution::selgame_GameSelection_Esc(),ported,,,src/diablo_ui/selgame.rs
+DiabloUI/multi/selgame.cpp|devilution::selgame_Diff_Focus(int value),ported,,,src/diablo_ui/selgame.rs
+DiabloUI/multi/selgame.cpp|devilution::IsDifficultyAllowed(int value),ported,,,src/diablo_ui/selgame.rs
+DiabloUI/multi/selgame.cpp|devilution::selgame_Diff_Select(int value),ported,,,src/diablo_ui/selgame.rs
+DiabloUI/multi/selgame.cpp|devilution::selgame_Diff_Esc(),ported,,,src/diablo_ui/selgame.rs
+DiabloUI/multi/selgame.cpp|devilution::selgame_GameSpeedSelection(),ported,,,src/diablo_ui/selgame.rs
+DiabloUI/multi/selgame.cpp|devilution::selgame_Speed_Focus(int value),ported,,,src/diablo_ui/selgame.rs
+DiabloUI/multi/selgame.cpp|devilution::selgame_Speed_Esc(),ported,,,src/diablo_ui/selgame.rs
+DiabloUI/multi/selgame.cpp|devilution::selgame_Speed_Select(int value),ported,,,src/diablo_ui/selgame.rs
+DiabloUI/multi/selgame.cpp|devilution::selgame_Password_Init(int),ported,,,src/diablo_ui/selgame.rs
+DiabloUI/multi/selgame.cpp|devilution::IsGameCompatibleWithErrorMessage(const GameData &data),ported,,,src/diablo_ui/selgame.rs
+DiabloUI/multi/selgame.cpp|devilution::selgame_Password_Select(int),ported,,,src/diablo_ui/selgame.rs
+DiabloUI/multi/selgame.cpp|devilution::selgame_Password_Esc(),ported,,,src/diablo_ui/selgame.rs
+DiabloUI/multi/selgame.cpp|devilution::RefreshGameList(),ported,,,src/diablo_ui/selgame.rs
+"DiabloUI/multi/selgame.cpp|devilution::UiSelectGame(GameData *gameData, int *playerId)",ported,,,src/diablo_ui/selgame.rs
 DiabloUI/progress.cpp|devilution::DialogActionCancel(),pending,,,
 DiabloUI/progress.cpp|devilution::ProgressLoadBackground(),pending,,,
 DiabloUI/progress.cpp|devilution::ProgressLoadForeground(),pending,,,
@@ -157,17 +157,17 @@ DiabloUI/scrollbar.h|devilution::DownArrowRect(const UiScrollbar &bar),ported,,,
 DiabloUI/scrollbar.h|devilution::BarHeight(const UiScrollbar &bar),ported,,,src/diablo_ui/scrollbar.rs
 DiabloUI/scrollbar.h|devilution::BarRect(const UiScrollbar &bar),ported,,,src/diablo_ui/scrollbar.rs
 "DiabloUI/scrollbar.h|devilution::ThumbRect(const UiScrollbar &bar, size_t selectedIndex, size_t numItems)",ported,,,src/diablo_ui/scrollbar.rs
-DiabloUI/selok.cpp|devilution::selok_Free(),pending,,,
-DiabloUI/selok.cpp|devilution::selok_Select(int),pending,,,
-DiabloUI/selok.cpp|devilution::selok_Esc(),pending,,,
-"DiabloUI/selok.cpp|devilution::UiSelOkDialog(const char *title, const char *body, bool background)",pending,,,
+DiabloUI/selok.cpp|devilution::selok_Free(),ported,,,src/diablo_ui/selok.rs
+DiabloUI/selok.cpp|devilution::selok_Select(int),ported,,,src/diablo_ui/selok.rs
+DiabloUI/selok.cpp|devilution::selok_Esc(),ported,,,src/diablo_ui/selok.rs
+"DiabloUI/selok.cpp|devilution::UiSelOkDialog(const char *title, const char *body, bool background)",ported,,,src/diablo_ui/selok.rs
 DiabloUI/selstart.cpp|devilution::ItemSelected(int value),ported,,,src/diablo_ui/selstart.rs
 DiabloUI/selstart.cpp|devilution::EscPressed(),ported,,,src/diablo_ui/selstart.rs
 DiabloUI/selstart.cpp|devilution::UiSelStartUpGameOption(),ported,,,src/diablo_ui/selstart.rs
-DiabloUI/selyesno.cpp|devilution::SelyesnoFree(),pending,,,
-DiabloUI/selyesno.cpp|devilution::SelyesnoSelect(int value),pending,,,
-DiabloUI/selyesno.cpp|devilution::SelyesnoEsc(),pending,,,
-"DiabloUI/selyesno.cpp|devilution::UiSelHeroYesNoDialog(const char *title, const char *body)",pending,,,
+DiabloUI/selyesno.cpp|devilution::SelyesnoFree(),ported,,,src/diablo_ui/selyesno.rs
+DiabloUI/selyesno.cpp|devilution::SelyesnoSelect(int value),ported,,,src/diablo_ui/selyesno.rs
+DiabloUI/selyesno.cpp|devilution::SelyesnoEsc(),ported,,,src/diablo_ui/selyesno.rs
+"DiabloUI/selyesno.cpp|devilution::UiSelHeroYesNoDialog(const char *title, const char *body)",ported,,,src/diablo_ui/selyesno.rs
 DiabloUI/settingsmenu.cpp|devilution::IsValidEntry(OptionEntryBase *pOptionEntry),pending,,,
 DiabloUI/settingsmenu.cpp|devilution::CreateDrawStringFormatArgForEntry(OptionEntryBase *pEntry),pending,,,
 DiabloUI/settingsmenu.cpp|devilution::NeedsTwoLinesToDisplayOption(std::vector<DrawStringFormatArg> &formatArgs),pending,,,
@@ -327,12 +327,12 @@ control.cpp|devilution::IsLevelUpButtonVisible(),pending,,,
 control.cpp|devilution::CalculatePanelAreas(),ported,,,src/control.rs
 control.cpp|devilution::IsChatAvailable(),pending,,,
 control.cpp|devilution::FocusOnCharInfo(),pending,,,
-control.cpp|devilution::OpenCharPanel(),pending,,,
-control.cpp|devilution::CloseCharPanel(),pending,,,
-control.cpp|devilution::ToggleCharPanel(),pending,,,
+control.cpp|devilution::OpenCharPanel(),ported,,,src/control.rs
+control.cpp|devilution::CloseCharPanel(),ported,,,src/control.rs
+control.cpp|devilution::ToggleCharPanel(),ported,,,src/control.rs
 control.cpp|devilution::AddPanelString(string_view str),ported,,,src/control.rs
 control.cpp|devilution::AddPanelString(std::string &&str),ported,,,src/control.rs
-"control.cpp|devilution::GetPanelPosition(UiPanels panel, Point offset)",pending,,,
+"control.cpp|devilution::GetPanelPosition(UiPanels panel, Point offset)",ported,,,src/control.rs
 "control.cpp|devilution::DrawPanelBox(const Surface &out, SDL_Rect srcRect, Point targetPosition)",pending,,,
 control.cpp|devilution::DrawLifeFlaskUpper(const Surface &out),pending,,,
 control.cpp|devilution::DrawManaFlaskUpper(const Surface &out),pending,,,
@@ -364,12 +364,12 @@ control.cpp|devilution::DrawTalkPan(const Surface &out),pending,,,
 control.cpp|devilution::control_check_talk_btn(),pending,,,
 control.cpp|devilution::control_release_talk_btn(),pending,,,
 control.cpp|devilution::control_type_message(),pending,,,
-control.cpp|devilution::control_reset_talk(),pending,,,
+control.cpp|devilution::control_reset_talk(),ported,,,src/control.rs
 control.cpp|devilution::IsTalkActive(),pending,,,
 control.cpp|devilution::control_new_text(string_view text),pending,,,
 control.cpp|devilution::control_presskeys(SDL_Keycode vkey),pending,,,
 control.cpp|devilution::DiabloHotkeyMsg(uint32_t dwMsg),pending,,,
-control.cpp|devilution::CloseGoldDrop(),pending,,,
+control.cpp|devilution::CloseGoldDrop(),ported,,,src/control.rs
 control.cpp|devilution::GoldDropNewText(string_view text),pending,,,
 control.h|devilution::CanPanelsCoverView(),pending,,,
 controls/axis_direction.cpp|devilution::AxisDirectionRepeater::Get(AxisDirection axisDirection),ported,,,src/controls/controller.rs
@@ -624,15 +624,15 @@ controls/touch/renderers.h|devilution::VirtualGamepadRenderer::VirtualGamepadRen
 cursor.cpp|devilution::InitCursor(),pending,,,
 cursor.cpp|devilution::FreeCursor(),pending,,,
 cursor.cpp|devilution::GetInvItemSprite(int cursId),pending,,,
-cursor.cpp|devilution::GetNumInvItems(),pending,,,
-cursor.cpp|devilution::GetInvItemSize(int cursId),pending,,,
+cursor.cpp|devilution::GetNumInvItems(),ported,,,src/cursor.rs
+cursor.cpp|devilution::GetInvItemSize(int cursId),ported,,,src/cursor.rs
 cursor.cpp|devilution::GetHalfSizeItemSprite(int cursId),pending,,,
 cursor.cpp|devilution::GetHalfSizeItemSpriteRed(int cursId),pending,,,
 cursor.cpp|devilution::CreateHalfSizeItemSprites(),pending,,,
 cursor.cpp|devilution::FreeHalfSizeItemSprites(),pending,,,
 "cursor.cpp|devilution::DrawItem(const Item &item, const Surface &out, Point position, ClxSprite clx)",pending,,,
 cursor.cpp|devilution::ResetCursor(),ported,,,src/cursor.rs
-cursor.cpp|devilution::NewCursor(const Item &item),pending,,,
+cursor.cpp|devilution::NewCursor(const Item &item),ported,,,src/cursor.rs
 cursor.cpp|devilution::NewCursor(int cursId),ported,,,src/cursor.rs
 "cursor.cpp|devilution::DrawSoftwareCursor(const Surface &out, Point position, int cursId)",pending,,,
 cursor.cpp|devilution::InitLevelCursor(),pending,,,
@@ -727,7 +727,7 @@ discord/discord.h|devilution::discord_manager::UpdateMenu(bool forced = false),r
 doom.cpp|devilution::doom_init(),pending,,,
 doom.cpp|devilution::doom_close(),pending,,,
 doom.cpp|devilution::doom_draw(const Surface &out),pending,,,
-dvlnet/abstract_net.cpp|devilution::net::abstract_net::MakeNet(provider_t provider),pending,,,
+dvlnet/abstract_net.cpp|devilution::net::abstract_net::MakeNet(provider_t provider),ported,,,src/storm/storm_net.rs
 dvlnet/abstract_net.h|devilution::net::dvlnet_exception::what(),pending,,,
 dvlnet/abstract_net.h|devilution::net::abstract_net::setup_password(std::string passwd),pending,,,
 dvlnet/abstract_net.h|devilution::net::abstract_net::clear_password(),pending,,,
@@ -820,21 +820,21 @@ dvlnet/frame_queue.cpp|devilution::net::frame_queue::PacketReady(),pending,,,
 dvlnet/frame_queue.cpp|devilution::net::frame_queue::ReadPacket(),pending,,,
 dvlnet/frame_queue.cpp|devilution::net::frame_queue::MakeFrame(buffer_t packetbuf),pending,,,
 dvlnet/frame_queue.h|devilution::net::frame_queue_exception::what(),pending,,,
-dvlnet/loopback.cpp|devilution::net::loopback::create(std::string),pending,,,
-dvlnet/loopback.cpp|devilution::net::loopback::join(std::string),pending,,,
-"dvlnet/loopback.cpp|devilution::net::loopback::SNetReceiveMessage(uint8_t *sender, void **data, uint32_t *size)",pending,,,
-"dvlnet/loopback.cpp|devilution::net::loopback::SNetSendMessage(int dest, void *data, unsigned int size)",pending,,,
-"dvlnet/loopback.cpp|devilution::net::loopback::SNetReceiveTurns(char **data, size_t *size, uint32_t *)",pending,,,
-"dvlnet/loopback.cpp|devilution::net::loopback::SNetSendTurn(char * , unsigned int)",pending,,,
-dvlnet/loopback.cpp|devilution::net::loopback::SNetGetProviderCaps(struct _SNETCAPS *caps),pending,,,
-"dvlnet/loopback.cpp|devilution::net::loopback::SNetRegisterEventHandler(event_type , SEVTHANDLER)",pending,,,
-dvlnet/loopback.cpp|devilution::net::loopback::SNetUnregisterEventHandler(event_type),pending,,,
-dvlnet/loopback.cpp|devilution::net::loopback::SNetLeaveGame(int),pending,,,
-"dvlnet/loopback.cpp|devilution::net::loopback::SNetDropPlayer(int , uint32_t)",pending,,,
-dvlnet/loopback.cpp|devilution::net::loopback::setup_gameinfo(buffer_t info),pending,,,
-dvlnet/loopback.cpp|devilution::net::loopback::SNetGetOwnerTurnsWaiting(uint32_t *turns),pending,,,
-dvlnet/loopback.cpp|devilution::net::loopback::SNetGetTurnsInTransit(uint32_t *turns),pending,,,
-dvlnet/loopback.cpp|devilution::net::loopback::make_default_gamename(),pending,,,
+dvlnet/loopback.cpp|devilution::net::loopback::create(std::string),ported,,,src/storm/storm_net.rs
+dvlnet/loopback.cpp|devilution::net::loopback::join(std::string),ported,,,src/storm/storm_net.rs
+"dvlnet/loopback.cpp|devilution::net::loopback::SNetReceiveMessage(uint8_t *sender, void **data, uint32_t *size)",ported,,,src/storm/storm_net.rs
+"dvlnet/loopback.cpp|devilution::net::loopback::SNetSendMessage(int dest, void *data, unsigned int size)",ported,,,src/storm/storm_net.rs
+"dvlnet/loopback.cpp|devilution::net::loopback::SNetReceiveTurns(char **data, size_t *size, uint32_t *)",ported,,,src/storm/storm_net.rs
+"dvlnet/loopback.cpp|devilution::net::loopback::SNetSendTurn(char * , unsigned int)",ported,,,src/storm/storm_net.rs
+dvlnet/loopback.cpp|devilution::net::loopback::SNetGetProviderCaps(struct _SNETCAPS *caps),ported,,,src/storm/storm_net.rs
+"dvlnet/loopback.cpp|devilution::net::loopback::SNetRegisterEventHandler(event_type , SEVTHANDLER)",ported,,,src/storm/storm_net.rs
+dvlnet/loopback.cpp|devilution::net::loopback::SNetUnregisterEventHandler(event_type),ported,,,src/storm/storm_net.rs
+dvlnet/loopback.cpp|devilution::net::loopback::SNetLeaveGame(int),ported,,,src/storm/storm_net.rs
+"dvlnet/loopback.cpp|devilution::net::loopback::SNetDropPlayer(int , uint32_t)",ported,,,src/storm/storm_net.rs
+dvlnet/loopback.cpp|devilution::net::loopback::setup_gameinfo(buffer_t info),ported,,,src/storm/storm_net.rs
+dvlnet/loopback.cpp|devilution::net::loopback::SNetGetOwnerTurnsWaiting(uint32_t *turns),ported,,,src/storm/storm_net.rs
+dvlnet/loopback.cpp|devilution::net::loopback::SNetGetTurnsInTransit(uint32_t *turns),ported,,,src/storm/storm_net.rs
+dvlnet/loopback.cpp|devilution::net::loopback::make_default_gamename(),ported,,,src/storm/storm_net.rs
 dvlnet/loopback.h|devilution::net::loopback::loopback(),pending,,,
 dvlnet/packet.cpp|devilution::net::packet_out::GenerateCookie(),pending,,,
 dvlnet/packet.cpp|devilution::net::packet_type_to_string(uint8_t packetType),pending,,,
@@ -1725,67 +1725,67 @@ interfac.cpp|devilution::interface_msg_pump(),pending,,,
 interfac.cpp|devilution::IncProgress(),pending,,,
 interfac.cpp|devilution::CompleteProgress(),pending,,,
 interfac.cpp|devilution::ShowProgress(interface_mode uMsg),pending,,,
-"inv.cpp|devilution::AddItemToInvGrid(Player &player, int invGridIndex, int invListIndex, Size itemSize)",pending,,,
-inv.cpp|devilution::FitsInBeltSlot(const Item &item),pending,,,
-inv.cpp|devilution::CanEquip(const Item &item),pending,,,
-"inv.cpp|devilution::CanWield(Player &player, const Item &item)",pending,,,
-"inv.cpp|devilution::CanEquip(Player &player, const Item &item, inv_body_loc bodyLocation)",pending,,,
-"inv.cpp|devilution::ChangeEquipment(Player &player, inv_body_loc bodyLocation, const Item &item)",pending,,,
-"inv.cpp|devilution::AutoEquip(Player &player, const Item &item, inv_body_loc bodyLocation, bool persistItem)",pending,,,
-"inv.cpp|devilution::FindTargetSlotUnderItemCursor(Point cursorPosition, Size itemSize)",pending,,,
-"inv.cpp|devilution::CheckInvPaste(Player &player, Point cursorPosition)",pending,,,
-"inv.cpp|devilution::CheckInvCut(Player &player, Point cursorPosition, bool automaticMove, bool dropItem)",pending,,,
-"inv.cpp|devilution::TryCombineNaKrulNotes(Player &player, Item &noteItem)",pending,,,
-"inv.cpp|devilution::CheckQuestItem(Player &player, Item &questItem)",pending,,,
-inv.cpp|devilution::CleanupItems(int ii),pending,,,
-"inv.cpp|devilution::CanUseStaff(Item &staff, SpellID spell)",pending,,,
-inv.cpp|devilution::StartGoldDrop(),pending,,,
-"inv.cpp|devilution::CreateGoldItemInInventorySlot(Player &player, int slotIndex, int value)",pending,,,
+"inv.cpp|devilution::AddItemToInvGrid(Player &player, int invGridIndex, int invListIndex, Size itemSize)",ported,,,src/inv.rs
+inv.cpp|devilution::FitsInBeltSlot(const Item &item),ported,,,src/inv.rs
+inv.cpp|devilution::CanEquip(const Item &item),ported,,,src/inv.rs
+"inv.cpp|devilution::CanWield(Player &player, const Item &item)",ported,,,src/inv.rs
+"inv.cpp|devilution::CanEquip(Player &player, const Item &item, inv_body_loc bodyLocation)",ported,,,src/inv.rs
+"inv.cpp|devilution::ChangeEquipment(Player &player, inv_body_loc bodyLocation, const Item &item)",ported,,,src/inv.rs
+"inv.cpp|devilution::AutoEquip(Player &player, const Item &item, inv_body_loc bodyLocation, bool persistItem)",ported,,,src/inv.rs
+"inv.cpp|devilution::FindTargetSlotUnderItemCursor(Point cursorPosition, Size itemSize)",ported,,,src/inv.rs
+"inv.cpp|devilution::CheckInvPaste(Player &player, Point cursorPosition)",ported,,,src/inv.rs
+"inv.cpp|devilution::CheckInvCut(Player &player, Point cursorPosition, bool automaticMove, bool dropItem)",ported,,,src/inv.rs
+"inv.cpp|devilution::TryCombineNaKrulNotes(Player &player, Item &noteItem)",ported,,,src/inv.rs
+"inv.cpp|devilution::CheckQuestItem(Player &player, Item &questItem)",ported,,,src/inv.rs
+inv.cpp|devilution::CleanupItems(int ii),ported,,,src/inv.rs
+"inv.cpp|devilution::CanUseStaff(Item &staff, SpellID spell)",ported,,,src/inv.rs
+inv.cpp|devilution::StartGoldDrop(),ported,,,src/inv.rs
+"inv.cpp|devilution::CreateGoldItemInInventorySlot(Player &player, int slotIndex, int value)",ported,,,src/inv.rs
 "inv.cpp|devilution::InvDrawSlotBack(const Surface &out, Point targetPosition, Size size, item_quality itemQuality)",pending,,,
-inv.cpp|devilution::CanBePlacedOnBelt(const Item &item),pending,,,
-inv.cpp|devilution::FreeInvGFX(),pending,,,
-inv.cpp|devilution::InitInv(),pending,,,
+inv.cpp|devilution::CanBePlacedOnBelt(const Item &item),ported,,,src/inv.rs
+inv.cpp|devilution::FreeInvGFX(),ported,,,src/inv.rs
+inv.cpp|devilution::InitInv(),ported,,,src/inv.rs
 inv.cpp|devilution::DrawInv(const Surface &out),pending,,,
 inv.cpp|devilution::DrawInvBelt(const Surface &out),pending,,,
-"inv.cpp|devilution::RemoveEquipment(Player &player, inv_body_loc bodyLocation, bool hiPri)",pending,,,
-"inv.cpp|devilution::AutoPlaceItemInBelt(Player &player, const Item &item, bool persistItem)",pending,,,
-"inv.cpp|devilution::AutoEquip(Player &player, const Item &item, bool persistItem)",pending,,,
-"inv.cpp|devilution::AutoEquipEnabled(const Player &player, const Item &item)",pending,,,
-"inv.cpp|devilution::AutoPlaceItemInInventory(Player &player, const Item &item, bool persistItem)",pending,,,
-"inv.cpp|devilution::AutoPlaceItemInInventorySlot(Player &player, int slotIndex, const Item &item, bool persistItem)",pending,,,
-inv.cpp|devilution::RoomForGold(),pending,,,
-"inv.cpp|devilution::AddGoldToInventory(Player &player, int value)",pending,,,
-"inv.cpp|devilution::GoldAutoPlace(Player &player, Item &goldStack)",pending,,,
-"inv.cpp|devilution::CheckInvSwap(Player &player, inv_body_loc bLoc)",pending,,,
-"inv.cpp|devilution::inv_update_rem_item(Player &player, inv_body_loc iv)",pending,,,
-"inv.cpp|devilution::CheckInvSwap(Player &player, const Item &item, int invGridIndex)",pending,,,
-"inv.cpp|devilution::CheckInvRemove(Player &player, int invGridIndex)",pending,,,
-"inv.cpp|devilution::TransferItemToStash(Player &player, int location)",pending,,,
-"inv.cpp|devilution::CheckInvItem(bool isShiftHeld, bool isCtrlHeld)",pending,,,
-"inv.cpp|devilution::CheckInvScrn(bool isShiftHeld, bool isCtrlHeld)",pending,,,
-"inv.cpp|devilution::InvGetItem(Player &player, int ii)",pending,,,
-"inv.cpp|devilution::FindAdjacentPositionForItem(Point origin, Direction facing)",pending,,,
-"inv.cpp|devilution::AutoGetItem(Player &player, Item *itemPointer, int ii)",pending,,,
-"inv.cpp|devilution::FindGetItem(uint32_t iseed, _item_indexes idx, uint16_t createInfo)",pending,,,
-"inv.cpp|devilution::SyncGetItem(Point position, uint32_t iseed, _item_indexes idx, uint16_t ci)",pending,,,
-inv.cpp|devilution::CanPut(Point position),pending,,,
+"inv.cpp|devilution::RemoveEquipment(Player &player, inv_body_loc bodyLocation, bool hiPri)",ported,,,src/inv.rs
+"inv.cpp|devilution::AutoPlaceItemInBelt(Player &player, const Item &item, bool persistItem)",ported,,,src/inv.rs
+"inv.cpp|devilution::AutoEquip(Player &player, const Item &item, bool persistItem)",ported,,,src/inv.rs
+"inv.cpp|devilution::AutoEquipEnabled(const Player &player, const Item &item)",ported,,,src/inv.rs
+"inv.cpp|devilution::AutoPlaceItemInInventory(Player &player, const Item &item, bool persistItem)",ported,,,src/inv.rs
+"inv.cpp|devilution::AutoPlaceItemInInventorySlot(Player &player, int slotIndex, const Item &item, bool persistItem)",ported,,,src/inv.rs
+inv.cpp|devilution::RoomForGold(),ported,,,src/inv.rs
+"inv.cpp|devilution::AddGoldToInventory(Player &player, int value)",ported,,,src/inv.rs
+"inv.cpp|devilution::GoldAutoPlace(Player &player, Item &goldStack)",ported,,,src/inv.rs
+"inv.cpp|devilution::CheckInvSwap(Player &player, inv_body_loc bLoc)",ported,,,src/inv.rs
+"inv.cpp|devilution::inv_update_rem_item(Player &player, inv_body_loc iv)",ported,,,src/inv.rs
+"inv.cpp|devilution::CheckInvSwap(Player &player, const Item &item, int invGridIndex)",ported,,,src/inv.rs
+"inv.cpp|devilution::CheckInvRemove(Player &player, int invGridIndex)",ported,,,src/inv.rs
+"inv.cpp|devilution::TransferItemToStash(Player &player, int location)",ported,,,src/inv.rs
+"inv.cpp|devilution::CheckInvItem(bool isShiftHeld, bool isCtrlHeld)",ported,,,src/inv.rs
+"inv.cpp|devilution::CheckInvScrn(bool isShiftHeld, bool isCtrlHeld)",ported,,,src/inv.rs
+"inv.cpp|devilution::InvGetItem(Player &player, int ii)",ported,,,src/inv.rs
+"inv.cpp|devilution::FindAdjacentPositionForItem(Point origin, Direction facing)",ported,,,src/inv.rs
+"inv.cpp|devilution::AutoGetItem(Player &player, Item *itemPointer, int ii)",ported,,,src/inv.rs
+"inv.cpp|devilution::FindGetItem(uint32_t iseed, _item_indexes idx, uint16_t createInfo)",ported,,,src/inv.rs
+"inv.cpp|devilution::SyncGetItem(Point position, uint32_t iseed, _item_indexes idx, uint16_t ci)",ported,,,src/inv.rs
+inv.cpp|devilution::CanPut(Point position),ported,,,src/inv.rs
 "inv.cpp|devilution::ClampDurability(const Item &item, int durability)",ported,,,src/inv.rs
 "inv.cpp|devilution::ClampToHit(const Item &item, int16_t toHit)",ported,,,src/inv.rs
 "inv.cpp|devilution::ClampMaxDam(const Item &item, uint8_t maxDam)",ported,,,src/inv.rs
-"inv.cpp|devilution::SyncDropItem(Point position, _item_indexes idx, uint16_t icreateinfo, int iseed, int id, int dur, int mdur, int ch, int mch, int ivalue, uint32_t ibuff, int toHit, int maxDam)",pending,,,
-"inv.cpp|devilution::SyncDropEar(Point position, uint16_t icreateinfo, uint32_t iseed, uint8_t cursval, string_view heroname)",pending,,,
-inv.cpp|devilution::CheckInvHLight(),pending,,,
-inv.cpp|devilution::ConsumeScroll(Player &player),pending,,,
-"inv.cpp|devilution::CanUseScroll(Player &player, SpellID spell)",pending,,,
-inv.cpp|devilution::ConsumeStaffCharge(Player &player),pending,,,
-"inv.cpp|devilution::CanUseStaff(Player &player, SpellID spellId)",pending,,,
-"inv.cpp|devilution::GetInventoryItem(Player &player, int location)",pending,,,
-inv.cpp|devilution::UseInvItem(int cii),pending,,,
-inv.cpp|devilution::CloseInventory(),pending,,,
-inv.cpp|devilution::CloseStash(),pending,,,
-inv.cpp|devilution::DoTelekinesis(),pending,,,
-inv.cpp|devilution::CalculateGold(Player &player),pending,,,
-inv.cpp|devilution::GetInventorySize(const Item &item),pending,,,
+"inv.cpp|devilution::SyncDropItem(Point position, _item_indexes idx, uint16_t icreateinfo, int iseed, int id, int dur, int mdur, int ch, int mch, int ivalue, uint32_t ibuff, int toHit, int maxDam)",ported,,,src/inv.rs
+"inv.cpp|devilution::SyncDropEar(Point position, uint16_t icreateinfo, uint32_t iseed, uint8_t cursval, string_view heroname)",ported,,,src/inv.rs
+inv.cpp|devilution::CheckInvHLight(),ported,,,src/inv.rs
+inv.cpp|devilution::ConsumeScroll(Player &player),ported,,,src/inv.rs
+"inv.cpp|devilution::CanUseScroll(Player &player, SpellID spell)",ported,,,src/inv.rs
+inv.cpp|devilution::ConsumeStaffCharge(Player &player),ported,,,src/inv.rs
+"inv.cpp|devilution::CanUseStaff(Player &player, SpellID spellId)",ported,,,src/inv.rs
+"inv.cpp|devilution::GetInventoryItem(Player &player, int location)",ported,,,src/inv.rs
+inv.cpp|devilution::UseInvItem(int cii),ported,,,src/inv.rs
+inv.cpp|devilution::CloseInventory(),ported,,,src/inv.rs
+inv.cpp|devilution::CloseStash(),ported,,,src/inv.rs
+inv.cpp|devilution::DoTelekinesis(),ported,,,src/inv.rs
+inv.cpp|devilution::CalculateGold(Player &player),ported,,,src/inv.rs
+inv.cpp|devilution::GetInventorySize(const Item &item),ported,,,src/inv.rs
 "inv.h|devilution::HasInventoryItem(Player &player, Predicate &&predicate)",pending,,,
 "inv.h|devilution::HasBeltItem(Player &player, Predicate &&predicate)",pending,,,
 "inv.h|devilution::HasInventoryOrBeltItem(Player &player, Predicate &&predicate)",pending,,,
@@ -2235,48 +2235,48 @@ levels/themes.cpp|devilution::UpdateL4Trans(),pending,,,
 levels/themes.cpp|devilution::InitThemes(),pending,,,
 levels/themes.cpp|devilution::HoldThemeRooms(),pending,,,
 levels/themes.cpp|devilution::CreateThemeRooms(),pending,,,
-"levels/town.cpp|devilution::FillSector(const char *path, int xi, int yy)",pending,,,
-"levels/town.cpp|devilution::FillTile(int xx, int yy, int t)",pending,,,
-levels/town.cpp|devilution::TownCloseHive(),pending,,,
-levels/town.cpp|devilution::TownCloseGrave(),pending,,,
-levels/town.cpp|devilution::InitTownPieces(),pending,,,
-levels/town.cpp|devilution::DrlgTPass3(),pending,,,
-levels/town.cpp|devilution::OpensHive(Point position),pending,,,
-levels/town.cpp|devilution::OpensGrave(Point position),pending,,,
-levels/town.cpp|devilution::OpenHive(),pending,,,
-levels/town.cpp|devilution::OpenGrave(),pending,,,
-levels/town.cpp|devilution::TownOpenHive(),pending,,,
-levels/town.cpp|devilution::TownOpenGrave(),pending,,,
-levels/town.cpp|devilution::CleanTownFountain(),pending,,,
-levels/town.cpp|devilution::CreateTown(lvl_entry entry),pending,,,
-levels/trigs.cpp|devilution::InitNoTriggers(),pending,,,
-levels/trigs.cpp|devilution::IsWarpOpen(dungeon_type type),pending,,,
-levels/trigs.cpp|devilution::InitTownTriggers(),pending,,,
-levels/trigs.cpp|devilution::InitL1Triggers(),pending,,,
-levels/trigs.cpp|devilution::InitL2Triggers(),pending,,,
-levels/trigs.cpp|devilution::InitL3Triggers(),pending,,,
-levels/trigs.cpp|devilution::InitL4Triggers(),pending,,,
-levels/trigs.cpp|devilution::InitHiveTriggers(),pending,,,
-levels/trigs.cpp|devilution::InitCryptTriggers(),pending,,,
-levels/trigs.cpp|devilution::InitSKingTriggers(),pending,,,
-levels/trigs.cpp|devilution::InitSChambTriggers(),pending,,,
-levels/trigs.cpp|devilution::InitPWaterTriggers(),pending,,,
-levels/trigs.cpp|devilution::InitVPTriggers(),pending,,,
-levels/trigs.cpp|devilution::ForceTownTrig(),pending,,,
-levels/trigs.cpp|devilution::ForceL1Trig(),pending,,,
-levels/trigs.cpp|devilution::ForceL2Trig(),pending,,,
-levels/trigs.cpp|devilution::ForceL3Trig(),pending,,,
-levels/trigs.cpp|devilution::ForceL4Trig(),pending,,,
-levels/trigs.cpp|devilution::ForceHiveTrig(),pending,,,
-levels/trigs.cpp|devilution::ForceCryptTrig(),pending,,,
-levels/trigs.cpp|devilution::Freeupstairs(),pending,,,
-levels/trigs.cpp|devilution::ForceSKingTrig(),pending,,,
-levels/trigs.cpp|devilution::ForceSChambTrig(),pending,,,
-levels/trigs.cpp|devilution::ForcePWaterTrig(),pending,,,
-levels/trigs.cpp|devilution::ForceArenaTrig(),pending,,,
-levels/trigs.cpp|devilution::CheckTrigForce(),pending,,,
-levels/trigs.cpp|devilution::CheckTriggers(),pending,,,
-"levels/trigs.cpp|devilution::EntranceBoundaryContains(Point entrance, Point position)",pending,,,
+"levels/town.cpp|devilution::FillSector(const char *path, int xi, int yy)",ported,,,src/levels/town.rs
+"levels/town.cpp|devilution::FillTile(int xx, int yy, int t)",ported,,,src/levels/town.rs
+levels/town.cpp|devilution::TownCloseHive(),ported,,,src/levels/town.rs
+levels/town.cpp|devilution::TownCloseGrave(),ported,,,src/levels/town.rs
+levels/town.cpp|devilution::InitTownPieces(),ported,,,src/levels/town.rs
+levels/town.cpp|devilution::DrlgTPass3(),ported,,,src/levels/town.rs
+levels/town.cpp|devilution::OpensHive(Point position),ported,,,src/levels/town.rs
+levels/town.cpp|devilution::OpensGrave(Point position),ported,,,src/levels/town.rs
+levels/town.cpp|devilution::OpenHive(),ported,,,src/levels/town.rs
+levels/town.cpp|devilution::OpenGrave(),ported,,,src/levels/town.rs
+levels/town.cpp|devilution::TownOpenHive(),ported,,,src/levels/town.rs
+levels/town.cpp|devilution::TownOpenGrave(),ported,,,src/levels/town.rs
+levels/town.cpp|devilution::CleanTownFountain(),ported,,,src/levels/town.rs
+levels/town.cpp|devilution::CreateTown(lvl_entry entry),ported,,,src/levels/town.rs
+levels/trigs.cpp|devilution::InitNoTriggers(),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::IsWarpOpen(dungeon_type type),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::InitTownTriggers(),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::InitL1Triggers(),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::InitL2Triggers(),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::InitL3Triggers(),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::InitL4Triggers(),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::InitHiveTriggers(),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::InitCryptTriggers(),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::InitSKingTriggers(),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::InitSChambTriggers(),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::InitPWaterTriggers(),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::InitVPTriggers(),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::ForceTownTrig(),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::ForceL1Trig(),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::ForceL2Trig(),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::ForceL3Trig(),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::ForceL4Trig(),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::ForceHiveTrig(),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::ForceCryptTrig(),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::Freeupstairs(),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::ForceSKingTrig(),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::ForceSChambTrig(),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::ForcePWaterTrig(),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::ForceArenaTrig(),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::CheckTrigForce(),ported,,,src/levels/trigs.rs
+levels/trigs.cpp|devilution::CheckTriggers(),ported,,,src/levels/trigs.rs
+"levels/trigs.cpp|devilution::EntranceBoundaryContains(Point entrance, Point position)",ported,,,src/levels/trigs.rs
 "lighting.cpp|devilution::RotateRadius(DisplacementOf<int8_t> &offset, DisplacementOf<int8_t> &dist, DisplacementOf<int8_t> &light, DisplacementOf<int8_t> &block)",ported,,,src/lighting.rs
 "lighting.cpp|devilution::SetLight(Point position, uint8_t v)",ported,,,src/lighting.rs
 lighting.cpp|devilution::GetLight(Point position),ported,,,src/lighting.rs
@@ -2393,19 +2393,19 @@ menu.cpp|devilution::InitMenu(_selhero_selections type),ported,,,src/menu.rs
 menu.cpp|devilution::InitSinglePlayerMenu(),ported,,,src/menu.rs
 menu.cpp|devilution::InitMultiPlayerMenu(),ported,,,src/menu.rs
 menu.cpp|devilution::PlayIntro(),ported,,,src/menu.rs
-menu.cpp|devilution::DummyGetHeroInfo(_uiheroinfo *),pending,,,
-menu.cpp|devilution::mainmenu_select_hero_dialog(GameData *gameData),pending,,,
+menu.cpp|devilution::DummyGetHeroInfo(_uiheroinfo *),ported,,,src/menu.rs
+menu.cpp|devilution::mainmenu_select_hero_dialog(GameData *gameData),ported,,,src/menu.rs
 menu.cpp|devilution::mainmenu_wait_for_button_sound(),ported,,,src/menu.rs
 menu.cpp|devilution::mainmenu_loop(),ported,,,src/menu.rs
-minitext.cpp|devilution::LoadText(string_view text),pending,,,
-minitext.cpp|devilution::CalculateTextSpeed(int nSFX),pending,,,
-minitext.cpp|devilution::CalculateTextPosition(),pending,,,
-minitext.cpp|devilution::DrawQTextContent(const Surface &out),pending,,,
-minitext.cpp|devilution::FreeQuestText(),pending,,,
-minitext.cpp|devilution::InitQuestText(),pending,,,
-minitext.cpp|devilution::InitQTextMsg(_speech_id m),pending,,,
-minitext.cpp|devilution::DrawQTextBack(const Surface &out),pending,,,
-minitext.cpp|devilution::DrawQText(const Surface &out),pending,,,
+minitext.cpp|devilution::LoadText(string_view text),ported,,,src/minitext.rs
+minitext.cpp|devilution::CalculateTextSpeed(int nSFX),ported,,,src/minitext.rs
+minitext.cpp|devilution::CalculateTextPosition(),ported,,,src/minitext.rs
+minitext.cpp|devilution::DrawQTextContent(const Surface &out),ported,,,src/minitext.rs
+minitext.cpp|devilution::FreeQuestText(),ported,,,src/minitext.rs
+minitext.cpp|devilution::InitQuestText(),ported,,,src/minitext.rs
+minitext.cpp|devilution::InitQTextMsg(_speech_id m),ported,,,src/minitext.rs
+minitext.cpp|devilution::DrawQTextBack(const Surface &out),ported,,,src/minitext.rs
+minitext.cpp|devilution::DrawQText(const Surface &out),ported,,,src/minitext.rs
 misdat.cpp|devilution::Repeat(uint8_t v),pending,,,
 misdat.cpp|devilution::MissileFileData::animDelay(uint8_t dir),pending,,,
 misdat.cpp|devilution::MissileFileData::animLen(uint8_t dir),pending,,,
@@ -2832,214 +2832,214 @@ mpq/mpq_writer.cpp|devilution::MpqWriter::RemoveHashEntry(const char *filename),
 "mpq/mpq_writer.cpp|devilution::MpqWriter::RenameFile(const char *name, const char *newName)",ported,,,src/mpq_writer.rs
 mpq/mpq_writer.cpp|devilution::MpqWriter::HasFile(const char *name),ported,,,src/mpq_writer.rs
 mpq/mpq_writer.hpp|devilution::MpqWriter::MpqWriter(const std::string &path),pending,,,
-msg.cpp|devilution::EventFailedPacket(const char *playerName),pending,,,
+msg.cpp|devilution::EventFailedPacket(const char *playerName),ported,,,src/msg.rs
 "msg.cpp|devilution::LogFailedPacket(const char *condition, const char *name, T value)",pending,,,
 "msg.cpp|devilution::LogFailedPacket(const char *condition, const char *name1, T1 value1, const char *name2, T2 value2)",pending,,,
 msg.cpp|devilution::TMegaPkt::TMegaPkt(),pending,,,
 msg.cpp|devilution::LocalLevel::LocalLevel(const uint8_t (&other)[DMAXX][DMAXY]),pending,,,
-"msg.cpp|devilution::GetLevelForMultiplayer(uint8_t level, bool isSetLevel)",pending,,,
-msg.cpp|devilution::GetDeltaLevel(uint8_t level),pending,,,
+"msg.cpp|devilution::GetLevelForMultiplayer(uint8_t level, bool isSetLevel)",ported,,,src/msg.rs
+msg.cpp|devilution::GetDeltaLevel(uint8_t level),ported,,,src/msg.rs
 msg.cpp|devilution::GetDeltaLevel(const Player &player),pending,,,
-msg.cpp|devilution::GetItemPosition(Point position),pending,,,
-"msg.cpp|devilution::WasPlayerCmdAlreadyRequested(_cmd_id bCmd, Point position = {}, uint16_t wParam1 = 0, uint16_t wParam2 = 0, uint16_t wParam3 = 0, uint16_t wParam4 = 0, uint16_t wParam5 = 0)",pending,,,
-msg.cpp|devilution::GetNextPacket(),pending,,,
-msg.cpp|devilution::FreePackets(),pending,,,
-msg.cpp|devilution::PrePacket(),pending,,,
-"msg.cpp|devilution::SendPacket(int pnum, const void *packet, size_t dwSize)",pending,,,
-msg.cpp|devilution::WaitForTurns(),pending,,,
-"msg.cpp|devilution::DeltaExportItem(byte *dst, const TCmdPItem *src)",pending,,,
-"msg.cpp|devilution::DeltaImportItem(const byte *src, TCmdPItem *dst)",pending,,,
-"msg.cpp|devilution::DeltaExportObject(byte *dst, const std::unordered_map<WorldTilePosition, DObjectStr> &src)",pending,,,
-"msg.cpp|devilution::DeltaImportObjects(const byte *src, std::unordered_map<WorldTilePosition, DObjectStr> &dst)",pending,,,
-"msg.cpp|devilution::DeltaExportMonster(byte *dst, const DMonsterStr *src)",pending,,,
-"msg.cpp|devilution::DeltaImportMonster(const byte *src, DMonsterStr *dst)",pending,,,
-msg.cpp|devilution::DeltaExportJunk(byte *dst),pending,,,
-msg.cpp|devilution::DeltaImportJunk(const byte *src),pending,,,
-"msg.cpp|devilution::CompressData(byte *buffer, byte *end)",pending,,,
-"msg.cpp|devilution::DeltaImportData(_cmd_id cmd, uint32_t recvOffset)",pending,,,
-"msg.cpp|devilution::OnLevelData(int pnum, const TCmd *pCmd)",pending,,,
-"msg.cpp|devilution::DeltaSyncGolem(const TCmdGolem &message, int pnum, uint8_t level)",pending,,,
-msg.cpp|devilution::DeltaLeaveSync(uint8_t bLevel),pending,,,
-"msg.cpp|devilution::DeltaSyncObject(WorldTilePosition position, _cmd_id bCmd, const Player &player)",pending,,,
-"msg.cpp|devilution::DeltaGetItem(const TCmdGItem &message, uint8_t bLevel)",pending,,,
-"msg.cpp|devilution::DeltaPutItem(const TCmdPItem &message, Point position, const Player &player)",pending,,,
-msg.cpp|devilution::IOwnLevel(const Player &player),pending,,,
-"msg.cpp|devilution::DeltaOpenPortal(int pnum, Point position, uint8_t bLevel, dungeon_type bLType, bool bSetLvl)",pending,,,
-"msg.cpp|devilution::NetSendCmdGItem2(bool usonly, _cmd_id bCmd, uint8_t mast, uint8_t pnum, const TCmdGItem &item)",pending,,,
-"msg.cpp|devilution::NetSendCmdReq2(_cmd_id bCmd, uint8_t mast, uint8_t pnum, const TCmdGItem &item)",pending,,,
-msg.cpp|devilution::NetSendCmdExtra(const TCmdGItem &item),pending,,,
-"msg.cpp|devilution::OnWalk(const TCmd *pCmd, Player &player)",pending,,,
-"msg.cpp|devilution::OnAddStrength(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnAddMagic(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnAddDexterity(const TCmd *pCmd, int pnum)",pending,,,
-"msg.cpp|devilution::OnAddVitality(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnGotoGetItem(const TCmd *pCmd, Player &player)",pending,,,
-msg.cpp|devilution::IsGItemValid(const TCmdGItem &message),pending,,,
-"msg.cpp|devilution::IsPItemValid(const TCmdPItem &message, const Player &player)",pending,,,
+msg.cpp|devilution::GetItemPosition(Point position),ported,,,src/msg.rs
+"msg.cpp|devilution::WasPlayerCmdAlreadyRequested(_cmd_id bCmd, Point position = {}, uint16_t wParam1 = 0, uint16_t wParam2 = 0, uint16_t wParam3 = 0, uint16_t wParam4 = 0, uint16_t wParam5 = 0)",ported,,,src/msg.rs
+msg.cpp|devilution::GetNextPacket(),ported,,,src/msg.rs
+msg.cpp|devilution::FreePackets(),ported,,,src/msg.rs
+msg.cpp|devilution::PrePacket(),ported,,,src/msg.rs
+"msg.cpp|devilution::SendPacket(int pnum, const void *packet, size_t dwSize)",ported,,,src/msg.rs
+msg.cpp|devilution::WaitForTurns(),ported,,,src/msg.rs
+"msg.cpp|devilution::DeltaExportItem(byte *dst, const TCmdPItem *src)",ported,,,src/msg.rs
+"msg.cpp|devilution::DeltaImportItem(const byte *src, TCmdPItem *dst)",ported,,,src/msg.rs
+"msg.cpp|devilution::DeltaExportObject(byte *dst, const std::unordered_map<WorldTilePosition, DObjectStr> &src)",ported,,,src/msg.rs
+"msg.cpp|devilution::DeltaImportObjects(const byte *src, std::unordered_map<WorldTilePosition, DObjectStr> &dst)",ported,,,src/msg.rs
+"msg.cpp|devilution::DeltaExportMonster(byte *dst, const DMonsterStr *src)",ported,,,src/msg.rs
+"msg.cpp|devilution::DeltaImportMonster(const byte *src, DMonsterStr *dst)",ported,,,src/msg.rs
+msg.cpp|devilution::DeltaExportJunk(byte *dst),ported,,,src/msg.rs
+msg.cpp|devilution::DeltaImportJunk(const byte *src),ported,,,src/msg.rs
+"msg.cpp|devilution::CompressData(byte *buffer, byte *end)",ported,,,src/msg.rs
+"msg.cpp|devilution::DeltaImportData(_cmd_id cmd, uint32_t recvOffset)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnLevelData(int pnum, const TCmd *pCmd)",ported,,,src/msg.rs
+"msg.cpp|devilution::DeltaSyncGolem(const TCmdGolem &message, int pnum, uint8_t level)",ported,,,src/msg.rs
+msg.cpp|devilution::DeltaLeaveSync(uint8_t bLevel),ported,,,src/msg.rs
+"msg.cpp|devilution::DeltaSyncObject(WorldTilePosition position, _cmd_id bCmd, const Player &player)",ported,,,src/msg.rs
+"msg.cpp|devilution::DeltaGetItem(const TCmdGItem &message, uint8_t bLevel)",ported,,,src/msg.rs
+"msg.cpp|devilution::DeltaPutItem(const TCmdPItem &message, Point position, const Player &player)",ported,,,src/msg.rs
+msg.cpp|devilution::IOwnLevel(const Player &player),ported,,,src/msg.rs
+"msg.cpp|devilution::DeltaOpenPortal(int pnum, Point position, uint8_t bLevel, dungeon_type bLType, bool bSetLvl)",ported,,,src/msg.rs
+"msg.cpp|devilution::NetSendCmdGItem2(bool usonly, _cmd_id bCmd, uint8_t mast, uint8_t pnum, const TCmdGItem &item)",ported,,,src/msg.rs
+"msg.cpp|devilution::NetSendCmdReq2(_cmd_id bCmd, uint8_t mast, uint8_t pnum, const TCmdGItem &item)",ported,,,src/msg.rs
+msg.cpp|devilution::NetSendCmdExtra(const TCmdGItem &item),ported,,,src/msg.rs
+"msg.cpp|devilution::OnWalk(const TCmd *pCmd, Player &player)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnAddStrength(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnAddMagic(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnAddDexterity(const TCmd *pCmd, int pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnAddVitality(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnGotoGetItem(const TCmd *pCmd, Player &player)",ported,,,src/msg.rs
+msg.cpp|devilution::IsGItemValid(const TCmdGItem &message),ported,,,src/msg.rs
+"msg.cpp|devilution::IsPItemValid(const TCmdPItem &message, const Player &player)",ported,,,src/msg.rs
 "msg.cpp|devilution::PrepareItemForNetwork(const Item &item, TCmdGItem &message)",pending,,,
 "msg.cpp|devilution::PrepareItemForNetwork(const Item &item, TCmdPItem &message)",pending,,,
 "msg.cpp|devilution::PrepareItemForNetwork(const Item &item, TCmdChItem &message)",pending,,,
-"msg.cpp|devilution::RecreateItem(const Player &player, const TCmdPItem &message, Item &item)",pending,,,
-"msg.cpp|devilution::RecreateItem(const Player &player, const TCmdChItem &message, Item &item)",pending,,,
-"msg.cpp|devilution::SyncDropItem(Point position, const TItem &item)",pending,,,
-"msg.cpp|devilution::SyncDropEar(Point position, const TEar &ear)",pending,,,
-msg.cpp|devilution::SyncDropItem(const TCmdGItem &message),pending,,,
-msg.cpp|devilution::SyncDropItem(const TCmdPItem &message),pending,,,
-"msg.cpp|devilution::OnRequestGetItem(const TCmd *pCmd, Player &player)",pending,,,
-"msg.cpp|devilution::OnGetItem(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnGotoAutoGetItem(const TCmd *pCmd, Player &player)",pending,,,
-"msg.cpp|devilution::OnRequestAutoGetItem(const TCmd *pCmd, Player &player)",pending,,,
-"msg.cpp|devilution::OnAutoGetItem(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnItemExtra(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnPutItem(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnSyncPutItem(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnAttackTile(const TCmd *pCmd, Player &player)",pending,,,
-"msg.cpp|devilution::OnStandingAttackTile(const TCmd *pCmd, Player &player)",pending,,,
-"msg.cpp|devilution::OnRangedAttackTile(const TCmd *pCmd, Player &player)",pending,,,
-"msg.cpp|devilution::InitNewSpell(Player &player, uint16_t wParamSpellID, uint16_t wParamSpellType, uint16_t wParamSpellFrom)",pending,,,
-"msg.cpp|devilution::OnSpellWall(const TCmd *pCmd, Player &player)",pending,,,
-"msg.cpp|devilution::OnSpellTile(const TCmd *pCmd, Player &player)",pending,,,
-"msg.cpp|devilution::OnObjectTileAction(const TCmd &cmd, Player &player, action_id action, bool pathToObject = true)",pending,,,
-"msg.cpp|devilution::OnAttackMonster(const TCmd *pCmd, Player &player)",pending,,,
-"msg.cpp|devilution::OnAttackPlayer(const TCmd *pCmd, Player &player)",pending,,,
-"msg.cpp|devilution::OnRangedAttackMonster(const TCmd *pCmd, Player &player)",pending,,,
-"msg.cpp|devilution::OnRangedAttackPlayer(const TCmd *pCmd, Player &player)",pending,,,
-"msg.cpp|devilution::OnSpellMonster(const TCmd *pCmd, Player &player)",pending,,,
-"msg.cpp|devilution::OnSpellPlayer(const TCmd *pCmd, Player &player)",pending,,,
-"msg.cpp|devilution::OnKnockback(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnResurrect(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnHealOther(const TCmd *pCmd, const Player &caster)",pending,,,
-"msg.cpp|devilution::OnTalkXY(const TCmd *pCmd, Player &player)",pending,,,
-"msg.cpp|devilution::OnNewLevel(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnWarp(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnMonstDeath(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnKillGolem(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnAwakeGolem(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnMonstDamage(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnPlayerDeath(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnPlayerDamage(const TCmd *pCmd, Player &player)",pending,,,
-"msg.cpp|devilution::OnOperateObject(const TCmd &pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnBreakObject(const TCmd &pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnChangePlayerItems(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnDeletePlayerItems(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnChangeInventoryItems(const TCmd *pCmd, int pnum)",pending,,,
-"msg.cpp|devilution::OnDeleteInventoryItems(const TCmd *pCmd, int pnum)",pending,,,
-"msg.cpp|devilution::OnChangeBeltItems(const TCmd *pCmd, int pnum)",pending,,,
-"msg.cpp|devilution::OnDeleteBeltItems(const TCmd *pCmd, int pnum)",pending,,,
-"msg.cpp|devilution::OnPlayerLevel(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnDropItem(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnSpawnItem(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnSendPlayerInfo(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnPlayerJoinLevel(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnActivatePortal(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnDeactivatePortal(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnRestartTown(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnSetStrength(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnSetDexterity(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnSetMagic(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnSetVitality(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnString(const TCmd *pCmd, Player &player)",pending,,,
-"msg.cpp|devilution::OnFriendlyMode(const TCmd *pCmd, Player &player)",pending,,,
-"msg.cpp|devilution::OnSyncQuest(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnCheatExperience(const TCmd *pCmd, size_t pnum)",pending,,,
-"msg.cpp|devilution::OnChangeSpellLevel(const TCmd *pCmd, size_t pnum)",pending,,,
-msg.cpp|devilution::OnDebug(const TCmd *pCmd),pending,,,
-"msg.cpp|devilution::OnSetShield(const TCmd *pCmd, Player &player)",pending,,,
-"msg.cpp|devilution::OnRemoveShield(const TCmd *pCmd, Player &player)",pending,,,
-"msg.cpp|devilution::OnSetReflect(const TCmd *pCmd, Player &player)",pending,,,
-msg.cpp|devilution::OnNakrul(const TCmd *pCmd),pending,,,
-"msg.cpp|devilution::OnOpenHive(const TCmd *pCmd, size_t pnum)",pending,,,
-msg.cpp|devilution::OnOpenGrave(const TCmd *pCmd),pending,,,
-"msg.cpp|devilution::PrepareItemForNetwork(const Item &item, TItem &messageItem)",pending,,,
-"msg.cpp|devilution::PrepareEarForNetwork(const Item &item, TEar &ear)",pending,,,
-"msg.cpp|devilution::RecreateItem(const Player &player, const TItem &messageItem, Item &item)",pending,,,
-msg.cpp|devilution::ClearLastSentPlayerCmd(),pending,,,
-"msg.cpp|devilution::msg_send_drop_pkt(int pnum, int reason)",pending,,,
-msg.cpp|devilution::msg_wait_resync(),pending,,,
-msg.cpp|devilution::run_delta_info(),pending,,,
-msg.cpp|devilution::DeltaExportData(int pnum),pending,,,
-msg.cpp|devilution::delta_init(),pending,,,
-msg.cpp|devilution::DeltaClearLevel(uint8_t level),pending,,,
-"msg.cpp|devilution::delta_kill_monster(const Monster &monster, Point position, const Player &player)",pending,,,
-"msg.cpp|devilution::delta_monster_hp(const Monster &monster, const Player &player)",pending,,,
-"msg.cpp|devilution::delta_sync_monster(const TSyncMonster &monsterSync, uint8_t level)",pending,,,
-msg.cpp|devilution::DeltaSyncJunk(),pending,,,
-msg.cpp|devilution::DeltaAddItem(int ii),pending,,,
-msg.cpp|devilution::DeltaSaveLevel(),pending,,,
-msg.cpp|devilution::GetLevelForMultiplayer(const Player &player),pending,,,
-msg.cpp|devilution::IsValidLevelForMultiplayer(uint8_t level),pending,,,
-"msg.cpp|devilution::IsValidLevel(uint8_t level, bool isSetLevel)",pending,,,
-msg.cpp|devilution::DeltaLoadLevel(),pending,,,
-"msg.cpp|devilution::NetSendCmd(bool bHiPri, _cmd_id bCmd)",pending,,,
-"msg.cpp|devilution::NetSendCmdGolem(uint8_t mx, uint8_t my, Direction dir, uint8_t menemy, int hp, uint8_t cl)",pending,,,
-"msg.cpp|devilution::NetSendCmdLoc(size_t playerId, bool bHiPri, _cmd_id bCmd, Point position)",pending,,,
-"msg.cpp|devilution::NetSendCmdLocParam1(bool bHiPri, _cmd_id bCmd, Point position, uint16_t wParam1)",pending,,,
-"msg.cpp|devilution::NetSendCmdLocParam2(bool bHiPri, _cmd_id bCmd, Point position, uint16_t wParam1, uint16_t wParam2)",pending,,,
-"msg.cpp|devilution::NetSendCmdLocParam3(bool bHiPri, _cmd_id bCmd, Point position, uint16_t wParam1, uint16_t wParam2, uint16_t wParam3)",pending,,,
-"msg.cpp|devilution::NetSendCmdLocParam4(bool bHiPri, _cmd_id bCmd, Point position, uint16_t wParam1, uint16_t wParam2, uint16_t wParam3, uint16_t wParam4)",pending,,,
-"msg.cpp|devilution::NetSendCmdLocParam5(bool bHiPri, _cmd_id bCmd, Point position, uint16_t wParam1, uint16_t wParam2, uint16_t wParam3, uint16_t wParam4, uint16_t wParam5)",pending,,,
-"msg.cpp|devilution::NetSendCmdParam1(bool bHiPri, _cmd_id bCmd, uint16_t wParam1)",pending,,,
-"msg.cpp|devilution::NetSendCmdParam2(bool bHiPri, _cmd_id bCmd, uint16_t wParam1, uint16_t wParam2)",pending,,,
-"msg.cpp|devilution::NetSendCmdParam5(bool bHiPri, _cmd_id bCmd, uint16_t wParam1, uint16_t wParam2, uint16_t wParam3, uint16_t wParam4, uint16_t wParam5)",pending,,,
-"msg.cpp|devilution::NetSendCmdQuest(bool bHiPri, const Quest &quest)",pending,,,
-"msg.cpp|devilution::NetSendCmdGItem(bool bHiPri, _cmd_id bCmd, uint8_t pnum, uint8_t ii)",pending,,,
-"msg.cpp|devilution::NetSendCmdPItem(bool bHiPri, _cmd_id bCmd, Point position, const Item &item)",pending,,,
-"msg.cpp|devilution::NetSendCmdChItem(bool bHiPri, uint8_t bLoc, bool forceSpellChange)",pending,,,
-"msg.cpp|devilution::NetSendCmdDelItem(bool bHiPri, uint8_t bLoc)",pending,,,
-"msg.cpp|devilution::NetSyncInvItem(const Player &player, int invListIndex)",pending,,,
-"msg.cpp|devilution::NetSendCmdChInvItem(bool bHiPri, int invGridIndex)",pending,,,
-"msg.cpp|devilution::NetSendCmdChBeltItem(bool bHiPri, int beltIndex)",pending,,,
-"msg.cpp|devilution::NetSendCmdDamage(bool bHiPri, uint8_t bPlr, uint32_t dwDam, DamageType damageType)",pending,,,
-"msg.cpp|devilution::NetSendCmdMonDmg(bool bHiPri, uint16_t wMon, uint32_t dwDam)",pending,,,
-"msg.cpp|devilution::NetSendCmdString(uint32_t pmask, const char *pszStr)",pending,,,
-msg.cpp|devilution::delta_close_portal(int pnum),pending,,,
-"msg.cpp|devilution::ParseCmd(size_t pnum, const TCmd *pCmd)",pending,,,
-multi.cpp|devilution::BufferInit(TBuffer *pBuf),pending,,,
-"multi.cpp|devilution::CopyPacket(TBuffer *buf, const byte *packet, size_t size)",pending,,,
-"multi.cpp|devilution::CopyBufferedPackets(byte *destination, TBuffer *source, size_t *size)",pending,,,
-multi.cpp|devilution::NetReceivePlayerData(TPkt *pkt),pending,,,
-multi.cpp|devilution::IsNetPlayerValid(const Player &player),pending,,,
-multi.cpp|devilution::CheckPlayerInfoTimeouts(),pending,,,
-"multi.cpp|devilution::SendPacket(int playerId, const byte *packet, size_t size)",pending,,,
-multi.cpp|devilution::MonsterSeeds(),pending,,,
-multi.cpp|devilution::HandleTurnUpperBit(size_t pnum),pending,,,
-"multi.cpp|devilution::ParseTurn(size_t pnum, uint32_t turn)",pending,,,
-"multi.cpp|devilution::PlayerLeftMsg(int pnum, bool left)",pending,,,
-multi.cpp|devilution::ClearPlayerLeftState(),pending,,,
-multi.cpp|devilution::CheckDropPlayer(),pending,,,
-multi.cpp|devilution::BeginTimeout(),pending,,,
-"multi.cpp|devilution::HandleAllPackets(size_t pnum, const byte *data, size_t size)",pending,,,
-multi.cpp|devilution::ProcessTmsgs(),pending,,,
-"multi.cpp|devilution::SendPlayerInfo(int pnum, _cmd_id cmd)",pending,,,
-multi.cpp|devilution::SetupLocalPositions(),pending,,,
-multi.cpp|devilution::HandleEvents(_SNETEVENT *pEvt),pending,,,
-multi.cpp|devilution::RegisterNetEventHandlers(),pending,,,
-multi.cpp|devilution::UnregisterNetEventHandlers(),pending,,,
-multi.cpp|devilution::InitSingle(GameData *gameData),pending,,,
-multi.cpp|devilution::InitMulti(GameData *gameData),pending,,,
-multi.cpp|devilution::InitGameInfo(),pending,,,
-"multi.cpp|devilution::NetSendLoPri(int playerId, const byte *data, size_t size)",pending,,,
-"multi.cpp|devilution::NetSendHiPri(int playerId, const byte *data, size_t size)",pending,,,
-"multi.cpp|devilution::multi_send_msg_packet(uint32_t pmask, const byte *data, size_t size)",pending,,,
-multi.cpp|devilution::multi_msg_countdown(),pending,,,
-"multi.cpp|devilution::multi_player_left(int pnum, int reason)",pending,,,
-multi.cpp|devilution::multi_net_ping(),pending,,,
-multi.cpp|devilution::multi_handle_delta(),pending,,,
-multi.cpp|devilution::multi_process_network_packets(),pending,,,
-"multi.cpp|devilution::multi_send_zero_packet(size_t pnum, _cmd_id bCmd, const byte *data, size_t size)",pending,,,
+"msg.cpp|devilution::RecreateItem(const Player &player, const TCmdPItem &message, Item &item)",ported,,,src/msg.rs
+"msg.cpp|devilution::RecreateItem(const Player &player, const TCmdChItem &message, Item &item)",ported,,,src/msg.rs
+"msg.cpp|devilution::SyncDropItem(Point position, const TItem &item)",ported,,,src/msg.rs
+"msg.cpp|devilution::SyncDropEar(Point position, const TEar &ear)",ported,,,src/msg.rs
+msg.cpp|devilution::SyncDropItem(const TCmdGItem &message),ported,,,src/msg.rs
+msg.cpp|devilution::SyncDropItem(const TCmdPItem &message),ported,,,src/msg.rs
+"msg.cpp|devilution::OnRequestGetItem(const TCmd *pCmd, Player &player)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnGetItem(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnGotoAutoGetItem(const TCmd *pCmd, Player &player)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnRequestAutoGetItem(const TCmd *pCmd, Player &player)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnAutoGetItem(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnItemExtra(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnPutItem(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnSyncPutItem(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnAttackTile(const TCmd *pCmd, Player &player)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnStandingAttackTile(const TCmd *pCmd, Player &player)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnRangedAttackTile(const TCmd *pCmd, Player &player)",ported,,,src/msg.rs
+"msg.cpp|devilution::InitNewSpell(Player &player, uint16_t wParamSpellID, uint16_t wParamSpellType, uint16_t wParamSpellFrom)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnSpellWall(const TCmd *pCmd, Player &player)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnSpellTile(const TCmd *pCmd, Player &player)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnObjectTileAction(const TCmd &cmd, Player &player, action_id action, bool pathToObject = true)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnAttackMonster(const TCmd *pCmd, Player &player)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnAttackPlayer(const TCmd *pCmd, Player &player)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnRangedAttackMonster(const TCmd *pCmd, Player &player)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnRangedAttackPlayer(const TCmd *pCmd, Player &player)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnSpellMonster(const TCmd *pCmd, Player &player)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnSpellPlayer(const TCmd *pCmd, Player &player)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnKnockback(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnResurrect(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnHealOther(const TCmd *pCmd, const Player &caster)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnTalkXY(const TCmd *pCmd, Player &player)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnNewLevel(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnWarp(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnMonstDeath(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnKillGolem(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnAwakeGolem(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnMonstDamage(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnPlayerDeath(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnPlayerDamage(const TCmd *pCmd, Player &player)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnOperateObject(const TCmd &pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnBreakObject(const TCmd &pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnChangePlayerItems(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnDeletePlayerItems(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnChangeInventoryItems(const TCmd *pCmd, int pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnDeleteInventoryItems(const TCmd *pCmd, int pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnChangeBeltItems(const TCmd *pCmd, int pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnDeleteBeltItems(const TCmd *pCmd, int pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnPlayerLevel(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnDropItem(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnSpawnItem(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnSendPlayerInfo(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnPlayerJoinLevel(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnActivatePortal(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnDeactivatePortal(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnRestartTown(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnSetStrength(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnSetDexterity(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnSetMagic(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnSetVitality(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnString(const TCmd *pCmd, Player &player)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnFriendlyMode(const TCmd *pCmd, Player &player)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnSyncQuest(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnCheatExperience(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnChangeSpellLevel(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+msg.cpp|devilution::OnDebug(const TCmd *pCmd),ported,,,src/msg.rs
+"msg.cpp|devilution::OnSetShield(const TCmd *pCmd, Player &player)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnRemoveShield(const TCmd *pCmd, Player &player)",ported,,,src/msg.rs
+"msg.cpp|devilution::OnSetReflect(const TCmd *pCmd, Player &player)",ported,,,src/msg.rs
+msg.cpp|devilution::OnNakrul(const TCmd *pCmd),ported,,,src/msg.rs
+"msg.cpp|devilution::OnOpenHive(const TCmd *pCmd, size_t pnum)",ported,,,src/msg.rs
+msg.cpp|devilution::OnOpenGrave(const TCmd *pCmd),ported,,,src/msg.rs
+"msg.cpp|devilution::PrepareItemForNetwork(const Item &item, TItem &messageItem)",ported,,,src/msg.rs
+"msg.cpp|devilution::PrepareEarForNetwork(const Item &item, TEar &ear)",ported,,,src/msg.rs
+"msg.cpp|devilution::RecreateItem(const Player &player, const TItem &messageItem, Item &item)",ported,,,src/msg.rs
+msg.cpp|devilution::ClearLastSentPlayerCmd(),ported,,,src/msg.rs
+"msg.cpp|devilution::msg_send_drop_pkt(int pnum, int reason)",ported,,,src/msg.rs
+msg.cpp|devilution::msg_wait_resync(),ported,,,src/msg.rs
+msg.cpp|devilution::run_delta_info(),ported,,,src/msg.rs
+msg.cpp|devilution::DeltaExportData(int pnum),ported,,,src/msg.rs
+msg.cpp|devilution::delta_init(),ported,,,src/msg.rs
+msg.cpp|devilution::DeltaClearLevel(uint8_t level),ported,,,src/msg.rs
+"msg.cpp|devilution::delta_kill_monster(const Monster &monster, Point position, const Player &player)",ported,,,src/msg.rs
+"msg.cpp|devilution::delta_monster_hp(const Monster &monster, const Player &player)",ported,,,src/msg.rs
+"msg.cpp|devilution::delta_sync_monster(const TSyncMonster &monsterSync, uint8_t level)",ported,,,src/msg.rs
+msg.cpp|devilution::DeltaSyncJunk(),ported,,,src/msg.rs
+msg.cpp|devilution::DeltaAddItem(int ii),ported,,,src/msg.rs
+msg.cpp|devilution::DeltaSaveLevel(),ported,,,src/msg.rs
+msg.cpp|devilution::GetLevelForMultiplayer(const Player &player),ported,,,src/msg.rs
+msg.cpp|devilution::IsValidLevelForMultiplayer(uint8_t level),ported,,,src/msg.rs
+"msg.cpp|devilution::IsValidLevel(uint8_t level, bool isSetLevel)",ported,,,src/msg.rs
+msg.cpp|devilution::DeltaLoadLevel(),ported,,,src/msg.rs
+"msg.cpp|devilution::NetSendCmd(bool bHiPri, _cmd_id bCmd)",ported,,,src/msg.rs
+"msg.cpp|devilution::NetSendCmdGolem(uint8_t mx, uint8_t my, Direction dir, uint8_t menemy, int hp, uint8_t cl)",ported,,,src/msg.rs
+"msg.cpp|devilution::NetSendCmdLoc(size_t playerId, bool bHiPri, _cmd_id bCmd, Point position)",ported,,,src/msg.rs
+"msg.cpp|devilution::NetSendCmdLocParam1(bool bHiPri, _cmd_id bCmd, Point position, uint16_t wParam1)",ported,,,src/msg.rs
+"msg.cpp|devilution::NetSendCmdLocParam2(bool bHiPri, _cmd_id bCmd, Point position, uint16_t wParam1, uint16_t wParam2)",ported,,,src/msg.rs
+"msg.cpp|devilution::NetSendCmdLocParam3(bool bHiPri, _cmd_id bCmd, Point position, uint16_t wParam1, uint16_t wParam2, uint16_t wParam3)",ported,,,src/msg.rs
+"msg.cpp|devilution::NetSendCmdLocParam4(bool bHiPri, _cmd_id bCmd, Point position, uint16_t wParam1, uint16_t wParam2, uint16_t wParam3, uint16_t wParam4)",ported,,,src/msg.rs
+"msg.cpp|devilution::NetSendCmdLocParam5(bool bHiPri, _cmd_id bCmd, Point position, uint16_t wParam1, uint16_t wParam2, uint16_t wParam3, uint16_t wParam4, uint16_t wParam5)",ported,,,src/msg.rs
+"msg.cpp|devilution::NetSendCmdParam1(bool bHiPri, _cmd_id bCmd, uint16_t wParam1)",ported,,,src/msg.rs
+"msg.cpp|devilution::NetSendCmdParam2(bool bHiPri, _cmd_id bCmd, uint16_t wParam1, uint16_t wParam2)",ported,,,src/msg.rs
+"msg.cpp|devilution::NetSendCmdParam5(bool bHiPri, _cmd_id bCmd, uint16_t wParam1, uint16_t wParam2, uint16_t wParam3, uint16_t wParam4, uint16_t wParam5)",ported,,,src/msg.rs
+"msg.cpp|devilution::NetSendCmdQuest(bool bHiPri, const Quest &quest)",ported,,,src/msg.rs
+"msg.cpp|devilution::NetSendCmdGItem(bool bHiPri, _cmd_id bCmd, uint8_t pnum, uint8_t ii)",ported,,,src/msg.rs
+"msg.cpp|devilution::NetSendCmdPItem(bool bHiPri, _cmd_id bCmd, Point position, const Item &item)",ported,,,src/msg.rs
+"msg.cpp|devilution::NetSendCmdChItem(bool bHiPri, uint8_t bLoc, bool forceSpellChange)",ported,,,src/msg.rs
+"msg.cpp|devilution::NetSendCmdDelItem(bool bHiPri, uint8_t bLoc)",ported,,,src/msg.rs
+"msg.cpp|devilution::NetSyncInvItem(const Player &player, int invListIndex)",ported,,,src/msg.rs
+"msg.cpp|devilution::NetSendCmdChInvItem(bool bHiPri, int invGridIndex)",ported,,,src/msg.rs
+"msg.cpp|devilution::NetSendCmdChBeltItem(bool bHiPri, int beltIndex)",ported,,,src/msg.rs
+"msg.cpp|devilution::NetSendCmdDamage(bool bHiPri, uint8_t bPlr, uint32_t dwDam, DamageType damageType)",ported,,,src/msg.rs
+"msg.cpp|devilution::NetSendCmdMonDmg(bool bHiPri, uint16_t wMon, uint32_t dwDam)",ported,,,src/msg.rs
+"msg.cpp|devilution::NetSendCmdString(uint32_t pmask, const char *pszStr)",ported,,,src/msg.rs
+msg.cpp|devilution::delta_close_portal(int pnum),ported,,,src/msg.rs
+"msg.cpp|devilution::ParseCmd(size_t pnum, const TCmd *pCmd)",ported,,,src/msg.rs
+multi.cpp|devilution::BufferInit(TBuffer *pBuf),ported,,,src/multi.rs
+"multi.cpp|devilution::CopyPacket(TBuffer *buf, const byte *packet, size_t size)",ported,,,src/multi.rs
+"multi.cpp|devilution::CopyBufferedPackets(byte *destination, TBuffer *source, size_t *size)",ported,,,src/multi.rs
+multi.cpp|devilution::NetReceivePlayerData(TPkt *pkt),ported,,,src/multi.rs
+multi.cpp|devilution::IsNetPlayerValid(const Player &player),ported,,,src/multi.rs
+multi.cpp|devilution::CheckPlayerInfoTimeouts(),ported,,,src/multi.rs
+"multi.cpp|devilution::SendPacket(int playerId, const byte *packet, size_t size)",ported,,,src/multi.rs
+multi.cpp|devilution::MonsterSeeds(),ported,,,src/multi.rs
+multi.cpp|devilution::HandleTurnUpperBit(size_t pnum),ported,,,src/multi.rs
+"multi.cpp|devilution::ParseTurn(size_t pnum, uint32_t turn)",ported,,,src/multi.rs
+"multi.cpp|devilution::PlayerLeftMsg(int pnum, bool left)",ported,,,src/multi.rs
+multi.cpp|devilution::ClearPlayerLeftState(),ported,,,src/multi.rs
+multi.cpp|devilution::CheckDropPlayer(),ported,,,src/multi.rs
+multi.cpp|devilution::BeginTimeout(),ported,,,src/multi.rs
+"multi.cpp|devilution::HandleAllPackets(size_t pnum, const byte *data, size_t size)",ported,,,src/multi.rs
+multi.cpp|devilution::ProcessTmsgs(),ported,,,src/multi.rs
+"multi.cpp|devilution::SendPlayerInfo(int pnum, _cmd_id cmd)",ported,,,src/multi.rs
+multi.cpp|devilution::SetupLocalPositions(),ported,,,src/multi.rs
+multi.cpp|devilution::HandleEvents(_SNETEVENT *pEvt),ported,,,src/multi.rs
+multi.cpp|devilution::RegisterNetEventHandlers(),ported,,,src/multi.rs
+multi.cpp|devilution::UnregisterNetEventHandlers(),ported,,,src/multi.rs
+multi.cpp|devilution::InitSingle(GameData *gameData),ported,,,src/multi.rs
+multi.cpp|devilution::InitMulti(GameData *gameData),ported,,,src/multi.rs
+multi.cpp|devilution::InitGameInfo(),ported,,,src/multi.rs
+"multi.cpp|devilution::NetSendLoPri(int playerId, const byte *data, size_t size)",ported,,,src/multi.rs
+"multi.cpp|devilution::NetSendHiPri(int playerId, const byte *data, size_t size)",ported,,,src/multi.rs
+"multi.cpp|devilution::multi_send_msg_packet(uint32_t pmask, const byte *data, size_t size)",ported,,,src/multi.rs
+multi.cpp|devilution::multi_msg_countdown(),ported,,,src/multi.rs
+"multi.cpp|devilution::multi_player_left(int pnum, int reason)",ported,,,src/multi.rs
+multi.cpp|devilution::multi_net_ping(),ported,,,src/multi.rs
+multi.cpp|devilution::multi_handle_delta(),ported,,,src/multi.rs
+multi.cpp|devilution::multi_process_network_packets(),ported,,,src/multi.rs
+"multi.cpp|devilution::multi_send_zero_packet(size_t pnum, _cmd_id bCmd, const byte *data, size_t size)",ported,,,src/multi.rs
 multi.cpp|devilution::NetClose(),ported,,,src/multi.rs
-multi.cpp|devilution::NetInit(bool bSinglePlayer),pending,,,
-"multi.cpp|devilution::recv_plrinfo(int pnum, const TCmdPlrInfoHdr &header, bool recv)",pending,,,
+multi.cpp|devilution::NetInit(bool bSinglePlayer),ported,,,src/multi.rs
+"multi.cpp|devilution::recv_plrinfo(int pnum, const TCmdPlrInfoHdr &header, bool recv)",ported,,,src/multi.rs
 nthread.cpp|devilution::NthreadHandler(),pending,,,
-nthread.cpp|devilution::nthread_terminate_game(const char *pszFcn),pending,,,
-"nthread.cpp|devilution::nthread_send_and_recv_turn(uint32_t curTurn, int turnDelta)",pending,,,
-nthread.cpp|devilution::nthread_recv_turns(bool *pfSendAsync),pending,,,
-nthread.cpp|devilution::nthread_set_turn_upper_bit(),pending,,,
-nthread.cpp|devilution::nthread_start(bool setTurnUpperBit),pending,,,
-nthread.cpp|devilution::nthread_cleanup(),pending,,,
-nthread.cpp|devilution::nthread_ignore_mutex(bool bStart),pending,,,
-nthread.cpp|devilution::nthread_has_500ms_passed(bool *drawGame),pending,,,
-nthread.cpp|devilution::nthread_UpdateProgressToNextGameTick(),pending,,,
+nthread.cpp|devilution::nthread_terminate_game(const char *pszFcn),ported,,,src/nthread.rs
+"nthread.cpp|devilution::nthread_send_and_recv_turn(uint32_t curTurn, int turnDelta)",ported,,,src/nthread.rs
+nthread.cpp|devilution::nthread_recv_turns(bool *pfSendAsync),ported,,,src/nthread.rs
+nthread.cpp|devilution::nthread_set_turn_upper_bit(),ported,,,src/nthread.rs
+nthread.cpp|devilution::nthread_start(bool setTurnUpperBit),ported,,,src/nthread.rs
+nthread.cpp|devilution::nthread_cleanup(),ported,,,src/nthread.rs
+nthread.cpp|devilution::nthread_ignore_mutex(bool bStart),ported,,,src/nthread.rs
+nthread.cpp|devilution::nthread_has_500ms_passed(bool *drawGame),ported,,,src/nthread.rs
+nthread.cpp|devilution::nthread_UpdateProgressToNextGameTick(),ported,,,src/nthread.rs
 objdat.h|devilution::ObjectData::isAnimated(),pending,,,
 objdat.h|devilution::ObjectData::isSolid(),pending,,,
 objdat.h|devilution::ObjectData::missilesPassThrough(),pending,,,
@@ -3186,7 +3186,7 @@ objects.cpp|devilution::SyncDoor(Object &door),pending,,,
 "objects.cpp|devilution::ResyncDoors(WorldTilePosition p1, WorldTilePosition p2, bool sendmsg)",pending,,,
 "objects.cpp|devilution::UpdateState(Object &object, int frame)",pending,,,
 objects.cpp|devilution::Object::GetId(),pending,,,
-objects.cpp|devilution::Object::IsDisabled(),pending,,,
+objects.cpp|devilution::Object::IsDisabled(),ported,,,src/objects.rs
 "objects.cpp|devilution::FindObjectAtPosition(Point position, bool considerLargeObjects)",pending,,,
 objects.cpp|devilution::IsItemBlockingObjectAtPosition(Point position),pending,,,
 objects.cpp|devilution::LoadLevelObjects(uint16_t filesWidths[65]),pending,,,
@@ -3420,16 +3420,16 @@ pack.cpp|devilution::EventFailedJoinAttempt(const char *playerName),pending,,,
 "pack.cpp|devilution::LogFailedJoinAttempt(const char *condition, const char *name, T value)",pending,,,
 "pack.cpp|devilution::LogFailedJoinAttempt(const char *condition, const char *name1, T1 value1, const char *name2, T2 value2)",pending,,,
 pack.cpp|devilution::VerifyGoldSeeds(Player &player),ported,,,src/pack.rs
-pack.cpp|devilution::hasMultipleFlags(uint16_t flags),pending,,,
-pack.cpp|devilution::IsCreationFlagComboValid(uint16_t iCreateInfo),pending,,,
-pack.cpp|devilution::IsTownItemValid(uint16_t iCreateInfo),pending,,,
-"pack.cpp|devilution::IsUniqueMonsterItemValid(uint16_t iCreateInfo, uint32_t dwBuff)",pending,,,
-"pack.cpp|devilution::IsDungeonItemValid(uint16_t iCreateInfo, uint32_t dwBuff)",pending,,,
-"pack.cpp|devilution::RecreateHellfireSpellBook(const Player &player, const TItem &packedItem, Item *item)",pending,,,
+pack.cpp|devilution::hasMultipleFlags(uint16_t flags),ported,,,src/pack.rs
+pack.cpp|devilution::IsCreationFlagComboValid(uint16_t iCreateInfo),ported,,,src/pack.rs
+pack.cpp|devilution::IsTownItemValid(uint16_t iCreateInfo),ported,,,src/pack.rs
+"pack.cpp|devilution::IsUniqueMonsterItemValid(uint16_t iCreateInfo, uint32_t dwBuff)",ported,,,src/pack.rs
+"pack.cpp|devilution::IsDungeonItemValid(uint16_t iCreateInfo, uint32_t dwBuff)",ported,,,src/pack.rs
+"pack.cpp|devilution::RecreateHellfireSpellBook(const Player &player, const TItem &packedItem, Item *item)",ported,,,src/pack.rs
 "pack.cpp|devilution::PackItem(ItemPack &packedItem, const Item &item, bool isHellfire)",ported,,,src/pack.rs
 "pack.cpp|devilution::PackPlayer(PlayerPack &packed, const Player &player)",ported,,,src/pack.rs
-"pack.cpp|devilution::PackNetItem(const Item &item, ItemNetPack &packedItem)",pending,,,
-"pack.cpp|devilution::PackNetPlayer(PlayerNetPack &packed, const Player &player)",pending,,,
+"pack.cpp|devilution::PackNetItem(const Item &item, ItemNetPack &packedItem)",ported,,,src/pack.rs
+"pack.cpp|devilution::PackNetPlayer(PlayerNetPack &packed, const Player &player)",ported,,,src/pack.rs
 "pack.cpp|devilution::UnPackItem(const ItemPack &packedItem, const Player &player, Item &item, bool isHellfire)",ported,,,src/pack.rs
 "pack.cpp|devilution::UnPackPlayer(const PlayerPack &packed, Player &player)",ported,,,src/pack.rs
 "pack.cpp|devilution::UnPackNetItem(const Player &player, const ItemNetPack &packedItem, Item &item)",pending,,,
@@ -3740,44 +3740,44 @@ player.h|devilution::Player::isOnArenaLevel(),pending,,,
 player.h|devilution::Player::setLevel(uint8_t level),pending,,,
 player.h|devilution::Player::setLevel(_setlevels level),pending,,,
 player.h|devilution::IsInspectingPlayer(),pending,,,
-plrmsg.cpp|devilution::CountLinesOfText(string_view text),pending,,,
-plrmsg.cpp|devilution::GetNextMessage(),pending,,,
-plrmsg.cpp|devilution::plrmsg_delay(bool delay),pending,,,
-"plrmsg.cpp|devilution::EventPlrMsg(string_view text, UiFlags style)",pending,,,
-"plrmsg.cpp|devilution::SendPlrMsg(Player &player, string_view text)",pending,,,
-plrmsg.cpp|devilution::InitPlrMsg(),pending,,,
-plrmsg.cpp|devilution::DrawPlrMsg(const Surface &out),pending,,,
-portal.cpp|devilution::InitPortals(),pending,,,
-"portal.cpp|devilution::SetPortalStats(int i, bool o, Point position, int lvl, dungeon_type lvltype, bool isSetLevel)",pending,,,
-"portal.cpp|devilution::AddWarpMissile(int i, Point position, bool sync)",pending,,,
-portal.cpp|devilution::SyncPortals(),pending,,,
-portal.cpp|devilution::AddInTownPortal(int i),pending,,,
-"portal.cpp|devilution::ActivatePortal(int i, Point position, int lvl, dungeon_type dungeonType, bool isSetLevel)",pending,,,
-portal.cpp|devilution::DeactivatePortal(int i),pending,,,
-portal.cpp|devilution::PortalOnLevel(size_t i),pending,,,
-portal.cpp|devilution::RemovePortalMissile(int id),pending,,,
-portal.cpp|devilution::SetCurrentPortal(size_t p),pending,,,
-portal.cpp|devilution::GetPortalLevel(),pending,,,
-portal.cpp|devilution::GetPortalLvlPos(),pending,,,
-"portal.cpp|devilution::PosOkPortal(int lvl, Point position)",pending,,,
+plrmsg.cpp|devilution::CountLinesOfText(string_view text),ported,,,src/plrmsg.rs
+plrmsg.cpp|devilution::GetNextMessage(),ported,,,src/plrmsg.rs
+plrmsg.cpp|devilution::plrmsg_delay(bool delay),ported,,,src/plrmsg.rs
+"plrmsg.cpp|devilution::EventPlrMsg(string_view text, UiFlags style)",ported,,,src/plrmsg.rs
+"plrmsg.cpp|devilution::SendPlrMsg(Player &player, string_view text)",ported,,,src/plrmsg.rs
+plrmsg.cpp|devilution::InitPlrMsg(),ported,,,src/plrmsg.rs
+plrmsg.cpp|devilution::DrawPlrMsg(const Surface &out),ported,,,src/plrmsg.rs
+portal.cpp|devilution::InitPortals(),ported,,,src/portal.rs
+"portal.cpp|devilution::SetPortalStats(int i, bool o, Point position, int lvl, dungeon_type lvltype, bool isSetLevel)",ported,,,src/portal.rs
+"portal.cpp|devilution::AddWarpMissile(int i, Point position, bool sync)",ported,,,src/portal.rs
+portal.cpp|devilution::SyncPortals(),ported,,,src/portal.rs
+portal.cpp|devilution::AddInTownPortal(int i),ported,,,src/portal.rs
+"portal.cpp|devilution::ActivatePortal(int i, Point position, int lvl, dungeon_type dungeonType, bool isSetLevel)",ported,,,src/portal.rs
+portal.cpp|devilution::DeactivatePortal(int i),ported,,,src/portal.rs
+portal.cpp|devilution::PortalOnLevel(size_t i),ported,,,src/portal.rs
+portal.cpp|devilution::RemovePortalMissile(int id),ported,,,src/portal.rs
+portal.cpp|devilution::SetCurrentPortal(size_t p),ported,,,src/portal.rs
+portal.cpp|devilution::GetPortalLevel(),ported,,,src/portal.rs
+portal.cpp|devilution::GetPortalLvlPos(),ported,,,src/portal.rs
+"portal.cpp|devilution::PosOkPortal(int lvl, Point position)",ported,,,src/portal.rs
 qol/autopickup.cpp|devilution::HasRoomForGold(),pending,,,
 qol/autopickup.cpp|devilution::NumMiscItemsInInv(int iMiscId),pending,,,
 qol/autopickup.cpp|devilution::DoPickup(Item item),pending,,,
 qol/autopickup.cpp|devilution::AutoPickup(const Player &player),pending,,,
-qol/chatlog.cpp|devilution::LineHeight(),pending,,,
-qol/chatlog.cpp|devilution::BlankLineHeight(),pending,,,
-qol/chatlog.cpp|devilution::DividerLineMarginY(),pending,,,
-qol/chatlog.cpp|devilution::HeaderHeight(),pending,,,
-qol/chatlog.cpp|devilution::ContentPaddingY(),pending,,,
-qol/chatlog.cpp|devilution::ContentsTextHeight(),pending,,,
-qol/chatlog.cpp|devilution::NumVisibleLines(),pending,,,
-qol/chatlog.cpp|devilution::ToggleChatLog(),pending,,,
-"qol/chatlog.cpp|devilution::AddMessageToChatLog(string_view message, Player *player, UiFlags flags)",pending,,,
-qol/chatlog.cpp|devilution::DrawChatLog(const Surface &out),pending,,,
-qol/chatlog.cpp|devilution::ChatLogScrollUp(),pending,,,
-qol/chatlog.cpp|devilution::ChatLogScrollDown(),pending,,,
-qol/chatlog.cpp|devilution::ChatLogScrollTop(),pending,,,
-qol/chatlog.cpp|devilution::ChatLogScrollBottom(),pending,,,
+qol/chatlog.cpp|devilution::LineHeight(),ported,,,src/qol/chatlog.rs
+qol/chatlog.cpp|devilution::BlankLineHeight(),ported,,,src/qol/chatlog.rs
+qol/chatlog.cpp|devilution::DividerLineMarginY(),ported,,,src/qol/chatlog.rs
+qol/chatlog.cpp|devilution::HeaderHeight(),ported,,,src/qol/chatlog.rs
+qol/chatlog.cpp|devilution::ContentPaddingY(),ported,,,src/qol/chatlog.rs
+qol/chatlog.cpp|devilution::ContentsTextHeight(),ported,,,src/qol/chatlog.rs
+qol/chatlog.cpp|devilution::NumVisibleLines(),ported,,,src/qol/chatlog.rs
+qol/chatlog.cpp|devilution::ToggleChatLog(),ported,,,src/qol/chatlog.rs
+"qol/chatlog.cpp|devilution::AddMessageToChatLog(string_view message, Player *player, UiFlags flags)",ported,,,src/qol/chatlog.rs
+qol/chatlog.cpp|devilution::DrawChatLog(const Surface &out),ported,,,src/qol/chatlog.rs
+qol/chatlog.cpp|devilution::ChatLogScrollUp(),ported,,,src/qol/chatlog.rs
+qol/chatlog.cpp|devilution::ChatLogScrollDown(),ported,,,src/qol/chatlog.rs
+qol/chatlog.cpp|devilution::ChatLogScrollTop(),ported,,,src/qol/chatlog.rs
+qol/chatlog.cpp|devilution::ChatLogScrollBottom(),ported,,,src/qol/chatlog.rs
 qol/floatingnumbers.cpp|devilution::ClearExpiredNumbers(),pending,,,
 qol/floatingnumbers.cpp|devilution::GetGameFontSizeByDamage(int value),pending,,,
 qol/floatingnumbers.cpp|devilution::GetFontSizeByDamage(int value),pending,,,
@@ -3842,37 +3842,37 @@ qol/xpbar.cpp|devilution::InitXPBar(),pending,,,
 qol/xpbar.cpp|devilution::FreeXPBar(),pending,,,
 qol/xpbar.cpp|devilution::DrawXPBar(const Surface &out),pending,,,
 qol/xpbar.cpp|devilution::CheckXPBarInfo(),pending,,,
-quests.cpp|devilution::DrawButcher(),pending,,,
-"quests.cpp|devilution::DrawSkelKing(quest_id q, Point position)",pending,,,
-quests.cpp|devilution::DrawWarLord(Point position),pending,,,
-"quests.cpp|devilution::DrawSChamber(quest_id q, Point position)",pending,,,
-quests.cpp|devilution::DrawLTBanner(Point position),pending,,,
-quests.cpp|devilution::DrawBlind(Point position),pending,,,
-quests.cpp|devilution::DrawBlood(Point position),pending,,,
-quests.cpp|devilution::QuestLogMouseToEntry(),pending,,,
+quests.cpp|devilution::DrawButcher(),ported,,,src/quests.rs
+"quests.cpp|devilution::DrawSkelKing(quest_id q, Point position)",ported,,,src/quests.rs
+quests.cpp|devilution::DrawWarLord(Point position),ported,,,src/quests.rs
+"quests.cpp|devilution::DrawSChamber(quest_id q, Point position)",ported,,,src/quests.rs
+quests.cpp|devilution::DrawLTBanner(Point position),ported,,,src/quests.rs
+quests.cpp|devilution::DrawBlind(Point position),ported,,,src/quests.rs
+quests.cpp|devilution::DrawBlood(Point position),ported,,,src/quests.rs
+quests.cpp|devilution::QuestLogMouseToEntry(),ported,,,src/quests.rs
 "quests.cpp|devilution::PrintQLString(const Surface &out, int x, int y, string_view str, bool marked, bool disabled = false)",pending,,,
-quests.cpp|devilution::StartPWaterPurify(),pending,,,
-quests.cpp|devilution::InitQuests(),pending,,,
-"quests.cpp|devilution::InitialiseQuestPools(uint32_t seed, Quest quests[])",pending,,,
-quests.cpp|devilution::CheckQuests(),pending,,,
-quests.cpp|devilution::ForceQuests(),pending,,,
-"quests.cpp|devilution::CheckQuestKill(const Monster &monster, bool sendmsg)",pending,,,
-quests.cpp|devilution::DRLG_CheckQuests(Point position),pending,,,
-quests.cpp|devilution::GetMapReturnLevel(),pending,,,
-quests.cpp|devilution::GetMapReturnPosition(),pending,,,
-quests.cpp|devilution::LoadPWaterPalette(),pending,,,
-quests.cpp|devilution::UpdatePWaterPalette(),pending,,,
-quests.cpp|devilution::ResyncMPQuests(),pending,,,
-quests.cpp|devilution::ResyncQuests(),pending,,,
+quests.cpp|devilution::StartPWaterPurify(),ported,,,src/quests.rs
+quests.cpp|devilution::InitQuests(),ported,,,src/quests.rs
+"quests.cpp|devilution::InitialiseQuestPools(uint32_t seed, Quest quests[])",ported,,,src/quests.rs
+quests.cpp|devilution::CheckQuests(),ported,,,src/quests.rs
+quests.cpp|devilution::ForceQuests(),ported,,,src/quests.rs
+"quests.cpp|devilution::CheckQuestKill(const Monster &monster, bool sendmsg)",ported,,,src/quests.rs
+quests.cpp|devilution::DRLG_CheckQuests(Point position),ported,,,src/quests.rs
+quests.cpp|devilution::GetMapReturnLevel(),ported,,,src/quests.rs
+quests.cpp|devilution::GetMapReturnPosition(),ported,,,src/quests.rs
+quests.cpp|devilution::LoadPWaterPalette(),ported,,,src/quests.rs
+quests.cpp|devilution::UpdatePWaterPalette(),ported,,,src/quests.rs
+quests.cpp|devilution::ResyncMPQuests(),ported,,,src/quests.rs
+quests.cpp|devilution::ResyncQuests(),ported,,,src/quests.rs
 quests.cpp|devilution::DrawQuestLog(const Surface &out),pending,,,
-quests.cpp|devilution::StartQuestlog(),pending,,,
-quests.cpp|devilution::QuestlogUp(),pending,,,
-quests.cpp|devilution::QuestlogDown(),pending,,,
-quests.cpp|devilution::QuestlogEnter(),pending,,,
-quests.cpp|devilution::QuestlogESC(),pending,,,
-"quests.cpp|devilution::SetMultiQuest(int q, quest_state s, bool log, int v1, int v2, int16_t qmsg)",pending,,,
-quests.cpp|devilution::UseMultiplayerQuests(),pending,,,
-quests.cpp|devilution::Quest::IsAvailable(),pending,,,
+quests.cpp|devilution::StartQuestlog(),ported,,,src/quests.rs
+quests.cpp|devilution::QuestlogUp(),ported,,,src/quests.rs
+quests.cpp|devilution::QuestlogDown(),ported,,,src/quests.rs
+quests.cpp|devilution::QuestlogEnter(),ported,,,src/quests.rs
+quests.cpp|devilution::QuestlogESC(),ported,,,src/quests.rs
+"quests.cpp|devilution::SetMultiQuest(int q, quest_state s, bool log, int v1, int v2, int16_t qmsg)",ported,,,src/quests.rs
+quests.cpp|devilution::UseMultiplayerQuests(),ported,,,src/quests.rs
+quests.cpp|devilution::Quest::IsAvailable(),ported,,,src/quests.rs
 restrict.cpp|devilution::ReadOnlyTest(),ported,,,src/diablo.rs
 "sha.cpp|devilution::SHA1CircularShift(uint32_t word, size_t bits)",ported,,,src/sha.rs
 sha.cpp|devilution::SHA1ProcessMessageBlock(SHA1Context *context),ported,,,src/sha.rs
@@ -4009,28 +4009,28 @@ stores.cpp|devilution::CheckStoreBtn(),pending,,,
 stores.cpp|devilution::ReleaseStoreBtn(),pending,,,
 storm/storm_net.cpp|devilution::SErrGetLastError(),ported,,,src/storm/storm_net.rs
 storm/storm_net.cpp|devilution::SErrSetLastError(uint32_t dwErrCode),ported,,,src/storm/storm_net.rs
-"storm/storm_net.cpp|devilution::SNetReceiveMessage(uint8_t *senderplayerid, void **data, uint32_t *databytes)",pending,,,
-"storm/storm_net.cpp|devilution::SNetSendMessage(int playerID, void *data, unsigned int databytes)",pending,,,
-"storm/storm_net.cpp|devilution::SNetReceiveTurns(int arraysize, char **arraydata, size_t *arraydatabytes, uint32_t *arrayplayerstatus)",pending,,,
-"storm/storm_net.cpp|devilution::SNetSendTurn(char *data, unsigned int databytes)",pending,,,
-storm/storm_net.cpp|devilution::SNetGetProviderCaps(struct _SNETCAPS *caps),pending,,,
-storm/storm_net.cpp|devilution::SNetUnregisterEventHandler(event_type evtype),pending,,,
-"storm/storm_net.cpp|devilution::SNetRegisterEventHandler(event_type evtype, SEVTHANDLER func)",pending,,,
+"storm/storm_net.cpp|devilution::SNetReceiveMessage(uint8_t *senderplayerid, void **data, uint32_t *databytes)",ported,,,src/storm/storm_net.rs
+"storm/storm_net.cpp|devilution::SNetSendMessage(int playerID, void *data, unsigned int databytes)",ported,,,src/storm/storm_net.rs
+"storm/storm_net.cpp|devilution::SNetReceiveTurns(int arraysize, char **arraydata, size_t *arraydatabytes, uint32_t *arrayplayerstatus)",ported,,,src/storm/storm_net.rs
+"storm/storm_net.cpp|devilution::SNetSendTurn(char *data, unsigned int databytes)",ported,,,src/storm/storm_net.rs
+storm/storm_net.cpp|devilution::SNetGetProviderCaps(struct _SNETCAPS *caps),ported,,,src/storm/storm_net.rs
+storm/storm_net.cpp|devilution::SNetUnregisterEventHandler(event_type evtype),ported,,,src/storm/storm_net.rs
+"storm/storm_net.cpp|devilution::SNetRegisterEventHandler(event_type evtype, SEVTHANDLER func)",ported,,,src/storm/storm_net.rs
 storm/storm_net.cpp|devilution::SNetDestroy(),ported,,,src/storm/storm_net.rs
-"storm/storm_net.cpp|devilution::SNetDropPlayer(int playerid, uint32_t flags)",pending,,,
+"storm/storm_net.cpp|devilution::SNetDropPlayer(int playerid, uint32_t flags)",ported,,,src/storm/storm_net.rs
 storm/storm_net.cpp|devilution::SNetLeaveGame(int type),ported,,,src/storm/storm_net.rs
-"storm/storm_net.cpp|devilution::SNetInitializeProvider(uint32_t provider, struct GameData *gameData)",pending,,,
-"storm/storm_net.cpp|devilution::SNetCreateGame(const char *pszGameName, const char *pszGamePassword, char *gameTemplateData, int gameTemplateSize, int *playerID)",pending,,,
-"storm/storm_net.cpp|devilution::SNetJoinGame(char *pszGameName, char *pszGamePassword, int *playerID)",pending,,,
-storm/storm_net.cpp|devilution::SNetGetOwnerTurnsWaiting(uint32_t *turns),pending,,,
-storm/storm_net.cpp|devilution::SNetGetTurnsInTransit(uint32_t *turns),pending,,,
-storm/storm_net.cpp|devilution::SNetSetBasePlayer(int),pending,,,
-storm/storm_net.cpp|devilution::DvlNet_SendInfoRequest(),pending,,,
-storm/storm_net.cpp|devilution::DvlNet_ClearGamelist(),pending,,,
-storm/storm_net.cpp|devilution::DvlNet_GetGamelist(),pending,,,
-storm/storm_net.cpp|devilution::DvlNet_SetPassword(std::string pw),pending,,,
-storm/storm_net.cpp|devilution::DvlNet_ClearPassword(),pending,,,
-storm/storm_net.cpp|devilution::DvlNet_IsPublicGame(),pending,,,
+"storm/storm_net.cpp|devilution::SNetInitializeProvider(uint32_t provider, struct GameData *gameData)",ported,,,src/storm/storm_net.rs
+"storm/storm_net.cpp|devilution::SNetCreateGame(const char *pszGameName, const char *pszGamePassword, char *gameTemplateData, int gameTemplateSize, int *playerID)",ported,,,src/storm/storm_net.rs
+"storm/storm_net.cpp|devilution::SNetJoinGame(char *pszGameName, char *pszGamePassword, int *playerID)",ported,,,src/storm/storm_net.rs
+storm/storm_net.cpp|devilution::SNetGetOwnerTurnsWaiting(uint32_t *turns),ported,,,src/storm/storm_net.rs
+storm/storm_net.cpp|devilution::SNetGetTurnsInTransit(uint32_t *turns),ported,,,src/storm/storm_net.rs
+storm/storm_net.cpp|devilution::SNetSetBasePlayer(int),ported,,,src/storm/storm_net.rs
+storm/storm_net.cpp|devilution::DvlNet_SendInfoRequest(),ported,,,src/storm/storm_net.rs
+storm/storm_net.cpp|devilution::DvlNet_ClearGamelist(),ported,,,src/storm/storm_net.rs
+storm/storm_net.cpp|devilution::DvlNet_GetGamelist(),ported,,,src/storm/storm_net.rs
+storm/storm_net.cpp|devilution::DvlNet_SetPassword(std::string pw),ported,,,src/storm/storm_net.rs
+storm/storm_net.cpp|devilution::DvlNet_ClearPassword(),ported,,,src/storm/storm_net.rs
+storm/storm_net.cpp|devilution::DvlNet_IsPublicGame(),ported,,,src/storm/storm_net.rs
 "storm/storm_svid.cpp|devilution::IsLandscapeFit(unsigned long srcW, unsigned long srcH, unsigned long dstW, unsigned long dstH)",pending,,,
 storm/storm_svid.cpp|devilution::HasAudio(),pending,,,
 storm/storm_svid.cpp|devilution::SVidLoadNextFrame(),pending,,,
@@ -4041,61 +4041,61 @@ storm/storm_svid.cpp|devilution::SVidPlayContinue(),pending,,,
 storm/storm_svid.cpp|devilution::SVidPlayEnd(),pending,,,
 storm/storm_svid.cpp|devilution::SVidMute(),pending,,,
 storm/storm_svid.cpp|devilution::SVidUnmute(),pending,,,
-sync.cpp|devilution::SyncOneMonster(),pending,,,
-"sync.cpp|devilution::SyncMonsterPos(TSyncMonster &monsterSync, int ndx)",pending,,,
-sync.cpp|devilution::SyncMonsterActive(TSyncMonster &monsterSync),pending,,,
-sync.cpp|devilution::SyncMonsterActive2(TSyncMonster &monsterSync),pending,,,
-sync.cpp|devilution::SyncPlrInv(TSyncHeader *pHdr),pending,,,
-"sync.cpp|devilution::SyncMonster(bool isOwner, const TSyncMonster &monsterSync)",pending,,,
-"sync.cpp|devilution::IsEnemyIdValid(const Monster &monster, int enemyId)",pending,,,
-sync.cpp|devilution::IsTSyncMonsterValidate(const TSyncMonster &monsterSync),pending,,,
-"sync.cpp|devilution::sync_all_monsters(byte *pbBuf, uint32_t dwMaxLen)",pending,,,
-"sync.cpp|devilution::OnSyncData(const TCmd *pCmd, size_t pnum)",pending,,,
-sync.cpp|devilution::sync_init(),pending,,,
+sync.cpp|devilution::SyncOneMonster(),ported,,,src/sync.rs
+"sync.cpp|devilution::SyncMonsterPos(TSyncMonster &monsterSync, int ndx)",ported,,,src/sync.rs
+sync.cpp|devilution::SyncMonsterActive(TSyncMonster &monsterSync),ported,,,src/sync.rs
+sync.cpp|devilution::SyncMonsterActive2(TSyncMonster &monsterSync),ported,,,src/sync.rs
+sync.cpp|devilution::SyncPlrInv(TSyncHeader *pHdr),ported,,,src/sync.rs
+"sync.cpp|devilution::SyncMonster(bool isOwner, const TSyncMonster &monsterSync)",ported,,,src/sync.rs
+"sync.cpp|devilution::IsEnemyIdValid(const Monster &monster, int enemyId)",ported,,,src/sync.rs
+sync.cpp|devilution::IsTSyncMonsterValidate(const TSyncMonster &monsterSync),ported,,,src/sync.rs
+"sync.cpp|devilution::sync_all_monsters(byte *pbBuf, uint32_t dwMaxLen)",ported,,,src/sync.rs
+"sync.cpp|devilution::OnSyncData(const TCmd *pCmd, size_t pnum)",ported,,,src/sync.rs
+sync.cpp|devilution::sync_init(),ported,,,src/sync.rs
 "tmsg.cpp|devilution::TMsg::TMsg(uint32_t time, const byte *data, uint8_t len)",pending,,,
-tmsg.cpp|devilution::tmsg_get(std::unique_ptr<byte[]> *msg),pending,,,
-"tmsg.cpp|devilution::tmsg_add(const byte *msg, uint8_t len)",pending,,,
-tmsg.cpp|devilution::tmsg_start(),pending,,,
-tmsg.cpp|devilution::tmsg_cleanup(),pending,,,
-"towners.cpp|devilution::NewTownerAnim(Towner &towner, ClxSpriteList sprites, uint8_t numFrames, int delay)",pending,,,
-"towners.cpp|devilution::InitTownerInfo(int i, const TownerData &townerData)",pending,,,
-"towners.cpp|devilution::LoadTownerAnimations(Towner &towner, const char *path, int frames, int delay)",pending,,,
-"towners.cpp|devilution::InitSmith(Towner &towner, const TownerData &townerData)",pending,,,
-"towners.cpp|devilution::InitBarOwner(Towner &towner, const TownerData &townerData)",pending,,,
-"towners.cpp|devilution::InitTownDead(Towner &towner, const TownerData &townerData)",pending,,,
-"towners.cpp|devilution::InitWitch(Towner &towner, const TownerData &townerData)",pending,,,
-"towners.cpp|devilution::InitBarmaid(Towner &towner, const TownerData &townerData)",pending,,,
-"towners.cpp|devilution::InitBoy(Towner &towner, const TownerData &townerData)",pending,,,
-"towners.cpp|devilution::InitHealer(Towner &towner, const TownerData &townerData)",pending,,,
-"towners.cpp|devilution::InitTeller(Towner &towner, const TownerData &townerData)",pending,,,
-"towners.cpp|devilution::InitDrunk(Towner &towner, const TownerData &townerData)",pending,,,
-"towners.cpp|devilution::InitCows(Towner &towner, const TownerData &townerData)",pending,,,
-"towners.cpp|devilution::InitFarmer(Towner &towner, const TownerData &townerData)",pending,,,
-"towners.cpp|devilution::InitCowFarmer(Towner &towner, const TownerData &townerData)",pending,,,
-"towners.cpp|devilution::InitGirl(Towner &towner, const TownerData &townerData)",pending,,,
-towners.cpp|devilution::TownDead(Towner &towner),pending,,,
-towners.cpp|devilution::TownerTalk(_speech_id message),pending,,,
-"towners.cpp|devilution::TalkToBarOwner(Player &player, Towner &barOwner)",pending,,,
-"towners.cpp|devilution::TalkToDeadguy(Player &player, Towner &)",pending,,,
-"towners.cpp|devilution::TalkToBlackSmith(Player &player, Towner &blackSmith)",pending,,,
-"towners.cpp|devilution::TalkToWitch(Player &player, Towner &)",pending,,,
-"towners.cpp|devilution::TalkToBarmaid(Player &player, Towner &)",pending,,,
-"towners.cpp|devilution::TalkToDrunk(Player & , Towner &)",pending,,,
-"towners.cpp|devilution::TalkToHealer(Player &player, Towner &healer)",pending,,,
-"towners.cpp|devilution::TalkToBoy(Player & , Towner &)",pending,,,
-"towners.cpp|devilution::TalkToStoryteller(Player &player, Towner &)",pending,,,
-"towners.cpp|devilution::TalkToCow(Player &player, Towner &cow)",pending,,,
-"towners.cpp|devilution::TalkToFarmer(Player &player, Towner &farmer)",pending,,,
-"towners.cpp|devilution::TalkToCowFarmer(Player &player, Towner &cowFarmer)",pending,,,
-"towners.cpp|devilution::TalkToGirl(Player &player, Towner &girl)",pending,,,
-towners.cpp|devilution::IsTownerPresent(_talker_id npc),pending,,,
-towners.cpp|devilution::GetTowner(_talker_id type),pending,,,
-towners.cpp|devilution::InitTowners(),pending,,,
+tmsg.cpp|devilution::tmsg_get(std::unique_ptr<byte[]> *msg),ported,,,src/tmsg.rs
+"tmsg.cpp|devilution::tmsg_add(const byte *msg, uint8_t len)",ported,,,src/tmsg.rs
+tmsg.cpp|devilution::tmsg_start(),ported,,,src/tmsg.rs
+tmsg.cpp|devilution::tmsg_cleanup(),ported,,,src/tmsg.rs
+"towners.cpp|devilution::NewTownerAnim(Towner &towner, ClxSpriteList sprites, uint8_t numFrames, int delay)",ported,,,src/towners.rs
+"towners.cpp|devilution::InitTownerInfo(int i, const TownerData &townerData)",ported,,,src/towners.rs
+"towners.cpp|devilution::LoadTownerAnimations(Towner &towner, const char *path, int frames, int delay)",ported,,,src/towners.rs
+"towners.cpp|devilution::InitSmith(Towner &towner, const TownerData &townerData)",ported,,,src/towners.rs
+"towners.cpp|devilution::InitBarOwner(Towner &towner, const TownerData &townerData)",ported,,,src/towners.rs
+"towners.cpp|devilution::InitTownDead(Towner &towner, const TownerData &townerData)",ported,,,src/towners.rs
+"towners.cpp|devilution::InitWitch(Towner &towner, const TownerData &townerData)",ported,,,src/towners.rs
+"towners.cpp|devilution::InitBarmaid(Towner &towner, const TownerData &townerData)",ported,,,src/towners.rs
+"towners.cpp|devilution::InitBoy(Towner &towner, const TownerData &townerData)",ported,,,src/towners.rs
+"towners.cpp|devilution::InitHealer(Towner &towner, const TownerData &townerData)",ported,,,src/towners.rs
+"towners.cpp|devilution::InitTeller(Towner &towner, const TownerData &townerData)",ported,,,src/towners.rs
+"towners.cpp|devilution::InitDrunk(Towner &towner, const TownerData &townerData)",ported,,,src/towners.rs
+"towners.cpp|devilution::InitCows(Towner &towner, const TownerData &townerData)",ported,,,src/towners.rs
+"towners.cpp|devilution::InitFarmer(Towner &towner, const TownerData &townerData)",ported,,,src/towners.rs
+"towners.cpp|devilution::InitCowFarmer(Towner &towner, const TownerData &townerData)",ported,,,src/towners.rs
+"towners.cpp|devilution::InitGirl(Towner &towner, const TownerData &townerData)",ported,,,src/towners.rs
+towners.cpp|devilution::TownDead(Towner &towner),ported,,,src/towners.rs
+towners.cpp|devilution::TownerTalk(_speech_id message),ported,,,src/towners.rs
+"towners.cpp|devilution::TalkToBarOwner(Player &player, Towner &barOwner)",ported,,,src/towners.rs
+"towners.cpp|devilution::TalkToDeadguy(Player &player, Towner &)",ported,,,src/towners.rs
+"towners.cpp|devilution::TalkToBlackSmith(Player &player, Towner &blackSmith)",ported,,,src/towners.rs
+"towners.cpp|devilution::TalkToWitch(Player &player, Towner &)",ported,,,src/towners.rs
+"towners.cpp|devilution::TalkToBarmaid(Player &player, Towner &)",ported,,,src/towners.rs
+"towners.cpp|devilution::TalkToDrunk(Player & , Towner &)",ported,,,src/towners.rs
+"towners.cpp|devilution::TalkToHealer(Player &player, Towner &healer)",ported,,,src/towners.rs
+"towners.cpp|devilution::TalkToBoy(Player & , Towner &)",ported,,,src/towners.rs
+"towners.cpp|devilution::TalkToStoryteller(Player &player, Towner &)",ported,,,src/towners.rs
+"towners.cpp|devilution::TalkToCow(Player &player, Towner &cow)",ported,,,src/towners.rs
+"towners.cpp|devilution::TalkToFarmer(Player &player, Towner &farmer)",ported,,,src/towners.rs
+"towners.cpp|devilution::TalkToCowFarmer(Player &player, Towner &cowFarmer)",ported,,,src/towners.rs
+"towners.cpp|devilution::TalkToGirl(Player &player, Towner &girl)",ported,,,src/towners.rs
+towners.cpp|devilution::IsTownerPresent(_talker_id npc),ported,,,src/towners.rs
+towners.cpp|devilution::GetTowner(_talker_id type),ported,,,src/towners.rs
+towners.cpp|devilution::InitTowners(),ported,,,src/towners.rs
 towners.cpp|devilution::FreeTownerGFX(),ported,,,src/towners.rs
-towners.cpp|devilution::ProcessTowners(),pending,,,
-"towners.cpp|devilution::TalkToTowner(Player &player, int t)",pending,,,
-towners.cpp|devilution::UpdateGirlAnimAfterQuestComplete(),pending,,,
-towners.cpp|devilution::UpdateCowFarmerAnimAfterQuestComplete(),pending,,,
+towners.cpp|devilution::ProcessTowners(),ported,,,src/towners.rs
+"towners.cpp|devilution::TalkToTowner(Player &player, int t)",ported,,,src/towners.rs
+towners.cpp|devilution::UpdateGirlAnimAfterQuestComplete(),ported,,,src/towners.rs
+towners.cpp|devilution::UpdateCowFarmerAnimAfterQuestComplete(),ported,,,src/towners.rs
 towners.h|devilution::Towner::currentSprite(),pending,,,
 track.cpp|devilution::RepeatWalk(Player &player),pending,,,
 track.cpp|devilution::InvalidateTargets(),pending,,,

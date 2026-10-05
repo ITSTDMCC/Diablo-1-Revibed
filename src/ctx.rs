@@ -89,6 +89,20 @@ pub struct Ctx {
     pub loadsave: crate::loadsave::LoadsaveState,
     /// `pfile.cpp`
     pub pfile: crate::pfile::PfileState,
+    /// `sync.cpp`
+    pub sync: crate::sync::SyncState,
+    /// `tmsg.cpp`
+    pub tmsg: crate::tmsg::TmsgState,
+    /// `plrmsg.cpp`
+    pub plrmsg: crate::plrmsg::PlrMsgState,
+    /// `qol/chatlog.cpp`
+    pub chatlog: crate::qol::chatlog::ChatLogState,
+    /// the C runtime's `rand()` state
+    pub crt_rand: crate::utils::crt_rand::CrtRand,
+    /// `minitext.cpp`
+    pub minitext: crate::minitext::MinitextState,
+    /// `levels/crypt.cpp`
+    pub crypt: crate::levels::crypt::CryptState,
 }
 
 impl Ctx {
@@ -137,6 +151,13 @@ impl Ctx {
             msg: Default::default(),
             loadsave: Default::default(),
             pfile: Default::default(),
+            sync: Default::default(),
+            tmsg: Default::default(),
+            plrmsg: Default::default(),
+            chatlog: Default::default(),
+            crt_rand: Default::default(),
+            minitext: Default::default(),
+            crypt: Default::default(),
         }
     }
 }

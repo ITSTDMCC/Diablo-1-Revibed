@@ -1,4 +1,5 @@
 //! `Source/levels/*`
+pub mod crypt;
 pub mod drlg_l1;
 pub mod drlg_l2;
 pub mod drlg_l3;

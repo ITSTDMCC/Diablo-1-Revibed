@@ -1597,13 +1597,13 @@ fn setup_base_item(ctx: &mut Ctx, position: Point, idx: _item_indexes, onlygood:
     with_item(ctx, ii, |ctx, item| setup_all_items(ctx, &me, item, idx, seed, 2 * curlv, 1, onlygood, false, delta));
     let pos = ctx.items.Items[ii].position;
     if sendmsg {
-        crate::msg::net_send_cmd_p_item(ctx, false, CMD_DROPITEM, pos, ii);
+        { let it = ctx.items.Items[ii as usize].clone(); crate::msg::net_send_cmd_p_item(ctx, false, CMD_DROPITEM, pos, &it); }
     }
     if delta {
         crate::msg::delta_add_item(ctx, ii as i32);
     }
     if spawn {
-        crate::msg::net_send_cmd_p_item(ctx, false, CMD_SPAWNITEM, pos, ii);
+        { let it = ctx.items.Items[ii as usize].clone(); crate::msg::net_send_cmd_p_item(ctx, false, CMD_SPAWNITEM, pos, &it); }
     }
 }
 
@@ -2226,13 +2226,13 @@ fn create_magic_item(ctx: &mut Ctx, position: Point, lvl: i32, item_type: ItemTy
     get_super_item_space(ctx, position, ii as i8);
     let pos = ctx.items.Items[ii].position;
     if sendmsg {
-        crate::msg::net_send_cmd_p_item(ctx, false, CMD_DROPITEM, pos, ii);
+        { let it = ctx.items.Items[ii as usize].clone(); crate::msg::net_send_cmd_p_item(ctx, false, CMD_DROPITEM, pos, &it); }
     }
     if delta {
         crate::msg::delta_add_item(ctx, ii as i32);
     }
     if spawn {
-        crate::msg::net_send_cmd_p_item(ctx, false, CMD_SPAWNITEM, pos, ii);
+        { let it = ctx.items.Items[ii as usize].clone(); crate::msg::net_send_cmd_p_item(ctx, false, CMD_SPAWNITEM, pos, &it); }
     }
 }
 
@@ -3166,7 +3166,7 @@ pub fn spawn_unique(ctx: &mut Ctx, uid: _unique_items, position: Point, level: O
     }
     if sendmsg {
         let pos = ctx.items.Items[ii].position;
-        crate::msg::net_send_cmd_p_item(ctx, false, CMD_SPAWNITEM, pos, ii);
+        { let it = ctx.items.Items[ii as usize].clone(); crate::msg::net_send_cmd_p_item(ctx, false, CMD_SPAWNITEM, pos, &it); }
     }
     Some(ii)
 }
@@ -3186,7 +3186,7 @@ pub fn spawn_item(ctx: &mut Ctx, monster: usize, position: Point, sendmsg: bool,
         if let Some(u) = unique_item {
             if sendmsg {
                 let pos = ctx.items.Items[u].position;
-                crate::msg::net_send_cmd_p_item(ctx, false, CMD_DROPITEM, pos, u);
+                { let it = ctx.items.Items[u as usize].clone(); crate::msg::net_send_cmd_p_item(ctx, false, CMD_DROPITEM, pos, &it); }
             }
         }
         return;
@@ -3228,10 +3228,10 @@ pub fn spawn_item(ctx: &mut Ctx, monster: usize, position: Point, sendmsg: bool,
     with_item(ctx, ii, |ctx, item| setup_all_items(ctx, &me, item, idx, seed, m_level as i32, uper, onlygood, false, false));
     let pos = ctx.items.Items[ii].position;
     if sendmsg {
-        crate::msg::net_send_cmd_p_item(ctx, false, CMD_DROPITEM, pos, ii);
+        { let it = ctx.items.Items[ii as usize].clone(); crate::msg::net_send_cmd_p_item(ctx, false, CMD_DROPITEM, pos, &it); }
     }
     if spawn {
-        crate::msg::net_send_cmd_p_item(ctx, false, CMD_SPAWNITEM, pos, ii);
+        { let it = ctx.items.Items[ii as usize].clone(); crate::msg::net_send_cmd_p_item(ctx, false, CMD_SPAWNITEM, pos, &it); }
     }
 }
 
@@ -3255,7 +3255,7 @@ pub fn create_rnd_useful(ctx: &mut Ctx, position: Point, sendmsg: bool) {
     with_item(ctx, ii, |ctx, item| setup_all_useful(ctx, item, seed, curlv));
     if sendmsg {
         let pos = ctx.items.Items[ii].position;
-        crate::msg::net_send_cmd_p_item(ctx, false, CMD_DROPITEM, pos, ii);
+        { let it = ctx.items.Items[ii as usize].clone(); crate::msg::net_send_cmd_p_item(ctx, false, CMD_DROPITEM, pos, &it); }
     }
 }
 
@@ -3434,7 +3434,7 @@ pub fn spawn_quest_item(ctx: &mut Ctx, itemid: _item_indexes, mut position: Poin
     });
     if sendmsg {
         let pos = ctx.items.Items[ii].position;
-        crate::msg::net_send_cmd_p_item(ctx, true, CMD_SPAWNITEM, pos, ii);
+        { let it = ctx.items.Items[ii as usize].clone(); crate::msg::net_send_cmd_p_item(ctx, true, CMD_SPAWNITEM, pos, &it); }
     } else {
         ctx.items.Items[ii]._iCreateInfo |= CF_PREGEN as u16;
         crate::msg::delta_add_item(ctx, ii as i32);
@@ -3461,7 +3461,7 @@ pub fn spawn_reward_item(ctx: &mut Ctx, itemid: _item_indexes, position: Point, 
     });
     if sendmsg {
         let pos = ctx.items.Items[ii].position;
-        crate::msg::net_send_cmd_p_item(ctx, true, CMD_SPAWNITEM, pos, ii);
+        { let it = ctx.items.Items[ii as usize].clone(); crate::msg::net_send_cmd_p_item(ctx, true, CMD_SPAWNITEM, pos, &it); }
     }
 }
 
@@ -4093,7 +4093,7 @@ pub fn use_item_opens_hive(ctx: &Ctx, item: &Item, position: Point) -> bool {
     if item.IDidx != IDI_RUNEBOMB {
         return false;
     }
-    crate::engine::path::PATH_DIRS.iter().any(|&dir| crate::quests::opens_hive(ctx, position + dir))
+    crate::engine::path::PATH_DIRS.iter().any(|&dir| crate::levels::town::opens_hive(position + dir))
 }
 
 /// Original: `devilution::UseItemOpensGrave` (items.cpp).
@@ -4102,7 +4102,7 @@ pub fn use_item_opens_grave(ctx: &Ctx, item: &Item, position: Point) -> bool {
     if item.IDidx != IDI_MAPOFDOOM {
         return false;
     }
-    crate::engine::path::PATH_DIRS.iter().any(|&dir| crate::quests::opens_grave(ctx, position + dir))
+    crate::engine::path::PATH_DIRS.iter().any(|&dir| crate::levels::town::opens_grave(position + dir))
 }
 
 /// Original: `devilution::SpawnSmith` (items.cpp).
@@ -4426,7 +4426,7 @@ pub fn create_spell_book(ctx: &mut Ctx, position: Point, ispell: SpellID, sendms
     get_super_item_space(ctx, position, ii as i8);
     if sendmsg {
         let pos = ctx.items.Items[ii].position;
-        crate::msg::net_send_cmd_p_item(ctx, false, CMD_DROPITEM, pos, ii);
+        { let it = ctx.items.Items[ii as usize].clone(); crate::msg::net_send_cmd_p_item(ctx, false, CMD_DROPITEM, pos, &it); }
     }
     if delta {
         crate::msg::delta_add_item(ctx, ii as i32);
@@ -4569,11 +4569,11 @@ pub fn recharge_item(ctx: &mut Ctx, pnum: usize, cii: i32) {
         return;
     }
     if cii == INVLOC_HAND_LEFT as i32 {
-        crate::msg::net_send_cmd_ch_item(ctx, true, INVLOC_HAND_LEFT as u8);
+        crate::msg::net_send_cmd_ch_item(ctx, true, INVLOC_HAND_LEFT as u8, false);
         return;
     }
     if cii == INVLOC_HAND_RIGHT as i32 {
-        crate::msg::net_send_cmd_ch_item(ctx, true, INVLOC_HAND_RIGHT as u8);
+        crate::msg::net_send_cmd_ch_item(ctx, true, INVLOC_HAND_RIGHT as u8, false);
         return;
     }
     if cii >= NUM_INVLOC as i32 {

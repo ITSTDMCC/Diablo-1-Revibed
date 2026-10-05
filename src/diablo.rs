@@ -584,7 +584,7 @@ fn toggle_zoom(ctx: &mut Ctx) {
 
 fn game_info(ctx: &mut Ctx) {
     let msg = tr("{:s} {:s}").replacen("{:s}", PROJECT_NAME, 1).replacen("{:s}", PROJECT_VERSION, 1);
-    crate::plrmsg::event_plr_msg(ctx, &msg, crate::engine::render::text_render::UiFlags::COLOR_WHITE);
+    crate::plrmsg::event_plr_msg_style(ctx, &msg, crate::engine::render::text_render::UiFlags::COLOR_WHITE);
 }
 
 /// Original: `devilution::InitPadmapActions` (diablo.cpp). As `init_keymap_actions`, the

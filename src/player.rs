@@ -967,7 +967,7 @@ fn respawn_dead_item(ctx: &mut Ctx, itm: Item, target: Point) {
     ctx.items.Items[ii] = itm;
     ctx.items.Items[ii].position = target;
     crate::items::with_item(ctx, ii, |ctx, it| crate::items::respawn_item(ctx, it, true));
-    crate::msg::net_send_cmd_p_item(ctx, false, CMD_SPAWNITEM, target, ii);
+    { let it = ctx.items.Items[ii as usize].clone(); crate::msg::net_send_cmd_p_item(ctx, false, CMD_SPAWNITEM, target, &it); }
 }
 
 /// Original: `DeadItem` (player.cpp).

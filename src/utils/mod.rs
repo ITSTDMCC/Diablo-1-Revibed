@@ -11,3 +11,4 @@ pub mod cel_to_clx;
 pub mod cstr;
 pub mod format_int;
 pub mod stdsort;
+pub mod crt_rand;

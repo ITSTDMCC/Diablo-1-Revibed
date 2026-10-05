@@ -136,6 +136,8 @@ pub struct TestHooks {
     screenshot_dir: PathBuf,
     script: VecDeque<ScriptedEvent>,
     max_frames: Option<u64>,
+    /// `DIABLO_TIME`: what `time(nullptr)` returns at start (seconds), for reproducible runs.
+    pub fixed_time: Option<i64>,
 }
 
 impl TestHooks {
@@ -151,11 +153,12 @@ impl TestHooks {
             screenshot_dir: var("DIABLO_SCREENSHOT_DIR").map(PathBuf::from).unwrap_or_else(|| PathBuf::from("screenshots")),
             script,
             max_frames: var("DIABLO_MAX_FRAMES").and_then(|v| v.parse().ok()),
+            fixed_time: var("DIABLO_TIME").and_then(|v| v.parse().ok()),
         }
     }
 
     pub fn none() -> TestHooks {
-        TestHooks { fixed_step: false, screenshot_frames: vec![], screenshot_dir: PathBuf::new(), script: VecDeque::new(), max_frames: None }
+        TestHooks { fixed_step: false, screenshot_frames: vec![], screenshot_dir: PathBuf::new(), script: VecDeque::new(), max_frames: None, fixed_time: None }
     }
 }
 
@@ -226,6 +229,10 @@ pub struct Platform {
     /// `SDL_GetKeyboardFocus() == ghMainWnd` (headless runs count as focused)
     keyboard_focus: bool,
     pub window_info: WindowInfoSlot,
+    /// `SDL_IsTextInputActive`
+    text_input_active: bool,
+    /// `SDL_SetTextInputRect`
+    pub text_input_rect: (i32, i32, i32, i32),
 }
 
 impl Platform {
@@ -249,6 +256,8 @@ impl Platform {
             last_click: (0, 0, (0, 0), 0),
             cursor_visible: true,
             keyboard_focus: true,
+            text_input_active: false,
+            text_input_rect: (0, 0, 0, 0),
             window_info: Arc::new(Mutex::new(WindowInfo { render_scale: 1.0, size: (0, 0) })),
             start: Instant::now(),
             virtual_ms: 0,
@@ -262,11 +271,34 @@ impl Platform {
         }
     }
 
+    /// `SDL_StartTextInput`: typed characters arrive as text events.
+    pub fn start_text_input(&mut self) {
+        self.text_input_active = true;
+    }
+
+    /// `SDL_StopTextInput`
+    pub fn stop_text_input(&mut self) {
+        self.text_input_active = false;
+    }
+
+    /// `SDL_IsTextInputActive`
+    pub fn is_text_input_active(&self) -> bool {
+        self.text_input_active
+    }
+
     pub fn headless_from_env() -> Platform {
         Platform::new(None, Arc::new(Mutex::new(None)), TestHooks::from_env(), true, None, None)
     }
 
     /// `SDL_GetTicks`: milliseconds since start (virtual under `DIABLO_FIXED_STEP`).
+    /// `time(nullptr)`: wall-clock seconds, or `DIABLO_TIME` plus elapsed time when set.
+    pub fn time(&self) -> i64 {
+        match self.hooks.fixed_time {
+            Some(t) => t + self.ticks() as i64 / 1000,
+            None => std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).map(|d| d.as_secs() as i64).unwrap_or(0),
+        }
+    }
+
     pub fn ticks(&self) -> u32 {
         if self.hooks.fixed_step { self.virtual_ms as u32 } else { self.start.elapsed().as_millis() as u32 }
     }

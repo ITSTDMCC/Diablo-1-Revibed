@@ -22,6 +22,14 @@ pub struct ControlState {
     pub sbookflag: bool,
     pub chrflag: bool,
     pub panelflag: bool,
+    /// `dropGoldValue`
+    pub drop_gold_value: i32,
+    /// `initialDropGoldIndex`
+    pub initial_drop_gold_index: i8,
+    /// `initialDropGoldValue`
+    pub initial_drop_gold_value: i32,
+    /// `sgbPlrTalkTbl`
+    pub sgb_plr_talk_tbl: i32,
 }
 
 /// Original: `devilution::IsLeftPanelOpen` (control.cpp).
@@ -111,3 +119,65 @@ crate::pending_fn!(pub fn spell_book_key_pressed(ctx: &mut Ctx), "diablo.cpp|dev
 crate::pending_fn!(pub fn diablo_hotkey_msg(ctx: &mut Ctx, msg: u32), "control.cpp|devilution::DiabloHotkeyMsg(uint32_t dwMsg)");
 
 crate::pending_fn!(pub fn close_panels(ctx: &mut Ctx), "diablo.cpp|devilution::ClosePanels()");
+
+/// Original: `devilution::OpenCharPanel` (control.cpp).
+// @port control.cpp|devilution::OpenCharPanel() sha=1737c78aa2aa
+pub fn open_char_panel(ctx: &mut Ctx) {
+    ctx.quests.QuestLogIsOpen = false;
+    crate::qol::stash::close_gold_withdraw(ctx);
+    crate::inv::close_stash(ctx);
+    ctx.control.chrflag = true;
+}
+
+/// Original: `devilution::CloseCharPanel` (control.cpp).
+// @port control.cpp|devilution::CloseCharPanel() sha=2678e67973cc
+pub fn close_char_panel(ctx: &mut Ctx) {
+    ctx.control.chrflag = false;
+    if crate::player::is_inspecting_player(ctx) {
+        ctx.players.InspectPlayer = ctx.players.MyPlayer;
+        crate::engine::backbuffer_state::redraw_everything(ctx);
+        crate::error::init_diablo_msg(ctx, &crate::utils::language::tr("Stopped inspecting players."), 3500);
+    }
+}
+
+/// Original: `devilution::ToggleCharPanel` (control.cpp).
+// @port control.cpp|devilution::ToggleCharPanel() sha=0cfde65ef72d
+pub fn toggle_char_panel(ctx: &mut Ctx) {
+    if ctx.control.chrflag {
+        close_char_panel(ctx);
+    } else {
+        open_char_panel(ctx);
+    }
+}
+
+/// Original: `devilution::GetPanelPosition` (control.cpp).
+// @port control.cpp|devilution::GetPanelPosition(UiPanels panel, Point offset) sha=43bb3227f945
+pub fn get_panel_position(ctx: &Ctx, panel: crate::enums::UiPanels, offset: crate::engine::geometry::Point) -> crate::engine::geometry::Point {
+    use crate::enums::UiPanels;
+    let r = match panel {
+        UiPanels::Main => get_main_panel(ctx),
+        UiPanels::Quest | UiPanels::Character | UiPanels::Stash => get_left_panel(ctx),
+        UiPanels::Spell | UiPanels::Inventory => get_right_panel(ctx),
+        _ => get_main_panel(ctx),
+    };
+    crate::engine::geometry::Point::new(r.x + offset.x, r.y + offset.y)
+}
+
+/// Original: `devilution::control_reset_talk` (control.cpp).
+// @port control.cpp|devilution::control_reset_talk() sha=f568004b99f3
+pub fn control_reset_talk(ctx: &mut Ctx) {
+    ctx.control.talkflag = false;
+    ctx.platform.stop_text_input();
+    ctx.control.sgb_plr_talk_tbl = 0;
+    crate::engine::backbuffer_state::redraw_everything(ctx);
+}
+
+/// Original: `devilution::CloseGoldDrop` (control.cpp).
+// @port control.cpp|devilution::CloseGoldDrop() sha=6b17ce552799
+pub fn close_gold_drop(ctx: &mut Ctx) {
+    if !ctx.control.drop_gold_flag {
+        return;
+    }
+    ctx.control.drop_gold_flag = false;
+    ctx.platform.stop_text_input();
+}

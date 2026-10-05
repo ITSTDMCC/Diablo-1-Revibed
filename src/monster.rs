@@ -259,3 +259,20 @@ crate::pending_fn!(pub fn m_get_knockback(ctx: &mut Ctx, m: usize), "monster.cpp
 crate::pending_fn!(pub fn add_doppelganger(ctx: &mut Ctx, m: usize), "monster.cpp|devilution::AddDoppelganger(Monster &monster)");
 crate::pending_fn!(pub fn kill_my_golem(ctx: &mut Ctx), "monster.cpp|devilution::KillMyGolem()");
 crate::pending_fn!(pub fn delete_monster_list(ctx: &mut Ctx), "monster.cpp|devilution::DeleteMonsterList()");
+
+/// `GolemHoldingCell`
+pub const GOLEM_HOLDING_CELL: Point = Point::new(1, 0);
+
+crate::pending_fn!(pub fn m_talker(ctx: &Ctx, m: usize) -> bool, "monster.cpp|devilution::M_Talker(const Monster &monster)");
+crate::pending_fn!(pub fn find_unique_monster(ctx: &Ctx, unique_type: UniqueMonsterType) -> Option<usize>, "monster.cpp|devilution::FindUniqueMonster(UniqueMonsterType monsterType)");
+crate::pending_fn!(pub fn m_clear_squares(ctx: &mut Ctx, m: usize), "monster.cpp|devilution::M_ClearSquares(const Monster &monster)");
+crate::pending_fn!(pub fn decode_enemy(ctx: &mut Ctx, m: usize, enemy_id: i32), "monster.cpp|devilution::decode_enemy(Monster &monster, int enemyId)");
+crate::pending_fn!(pub fn encode_enemy(ctx: &Ctx, m: usize) -> u8, "monster.cpp|devilution::encode_enemy(Monster &monster)");
+crate::pending_fn!(pub fn m_start_stand(ctx: &mut Ctx, m: usize, md: Direction), "monster.cpp|devilution::M_StartStand(Monster &monster, Direction md)");
+crate::pending_fn!(pub fn m_sync_start_kill(ctx: &mut Ctx, m: usize, position: Point, pnum: usize), "monster.cpp|devilution::M_SyncStartKill(Monster &monster, Point position, const Player &player)");
+crate::pending_fn!(pub fn walk(ctx: &mut Ctx, m: usize, md: Direction) -> bool, "monster.cpp|devilution::Walk(Monster &monster, Direction md)");
+crate::pending_fn!(pub fn dir_ok(ctx: &Ctx, m: usize, mdir: Direction) -> bool, "monster.cpp|devilution::DirOK(const Monster &monster, Direction mdir)");
+crate::pending_fn!(pub fn tag(ctx: &mut Ctx, m: usize, pnum: usize), "monster.cpp|devilution::Monster::tag(const Player &tagger)");
+crate::pending_fn!(pub fn golum_ai(ctx: &mut Ctx, m: usize), "monster.cpp|devilution::GolumAi(Monster &golem)");
+crate::pending_fn!(pub fn m_update_relations(ctx: &mut Ctx, m: usize), "monster.cpp|devilution::M_UpdateRelations(const Monster &monster)");
+crate::pending_fn!(pub fn weaken_na_krul(ctx: &mut Ctx), "monster.cpp|devilution::WeakenNaKrul()");

@@ -132,3 +132,6 @@ pub fn free_stash_gfx(ctx: &mut Ctx) {
 }
 
 
+
+crate::pending_fn!(pub fn close_gold_withdraw(ctx: &mut Ctx), "qol/stash.cpp|devilution::CloseGoldWithdraw()");
+crate::pending_fn!(pub fn auto_place_item_in_stash(ctx: &mut Ctx, pnum: usize, item: &crate::items::Item, persist_item: bool) -> bool, "qol/stash.cpp|devilution::AutoPlaceItemInStash(Player &player, const Item &item, bool persistItem)");

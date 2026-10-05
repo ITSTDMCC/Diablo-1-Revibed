@@ -166,3 +166,70 @@ crate::pending_fn!(pub fn break_object(ctx: &mut Ctx, pnum: usize, oi: usize), "
 crate::pending_fn!(pub fn operate_object(ctx: &mut Ctx, pnum: usize, oi: usize), "objects.cpp|devilution::OperateObject(Player &player, Object &object)");
 
 crate::pending_fn!(pub fn sync_object_anim(ctx: &mut Ctx, oi: usize), "objects.cpp|devilution::SyncObjectAnim(Object &object)");
+
+crate::pending_fn!(pub fn add_object(ctx: &mut Ctx, obj_type: _object_id, obj_pos: Point) -> Option<usize>, "objects.cpp|devilution::AddObject(_object_id objType, Point objPos)");
+crate::pending_fn!(pub fn obj_change_map_resync(ctx: &mut Ctx, x1: i32, y1: i32, x2: i32, y2: i32), "objects.cpp|devilution::ObjChangeMapResync(int x1, int y1, int x2, int y2)");
+crate::pending_fn!(pub fn sync_op_object(ctx: &mut Ctx, pnum: usize, cmd: i32, oi: usize), "objects.cpp|devilution::SyncOpObject(Player &player, int cmd, Object &object)");
+crate::pending_fn!(pub fn sync_break_obj(ctx: &mut Ctx, pnum: usize, oi: usize), "objects.cpp|devilution::SyncBreakObj(const Player &player, Object &object)");
+crate::pending_fn!(pub fn delta_sync_op_object(ctx: &mut Ctx, oi: usize), "objects.cpp|devilution::DeltaSyncOpObject(Object &object)");
+crate::pending_fn!(pub fn delta_sync_close_obj(ctx: &mut Ctx, oi: usize), "objects.cpp|devilution::DeltaSyncCloseObj(Object &object)");
+crate::pending_fn!(pub fn delta_sync_break_obj(ctx: &mut Ctx, oi: usize), "objects.cpp|devilution::DeltaSyncBreakObj(Object &object)");
+crate::pending_fn!(pub fn update_trap_state(ctx: &mut Ctx, oi: usize), "objects.cpp|devilution::UpdateTrapState(Object &trap)");
+crate::pending_fn!(pub fn sync_nakrul_room(ctx: &mut Ctx), "objects.cpp|devilution::SyncNakrulRoom()");
+
+impl Object {
+    /// Original: `devilution::Object::IsDisabled` (objects.cpp).
+    // @port objects.cpp|devilution::Object::IsDisabled() sha=7c4740d5b420
+    pub fn is_disabled_opt(&self, disable_crippling_shrines: bool) -> bool {
+        if !disable_crippling_shrines {
+            return false;
+        }
+        if matches!(self._otype, OBJ_GOATSHRINE | OBJ_CAULDRON) {
+            return true;
+        }
+        if !self.is_shrine() {
+            return false;
+        }
+        matches!(self._oVar1, x if x == shrine_type::ShrineFascinating || x == shrine_type::ShrineOrnate || x == shrine_type::ShrineSacred)
+    }
+}
+
+/// `shrine_type` (objects.cpp)
+#[allow(non_upper_case_globals)]
+pub mod shrine_type {
+    pub const ShrineMysterious: i32 = 0;
+    pub const ShrineHidden: i32 = 1;
+    pub const ShrineGloomy: i32 = 2;
+    pub const ShrineWeird: i32 = 3;
+    pub const ShrineMagical: i32 = 4;
+    pub const ShrineStone: i32 = 5;
+    pub const ShrineReligious: i32 = 6;
+    pub const ShrineEnchanted: i32 = 7;
+    pub const ShrineThaumaturgic: i32 = 8;
+    pub const ShrineFascinating: i32 = 9;
+    pub const ShrineCryptic: i32 = 10;
+    pub const ShrineMagicaL2: i32 = 11;
+    pub const ShrineEldritch: i32 = 12;
+    pub const ShrineEerie: i32 = 13;
+    pub const ShrineDivine: i32 = 14;
+    pub const ShrineHoly: i32 = 15;
+    pub const ShrineSacred: i32 = 16;
+    pub const ShrineSpiritual: i32 = 17;
+    pub const ShrineSpooky: i32 = 18;
+    pub const ShrineAbandoned: i32 = 19;
+    pub const ShrineCreepy: i32 = 20;
+    pub const ShrineQuiet: i32 = 21;
+    pub const ShrineSecluded: i32 = 22;
+    pub const ShrineOrnate: i32 = 23;
+    pub const ShrineGlimmering: i32 = 24;
+    pub const ShrineTainted: i32 = 25;
+    pub const ShrineOily: i32 = 26;
+    pub const ShrineGlowing: i32 = 27;
+    pub const ShrineMendicant: i32 = 28;
+    pub const ShrineSparkling: i32 = 29;
+    pub const ShrineTown: i32 = 30;
+    pub const ShrineShimmering: i32 = 31;
+    pub const ShrineSolar: i32 = 32;
+    pub const ShrineMurphys: i32 = 33;
+    pub const NumberOfShrineTypes: i32 = 34;
+}

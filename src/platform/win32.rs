@@ -9,6 +9,8 @@ mod ffi {
         pub fn GetUserDefaultLocaleName(lpLocaleName: *mut u16, cchLocaleName: i32) -> i32;
         pub fn GetUserPreferredUILanguages(dwFlags: u32, pulNumLanguages: *mut u32, pwszLanguagesBuffer: *mut u16, pcchLanguagesBuffer: *mut u32) -> i32;
         pub fn lstrlenW(lpString: *const u16) -> i32;
+        pub fn FileTimeToLocalFileTime(lpFileTime: *const u64, lpLocalFileTime: *mut u64) -> i32;
+        pub fn FileTimeToSystemTime(lpFileTime: *const u64, lpSystemTime: *mut [u16; 8]) -> i32;
         pub fn WideCharToMultiByte(
             CodePage: u32,
             dwFlags: u32,
@@ -145,4 +147,24 @@ pub fn show_error_message_box(caption: &str, text: &str) {
     }
     #[cfg(not(windows))]
     eprintln!("{caption}: {text}");
+}
+
+/// `localtime(&t)`: the local hour, minute and second of a Unix time.
+#[cfg(windows)]
+pub fn localtime_hms(t: i64) -> Option<(u32, u32, u32)> {
+    let ft: u64 = (t as u64).wrapping_mul(10_000_000).wrapping_add(116_444_736_000_000_000);
+    let mut local: u64 = 0;
+    let mut st = [0u16; 8];
+    unsafe {
+        if ffi::FileTimeToLocalFileTime(&ft, &mut local) == 0 || ffi::FileTimeToSystemTime(&local, &mut st) == 0 {
+            return None;
+        }
+    }
+    Some((st[4] as u32, st[5] as u32, st[6] as u32))
+}
+
+#[cfg(not(windows))]
+pub fn localtime_hms(t: i64) -> Option<(u32, u32, u32)> {
+    let s = t.rem_euclid(86400) as u32;
+    Some((s / 3600, s / 60 % 60, s % 60))
 }

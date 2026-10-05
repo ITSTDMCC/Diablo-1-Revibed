@@ -92,3 +92,5 @@ pub fn detect_input_method(ctx: &mut Ctx, event: &Event, gamepad_event: Controll
 }
 
 crate::pending_fn!(pub fn focus_on_char_info(ctx: &mut Ctx), "controls/plrctrls.cpp|devilution::FocusOnCharInfo()");
+
+crate::pending_fn!(pub fn try_drop_item(ctx: &mut crate::ctx::Ctx) -> bool, "controls/plrctrls.cpp|devilution::TryDropItem()");

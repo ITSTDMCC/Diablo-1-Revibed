@@ -11,6 +11,7 @@ use crate::loadsave::{remap_item_idx_from_diablo, remap_item_idx_from_spawn, rem
 use crate::player::{InventoryGridCells, MaxBeltItems, MaxCharacterLevel, Player, PlayerNameLength, NUMLEVELS};
 use crate::tables::playerdat::PlayersData;
 use crate::utils::cstr::CStr;
+use crate::platform::log;
 
 /// `sizeof(ItemPack)`: the packed (1-byte aligned) struct: u32 iSeed, u16 iCreateInfo, u16 idx,
 /// u8 bId, bDur, bMDur, bCh, bMCh, u16 wValue, u32 dwBuff.
@@ -608,6 +609,217 @@ pub fn unpack_player(ctx: &mut Ctx, packed: &PlayerPack, pnum: usize) {
     let player = &mut ctx.players.Players[pnum];
     player.wReflections = packed.wReflections;
     player.pDiabloKillLevel = packed.pDiabloKillLevel as u8;
+}
+
+
+/// `sizeof(PlayerNetPack)`
+pub const PLAYER_NET_PACK_SIZE: usize = 1691;
+
+/// Original: `hasMultipleFlags` (pack.cpp).
+// @port pack.cpp|devilution::hasMultipleFlags(uint16_t flags) sha=f9538fb64388
+fn has_multiple_flags(flags: u16) -> bool {
+    (flags & flags.wrapping_sub(1)) > 0
+}
+
+/// Original: `devilution::IsCreationFlagComboValid` (pack.cpp).
+// @port pack.cpp|devilution::IsCreationFlagComboValid(uint16_t iCreateInfo) sha=af2dfe10260a
+pub fn is_creation_flag_combo_valid(mut i_create_info: u16) -> bool {
+    i_create_info &= !(CF_LEVEL as u16);
+    let is_town_item = (i_create_info & CF_TOWN as u16) != 0;
+    let is_pregen_item = (i_create_info & CF_PREGEN as u16) != 0;
+    let is_useful_item = (i_create_info & CF_USEFUL as u16) == CF_USEFUL as u16;
+    if is_pregen_item {
+        return false;
+    }
+    if is_useful_item && (i_create_info & !(CF_USEFUL as u16)) != 0 {
+        return false;
+    }
+    if is_town_item && has_multiple_flags(i_create_info) {
+        return false;
+    }
+    true
+}
+
+/// Original: `devilution::IsTownItemValid` (pack.cpp).
+// @port pack.cpp|devilution::IsTownItemValid(uint16_t iCreateInfo) sha=db87a7f336bc
+pub fn is_town_item_valid(i_create_info: u16) -> bool {
+    let level = (i_create_info & CF_LEVEL as u16) as u8;
+    let is_boy_item = (i_create_info & CF_BOY as u16) != 0;
+    let max_town_item_level = 30u8;
+    if is_boy_item && level as i32 <= MaxCharacterLevel {
+        return true;
+    }
+    level <= max_town_item_level
+}
+
+/// Original: `devilution::IsUniqueMonsterItemValid` (pack.cpp).
+// @port pack.cpp|devilution::IsUniqueMonsterItemValid(uint16_t iCreateInfo, uint32_t dwBuff) sha=266bc6d50862
+pub fn is_unique_monster_item_valid(i_create_info: u16, _dw_buff: u32) -> bool {
+    use crate::tables::monstdat::{MonstersData, UniqueMonstersData};
+    let level = (i_create_info & CF_LEVEL as u16) as u8;
+    for unique_monster_data in UniqueMonstersData.iter() {
+        if unique_monster_data.mName.is_empty() {
+            break;
+        }
+        let unique_monster_level = MonstersData[unique_monster_data.mtype as usize].level as u8;
+        if matches!(unique_monster_data.mtype, MT_DEFILER | MT_NAKRUL | MT_HORKDMN) {
+            continue;
+        }
+        if level == unique_monster_level {
+            return true;
+        }
+    }
+    false
+}
+
+/// Original: `devilution::IsDungeonItemValid` (pack.cpp).
+// @port pack.cpp|devilution::IsDungeonItemValid(uint16_t iCreateInfo, uint32_t dwBuff) sha=acddb609322e
+pub fn is_dungeon_item_valid(i_create_info: u16, dw_buff: u32) -> bool {
+    use crate::tables::monstdat::MonstersData;
+    let level = (i_create_info & CF_LEVEL as u16) as u8;
+    let is_hellfire_item = (dw_buff & CF_HELLFIRE as u32) != 0;
+    for i in 0..NUM_MTYPES as i16 {
+        let monster_data = &MonstersData[i as usize];
+        let mut monster_level = monster_data.level as u8;
+        if i != MT_DIABLO as i16 && monster_data.availability == MonsterAvailability::Never {
+            continue;
+        }
+        if i == MT_DIABLO as i16 && !is_hellfire_item {
+            monster_level = monster_level.wrapping_sub(15);
+        }
+        if level == monster_level {
+            return true;
+        }
+    }
+    if is_hellfire_item {
+        let mut hellfire_max_dungeon_level = 24u8;
+        hellfire_max_dungeon_level -= 7;
+        return level as u32 <= hellfire_max_dungeon_level as u32 * 2;
+    }
+    let mut diablo_max_dungeon_level = 16u8;
+    diablo_max_dungeon_level -= 1;
+    level as u32 <= diablo_max_dungeon_level as u32 * 2
+}
+
+/// Original: `devilution::RecreateHellfireSpellBook` (pack.cpp). `pnum` names the player for
+/// the validation log message.
+// @port pack.cpp|devilution::RecreateHellfireSpellBook(const Player &player, const TItem &packedItem, Item *item) sha=9f87c70c533b
+pub fn recreate_hellfire_spell_book(ctx: &mut Ctx, player: &Player, packed_item: &crate::msg::NetItem, item: Option<&mut Item>, pnum: usize) -> bool {
+    let mut spell_book = Item::default();
+    crate::msg::recreate_item(ctx, player, packed_item, &mut spell_book);
+    let mut spell_book_level = crate::spells::get_spell_book_level(ctx, spell_book._iSpell);
+    spell_book_level += 1;
+    if spell_book_level >= 1 && (spell_book._iCreateInfo & CF_LEVEL as u16) as i32 == spell_book_level * 2 {
+        if let Some(i) = item {
+            *i = spell_book;
+        }
+        return true;
+    }
+    if !is_dungeon_item_valid(spell_book._iCreateInfo, spell_book.dwBuff) {
+        log::verbose!("Remote player validation failed: ValidateFields(spellBook._iCreateInfo, spellBook.dwBuff, IsDungeonItemValid)");
+        let name = ctx.players.Players[pnum]._pName.as_str().to_string();
+        crate::plrmsg::event_plr_msg(ctx, &format!("Player '{name}' sent invalid player data during attempt to join the game."));
+        return false;
+    }
+    if let Some(i) = item {
+        *i = spell_book;
+    }
+    true
+}
+
+/// Original: `devilution::PackNetItem` (pack.cpp).
+// @port pack.cpp|devilution::PackNetItem(const Item &item, ItemNetPack &packedItem) sha=f3c8c618735e
+fn pack_net_item(item: &Item) -> crate::msg::NetItem {
+    let mut n = crate::msg::NetItem::default();
+    if item.is_empty() {
+        n.0[0..2].copy_from_slice(&0xFFFFu16.to_le_bytes());
+        return n;
+    }
+    n.set_def(item.IDidx, item._iCreateInfo, item._iSeed);
+    if item.IDidx != IDI_EAR {
+        crate::msg::prepare_item_for_network(item, &mut n);
+    } else {
+        crate::msg::prepare_ear_for_network(item, &mut n);
+    }
+    n
+}
+
+/// Original: `devilution::PackNetPlayer` (pack.cpp). Returns the `PlayerNetPack` bytes.
+// @port pack.cpp|devilution::PackNetPlayer(PlayerNetPack &packed, const Player &player) sha=db8cae60fb8f
+pub fn pack_net_player(ctx: &Ctx, pnum: usize) -> Vec<u8> {
+    let player = &ctx.players.Players[pnum];
+    let mut buf: Vec<u8> = Vec::with_capacity(PLAYER_NET_PACK_SIZE);
+    let w = &mut Writer { buf: &mut buf };
+    w.u8(player.plrlevel);
+    w.u8(player.position.tile.x as u8);
+    w.u8(player.position.tile.y as u8);
+    w.bytes(player._pName.bytes());
+    w.u8(player._pClass as u8);
+    w.u8(player._pBaseStr as u8);
+    w.u8(player._pBaseMag as u8);
+    w.u8(player._pBaseDex as u8);
+    w.u8(player._pBaseVit as u8);
+    w.i8(player._pLevel);
+    w.u8(player._pStatPts as u8);
+    w.u32(player._pExperience);
+    w.i32(player._pHPBase);
+    w.i32(player._pMaxHPBase);
+    w.i32(player._pManaBase);
+    w.i32(player._pMaxManaBase);
+    w.bytes(&player._pSplLvl[..crate::items::MAX_SPELLS as usize]);
+    w.u64(player._pMemSpells);
+    for item in player.InvBody.iter() {
+        w.bytes(&pack_net_item(item).0);
+    }
+    for i in 0..InventoryGridCells {
+        // Only _pNumInv entries are packed; the rest of the (uninitialised) buffer is sent as is.
+        if (i as i32) < player._pNumInv {
+            w.bytes(&pack_net_item(&player.InvList[i]).0);
+        } else {
+            w.bytes(&[0u8; crate::msg::SIZE_NETITEM]);
+        }
+    }
+    for &g in player.InvGrid.iter() {
+        w.i8(g);
+    }
+    w.u8(player._pNumInv as u8);
+    for item in player.SpdList.iter() {
+        w.bytes(&pack_net_item(item).0);
+    }
+    w.u8(player.pManaShield as u8);
+    w.u16(player.wReflections);
+    w.u8(player.pDiabloKillLevel);
+    w.u8(player.friendlyMode as u8);
+    w.u8(player.plrIsOnSetLevel as u8);
+    for v in [
+        player._pStrength,
+        player._pMagic,
+        player._pDexterity,
+        player._pVitality,
+        player._pHitPoints,
+        player._pMaxHP,
+        player._pMana,
+        player._pMaxMana,
+        player._pDamageMod,
+        player._pBaseToBlk,
+        player._pIMinDam,
+        player._pIMaxDam,
+        player._pIAC,
+        player._pIBonusDam,
+        player._pIBonusToHit,
+        player._pIBonusAC,
+        player._pIBonusDamMod,
+        player._pIGetHit,
+        player._pIEnAc,
+        player._pIFMinDam,
+        player._pIFMaxDam,
+        player._pILMinDam,
+        player._pILMaxDam,
+    ] {
+        w.i32(v);
+    }
+    debug_assert_eq!(buf.len(), PLAYER_NET_PACK_SIZE);
+    buf
 }
 
 crate::pending_fn!(pub fn unpack_net_player(ctx: &mut Ctx, packed: &[u8], pnum: usize) -> bool, "pack.cpp|devilution::UnPackNetPlayer(const PlayerNetPack &packed, Player &player)");

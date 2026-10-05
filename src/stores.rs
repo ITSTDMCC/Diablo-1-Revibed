@@ -37,3 +37,8 @@ impl Default for StoresState {
 }
 
 crate::pending_fn!(pub fn stextflag_is_none(ctx: &Ctx) -> bool, "stores.cpp|devilution::stextflag");
+
+crate::pending_fn!(pub fn start_store(ctx: &mut Ctx, s: crate::enums::TalkID), "stores.cpp|devilution::StartStore(TalkID s)");
+crate::pending_fn!(pub fn set_stextflag_none(ctx: &mut Ctx), "stores.cpp|devilution::stextflag");
+crate::pending_fn!(pub fn draw_s_text_help(ctx: &mut Ctx), "stores.cpp|devilution::DrawSTextHelp()");
+crate::pending_fn!(pub fn draw_s_line(ctx: &mut Ctx, out: &crate::engine::surface::Surface, y: i32), "stores.cpp|devilution::DrawSLine(const Surface &out, int sy)");

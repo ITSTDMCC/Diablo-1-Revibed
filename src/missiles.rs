@@ -92,10 +92,17 @@ pub fn free_missile_gfx(ctx: &mut Ctx) {
     }
 }
 
+/// `AddMissile` with the default `lSFX = std::nullopt`.
+#[allow(clippy::too_many_arguments)]
+pub fn add_missile(ctx: &mut Ctx, src: Point, dst: Point, midir: Direction, mitype: MissileID, micaster: mienemy_type, id: i32, midam: i32, spllvl: i32, parent: Option<usize>) -> Option<usize> {
+    add_missile_sfx(ctx, src, dst, midir, mitype, micaster, id, midam, spllvl, parent, None)
+}
+
 crate::pending_fn!(
-    pub fn add_missile(ctx: &mut Ctx, src: Point, dst: Point, midir: Direction, mitype: MissileID, micaster: mienemy_type, id: i32, midam: i32, spllvl: i32, parent: Option<usize>) -> Option<usize>,
+    pub fn add_missile_sfx(ctx: &mut Ctx, src: Point, dst: Point, midir: Direction, mitype: MissileID, micaster: mienemy_type, id: i32, midam: i32, spllvl: i32, parent: Option<usize>, l_sfx: Option<crate::effects_data::SfxId>) -> Option<usize>,
     "missiles.cpp|devilution::AddMissile(Point src, Point dst, Direction midir, MissileID mitype, mienemy_type micaster, int id, int midam, int spllvl, Missile *parent, std::optional<_sfx_id> lSFX)"
 );
+crate::pending_fn!(pub fn set_miss_dir(ctx: &mut Ctx, mi: usize, dir: i32), "missiles.cpp|devilution::SetMissDir(Missile &missile, int dir)");
 
 crate::pending_fn!(pub fn redo_missile_flags(ctx: &mut Ctx), "missiles.cpp|devilution::RedoMissileFlags()");
 crate::pending_fn!(pub fn missiles_process_charge(ctx: &mut Ctx), "missiles.cpp|devilution::missiles_process_charge()");
