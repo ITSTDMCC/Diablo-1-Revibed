@@ -2477,6 +2477,11 @@ pub fn update_preview_cel_sprite(ctx: &mut Ctx, pnum: usize, cmd_id: _cmd_id, mu
         }
     }
     let Some(graphic) = graphic else { return };
+    if graphic == player_graphic::Walk && crate::freemove::active_for(ctx, pnum) {
+        // free movement: the walk shows in its own direction; an 8-direction preview of the
+        // original's first path step would flash the sprite in another direction
+        return;
+    }
     if ctx.diablo.headless_mode {
         return;
     }

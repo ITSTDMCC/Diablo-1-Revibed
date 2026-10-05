@@ -471,11 +471,17 @@ pub fn tick(ctx: &mut Ctx, pnum: usize) {
             ctx.freemove.idle_ticks = 0;
             // the facing follows the heading smoothed over a few ticks, so single ticks of
             // sideways movement (corners, sliding) do not turn the sprite
-            let len = (s.0 * s.0 + s.1 * s.1).sqrt();
+            // Face where the walk is going (the destination), not this tick's step: routes
+            // around trees and walls step between tile centres in alternating directions, and
+            // following those steps turns the sprite back and forth.
+            let p2 = ctx.freemove.pos;
+            let toward = ctx.freemove.waypoints.last().map(|w| (w.0 - p2.0, w.1 - p2.1)).filter(|d| d.0 * d.0 + d.1 * d.1 > 0.75 * 0.75);
+            let aim = toward.or(ctx.freemove.stick).unwrap_or(s);
+            let len = (aim.0 * aim.0 + aim.1 * aim.1).sqrt().max(1e-6);
             let h = ctx.freemove.heading;
             let fresh = ctx.freemove.walk_anim.is_none() || h == (0.0, 0.0);
             let k = if fresh { 1.0 } else { 0.5 };
-            let nh = (h.0 * (1.0 - k) + s.0 / len * k, h.1 * (1.0 - k) + s.1 / len * k);
+            let nh = (h.0 * (1.0 - k) + aim.0 / len * k, h.1 * (1.0 - k) + aim.1 / len * k);
             ctx.freemove.heading = nh;
             let mut dir = facing(nh, ctx.freemove.walk_anim);
             // a facing just taken holds for a few ticks unless the turn is large
