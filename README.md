@@ -88,8 +88,18 @@ and start `target\free-movement\release\diablo1_rs.exe` with the same `--data-di
   compatible with the normal build and with DevilutionX.
 - It shares the normal build's settings and heroes (saves work in both).
 
-**First-person view (experimental, free-movement build only).** Press **X** to switch the dungeon
-view to the hero's eyes and back.
+**3D views (experimental, free-movement build only).** Press **X** to cycle the view:
+isometric (normal) -> paper view -> first person -> back to isometric.
+
+**Paper view:** a camera behind and above the hero, like Paper Mario. Walls, trees, houses, the
+hero and monsters are flat cut-outs standing in a 3D world.
+
+- **W / A / S / D** walk up / left / down / right relative to the camera.
+- **Left / Right arrow** (or the controller's right stick) turn the camera, at most 35 degrees
+  either way: the art was drawn from one side, so the camera stays near it.
+- The mouse works as in the normal view. Walls between the camera and the hero turn see-through.
+
+**First person:**
 
 - **W / S** walk forward and back, **A / D** turn, **Shift + A / D** step sideways.
 - **Controller:** the left stick walks (up is forward, sideways steps sideways), the right stick
@@ -99,8 +109,8 @@ view to the hero's eyes and back.
   is what a click attacks, picks up, opens or talks to, and where a spell is cast. Clicking the floor walks there.
 - Panels, inventory, belt, spells and menus work as usual. While the view is on, **S** walks back
   instead of opening the speedbook.
-- The walls, floors, monsters and items are the game's own isometric art, re-projected, so it is
-  rough: arches look solid below their top, town houses and trees look flat, and close-up sprites
+- The walls, floors, monsters and items in first person are the game's own isometric art,
+  re-projected, so it is rough: arches look solid below their top, town houses and trees look flat, and close-up sprites
   are blocky.
 
 ### HD art

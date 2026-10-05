@@ -115,7 +115,31 @@ run the normal build, still pass byte for byte).
 - Test hooks: `DIABLO_FREEMOVE_TRACE=1` prints the player's state every tick; input scripts can
   hold the mouse with `press <x> <y>` / `release <x> <y>`.
 
-#### First-person view (same build, key X)
+#### Paper view (same build, key X cycles isometric -> paper -> first person)
+
+Asked for by the owner on 2026-10-05 ("billboarding 2D graphics like Paper Mario", camera behind
+the hero with limited turning); `draw_paper` in `src/firstperson.rs`.
+
+- Camera 8 tiles behind and 4.6 tiles above the hero (about the isometric view's slope), 75 degree
+  field of view, looking North like the isometric camera; arrow keys / right stick turn it up to 35
+  degrees either way. The hero's feet sit at 66% of the area above the control panel.
+- The floor is drawn flat in perspective from the piece pictures' floor diamonds.
+- Every piece with wall art (`left_wall` / `right_wall`) becomes an upright cut-out facing the
+  camera, anchored at its tile centre: the piece picture without the floor micros of halves that
+  hold no wall. Scale is focal / (depth x 45.25) per picture pixel, so at the base direction a
+  cut-out shows exactly what the isometric view shows for that tile; cut-outs are drawn 4% larger
+  so neighbours at slightly different depths leave no gaps.
+- Cut-outs, the hero (its sprite for the direction it shows the camera), monsters, NPCs, items,
+  objects and missiles are drawn far to near (cut-outs 0.3 tiles behind what stands on their tile).
+  Cut-outs nearer than the hero and within 2.5 tiles of it sideways are drawn dithered, like the
+  original's transparent walls.
+- Movement: W/A/S/D and the left stick walk relative to the camera; the hero faces where it walks.
+  Mouse aiming and clicking use the drawn sprites (with the 10 pixel slack) and the floor under the
+  cursor.
+- Known limits: cut-outs do not turn with the camera; small seams can show between neighbouring
+  cut-outs; tall pieces split over two tiles in the art can overlap oddly when the camera is turned.
+
+#### First-person view (same build, X twice)
 
 Asked for by the owner on 2026-10-05 as an optional gameplay feature; `src/firstperson.rs`.
 

@@ -1,5 +1,15 @@
-//! First-person view (part of the `free-movement` build, not in the original): `X` switches the
-//! dungeon view to a first-person view from the hero's eyes, drawn with a column raycaster.
+//! 3D views (part of the `free-movement` build, not in the original). `X` cycles the view:
+//! isometric (the original) -> paper view -> first person -> isometric.
+//!
+//! Paper view: a camera behind and above the hero that looks North like the isometric camera and
+//! turns at most 35 degrees either way. The floor is drawn flat in perspective; walls, pillars,
+//! trees, houses, the hero, monsters and items are flat cut-outs standing upright and facing the
+//! camera, drawn far to near (the way Paper Mario draws its characters). As the pictures were
+//! drawn from the North-looking camera, the cut-outs match the original closely. W/A/S/D walk
+//! relative to the camera, the arrow keys (or the right stick) turn it; the mouse works as in the
+//! isometric view.
+//!
+//! First person: a view from the hero's eyes, drawn with a column raycaster.
 //!
 //! The level's own art is reused: every level piece is drawn once, as the isometric renderer
 //! draws it, into an offscreen picture, and a point of the 3D world (on the floor or on a wall
@@ -73,12 +83,20 @@ struct Billboard {
     kind: Kind,
 }
 
+const MODE_OFF: u8 = 0;
+const MODE_PAPER: u8 = 1;
+const MODE_FIRST: u8 = 2;
+
 #[derive(Default)]
 pub struct FirstPersonState {
-    on: bool,
+    /// `MODE_OFF`, `MODE_PAPER` or `MODE_FIRST`.
+    mode: u8,
+    /// The paper view's turn away from North, radians.
+    paper_turn: f32,
+    cards: Vec<Option<Rc<PieceTex>>>,
     /// View direction in tile space, radians.
     yaw: f32,
-    keys: [bool; 5], // W A S D Shift
+    keys: [bool; 7], // W A S D Shift Left Right
     drove_stick: bool,
     last_ms: Option<u32>,
     level_key: (u8, i32, usize),
@@ -93,9 +111,9 @@ pub struct FirstPersonState {
     picked: Vec<(Point, Kind)>,
 }
 
-/// The first-person view is on.
+/// One of the 3D views is on.
 pub fn active(ctx: &Ctx) -> bool {
-    ctx.firstperson.on && ctx.players.MyPlayer.is_some_and(|me| crate::freemove::active_for(ctx, me))
+    ctx.firstperson.mode != MODE_OFF && ctx.players.MyPlayer.is_some_and(|me| crate::freemove::active_for(ctx, me))
 }
 
 fn key_index(vkey: i32) -> Option<usize> {
@@ -106,6 +124,8 @@ fn key_index(vkey: i32) -> Option<usize> {
         k if k == b's' as i32 || k == b'S' as i32 => Some(2),
         k if k == b'd' as i32 || k == b'D' as i32 => Some(3),
         k if k == SDLK_LSHIFT || k == SDLK_RSHIFT => Some(4),
+        k if k == SDLK_LEFT => Some(5),
+        k if k == SDLK_RIGHT => Some(6),
         _ => None,
     }
 }
@@ -126,9 +146,15 @@ pub fn press_key(ctx: &mut Ctx, vkey: i32) -> bool {
     };
     if vkey == KEY_TOGGLE || vkey == b'X' as i32 {
         let s = &mut ctx.firstperson;
-        s.on = !s.on;
-        s.keys = [false; 5];
-        if s.on {
+        s.mode = match s.mode {
+            MODE_OFF => MODE_PAPER,
+            MODE_PAPER => MODE_FIRST,
+            _ => MODE_OFF,
+        };
+        s.keys = [false; 7];
+        s.paper_turn = 0.0;
+        s.last_ms = None;
+        if s.mode == MODE_FIRST {
             s.yaw = dir_angle(ctx.players.Players[me]._pdir);
             if let Some(y) = test_yaw(ctx, me) {
                 ctx.firstperson.yaw = y;
@@ -140,9 +166,23 @@ pub fn press_key(ctx: &mut Ctx, vkey: i32) -> bool {
     }
     if let Some(i) = key_index(vkey) {
         ctx.firstperson.keys[i] = true;
-        return ctx.firstperson.on && i < 4;
+        return key_taken(ctx, i);
     }
     false
+}
+
+/// The view uses key `i` itself (the game does not get it).
+fn key_taken(ctx: &Ctx, i: usize) -> bool {
+    match ctx.firstperson.mode {
+        MODE_OFF => false,
+        MODE_PAPER => i != 4,
+        _ => i < 4,
+    }
+}
+
+/// The view direction, radians.
+fn current_yaw(ctx: &Ctx) -> f32 {
+    if ctx.firstperson.mode == MODE_PAPER { PAPER_BASE_YAW + ctx.firstperson.paper_turn } else { ctx.firstperson.yaw }
 }
 
 /// Test hook `DIABLO_FP_YAW`: a view direction in degrees, or `monster` to face the nearest
@@ -180,7 +220,7 @@ fn test_yaw(ctx: &mut Ctx, me: usize) -> Option<f32> {
 pub fn release_key(ctx: &mut Ctx, vkey: i32) -> bool {
     if let Some(i) = key_index(vkey) {
         ctx.firstperson.keys[i] = false;
-        return ctx.firstperson.on && i < 4;
+        return key_taken(ctx, i);
     }
     false
 }
@@ -199,7 +239,8 @@ pub fn movement(ctx: &mut Ctx) -> Option<(f32, f32)> {
         }
     }
     let k = ctx.firstperson.keys;
-    let (f, r) = (ctx.firstperson.yaw.cos(), ctx.firstperson.yaw.sin());
+    let yaw = current_yaw(ctx);
+    let (f, r) = (yaw.cos(), yaw.sin());
     let fwd = (f, r);
     let right = (-r, f);
     let mut v = (0.0f32, 0.0f32);
@@ -213,7 +254,8 @@ pub fn movement(ctx: &mut Ctx) -> Option<(f32, f32)> {
     if k[2] {
         add(fwd, -1.0);
     }
-    if k[4] {
+    // A/D step sideways (in first person only with Shift; there they turn)
+    if k[4] || ctx.firstperson.mode == MODE_PAPER {
         if k[1] {
             add(right, -1.0);
         }
@@ -237,6 +279,19 @@ fn update_turning(ctx: &mut Ctx) {
     let s = &mut ctx.firstperson;
     let dt = s.last_ms.map(|l| now.wrapping_sub(l) as f32 / 1000.0).unwrap_or(0.0).min(0.1);
     s.last_ms = Some(now);
+    if s.mode == MODE_PAPER {
+        // arrow keys or the right stick, within limits
+        let turn = TURN_DEG_PER_S.to_radians() * 0.6 * dt;
+        let mut t = s.paper_turn + ctx.controls.sticks.right_stick_x * turn;
+        if s.keys[5] {
+            t -= turn;
+        }
+        if s.keys[6] {
+            t += turn;
+        }
+        s.paper_turn = t.clamp(-PAPER_TURN_MAX_DEG.to_radians(), PAPER_TURN_MAX_DEG.to_radians());
+        return;
+    }
     if s.keys[4] {
         return; // Shift: A/D step sideways
     }
@@ -254,7 +309,7 @@ fn update_turning(ctx: &mut Ctx) {
 /// The view direction as one of the eight directions, while the first-person view is on (the
 /// hero faces it, so the controller's automatic targeting picks what is in view).
 pub fn view_direction(ctx: &Ctx) -> Option<Direction> {
-    if !active(ctx) {
+    if !first(ctx) {
         return None;
     }
     let v = (ctx.firstperson.yaw.cos(), ctx.firstperson.yaw.sin());
@@ -277,7 +332,8 @@ pub fn stick_direction(ctx: &Ctx, x: f32, y: f32) -> Option<(f32, f32)> {
     if !active(ctx) {
         return None;
     }
-    let f = (ctx.firstperson.yaw.cos(), ctx.firstperson.yaw.sin());
+    let yaw = current_yaw(ctx);
+    let f = (yaw.cos(), yaw.sin());
     let r = (-f.1, f.0);
     Some((f.0 * y + r.0 * x, f.1 * y + r.1 * x))
 }
@@ -289,6 +345,14 @@ fn piece_tex(ctx: &Ctx, cache: &mut Vec<Option<Rc<PieceTex>>>, piece: usize) -> 
     if let Some(t) = &cache[piece] {
         return Some(t.clone());
     }
+    let t = Rc::new(render_piece(ctx, piece, [true, true])?);
+    cache[piece] = Some(t.clone());
+    Some(t)
+}
+
+/// Renders level piece `piece` as the isometric view draws it; `floor` says whether the left and
+/// right floor micros are included.
+fn render_piece(ctx: &Ctx, piece: usize, floor: [bool; 2]) -> Option<PieceTex> {
     let micros = ctx.gendung.DPieceMicros.get(piece)?;
     let n = ctx.gendung.MicroTileLen as usize;
     let h = (n as i32 / 2) * 32;
@@ -303,7 +367,7 @@ fn piece_tex(ctx: &Ctx, cache: &mut Vec<Option<Rc<PieceTex>>>, piece: usize) -> 
         while i + 1 < n.max(2) {
             for half in 0..2 {
                 let block = LevelCelBlock(micros.mt[i + half]);
-                if block.has_value() {
+                if block.has_value() && (i > 0 || floor[half]) {
                     render_tile(ctx, &out, Point::new(half as i32 * 32, y), block, MaskType::Solid, 0);
                 }
             }
@@ -330,14 +394,12 @@ fn piece_tex(ctx: &Ctx, cache: &mut Vec<Option<Rc<PieceTex>>>, piece: usize) -> 
             let c = if opaque[i] { ctx.dx.pal.logical_palette[px[i] as usize] } else { [255, 0, 255] };
             data.extend_from_slice(&c);
         }
-        let _ = std::fs::write(std::path::Path::new(&dir).join(format!("piece_{piece}.ppm")), data);
+        let _ = std::fs::write(std::path::Path::new(&dir).join(format!("piece_{piece}_{}{}.ppm", floor[0] as u8, floor[1] as u8)), data);
     }
     // a wall: picture above the floor diamond in that half
     let count = |x0: i32| (0..h - 48).map(|y| (x0..x0 + 32).filter(|&x| opaque[(y * 64 + x) as usize]).count()).sum::<usize>();
     let (left_wall, right_wall) = (count(0) > 64, count(32) > 64);
-    let t = Rc::new(PieceTex { h, left_wall, right_wall, px, opaque });
-    cache[piece] = Some(t.clone());
-    Some(t)
+    Some(PieceTex { h, left_wall, right_wall, px, opaque })
 }
 
 /// Wall art on a tile the hero can walk through is an archway or an open doorway: its opening
@@ -429,7 +491,7 @@ const WALL_MARGIN: f32 = 0.3;
 
 /// A move from `from` to `to` would bring the hero closer to a wall than `WALL_MARGIN`.
 pub fn too_close_to_wall(ctx: &mut Ctx, from: (f32, f32), to: (f32, f32)) -> bool {
-    if !active(ctx) {
+    if !first(ctx) {
         return false;
     }
     let d = (to.0 - from.0, to.1 - from.1);
@@ -655,6 +717,11 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
     if ctx.firstperson.level_key != key {
         ctx.firstperson.level_key = key;
         ctx.firstperson.pieces.clear();
+        ctx.firstperson.cards.clear();
+    }
+    if ctx.firstperson.mode == MODE_PAPER {
+        draw_paper(ctx, out, me);
+        return true;
     }
     let yaw = ctx.firstperson.yaw;
     let fwd = (yaw.cos(), yaw.sin());
@@ -864,6 +931,11 @@ pub fn pick(ctx: &Ctx, mouse: Point) -> Option<(Point, (f32, f32))> {
             return Some((t, (t.x as f32, t.y as f32)));
         }
     }
+    if s.mode == MODE_PAPER {
+        let p = paper_ground(ctx, mouse.x, mouse.y)?;
+        let tile = Point::new(p.0.round().clamp(0.0, MAXDUNX as f32 - 1.0) as i32, p.1.round().clamp(0.0, MAXDUNY as f32 - 1.0) as i32);
+        return Some((tile, p));
+    }
     let yaw = s.yaw;
     let fwd = (yaw.cos(), yaw.sin());
     let right = (-fwd.1, fwd.0);
@@ -879,4 +951,277 @@ pub fn pick(ctx: &Ctx, mouse: Point) -> Option<(Point, (f32, f32))> {
     let p = (s.cam.0 + ray.0 * t, s.cam.1 + ray.1 * t);
     let tile = Point::new(p.0.round().clamp(0.0, MAXDUNX as f32 - 1.0) as i32, p.1.round().clamp(0.0, MAXDUNY as f32 - 1.0) as i32);
     Some((tile, p))
+}
+
+// ---------------------------------------------------------------------------------------------
+// Paper view: a camera behind and above the hero, everything drawn as flat cut-outs.
+
+/// The way the paper view looks with no turning: North, as the isometric camera does, so the
+/// pictures (drawn from that side) face it.
+const PAPER_BASE_YAW: f32 = -0.75 * std::f32::consts::PI;
+/// How far the paper view may turn either way from North (degrees).
+const PAPER_TURN_MAX_DEG: f32 = 35.0;
+/// The paper camera: tiles behind the hero, tiles above the floor (about the isometric view's
+/// 30 degree slope), field of view.
+const PAPER_DIST: f32 = 8.0;
+const PAPER_HEIGHT: f32 = 4.6;
+const PAPER_FOV_DEG: f32 = 75.0;
+/// Where the hero's feet appear in the part of the view above the control panel (0 = top).
+const PAPER_FEET: f32 = 0.66;
+/// How far around the hero the paper view draws (tiles).
+const PAPER_RANGE: i32 = 20;
+
+/// The paper view is on.
+pub fn paper(ctx: &Ctx) -> bool {
+    active(ctx) && ctx.firstperson.mode == MODE_PAPER
+}
+
+/// The first-person view is on.
+fn first(ctx: &Ctx) -> bool {
+    active(ctx) && ctx.firstperson.mode == MODE_FIRST
+}
+
+/// The level piece picture used as a cut-out: only the upper parts, plus the floor micro of a
+/// half that holds a wall (the floor itself is drawn flat).
+fn card_tex(ctx: &Ctx, cache: &mut Vec<Option<Rc<PieceTex>>>, full: &PieceTex, piece: usize) -> Option<Rc<PieceTex>> {
+    if piece >= cache.len() {
+        cache.resize(piece + 1, None);
+    }
+    if let Some(t) = &cache[piece] {
+        return Some(t.clone());
+    }
+    let t = Rc::new(render_piece(ctx, piece, [full.left_wall, full.right_wall])?);
+    cache[piece] = Some(t.clone());
+    Some(t)
+}
+
+struct Card<'a> {
+    depth: f32,
+    /// Picture, its size, and which pixel stands on the ground point.
+    px: &'a [u8],
+    opaque: &'a dyn Fn(i32, i32) -> bool,
+    w: i32,
+    h: i32,
+    anchor: (f32, f32),
+}
+
+/// Draws a picture standing upright at a ground point (screen `ground`), scaled by `scale`.
+#[allow(clippy::too_many_arguments)]
+fn draw_card(ctx: &Ctx, out: &Surface, card: &Card, ground: (f32, f32), scale: f32, light: Option<u8>, dither: bool, pick: &mut [u16], id: u16) {
+    let (w, h) = (out.w(), out.h());
+    let left = ground.0 - card.anchor.0 * scale;
+    let top = ground.1 - card.anchor.1 * scale;
+    let x0 = left.floor().max(0.0) as i32;
+    let x1 = (left + card.w as f32 * scale).ceil().min(w as f32) as i32;
+    let y0 = top.floor().max(0.0) as i32;
+    let y1 = (top + card.h as f32 * scale).ceil().min(h as f32) as i32;
+    for row in y0..y1 {
+        let v = ((row as f32 + 0.5 - top) / scale) as i32;
+        if v < 0 || v >= card.h {
+            continue;
+        }
+        for col in x0..x1 {
+            if dither && (row + col) % 2 == 0 {
+                continue;
+            }
+            let u = ((col as f32 + 0.5 - left) / scale) as i32;
+            if u < 0 || u >= card.w || !(card.opaque)(u, v) {
+                continue;
+            }
+            let c = card.px[(v * card.w + u) as usize];
+            out.put(col, row, match light {
+                Some(l) => shade(ctx, c, l),
+                None => c,
+            });
+            if id != 0 {
+                pick[(row * w + col) as usize] = id;
+            }
+        }
+    }
+}
+
+/// The hero's own sprite as seen from the paper camera.
+fn hero_sprite(ctx: &Ctx, me: usize, view: (f32, f32)) -> Option<ClxSprite> {
+    let p = &ctx.players.Players[me];
+    if let Some(s) = &p.previewCelSprite {
+        return Some(s.clone());
+    }
+    let cur = p.AnimInfo.sprites.as_ref()?;
+    let frame = p.AnimInfo.get_frame_to_use_for_rendering(ctx.nthread.ProgressToNextGameTick) as usize;
+    let shown = rotated(p._pdir, view);
+    let first = cur.get(0);
+    for a in p.AnimationData.iter() {
+        if a.sprites_for_direction(p._pdir).is_some_and(|l| l.get(0) == first) {
+            return Some(a.sprites_for_direction(shown).unwrap_or_else(|| cur.clone()).get(frame));
+        }
+    }
+    Some(cur.get(frame))
+}
+
+/// The paper view's camera: position, view direction, focal length, horizon row.
+fn paper_camera(ctx: &Ctx, me: usize, w: i32, h: i32) -> ((f32, f32), (f32, f32), f32, f32) {
+    let yaw = PAPER_BASE_YAW + ctx.firstperson.paper_turn;
+    let fwd = (yaw.cos(), yaw.sin());
+    let at = camera_pos(ctx, me);
+    let cam = (at.0 - fwd.0 * PAPER_DIST, at.1 - fwd.1 * PAPER_DIST);
+    let focal = (w as f32 / 2.0) / (PAPER_FOV_DEG.to_radians() / 2.0).tan();
+    let visible = crate::control::get_main_panel(ctx).y.clamp(h / 2, h) as f32;
+    let horizon = visible * PAPER_FEET - focal * PAPER_HEIGHT / PAPER_DIST;
+    (cam, fwd, focal, horizon)
+}
+
+fn draw_paper(ctx: &mut Ctx, out: &Surface, me: usize) {
+    let (w, h) = (out.w(), out.h());
+    let (cam, fwd, focal, horizon) = paper_camera(ctx, me, w, h);
+    let right = (-fwd.1, fwd.0);
+    let mut pieces = std::mem::take(&mut ctx.firstperson.pieces);
+    let mut cards = std::mem::take(&mut ctx.firstperson.cards);
+
+    // the floor, flat
+    for row in 0..h {
+        let dy = row as f32 + 0.5 - horizon;
+        if dy <= 0.0 {
+            for col in 0..w {
+                out.put(col, row, 0);
+            }
+            continue;
+        }
+        let t = PAPER_HEIGHT * focal / dy;
+        for col in 0..w {
+            let camx = (col as f32 + 0.5 - w as f32 / 2.0) / focal;
+            let p = (cam.0 + (fwd.0 + right.0 * camx) * t, cam.1 + (fwd.1 + right.1 * camx) * t);
+            let tile = Point::new(p.0.round() as i32, p.1.round() as i32);
+            let mut c = 0;
+            if t < MAX_DIST && in_dungeon_bounds(tile) {
+                let piece = ctx.gendung.dPiece[tile.x as usize][tile.y as usize] as usize;
+                if let Some(tex) = piece_tex(ctx, &mut pieces, piece) {
+                    let (fx, fy) = (p.0 - tile.x as f32, p.1 - tile.y as f32);
+                    let sx = (32.0 + (fx - fy) * 32.0).clamp(0.0, 63.0) as i32;
+                    let sy = ((tex.h - 16) as f32 + (fx + fy) * 16.0).clamp(0.0, (tex.h - 1) as f32) as i32;
+                    let i = (sy * 64 + sx) as usize;
+                    if tex.opaque[i] {
+                        c = shade(ctx, tex.px[i], light_at(ctx, tile).saturating_add(fog(ctx, t - PAPER_DIST)));
+                    }
+                }
+            }
+            out.put(col, row, c);
+        }
+    }
+
+    // walls, pillars, trees and houses as cut-outs, with the sprites, far to near
+    let at = camera_pos(ctx, me);
+    let hero_depth = PAPER_DIST;
+    let mut boards = collect_billboards(ctx, cam, fwd, me);
+    if let Some(sprite) = hero_sprite(ctx, me, fwd) {
+        boards.push(Billboard { pos: at, depth: hero_depth, sprite, trn: None, light: None, tile: ctx.players.Players[me].position.tile, kind: Kind::Other });
+    }
+    enum Item {
+        Wall(Point, Rc<PieceTex>),
+        Sprite(usize),
+    }
+    let mut items: Vec<(f32, Item)> = boards.iter().enumerate().map(|(i, b)| (b.depth, Item::Sprite(i))).collect();
+    let (hx, hy) = (at.0.round() as i32, at.1.round() as i32);
+    for x in (hx - PAPER_RANGE).max(0)..=(hx + PAPER_RANGE).min(MAXDUNX as i32 - 1) {
+        for y in (hy - PAPER_RANGE).max(0)..=(hy + PAPER_RANGE).min(MAXDUNY as i32 - 1) {
+            let t = Point::new(x, y);
+            let rel = (x as f32 - cam.0, y as f32 - cam.1);
+            let d = rel.0 * fwd.0 + rel.1 * fwd.1;
+            let lat = rel.0 * right.0 + rel.1 * right.1;
+            if d < 1.0 || lat.abs() > d * w as f32 / (2.0 * focal) + 3.0 {
+                continue;
+            }
+            let piece = ctx.gendung.dPiece[x as usize][y as usize] as usize;
+            let Some(full) = piece_tex(ctx, &mut pieces, piece) else { continue };
+            if !full.left_wall && !full.right_wall {
+                continue;
+            }
+            let Some(card) = card_tex(ctx, &mut cards, &full, piece) else { continue };
+            // behind the sprites standing on the same tile
+            items.push((d + 0.3, Item::Wall(t, card)));
+        }
+    }
+    items.sort_by(|a, b| b.0.partial_cmp(&a.0).unwrap_or(std::cmp::Ordering::Equal));
+
+    let mut pick = vec![0u16; (w * h) as usize];
+    let mut picked = Vec::new();
+    for (_, item) in &items {
+        match item {
+            Item::Wall(t, tex) => {
+                let rel = (t.x as f32 - cam.0, t.y as f32 - cam.1);
+                let d = rel.0 * fwd.0 + rel.1 * fwd.1;
+                let lat = rel.0 * right.0 + rel.1 * right.1;
+                let ground = (w as f32 / 2.0 + focal * lat / d, horizon + focal * PAPER_HEIGHT / d);
+                let opaque = |u: i32, v: i32| tex.opaque[(v * 64 + u) as usize];
+                let card = Card { depth: d, px: &tex.px, opaque: &opaque, w: 64, h: tex.h, anchor: (32.0, (tex.h - 16) as f32) };
+                // walls between the camera and the hero are see-through, as in the original
+                let hero_lat = 0.0;
+                let dither = d < hero_depth - 0.2 && (lat - hero_lat).abs() < 2.5;
+                let light = light_at(ctx, *t).saturating_add(fog(ctx, d - PAPER_DIST));
+                // a touch larger, so neighbouring cut-outs (each scaled for its own distance) leave no gaps
+                draw_card(ctx, out, &card, ground, focal / (card.depth * PX_PER_TILE) * 1.04, Some(light), dither, &mut pick, 0);
+            }
+            Item::Sprite(i) => {
+                let b = &boards[*i];
+                let (sw, sh) = (b.sprite.width() as i32, b.sprite.height() as i32);
+                if sw <= 0 || sh <= 0 {
+                    continue;
+                }
+                let mut a = OwnedSurface::new(sw, sh);
+                let mut bsurf = OwnedSurface::new(sw, sh);
+                bsurf.pixels.iter_mut().for_each(|p| *p = 255);
+                for s in [&mut a, &mut bsurf] {
+                    let v = s.view();
+                    match &b.trn {
+                        Some(t) => clx_draw_trn(&v, (0, sh - 1), &b.sprite, t),
+                        None => clx_draw(&v, (0, sh - 1), &b.sprite),
+                    }
+                }
+                let (av, bv) = (a.view(), bsurf.view());
+                let mut px = vec![0u8; (sw * sh) as usize];
+                let mut op = vec![false; (sw * sh) as usize];
+                for y in 0..sh {
+                    for x in 0..sw {
+                        let (ca, cb) = (av.get(x, y), bv.get(x, y));
+                        px[(y * sw + x) as usize] = ca;
+                        op[(y * sw + x) as usize] = ca == cb;
+                    }
+                }
+                let rel = (b.pos.0 - cam.0, b.pos.1 - cam.1);
+                let lat = rel.0 * right.0 + rel.1 * right.1;
+                let ground = (w as f32 / 2.0 + focal * lat / b.depth, horizon + focal * PAPER_HEIGHT / b.depth);
+                let opaque = |u: i32, v: i32| op[(v * sw + u) as usize];
+                let card = Card { depth: b.depth, px: &px, opaque: &opaque, w: sw, h: sh, anchor: (sw as f32 / 2.0, (sh - 16) as f32) };
+                picked.push((b.tile, b.kind));
+                let id = picked.len() as u16;
+                let light = b.light.map(|l| l.saturating_add(fog(ctx, b.depth - PAPER_DIST)));
+                draw_card(ctx, out, &card, ground, focal / (b.depth * PX_PER_TILE), light, false, &mut pick, id);
+            }
+        }
+    }
+    ctx.firstperson.pieces = pieces;
+    ctx.firstperson.cards = cards;
+    let s = &mut ctx.firstperson;
+    s.cam = cam;
+    s.w = w;
+    s.h = h;
+    s.horizon = horizon;
+    s.zbuf = vec![f32::MAX; (w * h) as usize];
+    s.pick = pick;
+    s.picked = picked;
+}
+
+/// The floor point under screen point (`x`, `y`) in the paper view.
+fn paper_ground(ctx: &Ctx, x: i32, y: i32) -> Option<(f32, f32)> {
+    let s = &ctx.firstperson;
+    let yaw = PAPER_BASE_YAW + s.paper_turn;
+    let fwd = (yaw.cos(), yaw.sin());
+    let right = (-fwd.1, fwd.0);
+    let focal = (s.w as f32 / 2.0) / (PAPER_FOV_DEG.to_radians() / 2.0).tan();
+    let dy = y as f32 + 0.5 - s.horizon;
+    if dy <= 0.0 {
+        return None;
+    }
+    let t = (PAPER_HEIGHT * focal / dy).min(MAX_DIST);
+    let camx = (x as f32 + 0.5 - s.w as f32 / 2.0) / focal;
+    Some((s.cam.0 + (fwd.0 + right.0 * camx) * t, s.cam.1 + (fwd.1 + right.1 * camx) * t))
 }
