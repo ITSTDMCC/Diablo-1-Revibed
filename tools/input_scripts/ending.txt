@@ -1,0 +1,7 @@
+300 key 13
+500 key 13
+700 text Ender
+710 key 13
+900 key 13
+1300 warp 16
+1700 killdiablo

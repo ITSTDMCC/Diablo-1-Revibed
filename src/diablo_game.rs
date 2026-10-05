@@ -618,6 +618,18 @@ pub fn game_event_handler(ctx: &mut Ctx, event: &Event, mod_state: u16) {
                 crate::player::start_new_lvl(ctx, me, WM_DIABSETLVL, *lvl);
             }
         }
+        Event::TestKillDiablo => {
+            // Test hook: Diablo dies as if killed by the player (M_StartKill), so the ending runs.
+            if let Some(me) = ctx.players.MyPlayer {
+                for i in 0..ctx.monster.ActiveMonsterCount {
+                    let m = ctx.monster.ActiveMonsters[i] as usize;
+                    if crate::monster::monster_type_id(ctx, m) == crate::enums::MT_DIABLO && ctx.monster.Monsters[m].hitPoints > 0 {
+                        crate::monster::m_start_kill(ctx, m, me);
+                        break;
+                    }
+                }
+            }
+        }
         Event::TestStore(id) => {
             // Test hook: open a store page directly.
             crate::stores::start_store(ctx, TalkID::from_raw(*id as _));

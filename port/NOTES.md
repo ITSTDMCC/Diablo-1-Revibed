@@ -40,8 +40,13 @@ Rules in `port/replace_rules.csv` (applied when a function first enters the mani
 
 Third-party libraries the game depends on are reimplemented from their format rules, not linked:
 MPQ archives (libmpq in DevilutionX), PKWARE DCL implode/explode (save files and MPQ sectors),
-Smacker video (libsmackerdec), SHA-1 (save password hash, `sha.cpp` is game code). Each needs an
-ask before adding a crate instead.
+Smacker video (libsmackerdec), SHA-1 (save password hash, `sha.cpp` is game code), and the
+libsodium functions behind network packet encryption (Argon2id, XSalsa20-Poly1305, in
+`src/dvlnet/crypto.rs`, checked against the RFC and NaCl test vectors). asio's sockets are
+`std::net` polled without blocking. Each needs an ask before adding a crate instead.
+
+The only optional dependency is Bevy's own gilrs backend for game controllers, behind the
+`gamepad` cargo feature (off by default; see "Known differences").
 
 After the first pass every remaining manifest row was classified with `tools/classify.py` and
 `port/classify_rules.csv` (regex -> status, replaced_by, reason). Ports that exist under another
@@ -77,10 +82,29 @@ Behaviour the owner would notice:
 
 - **Config and save folder:** `%APPDATA%\diablo1_rs\devilution` instead of DevilutionX's folder, so
   the owner's real `diablo.ini` and saves are never touched. Screenshots (PrintScreen, PCX) go there too.
-- **Not ported yet:** network multiplayer (TCP; ZeroTier stays off as an outside service), gamepad
-  devices (keyboard and mouse only; the gamepad code paths exist but no device is read), and demo
-  recording/playback (`--record`/`--demo`). `port/manifest.csv` lists every such function as
-  `pending` with this reason.
+- **Multiplayer:** "Client-Server (TCP)" and "Offline" only. ZeroTier needs libzt (a whole
+  user-space network stack and an outside service) and is not ported, so the connection screen
+  does not list it, as in a DevilutionX build with `DISABLE_ZERO_TIER`. TCP games, with and without
+  a password, interoperate with the original DevilutionX 1.5.3 in both directions (see "Parity
+  evidence").
+- **Multiplayer turn thread:** the original sends and receives turns on a second thread while the
+  main thread loads a level. The port's game state is single-threaded, so that handler runs
+  cooperatively, whenever a frame is presented while the main thread has released the mutex
+  (loading screen, fades, the progress dialog). Between two loading-screen updates no turns go
+  out; the other players' games wait out the gap (they have two turns in hand).
+- **Network event handlers** (a player joined or left) run when the network call that received the
+  event returns, instead of from inside it; the same handlers run in the same order.
+- **Network error texts** come from the operating system through Rust (e.g. "No connection could be
+  made because the target machine actively refused it. (os error 10061)") instead of asio.
+- **TCP server dropping a player** sends one disconnect notice; the original can send it twice (its
+  read and timer handlers both drop the connection), which the clients ignore anyway.
+- **Game controllers** need a build with `--features gamepad` (adds Bevy's gilrs backend, which is
+  already part of the chosen Bevy release but is a new dependency for this project, so it is off
+  by default). Every pad gilrs has a mapping for is delivered as an SDL game controller; raw SDL
+  joystick events are not produced (on Windows the original ignores them anyway: no `JOY_*`
+  mappings are compiled in). The button-label style (Xbox / PlayStation / Nintendo / generic) is
+  chosen from the pad's USB vendor (Microsoft, Sony, Nintendo); SDL also looks at the product id.
+  Keyboard and mouse are unchanged; touch controls are not a target.
 - **Audio:** WAV sounds are fully decoded on load and mixed with linear resampling (cpal output);
   DevilutionX streams some sounds and uses SDL_audiolib's Speex resampler. Mute is immediate (Aulib
   fades). MP3 music replacements are not supported (the shipped data is WAV). The audio device
@@ -140,9 +164,12 @@ Structural differences with the same results:
 
 Test-only additions (not reachable in a normal run): input-script commands `warp`, `setwarp` and
 `store` (`DIABLO_INPUT_SCRIPT`) jump to a dungeon level, a quest level or a store page through the
-game's own functions (`StartNewLvl`, `StartStore`); `DIABLO_DEMO_TRACE` prints the player's state
-on every replayed demo tick; without a window (`DIABLO_HEADLESS`) fatal-error message boxes are
-logged instead of shown, so automated runs never wait on a modal dialog.
+game's own functions (`StartNewLvl`, `StartStore`); `padadd`, `pad`, `paddown`, `padup`,
+`padaxis` drive a virtual game controller; `DIABLO_FIXED_STEP=pace` keeps the virtual clock in
+step with the real one so two scripted games can play over the network; `DIABLO_DEMO_TRACE` prints
+the player's state on every replayed demo tick; without a window (`DIABLO_HEADLESS`) fatal-error
+message boxes are logged instead of shown, so automated runs never wait on a modal dialog.
+`RUST_BACKTRACE=1` adds a backtrace to a fatal error.
 
 ## Parity evidence
 
@@ -154,6 +181,23 @@ logged instead of shown, so automated runs never wait on a modal dialog.
   DevilutionX's.
 - `tests/timedemo.rs`: DevilutionX's WarriorLevel1to2 demo (6414 game ticks of play: walking,
   combat, loot, level change) replays to saves byte-identical to DevilutionX's reference.
+- DevilutionX's other unit tests, assertion for assertion: `tests/inv_parity.rs`,
+  `path_parity.rs`, `random_parity.rs`, `misc_parity.rs` (missiles, player, dead, lighting),
+  `misc2_parity.rs` (effects, quests, stores, codec), `scrollrt_parity.rs` (and diablo),
+  `automap_parity.rs` (and drlg_common), `animation_parity.rs` (generated by
+  `tools/gen_anim_tests.py`: 339 animation steps) and `util_parity.rs` (cursor, format_int, math,
+  rectangle). DevilutionX's tests of C++ helpers that became Rust's standard library
+  (`utf8`, `str_cat`, `file_util`, `appfat`) have nothing to test in the port.
+- `tests/net_parity.rs`: BLAKE2b, Poly1305, Argon2d/i/id, HSalsa20 and secretbox against
+  RFC 7693, RFC 8439, RFC 9106 and NaCl's test vectors; the packet and frame wire format; a host
+  and a guest playing turns and messages over loopback TCP with and without a password.
+  `tests/writehero.rs` also sends the level-50 rogue through `PackNetPlayer`/`UnPackNetPlayer`
+  (every validation passes, the rebuilt player matches; a tampered value is rejected).
+- `tools/tcp_smoke.py`: two port games, a host and a guest, join, walk and leave over TCP.
+- `tools/interop_original.ps1`: the original DevilutionX 1.5.3 and the port in one
+  password-protected TCP game, either one hosting. Both see the other join ("Player 'Orig' (level
+  1) is already in the game" / "just joined"), walk and leave; so the packet format, encryption,
+  turn protocol and player packing match the original.
 - The tests that need game data read it from `DIABLO_DATA_DIR`; fixtures are read from the
   DevilutionX source (`DEVILUTIONX_SOURCE`, default `../Decomp/source_1.5.3`).
 - For finding divergences: `examples/save_diff.rs` (field-level save diff using DevilutionX's

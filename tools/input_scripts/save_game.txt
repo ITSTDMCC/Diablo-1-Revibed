@@ -1,0 +1,9 @@
+300 key 13
+500 key 13
+700 text Saver
+710 key 13
+900 key 13
+1300 warp 3
+1700 click 400 200
+1900 key 27
+2000 key 13

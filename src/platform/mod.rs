@@ -15,6 +15,7 @@
 //!                                  `<frame> move <x> <y>`, `<frame> text <string>`, `<frame> quit`,
 //!                                  `<frame> warp <level>` (enter a dungeon level directly),
 //!                                  `<frame> setwarp <setlevel> <type>`, `<frame> store <TalkID>`,
+//!                                  `<frame> killdiablo` (on level 16: Diablo dies by the player's hand),
 //!                                  game controller 0: `padadd <vendor id>`, `padremove`,
 //!                                  `pad <button>`, `paddown <button>`, `padup <button>`,
 //!                                  `padaxis <axis> <value>` (SDL button/axis numbers)
@@ -206,6 +207,7 @@ fn parse_script(text: &str) -> VecDeque<ScriptedEvent> {
             "text" => vec![Event::TextInput(rest.to_string())],
             "warp" => vec![Event::TestWarp(nums()[0])],
             "store" => vec![Event::TestStore(nums()[0])],
+            "killdiablo" => vec![Event::TestKillDiablo],
             "setwarp" => {
                 let v = nums();
                 vec![Event::TestSetWarp(v[0], v[1])]

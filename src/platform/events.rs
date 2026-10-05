@@ -55,6 +55,8 @@ pub enum Event {
     TestSetWarp(i32, i32),
     /// Test hook (input script `store <TalkID>`): open that store page as if talking to its owner.
     TestStore(i32),
+    /// Test hook (input script `killdiablo`): Diablo dies as if the player had killed him.
+    TestKillDiablo,
 }
 
 pub const BUTTON_LEFT: u8 = 1;
