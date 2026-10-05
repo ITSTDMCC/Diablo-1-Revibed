@@ -95,9 +95,10 @@ run the normal build, still pass byte for byte).
   steps), cutting corners where a straight line is clear (`line_clear`), ending at the exact
   cursor point for ground clicks. A destination that cannot be reached (a roof, a wall) is walked
   toward as far as possible. A walk keeps its route while the destination tile is unchanged.
-- Facing: the heading is smoothed over a few ticks and the facing keeps its direction until the
-  smoothed heading is more than 37.5 degrees from it, so corners, sliding and zigzag routes do
-  not flip the sprite. A walk goes straight to the cursor when nothing is in the way.
+- Facing: the heading is smoothed over a couple of ticks; the facing changes when the smoothed
+  heading is more than 28.5 degrees from it (so the sprite never points far from where the hero
+  goes, which looks like gliding), and a new facing holds for 4 ticks against a turn back to a
+  neighbouring direction (no flicker at the boundary between two directions). A walk goes straight to the cursor when nothing is in the way.
 - The walk animation runs only while the player really moves (pressing into a wall shows the
   stand animation), and short pauses do not switch to standing. Which animation is showing is
   checked by its sprites, not its frame count (some classes have equal stand and walk lengths). Walking up to a monster/player/item/object stops when the player's tile is next to it;

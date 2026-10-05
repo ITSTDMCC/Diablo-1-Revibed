@@ -67,6 +67,8 @@ pub struct FreeMoveState {
     heading: (f32, f32),
     /// Ticks the player has not moved while the walk animation runs.
     idle_ticks: u8,
+    /// Ticks since the facing last changed (a new facing holds for a moment).
+    face_age: u8,
 }
 
 /// Free movement applies to this player now.
@@ -117,7 +119,7 @@ fn facing(d: (f32, f32), current: Option<Direction>) -> Direction {
         if let Some(i) = FACINGS.iter().position(|&f| f == cur) {
             let centre = i as f32 * 45.0;
             let diff = ((angle - centre + 540.0) % 360.0 - 180.0).abs();
-            if diff <= 22.5 + 15.0 {
+            if diff <= 22.5 + 6.0 {
                 return cur;
             }
         }
@@ -472,14 +474,32 @@ pub fn tick(ctx: &mut Ctx, pnum: usize) {
             let len = (s.0 * s.0 + s.1 * s.1).sqrt();
             let h = ctx.freemove.heading;
             let fresh = ctx.freemove.walk_anim.is_none() || h == (0.0, 0.0);
-            let k = if fresh { 1.0 } else { 0.35 };
+            let k = if fresh { 1.0 } else { 0.5 };
             let nh = (h.0 * (1.0 - k) + s.0 / len * k, h.1 * (1.0 - k) + s.1 / len * k);
             ctx.freemove.heading = nh;
-            let dir = facing(nh, ctx.freemove.walk_anim);
+            let mut dir = facing(nh, ctx.freemove.walk_anim);
+            // a facing just taken holds for a few ticks unless the turn is large
+            if let Some(cur) = ctx.freemove.walk_anim {
+                if dir != cur && ctx.freemove.face_age < 4 && facing(nh, None) == dir {
+                    let i = FACINGS.iter().position(|&f| f == cur).unwrap_or(0) as i32;
+                    let j = FACINGS.iter().position(|&f| f == dir).unwrap_or(0) as i32;
+                    if (i - j).rem_euclid(8) == 1 || (j - i).rem_euclid(8) == 1 {
+                        dir = cur;
+                    }
+                }
+            }
+            if Some(dir) != ctx.freemove.walk_anim {
+                ctx.freemove.face_age = 0;
+            } else {
+                ctx.freemove.face_age = ctx.freemove.face_age.saturating_add(1);
+            }
             let walking_anim = is_walk_anim(ctx, pnum, ctx.freemove.walk_anim);
             if ctx.freemove.walk_anim != Some(dir) || !walking_anim {
                 let p = &ctx.players.Players[pnum];
                 let frame = if walking_anim { p.AnimInfo.currentFrame } else { 0 };
+                if std::env::var_os("DIABLO_FREEMOVE_TRACE").is_some() {
+                    eprintln!("FREEANIM walk dir={:?} was={:?} walking_anim={} frame={}", dir, ctx.freemove.walk_anim, walking_anim, frame);
+                }
                 crate::player::new_plr_anim(ctx, pnum, player_graphic::Walk, dir, AnimationDistributionFlags::None, 0, 0);
                 ctx.players.Players[pnum].AnimInfo.currentFrame = frame;
                 ctx.freemove.walk_anim = Some(dir);
