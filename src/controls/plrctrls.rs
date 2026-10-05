@@ -407,6 +407,30 @@ fn walk_in_dir(ctx: &mut Ctx, player_id: usize, dir: AxisDirection) {
     if crate::freemove::active_for(ctx, player_id) {
         // free movement: move in the stick direction itself
         let s = ctx.controls.sticks;
+        if crate::firstperson::active(ctx) {
+            // first-person view: up walks forward, sideways steps sideways
+            let (x, y) = if s.left_stick_x != 0.0 || s.left_stick_y != 0.0 {
+                (s.left_stick_x, s.left_stick_y)
+            } else {
+                let x = match dir.x {
+                    AxisDirectionX::Left => -1.0,
+                    AxisDirectionX::Right => 1.0,
+                    AxisDirectionX::None => 0.0,
+                };
+                let y = match dir.y {
+                    AxisDirectionY::Up => 1.0,
+                    AxisDirectionY::Down => -1.0,
+                    AxisDirectionY::None => 0.0,
+                };
+                (x, y)
+            };
+            if crate::firstperson::keys_held(ctx) {
+                return; // the keyboard is walking
+            }
+            let v = crate::firstperson::stick_direction(ctx, x, y);
+            crate::freemove::stick_world(ctx, v);
+            return;
+        }
         let v = if s.left_stick_x != 0.0 || s.left_stick_y != 0.0 {
             Some((s.left_stick_x, s.left_stick_y))
         } else {
@@ -553,6 +577,12 @@ fn handle_right_stick_motion(ctx: &mut Ctx) {
         ctx.controls.plrctrls.right_stick_acc = Some(acc);
         ctx.automap.AutomapOffset.delta_x += dy + dx;
         ctx.automap.AutomapOffset.delta_y += dy - dx;
+        return;
+    }
+    if crate::firstperson::active(ctx) {
+        // first-person view: the right stick turns the view instead
+        acc.clear(ticks);
+        ctx.controls.plrctrls.right_stick_acc = Some(acc);
         return;
     }
     // move cursor

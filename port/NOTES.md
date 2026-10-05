@@ -144,6 +144,11 @@ Asked for by the owner on 2026-10-05 as an optional gameplay feature; `src/first
   to a wall (solid at waist height) are refused, and the eye sits up to 0.4 tiles behind the hero.
 - Keys: X toggles (only where free movement is active: single player); W/A/S/D are taken before
   the keymapper while the view is on.
+- Controller: the left stick walks relative to the view, the right stick turns (it no longer moves
+  the mouse cursor while the view is on), and the hero faces the view direction so the gamepad's
+  automatic targeting looks ahead. Clicks within 10 pixels of a monster, item or object take it.
+- View: 90 degree field of view, eye 1.2 tiles up, horizon at 42% of the area above the control
+  panel (so a monster next to the hero is not hidden behind the panel).
 - Known limits: the isometric art is a picture of 3D shapes seen from one side, so wall caps and
   town houses look like sheared planes, arch openings are solid below 1.9 tiles, sprites are flat
   and pixelated up close, the player's own sprite is not drawn, there is no ceiling.

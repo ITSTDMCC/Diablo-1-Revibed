@@ -92,8 +92,11 @@ and start `target\free-movement\release\diablo1_rs.exe` with the same `--data-di
 view to the hero's eyes and back.
 
 - **W / S** walk forward and back, **A / D** turn, **Shift + A / D** step sideways.
-- The mouse still aims: whatever is under the cursor in the first-person view is what a click
-  attacks, picks up, opens or talks to, and where a spell is cast. Clicking the floor walks there.
+- **Controller:** the left stick walks (up is forward, sideways steps sideways), the right stick
+  turns. The hero faces the way the view looks, so the usual automatic targeting picks what is
+  in front.
+- The mouse still aims: whatever is under (or right next to) the cursor in the first-person view
+  is what a click attacks, picks up, opens or talks to, and where a spell is cast. Clicking the floor walks there.
 - Panels, inventory, belt, spells and menus work as usual. While the view is on, **S** walks back
   instead of opening the speedbook.
 - The walls, floors, monsters and items are the game's own isometric art, re-projected, so it is

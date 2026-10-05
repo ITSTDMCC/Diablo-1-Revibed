@@ -317,6 +317,25 @@ fn is_walk_anim(ctx: &Ctx, pnum: usize, dir: Option<Direction>) -> bool {
     }
 }
 
+/// Free movement is not moving the player (no destination, no stick, no walk animation).
+pub fn is_idle(ctx: &Ctx) -> bool {
+    ctx.freemove.waypoints.is_empty() && ctx.freemove.stick.is_none() && ctx.freemove.walk_anim.is_none()
+}
+
+/// Sets the stick direction directly in tiles (the first-person view's controls).
+pub fn stick_world(ctx: &mut Ctx, dir: Option<(f32, f32)>) {
+    match dir {
+        Some((x, y)) if x * x + y * y > 0.01 => {
+            let len = (x * x + y * y).sqrt();
+            let mag = len.min(1.0);
+            ctx.freemove.stick = Some((x / len * mag, y / len * mag));
+            ctx.freemove.waypoints.clear();
+            ctx.freemove.stop_next_to = None;
+        }
+        _ => ctx.freemove.stick = None,
+    }
+}
+
 /// The player is walking somewhere (the original's `CheckNewPath` waits until it arrives).
 pub fn is_moving(ctx: &Ctx, pnum: usize) -> bool {
     active_for(ctx, pnum) && !ctx.freemove.waypoints.is_empty()
@@ -508,6 +527,9 @@ pub fn tick(ctx: &mut Ctx, pnum: usize) {
                         dir = cur;
                     }
                 }
+            }
+            if let Some(d) = crate::firstperson::view_direction(ctx) {
+                dir = d; // first-person view: the hero faces the way the view looks
             }
             if Some(dir) != ctx.freemove.walk_anim {
                 ctx.freemove.face_age = 0;

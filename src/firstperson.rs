@@ -28,11 +28,16 @@ use std::rc::Rc;
 /// vertically.
 const PX_PER_TILE: f32 = 45.25;
 /// Eye height in tiles (the hero sprite is about 2 tiles tall).
-const EYE: f32 = 1.45;
+const EYE: f32 = 1.2;
 /// Horizontal field of view.
-const FOV_DEG: f32 = 75.0;
+const FOV_DEG: f32 = 90.0;
 /// How far the view reaches, in tiles.
 const MAX_DIST: f32 = 40.0;
+/// Where the horizon sits in the part of the view the control panel leaves visible (0 = top),
+/// high enough that a monster next to the hero is not hidden behind the panel.
+const HORIZON: f32 = 0.42;
+/// How far around the mouse a click still finds a monster, item or object (pixels).
+const PICK_SLACK: i32 = 10;
 /// Turning speed, degrees per second.
 const TURN_DEG_PER_S: f32 = 150.0;
 /// How far behind the hero the eye is, at most (tiles).
@@ -187,6 +192,12 @@ pub fn movement(ctx: &mut Ctx) -> Option<(f32, f32)> {
         ctx.firstperson.drove_stick = false;
         return None;
     }
+    if let (Some(d), Some(me)) = (view_direction(ctx), ctx.players.MyPlayer) {
+        let p = &ctx.players.Players[me];
+        if p._pmode == PM_STAND && p._pdir != d && crate::freemove::is_idle(ctx) {
+            crate::player::new_plr_anim(ctx, me, player_graphic::Stand, d, AnimationDistributionFlags::None, 0, 0);
+        }
+    }
     let k = ctx.firstperson.keys;
     let (f, r) = (ctx.firstperson.yaw.cos(), ctx.firstperson.yaw.sin());
     let fwd = (f, r);
@@ -236,6 +247,39 @@ fn update_turning(ctx: &mut Ctx) {
     if s.keys[3] {
         s.yaw += turn;
     }
+    // controller: the right stick turns
+    s.yaw += ctx.controls.sticks.right_stick_x * turn;
+}
+
+/// The view direction as one of the eight directions, while the first-person view is on (the
+/// hero faces it, so the controller's automatic targeting picks what is in view).
+pub fn view_direction(ctx: &Ctx) -> Option<Direction> {
+    if !active(ctx) {
+        return None;
+    }
+    let v = (ctx.firstperson.yaw.cos(), ctx.firstperson.yaw.sin());
+    DIRS.iter().copied().max_by(|&a, &b| {
+        let (da, db) = (Displacement::from_direction(a), Displacement::from_direction(b));
+        let la = (da.delta_x as f32 * v.0 + da.delta_y as f32 * v.1) / da.magnitude();
+        let lb = (db.delta_x as f32 * v.0 + db.delta_y as f32 * v.1) / db.magnitude();
+        la.partial_cmp(&lb).unwrap_or(std::cmp::Ordering::Equal)
+    })
+}
+
+/// W/A/S/D walking is in progress (the controller's stick leaves it alone).
+pub fn keys_held(ctx: &Ctx) -> bool {
+    ctx.firstperson.drove_stick
+}
+
+/// The controller's left stick in the first-person view: up walks forward, sideways steps
+/// sideways. `x`/`y` are the stick (x right, y up); returns the walking direction in tiles.
+pub fn stick_direction(ctx: &Ctx, x: f32, y: f32) -> Option<(f32, f32)> {
+    if !active(ctx) {
+        return None;
+    }
+    let f = (ctx.firstperson.yaw.cos(), ctx.firstperson.yaw.sin());
+    let r = (-f.1, f.0);
+    Some((f.0 * y + r.0 * x, f.1 * y + r.1 * x))
 }
 
 fn piece_tex(ctx: &Ctx, cache: &mut Vec<Option<Rc<PieceTex>>>, piece: usize) -> Option<Rc<PieceTex>> {
@@ -623,8 +667,7 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
     let pull = (first_wall(ctx, &mut pieces, at, back, CAMERA_BACK + 0.15) - 0.15).clamp(0.0, CAMERA_BACK);
     let cam = (at.0 + back.0 * pull, at.1 + back.1 * pull);
     let (w, h) = (out.w(), out.h());
-    // the horizon in the middle of the part the control panel leaves visible
-    let horizon = crate::control::get_main_panel(ctx).y.clamp(h / 2, h) as f32 * 0.5;
+    let horizon = crate::control::get_main_panel(ctx).y.clamp(h / 2, h) as f32 * HORIZON;
     let half = (FOV_DEG.to_radians() / 2.0).tan();
     let focal = (w as f32 / 2.0) / half;
     let mut depth = vec![f32::MAX; (w * h) as usize];
@@ -797,7 +840,24 @@ pub fn pick(ctx: &Ctx, mouse: Point) -> Option<(Point, (f32, f32))> {
     if mouse.x < 0 || mouse.y < 0 || mouse.x >= s.w || mouse.y >= s.h || s.zbuf.len() != (s.w * s.h) as usize {
         return None;
     }
-    let id = s.pick[(mouse.y * s.w + mouse.x) as usize];
+    let mut id = s.pick[(mouse.y * s.w + mouse.x) as usize];
+    if id == 0 || s.picked[id as usize - 1].1 == Kind::Other {
+        // nothing exactly under the mouse: the nearest monster, item or object close by
+        let mut best = i32::MAX;
+        for dy in -PICK_SLACK..=PICK_SLACK {
+            for dx in -PICK_SLACK..=PICK_SLACK {
+                let (x, y) = (mouse.x + dx, mouse.y + dy);
+                if x < 0 || y < 0 || x >= s.w || y >= s.h || dx * dx + dy * dy >= best {
+                    continue;
+                }
+                let i = s.pick[(y * s.w + x) as usize];
+                if i > 0 && s.picked[i as usize - 1].1 != Kind::Other {
+                    best = dx * dx + dy * dy;
+                    id = i;
+                }
+            }
+        }
+    }
     if id > 0 {
         let (t, kind) = s.picked[id as usize - 1];
         if kind != Kind::Other {
