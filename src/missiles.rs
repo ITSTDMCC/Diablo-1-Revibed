@@ -882,6 +882,12 @@ fn plr2plr_m_hit(ctx: &mut Ctx, pnum: usize, p: usize, mindam: i32, maxdam: i32,
     true
 }
 
+/// `TestRotateBlockedMissile` (missiles.cpp, built only with BUILD_TESTING): the unit tests' entry
+/// point to `RotateBlockedMissile`.
+pub fn test_rotate_blocked_missile(ctx: &mut Ctx, mi: usize) {
+    rotate_blocked_missile(ctx, mi);
+}
+
 /// Original: `RotateBlockedMissile` (missiles.cpp).
 // @port missiles.cpp|devilution::RotateBlockedMissile(Missile &missile) sha=06c9d4d9072e
 fn rotate_blocked_missile(ctx: &mut Ctx, mi: usize) {

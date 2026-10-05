@@ -1698,6 +1698,12 @@ fn do_spell(ctx: &mut Ctx, pnum: usize) -> bool {
     false
 }
 
+/// `TestPlayerDoGotHit` (player.cpp, built only with BUILD_TESTING): the unit tests' entry point
+/// to `DoGotHit`.
+pub fn test_player_do_got_hit(ctx: &mut Ctx, pnum: usize) -> bool {
+    do_got_hit(ctx, pnum)
+}
+
 /// Original: `DoGotHit` (player.cpp).
 // @port player.cpp|devilution::DoGotHit(Player &player) sha=d36c484d03a3
 fn do_got_hit(ctx: &mut Ctx, pnum: usize) -> bool {
