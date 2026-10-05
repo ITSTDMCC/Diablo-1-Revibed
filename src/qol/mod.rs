@@ -4,3 +4,5 @@ pub mod chatlog;
 pub mod xpbar;
 pub mod monhealthbar;
 pub mod stash;
+pub mod autopickup;
+pub mod floatingnumbers;

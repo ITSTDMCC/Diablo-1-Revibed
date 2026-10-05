@@ -68,4 +68,17 @@ binary addresses unnamed.
 
 ## Known differences from the original
 
-None yet.
+- **Config and save folder:** `%APPDATA%\diablo1_rs` instead of DevilutionX's folder, so the owner's
+  real `diablo.ini` and saves are never touched.
+- **Audio:** WAV sounds are fully decoded on load and mixed with linear resampling (cpal output);
+  DevilutionX streams some sounds and uses SDL_audiolib's resampler. MP3 music replacements are
+  not supported (the shipped data is WAV).
+- **No gamepad backend yet:** the controller code paths exist, but no device input is read.
+- **Movies:** not played yet (the Smacker decoder is still to be written); run with `-n`.
+- **Clipboard paste** in text fields is not supported.
+- **Discord Rich Presence / ZeroTier:** off (see "Replaced, not translated").
+- **`std::sort`:** reimplemented from libstdc++'s algorithm (`src/utils/stdsort.rs`) so equal
+  elements end up in the same order; not yet checked against a compiled reference (no C++
+  compiler on this machine).
+- **Animation progress:** `ProgressToNextGameTick` is passed explicitly to `AnimationInfo` instead
+  of being read from a global; same values.

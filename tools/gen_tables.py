@@ -398,6 +398,24 @@ def gen_textdat():
     write('textdat.rs', HEADER.format(src='textdat.cpp'), parts)
 
 
+def gen_items_tables():
+    t = read('items.cpp')
+    parts = [
+        flat_table(t, 'ItemCAnimTbl[] =', 'ItemCAnimTbl', 'i8'),
+        flat_table(t, 'ItemInvSnds[] =', 'ItemInvSnds', 'SfxId'),
+        flat_table(t, 'OilLevels[] =', 'OilLevels', 'i32'),
+        flat_table(t, 'OilValues[] =', 'OilValues', 'i32'),
+        flat_table(t, 'OilMagic[] =', 'OilMagic', 'item_misc_id'),
+        flat_table(t, 'OilNames[10][25] =', 'OilNames', "&'static str"),
+        flat_table(t, 'ItemDropNames[] =', 'ItemDropNames', "&'static str"),
+        flat_table(t, 'ItemAnimLs[] =', 'ItemAnimLs', 'i8'),
+        flat_table(t, 'ItemDropSnds[] =', 'ItemDropSnds', 'SfxId'),
+        flat_table(t, 'premiumlvladd[] =', 'premiumlvladd', 'i32'),
+        flat_table(t, 'premiumLvlAddHellfire[] =', 'premiumLvlAddHellfire', 'i32'),
+    ]
+    write('items_tables.rs', HEADER.format(src='items.cpp'), parts)
+
+
 def main():
     os.makedirs(os.path.join(CRATE, 'src', 'tables'), exist_ok=True)
     gen_playerdat()
@@ -406,6 +424,7 @@ def main():
     gen_monstdat()
     gen_objdat()
     gen_textdat()
+    gen_items_tables()
     print('ok')
 
 

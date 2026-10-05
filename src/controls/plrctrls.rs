@@ -90,3 +90,5 @@ pub fn detect_input_method(ctx: &mut Ctx, event: &Event, gamepad_event: Controll
         crate::control::calculate_panel_areas(ctx);
     }
 }
+
+crate::pending_fn!(pub fn focus_on_char_info(ctx: &mut Ctx), "controls/plrctrls.cpp|devilution::FocusOnCharInfo()");

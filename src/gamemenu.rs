@@ -10,3 +10,5 @@ crate::pending_fn!(pub fn gamemenu_load_game(ctx: &mut Ctx, b: bool), "gamemenu.
 crate::pending_fn!(pub fn gamemenu_quit_game(ctx: &mut Ctx, b: bool), "gamemenu.cpp|devilution::gamemenu_quit_game(bool bActivate)");
 
 crate::pending_fn!(pub fn gamemenu_off(ctx: &mut Ctx), "gamemenu.cpp|devilution::gamemenu_off()");
+
+crate::pending_fn!(pub fn gamemenu_on(ctx: &mut Ctx), "gamemenu.cpp|devilution::gamemenu_on()");

@@ -10,6 +10,8 @@ pub struct StashState {
     pub stash_panel_art: Option<ClxSpriteList>,
     /// `StashNavButtonArt`
     pub stash_nav_button_art: Option<ClxSpriteList>,
+    /// `IsStashOpen`
+    pub IsStashOpen: bool,
 }
 
 /// Original: `devilution::FreeStashGFX` (qol/stash.cpp).
@@ -20,3 +22,5 @@ pub fn free_stash_gfx(ctx: &mut Ctx) {
 }
 
 crate::pending_fn!(pub fn sfile_write_stash(ctx: &mut Ctx), "pfile.cpp|devilution::sfile_write_stash()");
+
+crate::pending_fn!(pub fn refresh_item_stat_flags(ctx: &mut Ctx), "qol/stash.cpp|devilution::Stash::RefreshItemStatFlags()");

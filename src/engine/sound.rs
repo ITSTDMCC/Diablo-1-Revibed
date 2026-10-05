@@ -338,3 +338,23 @@ pub fn music_unmute(ctx: &mut Ctx) {
 pub fn clear_duplicate_sounds(ctx: &mut Ctx) {
     ctx.sound.duplicate_sounds.clear();
 }
+
+pub const ATTENUATION_MIN: i32 = -6400;
+pub const PAN_MIN: i32 = -6400;
+pub const PAN_MAX: i32 = 6400;
+
+/// Original: `devilution::CalculateSoundPosition` (engine/sound_position.cpp).
+// @port engine/sound_position.cpp|devilution::CalculateSoundPosition(Point soundPosition, int *plVolume, int *plPan) sha=cf1bb18ba2f4
+pub fn calculate_sound_position(ctx: &Ctx, sound_position: crate::engine::geometry::Point, pl_volume: &mut i32, pl_pan: &mut i32) -> bool {
+    let me = ctx.players.MyPlayer.expect("MyPlayer");
+    let player_position = ctx.players.Players[me].position.tile;
+    let delta = sound_position - player_position;
+    let pan = (delta.delta_x - delta.delta_y) * 256;
+    *pl_pan = pan.clamp(PAN_MIN, PAN_MAX);
+    let volume = player_position.approx_distance(sound_position) * -64;
+    if volume <= ATTENUATION_MIN {
+        return false;
+    }
+    *pl_volume = volume;
+    true
+}

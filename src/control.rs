@@ -15,6 +15,37 @@ pub struct ControlState {
     pub main_panel: Rect,
     pub left_panel: Rect,
     pub right_panel: Rect,
+    /// `InfoString`
+    pub info_string: String,
+    /// `InfoColor`
+    pub info_color: crate::engine::render::text_render::UiFlags,
+    pub sbookflag: bool,
+    pub chrflag: bool,
+    pub panelflag: bool,
+}
+
+/// Original: `devilution::IsLeftPanelOpen` (control.cpp).
+// @port control.cpp|devilution::IsLeftPanelOpen() sha=40740597782d
+pub fn is_left_panel_open(ctx: &Ctx) -> bool {
+    ctx.control.chrflag || ctx.quests.QuestLogIsOpen || ctx.stash.IsStashOpen
+}
+
+/// Original: `devilution::IsRightPanelOpen` (control.cpp).
+// @port control.cpp|devilution::IsRightPanelOpen() sha=2aecc12b395b
+pub fn is_right_panel_open(ctx: &Ctx) -> bool {
+    ctx.inv.invflag || ctx.control.sbookflag
+}
+
+/// Original: `devilution::AddPanelString` (control.cpp).
+// @port control.cpp|devilution::AddPanelString(string_view str) sha=5826f0478b09
+// @port control.cpp|devilution::AddPanelString(std::string &&str) sha=c54db3f9b3a2
+pub fn add_panel_string(ctx: &mut Ctx, s: &str) {
+    if ctx.control.info_string.is_empty() {
+        ctx.control.info_string = s.to_string();
+    } else {
+        ctx.control.info_string.push('\n');
+        ctx.control.info_string.push_str(s);
+    }
 }
 
 /// Original: `devilution::GetMainPanel` (control.cpp).

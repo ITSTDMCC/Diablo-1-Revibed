@@ -57,3 +57,11 @@ impl ControllerButtonCombo {
 pub fn is_dpad_button(b: ControllerButton) -> bool {
     matches!(b, ControllerButton::ButtonDpadUp | ControllerButton::ButtonDpadDown | ControllerButton::ButtonDpadLeft | ControllerButton::ButtonDpadRight)
 }
+
+// `controller_button_icon` glyphs (controller_buttons.cpp) used by item descriptions.
+pub const PLAYSTATION_TRIANGLE: &str = "\u{E000}";
+pub const PLAYSTATION_SQUARE: &str = "\u{E001}";
+pub const NINTENDO_X: &str = "\u{E023}";
+pub const NINTENDO_Y: &str = "\u{E024}";
+pub const XBOX_Y: &str = "\u{E049}";
+pub const XBOX_X: &str = "\u{E04A}";

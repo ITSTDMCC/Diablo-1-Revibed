@@ -283,6 +283,16 @@ impl Platform {
     /// `SDL_PollEvent`. Also keeps SDL's keyboard/mouse state (`SDL_GetModState`,
     /// `SDL_GetKeyboardState`, `SDL_GetMouseState`) and SDL's double-click counting
     /// (500 ms, 32 px, as SDL2's defaults on Windows).
+    /// `SDL_PushEvent`: queues an event after the ones already received.
+    pub fn push_event(&mut self, e: Event) {
+        if let Some(rx) = &self.events_rx {
+            while let Ok(e) = rx.try_recv() {
+                self.pending.push_back(e);
+            }
+        }
+        self.pending.push_back(e);
+    }
+
     pub fn poll_event(&mut self) -> Option<Event> {
         if let Some(rx) = &self.events_rx {
             while let Ok(e) = rx.try_recv() {

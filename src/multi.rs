@@ -2,9 +2,29 @@
 
 use crate::ctx::Ctx;
 
+/// `GameData`
+#[derive(Clone, Copy, Debug, Default)]
+pub struct GameData {
+    pub size: i32,
+    pub dwSeed: u32,
+    pub programid: u32,
+    pub versionMajor: u8,
+    pub versionMinor: u8,
+    pub versionPatch: u8,
+    pub nDifficulty: crate::enums::_difficulty,
+    pub nTickRate: u8,
+    pub bRunInTown: u8,
+    pub bTheoQuest: u8,
+    pub bCowQuest: u8,
+    pub bFriendlyFire: u8,
+    pub fullQuests: u8,
+}
+
 /// Globals of multi.cpp.
 #[derive(Default)]
 pub struct MultiState {
+    /// `sgGameInitInfo`
+    pub sgGameInitInfo: GameData,
     /// `sgbNetInited`
     pub sgb_net_inited: bool,
 }
@@ -25,7 +45,7 @@ pub fn net_close(ctx: &mut Ctx) {
     }
     if !crate::engine::demomode::is_running(ctx) {
         crate::player::clear_players(ctx);
-        ctx.player.my_player = None;
+        ctx.players.MyPlayer = None;
     }
 }
 

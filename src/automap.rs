@@ -19,3 +19,5 @@ pub fn automap_active(ctx: &Ctx) -> bool {
 pub fn set_automap_active(ctx: &mut Ctx, active: bool) {
     ctx.automap.automap_active = active;
 }
+
+crate::pending_fn!(pub fn set_automap_view(ctx: &mut Ctx, position: crate::engine::geometry::Point, explore_type: crate::lighting::MapExplorationType), "automap.cpp|devilution::SetAutomapView(Point position, MapExplorationType explorationType)");

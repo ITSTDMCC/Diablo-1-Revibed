@@ -1,3 +1,4 @@
+#![allow(non_snake_case, non_camel_case_types, non_upper_case_globals)]
 //! Diablo 1 port. The source of truth is DevilutionX 1.5.3 (see `port/NOTES.md`).
 //!
 //! Every ported function carries a tag line
@@ -55,3 +56,10 @@ pub mod pfile;
 pub mod stores;
 pub mod minitext;
 pub mod multi;
+pub mod dead;
+pub mod loadsave;
+pub mod lighting;
+pub mod msg;
+pub mod nthread;
+pub mod portal;
+pub mod quests;

@@ -34,3 +34,5 @@ pub fn free_towner_gfx(ctx: &mut Ctx) {
     }
     ctx.towners.cow_sprites = None;
 }
+
+crate::pending_fn!(pub fn talk_to_towner(ctx: &mut Ctx, pnum: usize, t: i32), "towners.cpp|devilution::TalkToTowner(Player &player, int t)");

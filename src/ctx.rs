@@ -42,7 +42,7 @@ pub struct Ctx {
     /// `automap.cpp`
     pub automap: crate::automap::AutomapState,
     /// `player.cpp`
-    pub player: crate::player::PlayerState,
+    pub players: crate::player::PlayerState,
     /// `engine/sound.cpp`
     pub sound: crate::engine::sound::SoundState,
     /// `effects.cpp`
@@ -67,6 +67,24 @@ pub struct Ctx {
     pub error: crate::error::ErrorState,
     /// `storm/storm_net.cpp`
     pub storm_net: crate::storm::storm_net::StormNetState,
+    /// `lighting.cpp`
+    pub lighting: crate::lighting::LightingState,
+    /// `stores.cpp`
+    pub stores: crate::stores::StoresState,
+    /// `quests.cpp`
+    pub quests: crate::quests::QuestsState,
+    /// `inv.cpp`
+    pub inv: crate::inv::InvState,
+    /// `nthread.cpp`
+    pub nthread: crate::nthread::NthreadState,
+    /// `portal.cpp`
+    pub portal: crate::portal::PortalState,
+    /// `levels/trigs.cpp`
+    pub trigs: crate::levels::trigs::TrigsState,
+    /// `help.cpp`
+    pub help: crate::help::HelpState,
+    /// `msg.cpp`
+    pub msg: crate::msg::MsgState,
 }
 
 impl Ctx {
@@ -91,7 +109,7 @@ impl Ctx {
             hwcursor: Default::default(),
             cursor: Default::default(),
             automap: Default::default(),
-            player: Default::default(),
+            players: Default::default(),
             sound: Default::default(),
             effects: Default::default(),
             monster: Default::default(),
@@ -104,6 +122,15 @@ impl Ctx {
             menu: Default::default(),
             error: Default::default(),
             storm_net: Default::default(),
+            lighting: Default::default(),
+            stores: Default::default(),
+            quests: Default::default(),
+            inv: Default::default(),
+            nthread: Default::default(),
+            portal: Default::default(),
+            trigs: Default::default(),
+            help: Default::default(),
+            msg: Default::default(),
         }
     }
 }

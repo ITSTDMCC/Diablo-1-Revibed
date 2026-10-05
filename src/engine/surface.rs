@@ -17,6 +17,11 @@ impl Rect {
     pub const fn new(x: i32, y: i32, w: i32, h: i32) -> Rect {
         Rect { x, y, w, h }
     }
+
+    /// `Rectangle::contains`
+    pub const fn contains(&self, p: crate::engine::geometry::Point) -> bool {
+        p.x >= self.x && p.x < self.x + self.w && p.y >= self.y && p.y < self.y + self.h
+    }
 }
 
 #[derive(Clone, Copy, Debug)]

@@ -15,6 +15,8 @@ pub enum Event {
     TextInput(String),
     FocusGained,
     FocusLost,
+    /// A game event (`CustomEventToSdlEvent(interface_mode)`, interfac.cpp).
+    Custom(crate::enums::interface_mode),
 }
 
 pub const BUTTON_LEFT: u8 = 1;

@@ -414,9 +414,9 @@ pub fn diablo_quit(ctx: &mut Ctx, exit_status: i32) -> ! {
 /// Original: `devilution::FreeGameMem` (diablo.cpp).
 // @port diablo.cpp|devilution::FreeGameMem() sha=7b43c5519583
 pub fn free_game_mem(ctx: &mut Ctx) {
-    ctx.gendung.p_dungeon_cels = None;
-    ctx.gendung.p_mega_tiles = None;
-    ctx.gendung.p_special_cels = None;
+    ctx.gendung.pDungeonCels = None;
+    ctx.gendung.pMegaTiles = None;
+    ctx.gendung.pSpecialCels = None;
     crate::monster::free_monsters(ctx);
     crate::missiles::free_missile_gfx(ctx);
     crate::objects::free_object_gfx(ctx);

@@ -4,3 +4,5 @@
 use crate::ctx::Ctx;
 
 crate::pending_fn!(pub fn doom_close(ctx: &mut Ctx), "doom.cpp|devilution::doom_close()");
+
+crate::pending_fn!(pub fn doom_init(ctx: &mut Ctx), "doom.cpp|devilution::doom_init()");

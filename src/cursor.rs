@@ -17,10 +17,41 @@ pub const CURSOR_HEALOTHER: i32 = 10;
 pub const CURSOR_HOURGLASS: i32 = 11;
 pub const CURSOR_FIRSTITEM: i32 = 12;
 
-#[derive(Default)]
 pub struct CursorState {
     /// `pcurs`
     pub pcurs: i32,
+    /// `pcursitem`
+    pub pcursitem: i8,
+    /// `pcursmonst`
+    pub pcursmonst: i32,
+    /// `pcursplr`
+    pub pcursplr: i8,
+    /// `ObjectUnderCursor` (index into `Objects`)
+    pub ObjectUnderCursor: Option<usize>,
+    /// `pcurstemp`
+    pub pcurstemp: i32,
+    /// `pcursinvitem`
+    pub pcursinvitem: i8,
+    /// `pcursstashitem`
+    pub pcursstashitem: u16,
+    /// `cursPosition`
+    pub cursPosition: crate::engine::geometry::Point,
+}
+
+impl Default for CursorState {
+    fn default() -> Self {
+        CursorState {
+            pcurs: 0,
+            pcursitem: 0,
+            pcursmonst: -1,
+            pcursplr: 0,
+            ObjectUnderCursor: None,
+            pcurstemp: 0,
+            pcursinvitem: 0,
+            pcursstashitem: 0,
+            cursPosition: Default::default(),
+        }
+    }
 }
 
 /// Original: `devilution::ResetCursor` (cursor.cpp).
