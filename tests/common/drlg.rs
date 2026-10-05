@@ -48,6 +48,7 @@ impl Harness {
         let dun_data: Vec<u16> = bytes.chunks_exact(2).map(|c| u16::from_le_bytes([c[0], c[1]])).collect();
         assert_eq!((DMAXX, DMAXY), (dun_data[0] as usize, dun_data[1] as usize));
         let mut ctx = Ctx::new(Platform::headless_from_env());
+    ctx.diablo.headless_mode = true; // test/main.cpp: HeadlessMode = true
         let base = format!("{}/", fixtures.display());
         ctx.paths.set_pref_path(&base);
         ctx.paths.set_assets_path(&base);

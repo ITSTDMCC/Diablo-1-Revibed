@@ -17,6 +17,7 @@ use pack_parity_data::*;
 /// `PackTest::SetUp`
 fn setup() -> Ctx {
     let mut ctx = Ctx::new(Platform::headless_from_env());
+    ctx.diablo.headless_mode = true; // test/main.cpp: HeadlessMode = true
     ctx.players.Players.truncate(1);
     while ctx.players.Players.is_empty() {
         ctx.players.Players.push(Default::default());

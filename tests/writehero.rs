@@ -283,6 +283,7 @@ fn writehero_pfile_write_hero() {
     std::fs::create_dir_all(&work).unwrap();
 
     let mut ctx = Ctx::new(Platform::headless_from_env());
+    ctx.diablo.headless_mode = true; // test/main.cpp: HeadlessMode = true
     let ctx = &mut ctx;
     ctx.paths.set_base_path(&format!("{}/", std::path::Path::new(&data_dir).display()));
     diablo1_rs::init::load_core_archives(ctx);

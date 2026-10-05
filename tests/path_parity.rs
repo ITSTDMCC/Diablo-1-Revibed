@@ -11,7 +11,9 @@ use diablo1_rs::enums::*;
 use diablo1_rs::platform::Platform;
 
 fn ctx() -> Ctx {
-    Ctx::new(Platform::headless_from_env())
+    let mut ctx = Ctx::new(Platform::headless_from_env());
+    ctx.diablo.headless_mode = true; // test/main.cpp: HeadlessMode = true
+    ctx
 }
 
 #[test]
