@@ -1110,21 +1110,21 @@ engine/clx_sprite.hpp|devilution::OwnedClxSpriteListOrSheet::sheet()#2,replaced,
 engine/clx_sprite.hpp|devilution::OwnedClxSpriteListOrSheet::isSheet(),replaced,src/engine/clx_sprite.rs,C++ view/owner/iterator classes over CLX buffers; the Rust types expose the same accessors over Rc<[u8]> buffers,
 engine/clx_sprite.hpp|devilution::OwnedClxSpriteListOrSheet::OwnedClxSpriteListOrSheet(),replaced,src/engine/clx_sprite.rs,C++ view/owner/iterator classes over CLX buffers; the Rust types expose the same accessors over Rc<[u8]> buffers,
 engine/clx_sprite.hpp|devilution::ClxSpriteListOrSheet::ClxSpriteListOrSheet(const OwnedClxSpriteListOrSheet &listOrSheet),replaced,src/engine/clx_sprite.rs,C++ view/owner/iterator classes over CLX buffers; the Rust types expose the same accessors over Rc<[u8]> buffers,
-"engine/demomode.cpp|devilution::ReadSettings(FILE *in, uint8_t version)",pending,,not ported: demo recording and playback (a developer test feature),
-engine/demomode.cpp|devilution::WriteSettings(FILE *out),pending,,not ported: demo recording and playback (a developer test feature),
-"engine/demomode.cpp|devilution::CreateSdlEvent(const DemoMsg &dmsg, SDL_Event &event, uint16_t &modState)",pending,,not ported: demo recording and playback (a developer test feature),
-engine/demomode.cpp|devilution::LogDemoMessage(const DemoMsg &msg),pending,,not ported: demo recording and playback (a developer test feature),
-engine/demomode.cpp|devilution::LoadDemoMessages(int i),pending,,not ported: demo recording and playback (a developer test feature),
-engine/demomode.cpp|devilution::RecordEventHeader(const SDL_Event &event),pending,,not ported: demo recording and playback (a developer test feature),
-"engine/demomode.cpp|devilution::demo::InitPlayBack(int demoNumber, bool timedemo)",pending,,not ported: demo recording and playback (a developer test feature),
-"engine/demomode.cpp|devilution::demo::InitRecording(int recordNumber, bool createDemoReference)",pending,,not ported: demo recording and playback (a developer test feature),
-engine/demomode.cpp|devilution::demo::OverrideOptions(),pending,,not ported: demo recording and playback (a developer test feature),
+"engine/demomode.cpp|devilution::ReadSettings(FILE *in, uint8_t version)",ported,,,src/engine/demomode.rs
+engine/demomode.cpp|devilution::WriteSettings(FILE *out),ported,,,src/engine/demomode.rs
+"engine/demomode.cpp|devilution::CreateSdlEvent(const DemoMsg &dmsg, SDL_Event &event, uint16_t &modState)",ported,,,src/engine/demomode.rs
+engine/demomode.cpp|devilution::LogDemoMessage(const DemoMsg &msg),ported,,,src/engine/demomode.rs
+engine/demomode.cpp|devilution::LoadDemoMessages(int i),ported,,,src/engine/demomode.rs
+engine/demomode.cpp|devilution::RecordEventHeader(const SDL_Event &event),ported,,,src/engine/demomode.rs
+"engine/demomode.cpp|devilution::demo::InitPlayBack(int demoNumber, bool timedemo)",ported,,,src/engine/demomode.rs
+"engine/demomode.cpp|devilution::demo::InitRecording(int recordNumber, bool createDemoReference)",ported,,,src/engine/demomode.rs
+engine/demomode.cpp|devilution::demo::OverrideOptions(),ported,,,src/engine/demomode.rs
 engine/demomode.cpp|devilution::demo::IsRunning(),ported,,,src/engine/demomode.rs
 engine/demomode.cpp|devilution::demo::IsRecording(),ported,,,src/engine/demomode.rs
-"engine/demomode.cpp|devilution::demo::GetRunGameLoop(bool &drawGame, bool &processInput)",pending,,not ported: demo recording and playback (a developer test feature),
-"engine/demomode.cpp|devilution::demo::FetchMessage(SDL_Event *event, uint16_t *modState)",pending,,not ported: demo recording and playback (a developer test feature),
-engine/demomode.cpp|devilution::demo::RecordGameLoopResult(bool runGameLoop),pending,,not ported: demo recording and playback (a developer test feature),
-"engine/demomode.cpp|devilution::demo::RecordMessage(const SDL_Event &event, uint16_t modState)",pending,,not ported: demo recording and playback (a developer test feature),
+"engine/demomode.cpp|devilution::demo::GetRunGameLoop(bool &drawGame, bool &processInput)",ported,,,src/engine/demomode.rs
+"engine/demomode.cpp|devilution::demo::FetchMessage(SDL_Event *event, uint16_t *modState)",ported,,,src/engine/demomode.rs
+engine/demomode.cpp|devilution::demo::RecordGameLoopResult(bool runGameLoop),ported,,,src/engine/demomode.rs
+"engine/demomode.cpp|devilution::demo::RecordMessage(const SDL_Event &event, uint16_t modState)",ported,,,src/engine/demomode.rs
 engine/demomode.cpp|devilution::demo::NotifyGameLoopStart(),ported,,,src/engine/demomode.rs
 engine/demomode.cpp|devilution::demo::NotifyGameLoopEnd(),ported,,,src/engine/demomode.rs
 engine/direction.cpp|devilution::DirectionToString(Direction direction),ported,,,src/engine/geometry.rs
@@ -3496,11 +3496,11 @@ pfile.cpp|devilution::GetStashWriter(),ported,,,src/pfile.rs
 "pfile.cpp|devilution::GetFileName(uint8_t lvl, char *dst)",ported,,,src/pfile.rs
 pfile.cpp|devilution::ArchiveContainsGame(SaveReader &hsArchive),ported,,,src/pfile.rs
 pfile.cpp|devilution::CreateSaveReader(std::string &&path),ported,,,src/pfile.rs
-pfile.cpp|devilution::CompareCounter::max(),pending,,not ported: demo save comparison (a developer test feature),
-"pfile.cpp|devilution::CompareCounter::checkIfDataExists(int count, CompareInfo &compareInfoReference, CompareInfo &compareInfoActual)",pending,,not ported: demo save comparison (a developer test feature),
-"pfile.cpp|devilution::string_ends_with(string_view value, string_view suffix)",pending,,not ported: demo save comparison (a developer test feature),
-"pfile.cpp|devilution::CreateDetailDiffs(string_view prefix, string_view memoryMapFile, CompareInfo &compareInfoReference, CompareInfo &compareInfoActual, std::unordered_map<std::string, size_t> &foundDiffs)",pending,,not ported: demo save comparison (a developer test feature),
-"pfile.cpp|devilution::CompareSaves(const std::string &actualSavePath, const std::string &referenceSavePath, bool logDetails)",pending,,not ported: demo save comparison (a developer test feature),
+pfile.cpp|devilution::CompareCounter::max(),ported,,,src/pfile.rs
+"pfile.cpp|devilution::CompareCounter::checkIfDataExists(int count, CompareInfo &compareInfoReference, CompareInfo &compareInfoActual)",ported,,,src/pfile.rs
+"pfile.cpp|devilution::string_ends_with(string_view value, string_view suffix)",ported,,,src/pfile.rs
+"pfile.cpp|devilution::CreateDetailDiffs(string_view prefix, string_view memoryMapFile, CompareInfo &compareInfoReference, CompareInfo &compareInfoActual, std::unordered_map<std::string, size_t> &foundDiffs)",ported,,,src/pfile.rs
+"pfile.cpp|devilution::CompareSaves(const std::string &actualSavePath, const std::string &referenceSavePath, bool logDetails)",ported,,,src/pfile.rs
 "pfile.cpp|devilution::pfile_write_hero(SaveWriter &saveWriter, bool writeGameData)",ported,,,src/pfile.rs
 pfile.cpp|devilution::RemoveAllInvalidItems(Player &player),ported,,,src/pfile.rs
 pfile.cpp|devilution::OpenSaveArchive(uint32_t saveNum),ported,,,src/pfile.rs
@@ -3509,7 +3509,7 @@ pfile.cpp|devilution::OpenStashArchive(),ported,,,src/pfile.rs
 pfile.cpp|devilution::pfile_get_password(),ported,,,src/pfile.rs
 pfile.cpp|devilution::pfile_write_hero(bool writeGameData),ported,,,src/pfile.rs
 pfile.cpp|devilution::pfile_write_hero_demo(int demo),ported,,,src/pfile.rs
-"pfile.cpp|devilution::pfile_compare_hero_demo(int demo, bool logDetails)",pending,,not ported: demo save comparison (a developer test feature),
+"pfile.cpp|devilution::pfile_compare_hero_demo(int demo, bool logDetails)",ported,,,src/pfile.rs
 pfile.cpp|devilution::sfile_write_stash(),ported,,,src/pfile.rs
 pfile.cpp|devilution::pfile_ui_set_hero_infos(bool (*uiAddHeroInfo)(_uiheroinfo *)),ported,,,src/pfile.rs
 "pfile.cpp|devilution::pfile_ui_set_class_stats(unsigned int playerClass, _uidefaultstats *classStats)",ported,,,src/pfile.rs

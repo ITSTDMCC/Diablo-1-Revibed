@@ -333,7 +333,276 @@ pub fn pfile_write_hero_demo(ctx: &mut Ctx, demo: i32) {
     pfile_write_hero_to(ctx, &mut save_writer, true);
 }
 
-crate::pending_fn!(pub fn pfile_compare_hero_demo(ctx: &mut Ctx, demo: i32, log_details: bool) -> (u8, String), "pfile.cpp|devilution::pfile_compare_hero_demo(int demo, bool logDetails)");
+/// `HeroCompareResult::Status`
+pub const HERO_COMPARE_REFERENCE_NOT_FOUND: u8 = 0;
+pub const HERO_COMPARE_SAME: u8 = 1;
+pub const HERO_COMPARE_DIFFERENCE: u8 = 2;
+
+/// `CompareInfo`
+struct CompareInfo<'a> {
+    data: &'a [u8],
+    current_position: usize,
+    size: usize,
+    is_town_level: bool,
+    data_exists: bool,
+}
+
+/// `CompareCounter`
+#[derive(Clone, Copy)]
+struct CompareCounter {
+    reference: i32,
+    actual: i32,
+}
+
+impl CompareCounter {
+    /// Original: `CompareCounter::max` (pfile.cpp).
+    // @port pfile.cpp|devilution::CompareCounter::max() sha=3f907fcaa0df
+    fn max(&self) -> i32 {
+        self.reference.max(self.actual)
+    }
+
+    /// Original: `CompareCounter::checkIfDataExists` (pfile.cpp).
+    // @port pfile.cpp|devilution::CompareCounter::checkIfDataExists(int count, CompareInfo &compareInfoReference, CompareInfo &compareInfoActual) sha=2948d4c91d4c
+    fn check_if_data_exists(&self, count: i32, reference: &mut CompareInfo, actual: &mut CompareInfo) {
+        if self.reference == count {
+            reference.data_exists = false;
+        }
+        if self.actual == count {
+            actual.data_exists = false;
+        }
+    }
+}
+
+/// Original: `string_ends_with` (pfile.cpp).
+// @port pfile.cpp|devilution::string_ends_with(string_view value, string_view suffix) sha=3e366e70b609
+fn string_ends_with(value: &str, suffix: &str) -> bool {
+    value.ends_with(suffix)
+}
+
+fn compare_bytes(ctx: &mut Ctx, prefix: &str, reference: &mut CompareInfo, actual: &mut CompareInfo, count_bytes: usize) -> bool {
+    if reference.data_exists && reference.current_position + count_bytes > reference.size {
+        crate::appfat::app_fatal(ctx, &format!("Comparsion failed. Too less bytes in reference to compare. Location: {prefix}"));
+    }
+    if actual.data_exists && actual.current_position + count_bytes > actual.size {
+        crate::appfat::app_fatal(ctx, &format!("Comparsion failed. Too less bytes in actual to compare. Location: {prefix}"));
+    }
+    let mut result = true;
+    if reference.data_exists && actual.data_exists {
+        result = reference.data[reference.current_position..reference.current_position + count_bytes]
+            == actual.data[actual.current_position..actual.current_position + count_bytes];
+    }
+    if reference.data_exists {
+        reference.current_position += count_bytes;
+    }
+    if actual.data_exists {
+        actual.current_position += count_bytes;
+    }
+    result
+}
+
+fn read_32bit_int(ctx: &mut Ctx, info: &CompareInfo, use_le: bool) -> i32 {
+    if !info.data_exists {
+        return 0;
+    }
+    if info.current_position + 4 > info.size {
+        crate::appfat::app_fatal(ctx, "read32BitInt failed. Too less bytes to read.");
+    }
+    let b: [u8; 4] = info.data[info.current_position..info.current_position + 4].try_into().unwrap();
+    if use_le {
+        i32::from_le_bytes(b)
+    } else {
+        i32::from_be_bytes(b)
+    }
+}
+
+/// Original: `CreateDetailDiffs` (pfile.cpp): walks a memory map file from DevilutionX's test
+/// fixtures (`<base path>/test/fixtures/memory_map/<name>.txt`) over both saves and counts the
+/// fields that differ. Only used when details are requested (unit tests).
+// @port pfile.cpp|devilution::CreateDetailDiffs(string_view prefix, string_view memoryMapFile, CompareInfo &compareInfoReference, CompareInfo &compareInfoActual, std::unordered_map<std::string, size_t> &foundDiffs) sha=5e9ef0180b64
+fn create_detail_diffs(ctx: &mut Ctx, prefix: &str, memory_map_file: &str, reference: &mut CompareInfo, actual: &mut CompareInfo, found_diffs: &mut Vec<(String, usize)>) {
+    // Note: Detail diffs are currently only supported in unit tests
+    let path = format!("{}/test/fixtures/memory_map/{}.txt", ctx.paths.base_path(), memory_map_file);
+    let Ok(buffer) = std::fs::read_to_string(&path) else {
+        crate::appfat::app_fatal(ctx, &format!("MemoryMapFile {memory_map_file} is missing"));
+    };
+
+    let mut counter: std::collections::HashMap<String, CompareCounter> = std::collections::HashMap::new();
+    let get_counter = |counter: &std::collections::HashMap<String, CompareCounter>, s: &str| -> CompareCounter {
+        if let Some(c) = counter.get(s) {
+            return *c;
+        }
+        let n: i32 = s.trim().parse().unwrap_or(0);
+        CompareCounter { reference: n, actual: n }
+    };
+    let add_diff = |found_diffs: &mut Vec<(String, usize)>, key: String| match found_diffs.iter_mut().find(|(k, _)| *k == key) {
+        Some((_, n)) => *n += 1,
+        None => found_diffs.push((key, 1)),
+    };
+
+    for line in buffer.split('\n') {
+        let line = line.strip_suffix('\r').unwrap_or(line);
+        if line.is_empty() {
+            continue;
+        }
+        let split: Vec<&str> = line.split(' ').collect();
+        // Past the last field the original's SplitByChar iterator yields empty strings.
+        let tokens: Vec<&str> = (0..split.len().max(4)).map(|i| split.get(i).copied().unwrap_or("")).collect();
+        let mut command = tokens[0];
+
+        let data_exists_reference = reference.data_exists;
+        let data_exists_actual = actual.data_exists;
+
+        if string_ends_with(command, "_HF") {
+            if !ctx.init.gb_is_hellfire {
+                continue;
+            }
+            command = &command[..command.len() - 3];
+        }
+        if string_ends_with(command, "_DA") {
+            if ctx.init.gb_is_hellfire {
+                continue;
+            }
+            command = &command[..command.len() - 3];
+        }
+        if string_ends_with(command, "_DL") {
+            if reference.is_town_level && actual.is_town_level {
+                continue;
+            }
+            if reference.is_town_level {
+                reference.data_exists = false;
+            }
+            if actual.is_town_level {
+                actual.data_exists = false;
+            }
+            command = &command[..command.len() - 3];
+        }
+
+        match command {
+            "R" | "LT" | "LC" | "LC_LE" => {
+                let bits: usize = tokens[1].trim().parse().unwrap_or(0);
+                let comment = tokens[2].to_string();
+                let bytes = bits / 8;
+
+                if command == "LT" {
+                    let value_reference = read_32bit_int(ctx, reference, false);
+                    let value_actual = read_32bit_int(ctx, actual, false);
+                    reference.is_town_level = value_reference == 0;
+                    actual.is_town_level = value_actual == 0;
+                }
+                if command == "LC" || command == "LC_LE" {
+                    let value_reference = read_32bit_int(ctx, reference, command == "LC_LE");
+                    let value_actual = read_32bit_int(ctx, actual, command == "LC_LE");
+                    counter.insert(comment.clone(), CompareCounter { reference: value_reference, actual: value_actual });
+                }
+
+                if !compare_bytes(ctx, prefix, reference, actual, bytes) {
+                    add_diff(found_diffs, format!("{prefix}.{comment}"));
+                }
+            }
+            "M" => {
+                let count = get_counter(&counter, tokens[1]);
+                let bytes = tokens[2].trim().parse::<usize>().unwrap_or(0) / 8;
+                let comment = tokens[3];
+                for i in 0..count.max() {
+                    count.check_if_data_exists(i, reference, actual);
+                    if !compare_bytes(ctx, prefix, reference, actual, bytes) {
+                        add_diff(found_diffs, format!("{prefix}.{comment}"));
+                    }
+                }
+            }
+            "C" => {
+                let count = get_counter(&counter, tokens[1]);
+                let sub_memory_map_file: String = tokens[2].chars().filter(|&c| c != '\r').collect();
+                let comment = tokens[3];
+                for i in 0..count.max() {
+                    count.check_if_data_exists(i, reference, actual);
+                    let sub_prefix = format!("{prefix}.{comment}");
+                    create_detail_diffs(ctx, &sub_prefix, &sub_memory_map_file, reference, actual, found_diffs);
+                }
+            }
+            _ => {}
+        }
+
+        reference.data_exists = data_exists_reference;
+        actual.data_exists = data_exists_actual;
+    }
+}
+
+/// Original: `CompareSaves` (pfile.cpp).
+// @port pfile.cpp|devilution::CompareSaves(const std::string &actualSavePath, const std::string &referenceSavePath, bool logDetails) sha=e8637d0cb72f
+fn compare_saves(ctx: &mut Ctx, actual_save_path: &str, reference_save_path: &str, log_details: bool) -> (u8, String) {
+    let mut possible_file_to_check: Vec<(String, &str, bool)> =
+        vec![("hero".into(), "hero", false), ("game".into(), "game", false), ("additionalMissiles".into(), "additionalMissiles", false)];
+    let n = ctx.loadsave.giNumberOfLevels;
+    let mut i = 0u8;
+    while let Some(sz_perm) = get_perm_save_names(n, i) {
+        possible_file_to_check.push((sz_perm, "level", i == 0));
+        i += 1;
+    }
+
+    let mut actual_archive = create_save_reader(actual_save_path).expect("actual save archive");
+    let mut reference_archive = create_save_reader(reference_save_path).expect("reference save archive");
+
+    let mut compare_result = true;
+    let mut message = String::new();
+    for (file_name, memory_map_file_name, is_town_level) in &possible_file_to_check {
+        let file_data_actual = read_archive(ctx, &mut actual_archive, file_name);
+        let file_data_reference = read_archive(ctx, &mut reference_archive, file_name);
+        if file_data_actual.is_none() && file_data_reference.is_none() {
+            continue;
+        }
+        let actual = file_data_actual.unwrap_or_default();
+        let reference = file_data_reference.unwrap_or_default();
+        if actual == reference {
+            continue;
+        }
+        compare_result = false;
+        if !message.is_empty() {
+            message.push('\n');
+        }
+        if actual.len() != reference.len() {
+            message += &format!("file \"{}\" is different size. Expected: {} Actual: {}", file_name, reference.len(), actual.len());
+        } else {
+            message += &format!("file \"{file_name}\" has different content.");
+        }
+        if !log_details {
+            continue;
+        }
+        let mut found_diffs = Vec::new();
+        let mut info_reference = CompareInfo { data: &reference, current_position: 0, size: reference.len(), is_town_level: *is_town_level, data_exists: !reference.is_empty() };
+        let mut info_actual = CompareInfo { data: &actual, current_position: 0, size: actual.len(), is_town_level: *is_town_level, data_exists: !actual.is_empty() };
+        create_detail_diffs(ctx, file_name, memory_map_file_name, &mut info_reference, &mut info_actual, &mut found_diffs);
+        if info_reference.current_position != reference.len() {
+            crate::appfat::app_fatal(ctx, &format!("Comparsion failed. Uncompared bytes in reference. File: {file_name}"));
+        }
+        if info_actual.current_position != actual.len() {
+            crate::appfat::app_fatal(ctx, &format!("Comparsion failed. Uncompared bytes in actual. File: {file_name}"));
+        }
+        for (k, v) in found_diffs {
+            message += &format!("\nDiff found in {k} count: {v}");
+        }
+    }
+    (if compare_result { HERO_COMPARE_SAME } else { HERO_COMPARE_DIFFERENCE }, message)
+}
+
+/// Original: `devilution::pfile_compare_hero_demo` (pfile.cpp).
+// @port pfile.cpp|devilution::pfile_compare_hero_demo(int demo, bool logDetails) sha=0ace63971637
+pub fn pfile_compare_hero_demo(ctx: &mut Ctx, demo: i32, log_details: bool) -> (u8, String) {
+    let reference_save_path = get_save_path(ctx, ctx.menu.g_save_number, &format!("demo_{demo}_reference_"));
+
+    if !std::path::Path::new(&reference_save_path).exists() {
+        return (HERO_COMPARE_REFERENCE_NOT_FOUND, String::new());
+    }
+
+    let actual_save_path = get_save_path(ctx, ctx.menu.g_save_number, &format!("demo_{demo}_actual_"));
+    {
+        copy_save_file(ctx, ctx.menu.g_save_number, &actual_save_path);
+        let mut save_writer = SaveWriter::new(ctx, &actual_save_path);
+        pfile_write_hero_to(ctx, &mut save_writer, true);
+    }
+
+    compare_saves(ctx, &actual_save_path, &reference_save_path, log_details)
+}
 
 /// Original: `devilution::sfile_write_stash` (pfile.cpp).
 // @port pfile.cpp|devilution::sfile_write_stash() sha=3e5f104c91c5
