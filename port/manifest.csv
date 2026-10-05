@@ -5,13 +5,13 @@ DiabloUI/button.cpp|devilution::ButtonSprite(bool pressed),ported,,,src/diablo_u
 DiabloUI/button.cpp|devilution::RenderButton(const UiButton &button),ported,,,src/diablo_ui/button.rs
 "DiabloUI/button.cpp|devilution::HandleMouseEventButton(const SDL_Event &event, UiButton *button)",ported,,,src/diablo_ui/button.rs
 DiabloUI/button.cpp|devilution::HandleGlobalMouseUpButton(UiButton *button),ported,,,src/diablo_ui/button.rs
-"DiabloUI/credits.cpp|devilution::CreditsRenderer::CreditsRenderer(char const *const *text, std::size_t textLines)",pending,,,
+"DiabloUI/credits.cpp|devilution::CreditsRenderer::CreditsRenderer(char const *const *text, std::size_t textLines)",ported,,,src/diablo_ui/credits.rs
 DiabloUI/credits.cpp|devilution::CreditsRenderer::~CreditsRenderer(),pending,,,
 DiabloUI/credits.cpp|devilution::CreditsRenderer::Finished(),pending,,,
-DiabloUI/credits.cpp|devilution::CreditsRenderer::Render(),pending,,,
-"DiabloUI/credits.cpp|devilution::TextDialog(char const *const *text, std::size_t textLines)",pending,,,
-DiabloUI/credits.cpp|devilution::UiCreditsDialog(),pending,,,
-DiabloUI/credits.cpp|devilution::UiSupportDialog(),pending,,,
+DiabloUI/credits.cpp|devilution::CreditsRenderer::Render(),ported,,,src/diablo_ui/credits.rs
+"DiabloUI/credits.cpp|devilution::TextDialog(char const *const *text, std::size_t textLines)",ported,,,src/diablo_ui/credits.rs
+DiabloUI/credits.cpp|devilution::UiCreditsDialog(),ported,,,src/diablo_ui/credits.rs
+DiabloUI/credits.cpp|devilution::UiSupportDialog(),ported,,,src/diablo_ui/credits.rs
 DiabloUI/diabloui.cpp|devilution::ScrollBarState::ScrollBarState(),pending,,,
 DiabloUI/diabloui.cpp|devilution::AdjustListOffset(std::size_t itemIndex),ported,,,src/diablo_ui/diabloui.rs
 "DiabloUI/diabloui.cpp|devilution::UiInitList(void (*fnFocus)(int value), void (*fnSelect)(int value), void (*fnEsc)(), const std::vector<std::unique_ptr<UiItemBase>> &items, bool itemsWraps, void (*fnFullscreen)(), bool (*fnYesNo)(), size_t selectedItem)",ported,,,src/diablo_ui/diabloui.rs

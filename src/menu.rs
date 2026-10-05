@@ -139,8 +139,12 @@ pub fn mainmenu_loop(ctx: &mut Ctx) {
                     play_intro(ctx);
                 }
             }
-            MainmenuSelections::ShowCredits => crate::diablo_ui::credits::ui_credits_dialog(ctx),
-            MainmenuSelections::ShowSupport => crate::diablo_ui::credits::ui_support_dialog(ctx),
+            MainmenuSelections::ShowCredits => {
+                crate::diablo_ui::credits::ui_credits_dialog(ctx);
+            }
+            MainmenuSelections::ShowSupport => {
+                crate::diablo_ui::credits::ui_support_dialog(ctx);
+            }
             MainmenuSelections::ExitDiablo => {
                 mainmenu_wait_for_button_sound(ctx);
                 done = true;

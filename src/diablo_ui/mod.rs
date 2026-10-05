@@ -12,6 +12,7 @@ pub mod settingsmenu;
 pub mod selhero;
 pub mod selok;
 pub mod selyesno;
+pub mod text_lines;
 pub mod selgame;
 pub mod selconn;
 pub mod progress;
