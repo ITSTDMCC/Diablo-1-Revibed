@@ -207,8 +207,9 @@ message boxes are logged instead of shown, so automated runs never wait on a mod
 - Whole game and saves (`tools/input_scripts/`): `ending.txt` warps to level 16 and kills Diablo;
   his death, the victory movie and the end loop play. `save_game.txt` / `load_game.txt` save on
   dungeon level 3 and load that save in a new run: the same level, positions and corpses come
-  back. Levels 1-16, the quest levels and Hellfire's levels were entered with `warp`/`setwarp`
-  earlier.
+  back. Every dungeon type (cathedral, catacombs, caves, hell, Hellfire's nest
+  and crypt) and the Skeleton King, Chamber of Bone and Lazarus quest levels were entered with
+  `warp`/`setwarp` earlier.
 - The tests that need game data read it from `DIABLO_DATA_DIR`; fixtures are read from the
   DevilutionX source (`DEVILUTIONX_SOURCE`, default `../Decomp/source_1.5.3`).
 - For finding divergences: `examples/save_diff.rs` (field-level save diff using DevilutionX's
