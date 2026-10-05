@@ -85,7 +85,7 @@ fn calculate_ui_rectangle(ctx: &mut Ctx) {
 fn get_preferred_window_size(ctx: &mut Ctx) -> (i32, i32) {
     let (mut w, mut h) = if ctx.dx.force_resolution.0 != 0 { ctx.dx.force_resolution } else { ctx.options.graphics.resolution.get() };
     if ctx.options.graphics.upscale.get() && ctx.options.graphics.fit_to_screen.get() {
-        if follows_window(ctx) && ctx.options.graphics.fullscreen.get() {
+        if follows_window(ctx) && ctx.options.graphics.fullscreen.get() && !ctx.platform.headless {
             // free-movement build: full screen at the screen's own resolution
             let m = win32::desktop_display_mode();
             (w, h) = (m.w.max(m.h), m.w.min(m.h));

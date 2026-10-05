@@ -64,6 +64,8 @@ struct PieceTex {
     /// A free-standing thing (pillar, lamp post) rather than a wall: the columns its art takes
     /// and the picture row it stands on.
     prop: Option<(i32, i32, i32)>,
+    /// A door's picture: the picture columns showing the door, spread over the door's edge.
+    door_span: Option<(f32, f32)>,
     px: Vec<u8>,
     opaque: Vec<bool>,
 }
@@ -102,6 +104,8 @@ pub struct FirstPersonState {
     /// The level's most common wall pictures (left, right edge), for wall faces the original never
     /// drew (the sides of walls facing away from the isometric camera).
     fallback: Option<(Rc<PieceTex>, bool)>,
+    /// Door pictures with the door drawn in, by piece and door frame.
+    doors: Vec<((usize, u32), Rc<PieceTex>)>,
     /// The usual height of the level's walls (tiles): no wall face is drawn higher (above it the
     /// pictures show the raised tops of the rock behind the wall).
     wall_height: f32,
@@ -152,7 +156,9 @@ pub fn press_key(ctx: &mut Ctx, vkey: i32) -> bool {
         s.keys = [false; 5];
         if s.on {
             s.yaw = dir_angle(ctx.players.Players[me]._pdir);
-            if let Some(y) = test_yaw(ctx, me) {
+            if let Some(y) = test_door_view(ctx, me) {
+                ctx.firstperson.yaw = y;
+            } else if let Some(y) = test_yaw(ctx, me) {
                 ctx.firstperson.yaw = y;
             }
             ctx.firstperson.last_ms = None;
@@ -201,6 +207,38 @@ fn test_yaw(ctx: &mut Ctx, me: usize) -> Option<f32> {
     }
     ctx.firstperson.pieces = pieces;
     found
+}
+
+/// Test hook `DIABLO_FP_DOOR=front|back`: moves the hero two tiles in front of (or behind) the
+/// first door on the level, facing it.
+fn test_door_view(ctx: &mut Ctx, me: usize) -> Option<f32> {
+    let side = std::env::var("DIABLO_FP_DOOR").ok()?;
+    let sign = if side == "back" { -1 } else { 1 };
+    let mut pieces = std::mem::take(&mut ctx.firstperson.pieces);
+    let mut found = None;
+    for o in ctx.objects.Objects.iter().filter(|o| o.is_door()) {
+        let d = o.position;
+        let piece = ctx.gendung.dPiece[d.x as usize][d.y as usize] as usize;
+        let Some(_) = piece_tex(ctx, &mut pieces, piece) else { continue };
+        // approach across the gap in the wall
+        let across_x = blocks(ctx, d + Displacement::new(0, 1)) && blocks(ctx, d + Displacement::new(0, -1));
+        let step = if across_x { Point::new(sign, 0) } else { Point::new(0, sign) };
+        let at = Point::new(d.x + 2 * step.x, d.y + 2 * step.y);
+        if in_dungeon_bounds(at) && !blocks(ctx, at) && ctx.gendung.dMonster[at.x as usize][at.y as usize] == 0 {
+            found = Some((at, d));
+            break;
+        }
+    }
+    ctx.firstperson.pieces = pieces;
+    let (at, d) = found?;
+    let old = ctx.players.Players[me].position.tile;
+    ctx.gendung.dPlayer[old.x as usize][old.y as usize] = 0;
+    ctx.players.Players[me].position.tile = at;
+    ctx.gendung.dPlayer[at.x as usize][at.y as usize] = me as i8 + 1;
+    let dir = ctx.players.Players[me]._pdir;
+    crate::player::fix_player_location(ctx, me, dir);
+    eprintln!("FP door at {:?}, hero at {:?}, state {} frame {} type {}", d, at, ctx.objects.Objects.iter().find(|o| o.position == d).map_or(-1, |o| o._oVar4), ctx.objects.Objects.iter().find(|o| o.position == d).map_or(0, |o| o._oAnimFrame), ctx.objects.Objects.iter().find(|o| o.position == d).map_or(0, |o| o._otype as i32));
+    Some(((d.y - at.y) as f32).atan2((d.x - at.x) as f32))
 }
 
 /// `ReleaseKey`.
@@ -316,6 +354,14 @@ fn piece_tex(ctx: &Ctx, cache: &mut Vec<Option<Rc<PieceTex>>>, piece: usize) -> 
     if let Some(t) = &cache[piece] {
         return Some(t.clone());
     }
+    let t = Rc::new(render_piece(ctx, piece, None)?);
+    cache[piece] = Some(t.clone());
+    Some(t)
+}
+
+/// Renders level piece `piece` as the isometric view draws it, with `overlay` (a sprite drawn
+/// at the tile, like a door) on top.
+fn render_piece(ctx: &Ctx, piece: usize, overlay: Option<&ClxSprite>) -> Option<PieceTex> {
     let micros = ctx.gendung.DPieceMicros.get(piece)?;
     let n = ctx.gendung.MicroTileLen as usize;
     let h = (n as i32 / 2) * 32;
@@ -336,6 +382,11 @@ fn piece_tex(ctx: &Ctx, cache: &mut Vec<Option<Rc<PieceTex>>>, piece: usize) -> 
             }
             y -= 32;
             i += 2;
+        }
+        if let Some(sprite) = overlay {
+            // where `DrawObject` puts it: centred on the tile, standing on its bottom row
+            let x = -crate::engine::calculate_width2(sprite.width() as i32);
+            clx_draw(&out, (x, h - 1), sprite);
         }
     }
     let (av, bv) = (a.view(), b.view());
@@ -359,15 +410,95 @@ fn piece_tex(ctx: &Ctx, cache: &mut Vec<Option<Rc<PieceTex>>>, piece: usize) -> 
         }
         let _ = std::fs::write(std::path::Path::new(&dir).join(format!("piece_{piece}.ppm")), data);
     }
-    let mut t = PieceTex { h, left_wall: false, right_wall: false, left_top: 0.0, right_top: 0.0, prop: None, px, opaque };
+    let mut t = PieceTex { h, left_wall: false, right_wall: false, left_top: 0.0, right_top: 0.0, prop: None, door_span: None, px, opaque };
     (t.left_wall, t.left_top) = wall_face(&t, true);
     (t.right_wall, t.right_top) = wall_face(&t, false);
     if !t.left_wall && !t.right_wall {
         t.prop = prop_shape(&t);
     }
-    let t = Rc::new(t);
-    cache[piece] = Some(t.clone());
     Some(t)
+}
+
+/// The picture of a door's tile with the door itself (an object sprite) drawn in, as the
+/// isometric view shows it, for the door's current frame.
+fn door_tex(ctx: &Ctx, cache: &mut Vec<((usize, u32), Rc<PieceTex>)>, t: Point) -> Option<Rc<PieceTex>> {
+    let piece = ctx.gendung.dPiece[t.x as usize][t.y as usize] as usize;
+    let o = ctx.gendung.dObject[t.x as usize][t.y as usize];
+    let obj = &ctx.objects.Objects[(o.unsigned_abs() - 1) as usize];
+    let key = (piece, obj._oAnimFrame);
+    if let Some((_, tex)) = cache.iter().find(|(k, _)| *k == key) {
+        return Some(tex.clone());
+    }
+    let sprite = obj._oAnimData.as_ref().map(|a| a.get((obj._oAnimFrame.max(1) - 1) as usize));
+    let mut tex = render_piece(ctx, piece, sprite.as_ref())?;
+    if let Some(dir) = std::env::var_os("DIABLO_FP_DUMP") {
+        let mut data = format!("P6 64 {} 255
+", tex.h).into_bytes();
+        for i in 0..tex.px.len() {
+            let c = if tex.opaque[i] { ctx.dx.pal.logical_palette[tex.px[i] as usize] } else { [255, 0, 255] };
+            data.extend_from_slice(&c);
+        }
+        let _ = std::fs::write(std::path::Path::new(&dir).join(format!("door_{piece}_{}_{}x{}.ppm", obj._oAnimFrame, sprite.as_ref().map_or(0, |s| s.width()), sprite.as_ref().map_or(0, |s| s.height()))), data);
+    }
+    // The door stands across the gap in the wall: the walls on either side of it tell which
+    // edge it is on (the closed door of some levels is drawn on the other half of the picture
+    // than the doorway's arch).
+    let across_x = blocks(ctx, t + Displacement::new(0, 1)) && blocks(ctx, t + Displacement::new(0, -1));
+    let across_y = blocks(ctx, t + Displacement::new(1, 0)) && blocks(ctx, t + Displacement::new(-1, 0));
+    if across_x != across_y {
+        // only that edge's half of the picture counts as the door
+        (tex.left_wall, tex.right_wall) = (across_x, across_y);
+        let top = tex.left_top.max(tex.right_top);
+        (tex.left_top, tex.right_top) = (top, top);
+        // The door leaf continues the wall plane past the tile's corner in the art (the closed
+        // door covers the gap and a little more): the columns of the picture that show the door
+        // on its plane at door height are spread over the tile's edge.
+        let mut cols = (64, -1);
+        for sx in 0..64 {
+            let (fx, fy) = plane_point(across_x, sx as f32 + 0.5);
+            if (0..8).any(|k| wall_pixel(&tex, fx, fy, 0.3 + k as f32 * 0.12).is_some()) {
+                cols = (cols.0.min(sx), cols.1.max(sx));
+            }
+        }
+        // Where the doorway itself is only a dark opening (the door leaf is all sprite, drawn
+        // beside it in the art), only the sprite's columns are the door.
+        let plain = render_piece(ctx, piece, None)?;
+        let pal = &ctx.dx.pal.logical_palette;
+        let (mut dark, mut all) = (0, 0);
+        for i in 0..8 {
+            let along = -0.3 + 0.6 * i as f32 / 7.0;
+            let (fx, fy) = if across_x { (-0.5, along) } else { (along, -0.5) };
+            for k in 0..6 {
+                if let Some(px) = wall_pixel(&plain, fx, fy, 0.3 + k as f32 * 0.15) {
+                    all += 1;
+                    let c = pal[plain.px[px] as usize];
+                    if (c[0] as u32 + c[1] as u32 + c[2] as u32) < 75 {
+                        dark += 1;
+                    }
+                }
+            }
+        }
+        if all > 0 && dark * 3 > all {
+            let mut sprite_cols = (64, -1);
+            for sx in 0..64 {
+                if (0..tex.h).any(|sy| {
+                    let i = (sy * 64 + sx) as usize;
+                    tex.opaque[i] && (!plain.opaque[i] || plain.px[i] != tex.px[i])
+                }) {
+                    sprite_cols = (sprite_cols.0.min(sx), sprite_cols.1.max(sx));
+                }
+            }
+            if sprite_cols.1 > sprite_cols.0 {
+                cols = sprite_cols;
+            }
+        }
+        if cols.1 > cols.0 {
+            tex.door_span = Some((cols.0 as f32, cols.1 as f32 + 1.0));
+        }
+    }
+    let tex = Rc::new(tex);
+    cache.push((key, tex.clone()));
+    Some(tex)
 }
 
 /// Wall art on a tile the hero can walk through is an archway or an open doorway: its opening
@@ -461,6 +592,12 @@ fn door_at(ctx: &Ctx, t: Point) -> bool {
     }
     let o = ctx.gendung.dObject[t.x as usize][t.y as usize];
     o != 0 && ctx.objects.Objects[(o.unsigned_abs() - 1) as usize].is_door()
+}
+
+/// The point of the left (x - 0.5) or right (y - 0.5) wall plane that picture column `sx` shows
+/// (the plane continued past the tile where `sx` is in the other half).
+fn plane_point(left: bool, sx: f32) -> (f32, f32) {
+    if left { (-0.5, -0.5 - (sx - 32.0) / 32.0) } else { ((sx - 32.0) / 32.0 - 0.5, -0.5) }
 }
 
 /// The picture's pixel showing the point of a wall face at (`fx`, `fy`) from the tile centre and
@@ -666,7 +803,7 @@ fn plain_wall(ctx: &Ctx, tex: &PieceTex, left: bool) -> PieceTex {
             _ => {}
         }
     }
-    let mut out = PieceTex { h: tex.h, left_wall: tex.left_wall, right_wall: tex.right_wall, left_top: tex.left_top, right_top: tex.right_top, prop: None, px: tex.px.clone(), opaque: tex.opaque.clone() };
+    let mut out = PieceTex { h: tex.h, left_wall: tex.left_wall, right_wall: tex.right_wall, left_top: tex.left_top, right_top: tex.right_top, prop: None, door_span: None, px: tex.px.clone(), opaque: tex.opaque.clone() };
     if best.1 - best.0 < 8 {
         return out; // no plain band worth repeating
     }
@@ -951,6 +1088,7 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
     if ctx.firstperson.level_key != key {
         ctx.firstperson.level_key = key;
         ctx.firstperson.pieces.clear();
+        ctx.firstperson.doors.clear();
         let mut pieces = std::mem::take(&mut ctx.firstperson.pieces);
         ctx.firstperson.fallback = fallback_walls(ctx, &mut pieces);
         ctx.firstperson.wall_height = ctx.firstperson.fallback.as_ref().map_or(f32::MAX, |(t, left)| if *left { t.left_top } else { t.right_top }) + 0.05;
@@ -1018,16 +1156,30 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
             // A closed door: its own picture, whichever side it is seen from (the door is drawn on
             // one edge of its tile in the art; from the other side the same picture stands there).
             if blocks(ctx, to) && !blocks(ctx, from) && door_at(ctx, to) {
-                let to_piece = ctx.gendung.dPiece[to.x as usize][to.y as usize] as usize;
-                if let Some(tex) = piece_tex(ctx, &mut pieces, to_piece) {
+                let mut doors = std::mem::take(&mut ctx.firstperson.doors);
+                let door = door_tex(ctx, &mut doors, to);
+                ctx.firstperson.doors = doors;
+                if let Some(tex) = door {
                     if tex.left_wall || tex.right_wall {
                         let left = if xside { tex.left_wall } else { !tex.right_wall };
                         let hp = (cam.0 + ray.0 * dist, cam.1 + ray.1 * dist);
                         let along = if xside { hp.1 - to.y as f32 } else { hp.0 - to.x as f32 };
-                        let (fx, fy) = if left { (-0.5, along) } else { (along, -0.5) };
+                        let (fx, fy) = match tex.door_span {
+                            Some((s0, s1)) => {
+                                let t = (along + 0.5).clamp(0.0, 1.0);
+                                plane_point(left, if left { s1 - t * (s1 - s0) } else { s0 + t * (s1 - s0) })
+                            }
+                            None => if left { (-0.5, along) } else { (along, -0.5) },
+                        };
                         let light = light_at(ctx, from).saturating_add(fog(ctx, dist));
                         let top = (if left { tex.left_top } else { tex.right_top }).min(ctx.firstperson.wall_height);
                         hits.push((dist, fx, fy, tex, light, 0.0, top));
+                        // the wall around and above the door
+                        if let Some((plain, pl)) = ctx.firstperson.fallback.clone() {
+                            let (px, py) = if pl { (-0.5, along) } else { (along, -0.5) };
+                            let ptop = (if pl { plain.left_top } else { plain.right_top }).min(ctx.firstperson.wall_height);
+                            hits.push((dist, px, py, plain, light, 0.0, ptop));
+                        }
                         continue;
                     }
                 }
@@ -1058,7 +1210,8 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
             let hp = (cam.0 + ray.0 * dist, cam.1 + ray.1 * dist);
             let along = if xside { hp.1 - owner.y as f32 } else { hp.0 - owner.x as f32 };
             let mut tex_left = xside;
-            if owner == to && blocks(ctx, owner) && !door_at(ctx, owner) {
+            // (an archway or open door seen from behind: plain brick above the opening)
+            if owner == to && !door_at(ctx, owner) || owner == to && !blocks(ctx, owner) {
                 if let Some((plain, left)) = ctx.firstperson.fallback.clone() {
                     tex = plain;
                     tex_left = left;

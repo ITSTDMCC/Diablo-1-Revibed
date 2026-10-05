@@ -154,8 +154,15 @@ Asked for by the owner on 2026-10-05 as an optional gameplay feature; `src/first
   by repeating its plainest band of brick (rows with no dark pixels, the stretch along the edge
   with the least variation) above a thin plinth, so a long run reads as plain brick. Archways and grates (wall art on walkable tiles)
   look alike from both sides and keep their own picture.
-- Doors: a closed door keeps its own picture from either side (the plain wall never replaces it);
-  from the side the art does not show, the same picture stands on the edge the ray crosses.
+- Doors: a closed door is drawn from its tile's picture with the door object's sprite drawn in
+  (as `DrawObject` does), from either side, on the edge across the gap in the wall (the walls on
+  either side of the door tell which). The door leaf continues the wall plane past the tile's
+  corner in the art, so the picture columns showing the door are spread over the edge; where the
+  doorway itself is a dark opening (the cathedral's right-hand doors), only the sprite's columns.
+  The plain wall stands behind it, around and above the door. Archways and open doors seen from
+  behind show plain brick above the opening.
+- Test hook `DIABLO_FP_DOOR=front|back`: switching the view on puts the hero two tiles in front
+  of / behind the level's first door, facing it.
 - A half counts as a wall when art stands on the edge low down (3 of 16 samples at 0.25 tiles:
   solid walls, arches, the bars of a grate) and spans most of it between 0.3 and 1.3 tiles.
 - Pillars and lamp posts: pieces without walls whose art is narrow (at most 40 pixels wide) and
