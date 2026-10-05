@@ -115,6 +115,14 @@ run the normal build, still pass byte for byte).
 - Test hooks: `DIABLO_FREEMOVE_TRACE=1` prints the player's state every tick; input scripts can
   hold the mouse with `press <x> <y>` / `release <x> <y>`.
 
+#### Resolution follows the window (same build)
+
+Asked for by the owner on 2026-10-05. With Upscale and Fit to Screen on, `GetPreferredWindowSize`
+uses the desktop resolution in full screen, and before each in-game frame
+(`follow_window_size`, called from `DrawAndBlit`) the game's resolution is set to the window's
+logical size (at least 640 x 480): screen geometry, panel areas, output and back buffers and the
+viewport are recalculated. The original keeps the Resolution option and scales the picture.
+
 #### First-person view (same build, key X)
 
 Asked for by the owner on 2026-10-05 as an optional gameplay feature; `src/firstperson.rs`.

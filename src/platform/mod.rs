@@ -610,6 +610,11 @@ impl Platform {
     }
 
     /// `SDL_RenderGetScale`: the scale from the game image to the window.
+    /// The window's current size in logical pixels (0 before it is shown).
+    pub fn current_window_size(&self) -> (i32, i32) {
+        self.window_info.lock().unwrap().size
+    }
+
     pub fn render_scale(&self) -> f32 {
         self.window_info.lock().unwrap().render_scale
     }

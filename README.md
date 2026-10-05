@@ -87,6 +87,9 @@ and start `target\free-movement\release\diablo1_rs.exe` with the same `--data-di
 - It applies to single player. Multiplayer games use the original movement, so they stay
   compatible with the normal build and with DevilutionX.
 - It shares the normal build's settings and heroes (saves work in both).
+- With **Upscale** and **Fit to Screen** on (the defaults), the game's resolution follows the window:
+  full screen runs at your screen's own resolution, and resizing a window shows more of the
+  world instead of stretching the picture. The Resolution setting is not used then.
 
 **First-person view (experimental, free-movement build only).** Press **X** to switch the dungeon
 view to the hero's eyes and back.
