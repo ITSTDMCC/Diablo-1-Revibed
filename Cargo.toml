@@ -27,8 +27,9 @@ bevy = { version = "=0.19.1", default-features = false, features = [
 cpal = "0.17"
 
 [features]
-# Game controller input through Bevy's gilrs backend (adds the gilrs crates). Off by default:
-# build with `cargo build --release --features gamepad`.
+# Game controller input through Bevy's gilrs backend (approved by the owner 2026-10-05, on by
+# default). `--no-default-features` builds without it.
+default = ["gamepad"]
 gamepad = ["bevy/bevy_gilrs"]
 
 [profile.dev]

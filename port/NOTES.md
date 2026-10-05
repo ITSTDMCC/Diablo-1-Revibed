@@ -45,8 +45,8 @@ libsodium functions behind network packet encryption (Argon2id, XSalsa20-Poly130
 `src/dvlnet/crypto.rs`, checked against the RFC and NaCl test vectors). asio's sockets are
 `std::net` polled without blocking. Each needs an ask before adding a crate instead.
 
-The only optional dependency is Bevy's own gilrs backend for game controllers, behind the
-`gamepad` cargo feature (off by default; see "Known differences").
+Game controllers use Bevy's own gilrs backend, behind the `gamepad` cargo feature (on by default,
+approved by the owner 2026-10-05; `--no-default-features` leaves it out).
 
 After the first pass every remaining manifest row was classified with `tools/classify.py` and
 `port/classify_rules.csv` (regex -> status, replaced_by, reason). Ports that exist under another
@@ -98,9 +98,8 @@ Behaviour the owner would notice:
   made because the target machine actively refused it. (os error 10061)") instead of asio.
 - **TCP server dropping a player** sends one disconnect notice; the original can send it twice (its
   read and timer handlers both drop the connection), which the clients ignore anyway.
-- **Game controllers** need a build with `--features gamepad` (adds Bevy's gilrs backend, which is
-  already part of the chosen Bevy release but is a new dependency for this project, so it is off
-  by default). Every pad gilrs has a mapping for is delivered as an SDL game controller; raw SDL
+- **Game controllers** are read through Bevy's gilrs backend (the `gamepad` feature, on by
+  default). Every pad gilrs has a mapping for is delivered as an SDL game controller; raw SDL
   joystick events are not produced (on Windows the original ignores them anyway: no `JOY_*`
   mappings are compiled in). The button-label style (Xbox / PlayStation / Nintendo / generic) is
   chosen from the pad's USB vendor (Microsoft, Sony, Nintendo); SDL also looks at the product id.

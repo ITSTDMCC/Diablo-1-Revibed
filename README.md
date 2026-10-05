@@ -63,12 +63,9 @@ build needs about 3 GB of disk for the compiler's work files.
    Or copy `diablo1_rs.exe` into the Diablo folder and double-click it there. A shortcut with the
    command above works too. Add `-n` to skip the intro movies.
 
-**Game controllers** (Xbox, PlayStation, Switch Pro and others) need a build with controller
-support, which adds one more library (gilrs, part of Bevy):
-
-```
-cargo build --release --features gamepad
-```
+**Game controllers** (Xbox, PlayStation, Switch Pro and others) work out of the box: plug one in
+and press a button. (`cargo build --release --no-default-features` builds without controller
+support.)
 
 ### HD art
 
@@ -100,7 +97,7 @@ Keyboard and mouse are those of DevilutionX 1.5.3 (all can be changed in *Settin
 | Print Screen | Screenshot |
 | Esc | Game menu (save, options, quit) |
 
-Game controller defaults (gamepad builds; *Settings > Padmapping* to change): left stick or d-pad
+Game controller defaults (*Settings > Padmapping* to change): left stick or d-pad
 to walk, right stick moves the cursor, **B** primary action (attack, talk, pick up and place in
 the inventory), **Y** secondary action (open, pick up), **X** cast spell, **A** speedbook / back,
 **LB / RB** health / mana potion, **LT / RT** character / inventory, **Back + LT / RT** quests /
@@ -134,7 +131,7 @@ player may notice:
   program next to `DIABDAT.MPQ`.
 - Multiplayer offers *Client-Server (TCP)* and *Offline*; DevilutionX's ZeroTier internet
   option is not available.
-- Game controllers need the `gamepad` build (above). Touch controls are not supported.
+- Touch controls are not supported.
 - Sound is mixed by the port's own simple mixer; it may sound very slightly different. MP3 music
   replacements are not supported.
 - Pasting from the clipboard into text fields does not work.
@@ -147,7 +144,7 @@ this folder and give it a prompt like this one, which asks it to build only:
 
 > Build this Rust project for me on Windows. Read README.md first. Check that Rust is installed
 > (`cargo --version`); if it is not, stop and tell me to install it from rustup.rs. Then run
-> `cargo build --release` (add `--features gamepad` only if I ask for controller support) and
+> `cargo build --release` and
 > fix nothing in the code: if the build fails, show me the error. When it succeeds, tell me the
 > path of `diablo1_rs.exe` and the command to start it with my Diablo folder
 > (`--data-dir "<my Diablo folder>"`). **Do not launch the game and do not run any tests or test
