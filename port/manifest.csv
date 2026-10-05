@@ -2588,198 +2588,198 @@ missiles.h|devilution::Missile::sourceType(),pending,,,
 "missiles.h|devilution::SetMissDir(Missile &missile, Direction dir)",pending,,,
 "missiles.h|devilution::SetMissDir(Missile &missile, Direction16 dir)",pending,,,
 monstdat.cpp|devilution::Uniq(_unique_items item),pending,,,
-monster.cpp|devilution::GetNumAnims(const MonsterData &monsterData),pending,,,
-monster.cpp|devilution::InitMonsterTRN(CMonster &monst),pending,,,
-"monster.cpp|devilution::InitMonster(Monster &monster, Direction rd, size_t typeIndex, Point position)",pending,,,
-monster.cpp|devilution::CanPlaceMonster(Point position),pending,,,
-"monster.cpp|devilution::PlaceMonster(int i, size_t typeIndex, Point position)",pending,,,
-"monster.cpp|devilution::PlaceGroup(size_t typeIndex, unsigned num, Monster *leader = nullptr, bool leashed = false)",pending,,,
-monster.cpp|devilution::GetMonsterTypeIndex(_monster_id type),pending,,,
-"monster.cpp|devilution::PlaceUniqueMonst(UniqueMonsterType uniqindex, size_t minionType, int bosspacksize)",pending,,,
-"monster.cpp|devilution::AddMonsterType(_monster_id type, placeflag placeflag)",pending,,,
-"monster.cpp|devilution::AddMonsterType(UniqueMonsterType uniqueType, placeflag placeflag)",pending,,,
+monster.cpp|devilution::GetNumAnims(const MonsterData &monsterData),ported,,,src/monster.rs
+monster.cpp|devilution::InitMonsterTRN(CMonster &monst),ported,,,src/monster.rs
+"monster.cpp|devilution::InitMonster(Monster &monster, Direction rd, size_t typeIndex, Point position)",ported,,,src/monster.rs
+monster.cpp|devilution::CanPlaceMonster(Point position),ported,,,src/monster.rs
+"monster.cpp|devilution::PlaceMonster(int i, size_t typeIndex, Point position)",ported,,,src/monster.rs
+"monster.cpp|devilution::PlaceGroup(size_t typeIndex, unsigned num, Monster *leader = nullptr, bool leashed = false)",ported,,,src/monster.rs
+monster.cpp|devilution::GetMonsterTypeIndex(_monster_id type),ported,,,src/monster.rs
+"monster.cpp|devilution::PlaceUniqueMonst(UniqueMonsterType uniqindex, size_t minionType, int bosspacksize)",ported,,,src/monster.rs
+"monster.cpp|devilution::AddMonsterType(_monster_id type, placeflag placeflag)",ported,,,src/monster.rs
+"monster.cpp|devilution::AddMonsterType(UniqueMonsterType uniqueType, placeflag placeflag)",ported,,,src/monster.rs
 monster.cpp|devilution::ClearMVars(Monster &monster),ported,,,src/monster.rs
 monster.cpp|devilution::ClrAllMonsters(),ported,,,src/monster.rs
-monster.cpp|devilution::PlaceUniqueMonsters(),pending,,,
-monster.cpp|devilution::PlaceQuestMonsters(),pending,,,
-monster.cpp|devilution::LoadDiabMonsts(),pending,,,
+monster.cpp|devilution::PlaceUniqueMonsters(),ported,,,src/monster.rs
+monster.cpp|devilution::PlaceQuestMonsters(),ported,,,src/monster.rs
+monster.cpp|devilution::LoadDiabMonsts(),ported,,,src/monster.rs
 monster.cpp|devilution::DeleteMonster(size_t activeIndex),ported,,,src/monster.rs
-"monster.cpp|devilution::NewMonsterAnim(Monster &monster, MonsterGraphic graphic, Direction md, AnimationDistributionFlags flags = AnimationDistributionFlags::None, int8_t numSkippedFrames = 0, int8_t distributeFramesBeforeFrame = 0)",pending,,,
-monster.cpp|devilution::StartMonsterGotHit(Monster &monster),pending,,,
-monster.cpp|devilution::IsRanged(Monster &monster),pending,,,
-monster.cpp|devilution::UpdateEnemy(Monster &monster),pending,,,
-"monster.cpp|devilution::AiDelay(Monster &monster, int len)",pending,,,
-monster.cpp|devilution::GetMonsterDirection(Monster &monster),pending,,,
-"monster.cpp|devilution::StartSpecialStand(Monster &monster, Direction md)",pending,,,
-"monster.cpp|devilution::WalkNorthwards(Monster &monster, int xadd, int yadd, Direction endDir)",pending,,,
-"monster.cpp|devilution::WalkSouthwards(Monster &monster, int xoff, int yoff, int xadd, int yadd, Direction endDir)",pending,,,
-"monster.cpp|devilution::WalkSideways(Monster &monster, int xoff, int yoff, int xadd, int yadd, int mapx, int mapy, Direction endDir)",pending,,,
-monster.cpp|devilution::StartAttack(Monster &monster),pending,,,
-"monster.cpp|devilution::StartRangedAttack(Monster &monster, MissileID missileType, int dam)",pending,,,
-"monster.cpp|devilution::StartRangedSpecialAttack(Monster &monster, MissileID missileType, int dam)",pending,,,
-monster.cpp|devilution::StartSpecialAttack(Monster &monster),pending,,,
-monster.cpp|devilution::StartEating(Monster &monster),pending,,,
-"monster.cpp|devilution::DiabloDeath(Monster &diablo, bool sendmsg)",pending,,,
-"monster.cpp|devilution::SpawnLoot(Monster &monster, bool sendmsg)",pending,,,
-monster.cpp|devilution::GetTeleportTile(const Monster &monster),pending,,,
-monster.cpp|devilution::Teleport(Monster &monster),pending,,,
-"monster.cpp|devilution::IsHardHit(Monster &target, unsigned dam)",pending,,,
-"monster.cpp|devilution::MonsterHitMonster(Monster &attacker, Monster &target, int dam)",pending,,,
-"monster.cpp|devilution::StartDeathFromMonster(Monster &attacker, Monster &target)",pending,,,
-"monster.cpp|devilution::StartFadein(Monster &monster, Direction md, bool backwards)",pending,,,
-"monster.cpp|devilution::StartFadeout(Monster &monster, Direction md, bool backwards)",pending,,,
-monster.cpp|devilution::StartHeal(Monster &monster),pending,,,
-monster.cpp|devilution::SyncLightPosition(Monster &monster),pending,,,
-monster.cpp|devilution::MonsterIdle(Monster &monster),pending,,,
-"monster.cpp|devilution::MonsterWalk(Monster &monster, MonsterMode variant)",pending,,,
-"monster.cpp|devilution::MonsterAttackMonster(Monster &attacker, Monster &target, int hper, int mind, int maxd)",pending,,,
-"monster.cpp|devilution::CheckReflect(Monster &monster, Player &player, int dam)",pending,,,
-monster.cpp|devilution::GetMinHit(),pending,,,
-"monster.cpp|devilution::MonsterAttackPlayer(Monster &monster, Player &player, int hit, int minDam, int maxDam)",pending,,,
-"monster.cpp|devilution::MonsterAttackEnemy(Monster &monster, int hit, int minDam, int maxDam)",pending,,,
-monster.cpp|devilution::MonsterAttack(Monster &monster),pending,,,
-monster.cpp|devilution::MonsterRangedAttack(Monster &monster),pending,,,
-monster.cpp|devilution::MonsterRangedSpecialAttack(Monster &monster),pending,,,
-monster.cpp|devilution::MonsterSpecialAttack(Monster &monster),pending,,,
-monster.cpp|devilution::MonsterFadein(Monster &monster),pending,,,
-monster.cpp|devilution::MonsterFadeout(Monster &monster),pending,,,
-monster.cpp|devilution::MonsterHeal(Monster &monster),pending,,,
-monster.cpp|devilution::MonsterTalk(Monster &monster),pending,,,
-monster.cpp|devilution::MonsterGotHit(Monster &monster),pending,,,
-monster.cpp|devilution::ReleaseMinions(const Monster &leader),pending,,,
-monster.cpp|devilution::ShrinkLeaderPacksize(const Monster &monster),pending,,,
-monster.cpp|devilution::MonsterDeath(Monster &monster),pending,,,
-monster.cpp|devilution::MonsterSpecialStand(Monster &monster),pending,,,
-monster.cpp|devilution::MonsterDelay(Monster &monster),pending,,,
-monster.cpp|devilution::MonsterPetrified(Monster &monster),pending,,,
-"monster.cpp|devilution::AddSkeleton(Point position, Direction dir, bool inMap)",pending,,,
-"monster.cpp|devilution::SpawnSkeleton(Point position, Direction dir)",pending,,,
-"monster.cpp|devilution::IsLineNotSolid(Point startPoint, Point endPoint)",pending,,,
-monster.cpp|devilution::FollowTheLeader(Monster &monster),pending,,,
-monster.cpp|devilution::GroupUnity(Monster &monster),pending,,,
-"monster.cpp|devilution::RandomWalk(Monster &monster, Direction md)",pending,,,
-"monster.cpp|devilution::RandomWalk2(Monster &monster, Direction md)",pending,,,
-"monster.cpp|devilution::IsTileSafe(const Monster &monster, Point position)",pending,,,
-monster.cpp|devilution::IsTileAvailable(Point position),pending,,,
-"monster.cpp|devilution::IsTileAccessible(const Monster &monster, Point position)",pending,,,
-monster.cpp|devilution::AiPlanWalk(Monster &monster),pending,,,
-"monster.cpp|devilution::Turn(Direction direction, bool turnLeft)",pending,,,
-"monster.cpp|devilution::RoundWalk(Monster &monster, Direction direction, int8_t *dir)",pending,,,
-monster.cpp|devilution::AiPlanPath(Monster &monster),pending,,,
-monster.cpp|devilution::AiAvoidance(Monster &monster),pending,,,
-monster.cpp|devilution::GetMissileType(MonsterAIID ai),pending,,,
-monster.cpp|devilution::AiRanged(Monster &monster),pending,,,
-monster.cpp|devilution::AiRangedAvoidance(Monster &monster),pending,,,
-monster.cpp|devilution::ZombieAi(Monster &monster),pending,,,
-monster.cpp|devilution::OverlordAi(Monster &monster),pending,,,
-monster.cpp|devilution::SkeletonAi(Monster &monster),pending,,,
-monster.cpp|devilution::SkeletonBowAi(Monster &monster),pending,,,
-monster.cpp|devilution::ScavengerFindCorpse(const Monster &scavenger),pending,,,
-monster.cpp|devilution::ScavengerAi(Monster &monster),pending,,,
-monster.cpp|devilution::RhinoAi(Monster &monster),pending,,,
-monster.cpp|devilution::FallenAi(Monster &monster),pending,,,
-monster.cpp|devilution::LeoricAi(Monster &monster),pending,,,
-monster.cpp|devilution::BatAi(Monster &monster),pending,,,
-monster.cpp|devilution::GargoyleAi(Monster &monster),pending,,,
-monster.cpp|devilution::ButcherAi(Monster &monster),pending,,,
-monster.cpp|devilution::SneakAi(Monster &monster),pending,,,
-monster.cpp|devilution::GharbadAi(Monster &monster),pending,,,
-monster.cpp|devilution::SnotSpilAi(Monster &monster),pending,,,
-monster.cpp|devilution::SnakeAi(Monster &monster),pending,,,
-monster.cpp|devilution::CounselorAi(Monster &monster),pending,,,
-monster.cpp|devilution::ZharAi(Monster &monster),pending,,,
-monster.cpp|devilution::MegaAi(Monster &monster),pending,,,
-monster.cpp|devilution::LazarusAi(Monster &monster),pending,,,
-monster.cpp|devilution::LazarusMinionAi(Monster &monster),pending,,,
-monster.cpp|devilution::LachdananAi(Monster &monster),pending,,,
-monster.cpp|devilution::WarlordAi(Monster &monster),pending,,,
-monster.cpp|devilution::HorkDemonAi(Monster &monster),pending,,,
-monster.cpp|devilution::GetMonsterTypeText(const MonsterData &monsterData),pending,,,
-"monster.cpp|devilution::ActivateSpawn(Monster &monster, Point position, Direction dir)",pending,,,
-"monster.cpp|devilution::IsRelativeMoveOK(const Monster &monster, Point position, Direction mdir)",pending,,,
-monster.cpp|devilution::IsMonsterAvalible(const MonsterData &monsterData),pending,,,
-monster.cpp|devilution::UpdateModeStance(Monster &monster),pending,,,
-monster.cpp|devilution::InitTRNForUniqueMonster(Monster &monster),pending,,,
-"monster.cpp|devilution::PrepareUniqueMonst(Monster &monster, UniqueMonsterType monsterType, size_t minionType, int bosspacksize, const UniqueMonsterData &uniqueMonsterData)",pending,,,
+"monster.cpp|devilution::NewMonsterAnim(Monster &monster, MonsterGraphic graphic, Direction md, AnimationDistributionFlags flags = AnimationDistributionFlags::None, int8_t numSkippedFrames = 0, int8_t distributeFramesBeforeFrame = 0)",ported,,,src/monster.rs
+monster.cpp|devilution::StartMonsterGotHit(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::IsRanged(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::UpdateEnemy(Monster &monster),ported,,,src/monster.rs
+"monster.cpp|devilution::AiDelay(Monster &monster, int len)",ported,,,src/monster.rs
+monster.cpp|devilution::GetMonsterDirection(Monster &monster),ported,,,src/monster.rs
+"monster.cpp|devilution::StartSpecialStand(Monster &monster, Direction md)",ported,,,src/monster.rs
+"monster.cpp|devilution::WalkNorthwards(Monster &monster, int xadd, int yadd, Direction endDir)",ported,,,src/monster.rs
+"monster.cpp|devilution::WalkSouthwards(Monster &monster, int xoff, int yoff, int xadd, int yadd, Direction endDir)",ported,,,src/monster.rs
+"monster.cpp|devilution::WalkSideways(Monster &monster, int xoff, int yoff, int xadd, int yadd, int mapx, int mapy, Direction endDir)",ported,,,src/monster.rs
+monster.cpp|devilution::StartAttack(Monster &monster),ported,,,src/monster.rs
+"monster.cpp|devilution::StartRangedAttack(Monster &monster, MissileID missileType, int dam)",ported,,,src/monster.rs
+"monster.cpp|devilution::StartRangedSpecialAttack(Monster &monster, MissileID missileType, int dam)",ported,,,src/monster.rs
+monster.cpp|devilution::StartSpecialAttack(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::StartEating(Monster &monster),ported,,,src/monster.rs
+"monster.cpp|devilution::DiabloDeath(Monster &diablo, bool sendmsg)",ported,,,src/monster.rs
+"monster.cpp|devilution::SpawnLoot(Monster &monster, bool sendmsg)",ported,,,src/monster.rs
+monster.cpp|devilution::GetTeleportTile(const Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::Teleport(Monster &monster),ported,,,src/monster.rs
+"monster.cpp|devilution::IsHardHit(Monster &target, unsigned dam)",ported,,,src/monster.rs
+"monster.cpp|devilution::MonsterHitMonster(Monster &attacker, Monster &target, int dam)",ported,,,src/monster.rs
+"monster.cpp|devilution::StartDeathFromMonster(Monster &attacker, Monster &target)",ported,,,src/monster.rs
+"monster.cpp|devilution::StartFadein(Monster &monster, Direction md, bool backwards)",ported,,,src/monster.rs
+"monster.cpp|devilution::StartFadeout(Monster &monster, Direction md, bool backwards)",ported,,,src/monster.rs
+monster.cpp|devilution::StartHeal(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::SyncLightPosition(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::MonsterIdle(Monster &monster),ported,,,src/monster.rs
+"monster.cpp|devilution::MonsterWalk(Monster &monster, MonsterMode variant)",ported,,,src/monster.rs
+"monster.cpp|devilution::MonsterAttackMonster(Monster &attacker, Monster &target, int hper, int mind, int maxd)",ported,,,src/monster.rs
+"monster.cpp|devilution::CheckReflect(Monster &monster, Player &player, int dam)",ported,,,src/monster.rs
+monster.cpp|devilution::GetMinHit(),ported,,,src/monster.rs
+"monster.cpp|devilution::MonsterAttackPlayer(Monster &monster, Player &player, int hit, int minDam, int maxDam)",ported,,,src/monster.rs
+"monster.cpp|devilution::MonsterAttackEnemy(Monster &monster, int hit, int minDam, int maxDam)",ported,,,src/monster.rs
+monster.cpp|devilution::MonsterAttack(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::MonsterRangedAttack(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::MonsterRangedSpecialAttack(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::MonsterSpecialAttack(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::MonsterFadein(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::MonsterFadeout(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::MonsterHeal(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::MonsterTalk(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::MonsterGotHit(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::ReleaseMinions(const Monster &leader),ported,,,src/monster.rs
+monster.cpp|devilution::ShrinkLeaderPacksize(const Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::MonsterDeath(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::MonsterSpecialStand(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::MonsterDelay(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::MonsterPetrified(Monster &monster),ported,,,src/monster.rs
+"monster.cpp|devilution::AddSkeleton(Point position, Direction dir, bool inMap)",ported,,,src/monster.rs
+"monster.cpp|devilution::SpawnSkeleton(Point position, Direction dir)",ported,,,src/monster.rs
+"monster.cpp|devilution::IsLineNotSolid(Point startPoint, Point endPoint)",ported,,,src/monster.rs
+monster.cpp|devilution::FollowTheLeader(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::GroupUnity(Monster &monster),ported,,,src/monster.rs
+"monster.cpp|devilution::RandomWalk(Monster &monster, Direction md)",ported,,,src/monster.rs
+"monster.cpp|devilution::RandomWalk2(Monster &monster, Direction md)",ported,,,src/monster.rs
+"monster.cpp|devilution::IsTileSafe(const Monster &monster, Point position)",ported,,,src/monster.rs
+monster.cpp|devilution::IsTileAvailable(Point position),ported,,,src/monster.rs
+"monster.cpp|devilution::IsTileAccessible(const Monster &monster, Point position)",ported,,,src/monster.rs
+monster.cpp|devilution::AiPlanWalk(Monster &monster),ported,,,src/monster.rs
+"monster.cpp|devilution::Turn(Direction direction, bool turnLeft)",ported,,,src/monster.rs
+"monster.cpp|devilution::RoundWalk(Monster &monster, Direction direction, int8_t *dir)",ported,,,src/monster.rs
+monster.cpp|devilution::AiPlanPath(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::AiAvoidance(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::GetMissileType(MonsterAIID ai),ported,,,src/monster.rs
+monster.cpp|devilution::AiRanged(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::AiRangedAvoidance(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::ZombieAi(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::OverlordAi(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::SkeletonAi(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::SkeletonBowAi(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::ScavengerFindCorpse(const Monster &scavenger),ported,,,src/monster.rs
+monster.cpp|devilution::ScavengerAi(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::RhinoAi(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::FallenAi(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::LeoricAi(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::BatAi(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::GargoyleAi(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::ButcherAi(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::SneakAi(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::GharbadAi(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::SnotSpilAi(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::SnakeAi(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::CounselorAi(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::ZharAi(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::MegaAi(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::LazarusAi(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::LazarusMinionAi(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::LachdananAi(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::WarlordAi(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::HorkDemonAi(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::GetMonsterTypeText(const MonsterData &monsterData),ported,,,src/monster.rs
+"monster.cpp|devilution::ActivateSpawn(Monster &monster, Point position, Direction dir)",ported,,,src/monster.rs
+"monster.cpp|devilution::IsRelativeMoveOK(const Monster &monster, Point position, Direction mdir)",ported,,,src/monster.rs
+monster.cpp|devilution::IsMonsterAvalible(const MonsterData &monsterData),ported,,,src/monster.rs
+monster.cpp|devilution::UpdateModeStance(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::InitTRNForUniqueMonster(Monster &monster),ported,,,src/monster.rs
+"monster.cpp|devilution::PrepareUniqueMonst(Monster &monster, UniqueMonsterType monsterType, size_t minionType, int bosspacksize, const UniqueMonsterData &uniqueMonsterData)",ported,,,src/monster.rs
 monster.cpp|devilution::InitLevelMonsters(),ported,,,src/monster.rs
-monster.cpp|devilution::GetLevelMTypes(),pending,,,
-monster.cpp|devilution::InitMonsterSND(CMonster &monsterType),pending,,,
-monster.cpp|devilution::InitMonsterGFX(CMonster &monsterType),pending,,,
-monster.cpp|devilution::WeakenNaKrul(),pending,,,
-monster.cpp|devilution::InitGolems(),pending,,,
-monster.cpp|devilution::InitMonsters(),pending,,,
-"monster.cpp|devilution::SetMapMonsters(const uint16_t *dunData, Point startPosition)",pending,,,
-"monster.cpp|devilution::AddMonster(Point position, Direction dir, size_t typeIndex, bool inMap)",pending,,,
-monster.cpp|devilution::AddDoppelganger(Monster &monster),pending,,,
-"monster.cpp|devilution::ApplyMonsterDamage(DamageType damageType, Monster &monster, int damage)",pending,,,
-monster.cpp|devilution::M_Talker(const Monster &monster),pending,,,
-"monster.cpp|devilution::M_StartStand(Monster &monster, Direction md)",pending,,,
-monster.cpp|devilution::M_ClearSquares(const Monster &monster),pending,,,
-monster.cpp|devilution::M_GetKnockback(Monster &monster),pending,,,
-"monster.cpp|devilution::M_StartHit(Monster &monster, int dam)",pending,,,
-"monster.cpp|devilution::M_StartHit(Monster &monster, const Player &player, int dam)",pending,,,
-"monster.cpp|devilution::MonsterDeath(Monster &monster, Direction md, bool sendmsg)",pending,,,
-"monster.cpp|devilution::StartMonsterDeath(Monster &monster, const Player &player, bool sendmsg)",pending,,,
-monster.cpp|devilution::KillMyGolem(),pending,,,
-"monster.cpp|devilution::M_StartKill(Monster &monster, const Player &player)",pending,,,
-"monster.cpp|devilution::M_SyncStartKill(Monster &monster, Point position, const Player &player)",pending,,,
-monster.cpp|devilution::M_UpdateRelations(const Monster &monster),pending,,,
-monster.cpp|devilution::DoEnding(),pending,,,
-monster.cpp|devilution::PrepDoEnding(),pending,,,
-"monster.cpp|devilution::Walk(Monster &monster, Direction md)",pending,,,
-monster.cpp|devilution::GolumAi(Monster &golem),pending,,,
+monster.cpp|devilution::GetLevelMTypes(),ported,,,src/monster.rs
+monster.cpp|devilution::InitMonsterSND(CMonster &monsterType),ported,,,src/monster.rs
+monster.cpp|devilution::InitMonsterGFX(CMonster &monsterType),ported,,,src/monster.rs
+monster.cpp|devilution::WeakenNaKrul(),ported,,,src/monster.rs
+monster.cpp|devilution::InitGolems(),ported,,,src/monster.rs
+monster.cpp|devilution::InitMonsters(),ported,,,src/monster.rs
+"monster.cpp|devilution::SetMapMonsters(const uint16_t *dunData, Point startPosition)",ported,,,src/monster.rs
+"monster.cpp|devilution::AddMonster(Point position, Direction dir, size_t typeIndex, bool inMap)",ported,,,src/monster.rs
+monster.cpp|devilution::AddDoppelganger(Monster &monster),ported,,,src/monster.rs
+"monster.cpp|devilution::ApplyMonsterDamage(DamageType damageType, Monster &monster, int damage)",ported,,,src/monster.rs
+monster.cpp|devilution::M_Talker(const Monster &monster),ported,,,src/monster.rs
+"monster.cpp|devilution::M_StartStand(Monster &monster, Direction md)",ported,,,src/monster.rs
+monster.cpp|devilution::M_ClearSquares(const Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::M_GetKnockback(Monster &monster),ported,,,src/monster.rs
+"monster.cpp|devilution::M_StartHit(Monster &monster, int dam)",ported,,,src/monster.rs
+"monster.cpp|devilution::M_StartHit(Monster &monster, const Player &player, int dam)",ported,,,src/monster.rs
+"monster.cpp|devilution::MonsterDeath(Monster &monster, Direction md, bool sendmsg)",ported,,,src/monster.rs
+"monster.cpp|devilution::StartMonsterDeath(Monster &monster, const Player &player, bool sendmsg)",ported,,,src/monster.rs
+monster.cpp|devilution::KillMyGolem(),ported,,,src/monster.rs
+"monster.cpp|devilution::M_StartKill(Monster &monster, const Player &player)",ported,,,src/monster.rs
+"monster.cpp|devilution::M_SyncStartKill(Monster &monster, Point position, const Player &player)",ported,,,src/monster.rs
+monster.cpp|devilution::M_UpdateRelations(const Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::DoEnding(),ported,,,src/monster.rs
+monster.cpp|devilution::PrepDoEnding(),ported,,,src/monster.rs
+"monster.cpp|devilution::Walk(Monster &monster, Direction md)",ported,,,src/monster.rs
+monster.cpp|devilution::GolumAi(Monster &golem),ported,,,src/monster.rs
 monster.cpp|devilution::DeleteMonsterList(),ported,,,src/monster.rs
 monster.cpp|devilution::ProcessMonsters(),ported,,,src/monster.rs
 monster.cpp|devilution::FreeMonsters(),ported,,,src/monster.rs
-"monster.cpp|devilution::DirOK(const Monster &monster, Direction mdir)",pending,,,
-monster.cpp|devilution::PosOkMissile(Point position),pending,,,
-"monster.cpp|devilution::LineClearMissile(Point startPoint, Point endPoint)",pending,,,
-"monster.cpp|devilution::LineClear(tl::function_ref<bool(Point)> clear, Point startPoint, Point endPoint)",pending,,,
-monster.cpp|devilution::SyncMonsterAnim(Monster &monster),pending,,,
-monster.cpp|devilution::M_FallenFear(Point position),pending,,,
-monster.cpp|devilution::PrintMonstHistory(int mt),pending,,,
-monster.cpp|devilution::PrintUniqueHistory(),pending,,,
-"monster.cpp|devilution::PlayEffect(Monster &monster, MonsterSound mode)",pending,,,
-"monster.cpp|devilution::MissToMonst(Missile &missile, Point position)",pending,,,
-"monster.cpp|devilution::FindMonsterAtPosition(Point position, bool ignoreMovingMonsters)",pending,,,
-monster.cpp|devilution::FindUniqueMonster(UniqueMonsterType monsterType),pending,,,
-"monster.cpp|devilution::IsTileAvailable(const Monster &monster, Point position)",pending,,,
-monster.cpp|devilution::IsSkel(_monster_id mt),pending,,,
-monster.cpp|devilution::IsGoat(_monster_id mt),pending,,,
-"monster.cpp|devilution::ActivateSkeleton(Monster &monster, Point position)",pending,,,
-monster.cpp|devilution::PreSpawnSkeleton(),pending,,,
-"monster.cpp|devilution::TalktoMonster(Player &player, Monster &monster)",pending,,,
-"monster.cpp|devilution::SpawnGolem(Player &player, Monster &golem, Point position, Missile &missile)",pending,,,
-monster.cpp|devilution::CanTalkToMonst(const Monster &monster),pending,,,
-monster.cpp|devilution::encode_enemy(Monster &monster),pending,,,
-"monster.cpp|devilution::decode_enemy(Monster &monster, int enemyId)",pending,,,
+"monster.cpp|devilution::DirOK(const Monster &monster, Direction mdir)",ported,,,src/monster.rs
+monster.cpp|devilution::PosOkMissile(Point position),ported,,,src/monster.rs
+"monster.cpp|devilution::LineClearMissile(Point startPoint, Point endPoint)",ported,,,src/monster.rs
+"monster.cpp|devilution::LineClear(tl::function_ref<bool(Point)> clear, Point startPoint, Point endPoint)",ported,,,src/monster.rs
+monster.cpp|devilution::SyncMonsterAnim(Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::M_FallenFear(Point position),ported,,,src/monster.rs
+monster.cpp|devilution::PrintMonstHistory(int mt),ported,,,src/monster.rs
+monster.cpp|devilution::PrintUniqueHistory(),ported,,,src/monster.rs
+"monster.cpp|devilution::PlayEffect(Monster &monster, MonsterSound mode)",ported,,,src/monster.rs
+"monster.cpp|devilution::MissToMonst(Missile &missile, Point position)",ported,,,src/monster.rs
+"monster.cpp|devilution::FindMonsterAtPosition(Point position, bool ignoreMovingMonsters)",ported,,,src/monster.rs
+monster.cpp|devilution::FindUniqueMonster(UniqueMonsterType monsterType),ported,,,src/monster.rs
+"monster.cpp|devilution::IsTileAvailable(const Monster &monster, Point position)",ported,,,src/monster.rs
+monster.cpp|devilution::IsSkel(_monster_id mt),ported,,,src/monster.rs
+monster.cpp|devilution::IsGoat(_monster_id mt),ported,,,src/monster.rs
+"monster.cpp|devilution::ActivateSkeleton(Monster &monster, Point position)",ported,,,src/monster.rs
+monster.cpp|devilution::PreSpawnSkeleton(),ported,,,src/monster.rs
+"monster.cpp|devilution::TalktoMonster(Player &player, Monster &monster)",ported,,,src/monster.rs
+"monster.cpp|devilution::SpawnGolem(Player &player, Monster &golem, Point position, Missile &missile)",ported,,,src/monster.rs
+monster.cpp|devilution::CanTalkToMonst(const Monster &monster),ported,,,src/monster.rs
+monster.cpp|devilution::encode_enemy(Monster &monster),ported,,,src/monster.rs
+"monster.cpp|devilution::decode_enemy(Monster &monster, int enemyId)",ported,,,src/monster.rs
 monster.cpp|devilution::Monster::getId(),pending,,,
-monster.cpp|devilution::Monster::getLeader(),pending,,,
-monster.cpp|devilution::Monster::setLeader(const Monster *leader),pending,,,
-monster.cpp|devilution::Monster::distanceToEnemy(),pending,,,
-monster.cpp|devilution::Monster::checkStandAnimationIsLoaded(Direction mdir),pending,,,
-monster.cpp|devilution::Monster::petrify(),pending,,,
+monster.cpp|devilution::Monster::getLeader(),ported,,,src/monster.rs
+monster.cpp|devilution::Monster::setLeader(const Monster *leader),ported,,,src/monster.rs
+monster.cpp|devilution::Monster::distanceToEnemy(),ported,,,src/monster.rs
+monster.cpp|devilution::Monster::checkStandAnimationIsLoaded(Direction mdir),ported,,,src/monster.rs
+monster.cpp|devilution::Monster::petrify(),ported,,,src/monster.rs
 monster.cpp|devilution::Monster::isWalking(),ported,,,src/monster.rs
-"monster.cpp|devilution::Monster::isImmune(MissileID missileType, DamageType missileElement)",pending,,,
-"monster.cpp|devilution::Monster::isResistant(MissileID missileType, DamageType missileElement)",pending,,,
+"monster.cpp|devilution::Monster::isImmune(MissileID missileType, DamageType missileElement)",ported,,,src/monster.rs
+"monster.cpp|devilution::Monster::isResistant(MissileID missileType, DamageType missileElement)",ported,,,src/monster.rs
 monster.cpp|devilution::Monster::isPlayerMinion(),ported,,,src/monster.rs
-monster.cpp|devilution::Monster::isPossibleToHit(),pending,,,
-monster.cpp|devilution::Monster::tag(const Player &tagger),pending,,,
-monster.cpp|devilution::Monster::tryLiftGargoyle(),pending,,,
+monster.cpp|devilution::Monster::isPossibleToHit(),ported,,,src/monster.rs
+monster.cpp|devilution::Monster::tag(const Player &tagger),ported,,,src/monster.rs
+monster.cpp|devilution::Monster::tryLiftGargoyle(),ported,,,src/monster.rs
 monster.cpp|devilution::Monster::getVisualMonsterMode(),ported,,,src/monster.rs
 monster.cpp|devilution::Monster::toHitSpecial(_difficulty difficulty),ported,,,src/monster.rs
-monster.h|devilution::IsMonsterModeMove(MonsterMode mode),pending,,,
-monster.h|devilution::AnimStruct::spritesForDirection(Direction direction),pending,,,
+monster.h|devilution::IsMonsterModeMove(MonsterMode mode),ported,,,src/monster.rs
+monster.h|devilution::AnimStruct::spritesForDirection(Direction direction),ported,,,src/monster.rs
 monster.h|devilution::CMonster::getAnimData(MonsterGraphic graphic),pending,,,
-"monster.h|devilution::Monster::changeAnimationData(MonsterGraphic graphic, Direction desiredDirection)",pending,,,
-monster.h|devilution::Monster::changeAnimationData(MonsterGraphic graphic),pending,,,
-monster.h|devilution::Monster::type(),pending,,,
-monster.h|devilution::Monster::data(),pending,,,
+"monster.h|devilution::Monster::changeAnimationData(MonsterGraphic graphic, Direction desiredDirection)",ported,,,src/monster.rs
+monster.h|devilution::Monster::changeAnimationData(MonsterGraphic graphic),ported,,,src/monster.rs
+monster.h|devilution::Monster::type(),ported,,,src/monster.rs
+monster.h|devilution::Monster::data(),ported,,,src/monster.rs
 monster.h|devilution::Monster::name(),ported,,,src/monster.rs
 monster.h|devilution::Monster::exp(_difficulty difficulty),ported,,,src/monster.rs
-monster.h|devilution::Monster::level(_difficulty difficulty),pending,,,
-monster.h|devilution::Monster::hasLeashedMinions(),pending,,,
-monster.h|devilution::Monster::isUnique(),pending,,,
+monster.h|devilution::Monster::level(_difficulty difficulty),ported,,,src/monster.rs
+monster.h|devilution::Monster::hasLeashedMinions(),ported,,,src/monster.rs
+monster.h|devilution::Monster::isUnique(),ported,,,src/monster.rs
 "movie.cpp|devilution::play_movie(const char *pszMovie, bool userCanClose)",pending,,,
 movie.cpp|devilution::PlayInGameMovie(const char *pszMovie),pending,,,
 "mpq/mpq_reader.cpp|devilution::MpqArchive::Open(const char *path, int32_t &error)",ported,,,src/mpq.rs

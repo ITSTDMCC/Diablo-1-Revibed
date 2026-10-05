@@ -170,7 +170,7 @@ pub fn new_missile_sprite_data() -> Vec<MissileFileData> {
 
 /// Original: `MissileFileData::LoadGFX` (misdat.cpp).
 // @port misdat.cpp|devilution::MissileFileData::LoadGFX() sha=c754f1d4c81e
-fn missile_file_data_load_gfx(ctx: &mut Ctx, mi: usize) {
+pub fn missile_file_data_load_gfx(ctx: &mut Ctx, mi: usize) {
     if ctx.missiles.missile_sprite_data[mi].sprites.is_some() {
         return;
     }

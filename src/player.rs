@@ -3823,3 +3823,5 @@ pub fn play_dung_msgs(ctx: &mut Ctx) {
         ctx.effects.sfxdelay = 0;
     }
 }
+
+pub use crate::lighting::redo_player_vision;

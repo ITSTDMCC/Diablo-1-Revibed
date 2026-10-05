@@ -131,6 +131,12 @@ pub struct Ctx {
     pub gamemenu: crate::gamemenu::GamemenuState,
     /// controls/modifier_hints.cpp
     pub modifier_hints: crate::controls::modifier_hints::ModifierHintsState,
+    /// levels/themes.cpp
+    pub themes: crate::levels::themes::ThemesState,
+    /// levels/drlg_l4.cpp
+    pub drlg_l4: crate::levels::drlg_l4::DrlgL4State,
+    /// movie.cpp
+    pub movie: crate::movie::MovieState,
 }
 
 impl Ctx {
@@ -200,6 +206,9 @@ impl Ctx {
             gmenu: Default::default(),
             gamemenu: Default::default(),
             modifier_hints: Default::default(),
+            themes: Default::default(),
+            drlg_l4: Default::default(),
+            movie: Default::default(),
         }
     }
 }
