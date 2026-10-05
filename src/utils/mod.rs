@@ -1,6 +1,7 @@
 //! `Source/utils/*`
 pub mod console;
 pub mod display;
+pub mod sdl_bilinear_scale;
 pub mod language;
 pub mod paths;
 pub mod utf8;

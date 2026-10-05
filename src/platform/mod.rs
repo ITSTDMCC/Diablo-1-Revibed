@@ -194,6 +194,7 @@ fn parse_script(text: &str) -> VecDeque<ScriptedEvent> {
             }
             "text" => vec![Event::TextInput(rest.to_string())],
             "warp" => vec![Event::TestWarp(nums()[0])],
+            "store" => vec![Event::TestStore(nums()[0])],
             "setwarp" => {
                 let v = nums();
                 vec![Event::TestSetWarp(v[0], v[1])]

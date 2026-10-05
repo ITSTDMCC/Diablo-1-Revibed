@@ -626,10 +626,10 @@ cursor.cpp|devilution::FreeCursor(),ported,,,src/cursor.rs
 cursor.cpp|devilution::GetInvItemSprite(int cursId),ported,,,src/cursor.rs
 cursor.cpp|devilution::GetNumInvItems(),ported,,,src/cursor.rs
 cursor.cpp|devilution::GetInvItemSize(int cursId),ported,,,src/cursor.rs
-cursor.cpp|devilution::GetHalfSizeItemSprite(int cursId),pending,,,
-cursor.cpp|devilution::GetHalfSizeItemSpriteRed(int cursId),pending,,,
-cursor.cpp|devilution::CreateHalfSizeItemSprites(),pending,,,
-cursor.cpp|devilution::FreeHalfSizeItemSprites(),pending,,,
+cursor.cpp|devilution::GetHalfSizeItemSprite(int cursId),ported,,,src/cursor.rs
+cursor.cpp|devilution::GetHalfSizeItemSpriteRed(int cursId),ported,,,src/cursor.rs
+cursor.cpp|devilution::CreateHalfSizeItemSprites(),ported,,,src/cursor.rs
+cursor.cpp|devilution::FreeHalfSizeItemSprites(),ported,,,src/cursor.rs
 "cursor.cpp|devilution::DrawItem(const Item &item, const Surface &out, Point position, ClxSprite clx)",ported,,,src/cursor.rs
 cursor.cpp|devilution::ResetCursor(),ported,,,src/cursor.rs
 cursor.cpp|devilution::NewCursor(const Item &item),ported,,,src/cursor.rs
@@ -4338,7 +4338,7 @@ utils/sdl_bilinear_scale.cpp|devilution::ToInt(int fixedPoint),replaced,engine l
 "utils/sdl_bilinear_scale.cpp|devilution::MixColors(uint8_t first, uint8_t second, int ratio)",replaced,engine layer (window/input/thread),SDL2 wrapper; replaced by the engine's equivalents,
 "utils/sdl_bilinear_scale.cpp|devilution::MixColorsWithAlpha(uint8_t first, uint8_t firstAlpha, uint8_t second, uint8_t secondAlpha, uint8_t mixedAlpha, int ratio)",replaced,engine layer (window/input/thread),SDL2 wrapper; replaced by the engine's equivalents,
 "utils/sdl_bilinear_scale.cpp|devilution::BilinearScale32(SDL_Surface *src, SDL_Surface *dst)",replaced,engine layer (window/input/thread),SDL2 wrapper; replaced by the engine's equivalents,
-"utils/sdl_bilinear_scale.cpp|devilution::BilinearDownscaleByHalf8(const SDL_Surface *src, const std::array<std::array<Uint8, 256>, 256> &paletteBlendingTable, SDL_Surface *dst, uint8_t transparentIndex)",replaced,engine layer (window/input/thread),SDL2 wrapper; replaced by the engine's equivalents,
+"utils/sdl_bilinear_scale.cpp|devilution::BilinearDownscaleByHalf8(const SDL_Surface *src, const std::array<std::array<Uint8, 256>, 256> &paletteBlendingTable, SDL_Surface *dst, uint8_t transparentIndex)",ported,,,src/utils/sdl_bilinear_scale.rs
 utils/sdl_compat.h|SDLC_GetKeyState(),replaced,engine layer (window/input/thread),SDL2 wrapper; replaced by the engine's equivalents,
 "utils/sdl_compat.h|SDLC_SetColorKey(SDL_Surface *surface, Uint32 key)",replaced,engine layer (window/input/thread),SDL2 wrapper; replaced by the engine's equivalents,
 "utils/sdl_compat.h|SDLC_SetSurfaceColors(SDL_Surface *surface, SDL_Color *colors, int firstcolor, int ncolors)",replaced,engine layer (window/input/thread),SDL2 wrapper; replaced by the engine's equivalents,

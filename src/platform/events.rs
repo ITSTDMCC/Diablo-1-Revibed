@@ -21,6 +21,8 @@ pub enum Event {
     TestWarp(i32),
     /// Test hook (input script `setwarp <setlevel> <dungeon type>`): enter that quest level.
     TestSetWarp(i32, i32),
+    /// Test hook (input script `store <TalkID>`): open that store page as if talking to its owner.
+    TestStore(i32),
 }
 
 pub const BUTTON_LEFT: u8 = 1;

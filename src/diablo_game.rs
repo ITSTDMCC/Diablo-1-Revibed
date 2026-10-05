@@ -597,6 +597,10 @@ pub fn game_event_handler(ctx: &mut Ctx, event: &Event, mod_state: u16) {
                 crate::player::start_new_lvl(ctx, me, WM_DIABSETLVL, *lvl);
             }
         }
+        Event::TestStore(id) => {
+            // Test hook: open a store page directly.
+            crate::stores::start_store(ctx, TalkID::from_raw(*id as _));
+        }
         Event::Custom(mode) => {
             if ctx.init.gb_is_multiplayer {
                 crate::pfile::pfile_write_hero(ctx, true);

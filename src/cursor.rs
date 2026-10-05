@@ -42,6 +42,10 @@ pub struct CursorState {
     /// `pCursCels`, `pCursCels2`
     pub p_curs_cels: Option<crate::engine::clx_sprite::ClxSpriteList>,
     pub p_curs_cels2: Option<crate::engine::clx_sprite::ClxSpriteList>,
+    /// `HalfSizeItemSprites` (`None` = nullptr)
+    half_size_item_sprites: Option<Vec<Option<crate::engine::clx_sprite::ClxSpriteList>>>,
+    /// `HalfSizeItemSpritesRed`
+    half_size_item_sprites_red: Option<Vec<Option<crate::engine::clx_sprite::ClxSpriteList>>>,
 }
 
 impl Default for CursorState {
@@ -58,6 +62,8 @@ impl Default for CursorState {
             cursPosition: Default::default(),
             p_curs_cels: None,
             p_curs_cels2: None,
+            half_size_item_sprites: None,
+            half_size_item_sprites_red: None,
         }
     }
 }
@@ -609,7 +615,89 @@ pub fn check_curs_move(ctx: &mut Ctx) {
     }
 }
 
-crate::pending_fn!(pub fn get_half_size_item_sprite(ctx: &Ctx, curs_id: i32) -> crate::engine::clx_sprite::ClxSprite, "cursor.cpp|devilution::GetHalfSizeItemSprite(int cursId)");
-crate::pending_fn!(pub fn get_half_size_item_sprite_red(ctx: &Ctx, curs_id: i32) -> crate::engine::clx_sprite::ClxSprite, "cursor.cpp|devilution::GetHalfSizeItemSpriteRed(int cursId)");
-crate::pending_fn!(pub fn create_half_size_item_sprites(ctx: &mut Ctx), "cursor.cpp|devilution::CreateHalfSizeItemSprites()");
-crate::pending_fn!(pub fn free_half_size_item_sprites(ctx: &mut Ctx), "cursor.cpp|devilution::FreeHalfSizeItemSprites()");
+/// Original: `devilution::GetHalfSizeItemSprite` (cursor.cpp).
+// @port cursor.cpp|devilution::GetHalfSizeItemSprite(int cursId) sha=704eb1253eb9
+pub fn get_half_size_item_sprite(ctx: &Ctx, curs_id: i32) -> crate::engine::clx_sprite::ClxSprite {
+    ctx.cursor.half_size_item_sprites.as_ref().expect("HalfSizeItemSprites")[curs_id as usize].as_ref().expect("half-size sprite").get(0)
+}
+
+/// Original: `devilution::GetHalfSizeItemSpriteRed` (cursor.cpp).
+// @port cursor.cpp|devilution::GetHalfSizeItemSpriteRed(int cursId) sha=04e8b8d1a513
+pub fn get_half_size_item_sprite_red(ctx: &Ctx, curs_id: i32) -> crate::engine::clx_sprite::ClxSprite {
+    ctx.cursor.half_size_item_sprites_red.as_ref().expect("HalfSizeItemSpritesRed")[curs_id as usize].as_ref().expect("half-size sprite").get(0)
+}
+
+/// Original: `devilution::CreateHalfSizeItemSprites` (cursor.cpp).
+// @port cursor.cpp|devilution::CreateHalfSizeItemSprites() sha=6334e3566722
+pub fn create_half_size_item_sprites(ctx: &mut Ctx) {
+    use crate::engine::render::clx_render::{clx_draw, clx_draw_trn};
+    use crate::engine::surface::{OwnedSurface, Surface};
+    if ctx.cursor.half_size_item_sprites.is_some() {
+        return;
+    }
+    let inv_items2_size = InvItemWidth2.len() as i32;
+    let num_inv_items = if ctx.init.gb_is_hellfire {
+        InvItems1Size + inv_items2_size - (CURSOR_FIRSTITEM - 1)
+    } else {
+        InvItems1Size + (CURSOR_FIRSTITEM - 1)
+    } as usize;
+    let mut sprites: Vec<Option<crate::engine::clx_sprite::ClxSpriteList>> = vec![None; num_inv_items];
+    let mut sprites_red: Vec<Option<crate::engine::clx_sprite::ClxSpriteList>> = vec![None; num_inv_items];
+    let red_trn = *crate::engine::trn::get_infravision_trn(ctx);
+
+    const MAX_WIDTH: i32 = 28 * 3;
+    const MAX_HEIGHT: i32 = 28 * 3;
+    let mut owned_item_surface = OwnedSurface::new(MAX_WIDTH, MAX_HEIGHT);
+    let mut owned_half_surface = OwnedSurface::new(MAX_WIDTH / 2, MAX_HEIGHT / 2);
+    let item_full = owned_item_surface.view();
+    let half_full = owned_half_surface.view();
+    let blend = &ctx.dx.pal.palette_transparency_lookup;
+
+    let fill = |s: &Surface, v: u8| {
+        for y in 0..s.h() {
+            s.row(y)[..s.w() as usize].fill(v);
+        }
+    };
+
+    let mut create_half_size = |item_sprite: crate::engine::clx_sprite::ClxSprite, output_index: usize| {
+        if item_sprite.width() <= 28 && item_sprite.height() <= 28 {
+            // Skip creating half-size sprites for 1x1 items because we always render them at full size anyway.
+            return;
+        }
+        let item_surface = item_full.subregion(0, 0, item_sprite.width() as i32, item_sprite.height() as i32);
+        fill(&item_surface, 1);
+        clx_draw(&item_surface, (0, item_surface.h()), &item_sprite);
+
+        let half_surface = half_full.subregion(0, 0, item_surface.w() / 2, item_surface.h() / 2);
+        crate::utils::sdl_bilinear_scale::bilinear_downscale_by_half8(&item_surface, blend, &half_surface, 1);
+        sprites[output_index] = Some(crate::utils::surface_to_clx::surface_to_clx(&half_surface, 1, Some(1)));
+
+        fill(&item_surface, 1);
+        clx_draw_trn(&item_surface, (0, item_surface.h()), &item_sprite, &red_trn);
+        crate::utils::sdl_bilinear_scale::bilinear_downscale_by_half8(&item_surface, blend, &half_surface, 1);
+        sprites_red[output_index] = Some(crate::utils::surface_to_clx::surface_to_clx(&half_surface, 1, Some(1)));
+    };
+
+    let mut output_index = 0usize;
+    let cels = ctx.cursor.p_curs_cels.as_ref().expect("pCursCels");
+    for i in (CURSOR_FIRSTITEM - 1)..InvItems1Size {
+        create_half_size(cels.get(i as usize), output_index);
+        output_index += 1;
+    }
+    if ctx.init.gb_is_hellfire {
+        let cels2 = ctx.cursor.p_curs_cels2.as_ref().expect("pCursCels2");
+        for i in 0..inv_items2_size {
+            create_half_size(cels2.get(i as usize), output_index);
+            output_index += 1;
+        }
+    }
+    ctx.cursor.half_size_item_sprites = Some(sprites);
+    ctx.cursor.half_size_item_sprites_red = Some(sprites_red);
+}
+
+/// Original: `devilution::FreeHalfSizeItemSprites` (cursor.cpp).
+// @port cursor.cpp|devilution::FreeHalfSizeItemSprites() sha=bf505de7fcf0
+pub fn free_half_size_item_sprites(ctx: &mut Ctx) {
+    ctx.cursor.half_size_item_sprites = None;
+    ctx.cursor.half_size_item_sprites_red = None;
+}
