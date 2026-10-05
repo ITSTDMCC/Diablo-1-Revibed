@@ -1,0 +1,31 @@
+path_prefix,replaced_by,reason
+platform/android/,none,Android-only code; not a target platform
+platform/ctr/,none,Nintendo 3DS-only code; not a target platform
+platform/switch/,none,Nintendo Switch-only code; not a target platform
+platform/vita/,none,PS Vita-only code; not a target platform
+controls/touch/,none,touch-screen controls for mobile builds; not a target platform
+discord/,none (logged),Discord Rich Presence reaches outside the game; disabled by default (brief Phase 5.7)
+dvlnet/protocol_zt,none (logged),ZeroTier online multiplayer is an outside service; disabled by default
+dvlnet/zerotier_,none (logged),ZeroTier online multiplayer is an outside service; disabled by default
+effects_stubs.cpp,none,NOSOUND build-variant stubs; not compiled into the shipped exe
+engine/sound_stubs.cpp,none,NOSOUND build-variant stubs; not compiled into the shipped exe
+utils/stdcompat/,Rust std,C++ standard-library compatibility shims
+utils/static_vector.hpp,Rust std (Vec / fixed arrays),container template
+utils/str_cat.,Rust std (format!/String),string concatenation helpers
+utils/str_split.hpp,Rust std (str::split),string splitting iterator
+utils/string_or_view.hpp,Rust std (Cow<str>),owned-or-borrowed string helper
+utils/enum_traits.h,Rust enums / bitflags-style impls,C++ enum iteration and flag operators
+utils/pointer_value_union.hpp,Rust enum,tagged pointer/value union
+utils/endian.hpp,Rust std (u16::from_le_bytes etc.),endianness helpers
+utils/endian_stream.hpp,Rust std (Read + from_le_bytes),little-endian stream reader
+utils/str_case.,Rust std (to_ascii_lowercase),case conversion
+utils/format_int.cpp,Rust std (format!),integer formatting with separators is reimplemented in the text layer
+utils/math.h,Rust std (i32::signum etc.),math helpers
+utils/utf8.,Rust std (str/char),UTF-8 decoding helpers
+utils/logged_fstream.,Rust std (std::fs + log),logging file stream wrapper
+utils/log.hpp,Rust std (eprintln!/log module in the port),logging wrapper over SDL_Log
+utils/sdl_,engine layer (window/input/thread),SDL2 wrapper; replaced by the engine's equivalents
+utils/sdl2_backports.h,engine layer,SDL2 version backports
+utils/sdl2_to_1_2_backports.,engine layer,SDL1.2 compatibility layer
+utils/sdl_compat.h,engine layer,SDL1/SDL2 compatibility
+utils/stubs.h,none,build stubs

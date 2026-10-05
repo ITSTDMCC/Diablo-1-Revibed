@@ -1,0 +1,32 @@
+[package]
+name = "diablo1_rs"
+version = "0.1.0"
+edition = "2024"
+description = "Rust port of Diablo 1 (from the DevilutionX 1.5.3 source). Requires your own copy of the game data."
+publish = false
+
+[dependencies]
+# Approved by the owner 2026-10-05 (Bevy 0.19.1, features trimmed to window/input/2D/audio).
+bevy = { version = "=0.19.1", default-features = false, features = [
+    "std",
+    "multi_threaded",
+    "async_executor",
+    "bevy_asset",
+    "bevy_log",
+    "bevy_state",
+    "bevy_winit",
+    "bevy_window",
+    "bevy_render",
+    "bevy_core_pipeline",
+    "bevy_camera",
+    "bevy_image",
+    "bevy_sprite",
+    "bevy_sprite_render",
+    "custom_cursor",
+] }
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3

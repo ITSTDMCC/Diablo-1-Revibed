@@ -1,0 +1,88 @@
+# module | signature | manifest key
+controls/controller | pub fn is_controller_button_pressed(ctx: &crate::ctx::Ctx, button: super::controller_buttons::ControllerButton) -> bool | controls/controller.cpp|devilution::IsControllerButtonPressed(ControllerButton button)
+controls/plrctrls | pub fn is_movement_handler_active(ctx: &crate::ctx::Ctx) -> bool | controls/plrctrls.cpp|devilution::IsMovementHandlerActive()
+controls/plrctrls | pub fn primary_action_pressed(ctx: &mut crate::ctx::Ctx) | diablo.cpp|devilution::InitPadmapActions() PrimaryAction lambda
+controls/plrctrls | pub fn secondary_action_pressed(ctx: &mut crate::ctx::Ctx) | diablo.cpp|devilution::InitPadmapActions() SecondaryAction lambda
+controls/plrctrls | pub fn spell_action_pressed(ctx: &mut crate::ctx::Ctx) | diablo.cpp|devilution::InitPadmapActions() SpellAction lambda
+controls/plrctrls | pub fn cancel_action_pressed(ctx: &mut crate::ctx::Ctx) | diablo.cpp|devilution::InitPadmapActions() CancelAction lambda
+controls/plrctrls | pub fn cancel_action_enabled(ctx: &crate::ctx::Ctx) -> bool | diablo.cpp|devilution::InitPadmapActions() CancelAction enable lambda
+controls/plrctrls | pub fn controller_action_released(ctx: &mut crate::ctx::Ctx) | diablo.cpp|devilution::InitPadmapActions() action release lambda
+controls/plrctrls | pub fn pad_left_mouse_down(ctx: &mut crate::ctx::Ctx) | diablo.cpp|devilution::InitPadmapActions() leftMouseDown
+controls/plrctrls | pub fn pad_left_mouse_up(ctx: &mut crate::ctx::Ctx) | diablo.cpp|devilution::InitPadmapActions() leftMouseUp
+controls/plrctrls | pub fn pad_right_mouse_down(ctx: &mut crate::ctx::Ctx) | diablo.cpp|devilution::InitPadmapActions() rightMouseDown
+controls/plrctrls | pub fn pad_right_mouse_up(ctx: &mut crate::ctx::Ctx) | diablo.cpp|devilution::InitPadmapActions() rightMouseUp
+controls/plrctrls | pub fn pad_toggle_game_menu(ctx: &mut crate::ctx::Ctx) | diablo.cpp|devilution::InitPadmapActions() toggleGameMenu
+controls/plrctrls | pub fn process_game_action(ctx: &mut crate::ctx::Ctx, action: super::game_controls::GameActionType) | controls/plrctrls.cpp|devilution::ProcessGameAction(const GameAction &action)
+controls/touch | pub fn render_virtual_gamepad(ctx: &mut crate::ctx::Ctx) | controls/touch/renderers.cpp|devilution::RenderVirtualGamepad(SDL_Renderer *renderer)
+control | pub fn quick_spell_hotkey(ctx: &mut Ctx, i: usize) | diablo.cpp|devilution::InitKeymapActions() QuickSpell lambda
+control | pub fn display_spells_key_pressed(ctx: &mut Ctx) | diablo.cpp|devilution::DisplaySpellsKeyPressed()
+control | pub fn inventory_key_pressed(ctx: &mut Ctx) | diablo.cpp|devilution::InventoryKeyPressed()
+control | pub fn character_sheet_key_pressed(ctx: &mut Ctx) | diablo.cpp|devilution::CharacterSheetKeyPressed()
+control | pub fn quest_log_key_pressed(ctx: &mut Ctx) | diablo.cpp|devilution::QuestLogKeyPressed()
+control | pub fn spell_book_key_pressed(ctx: &mut Ctx) | diablo.cpp|devilution::SpellBookKeyPressed()
+control | pub fn diablo_hotkey_msg(ctx: &mut Ctx, msg: u32) | control.cpp|devilution::DiabloHotkeyMsg(uint32_t dwMsg)
+control | pub fn close_panels(ctx: &mut Ctx) | diablo.cpp|devilution::ClosePanels()
+engine/sound | pub fn gb_snd_inited(ctx: &Ctx) -> bool | engine/sound.cpp|devilution::gbSndInited
+engine/sound | pub fn snd_init(ctx: &mut Ctx) | engine/sound.cpp|devilution::snd_init()
+engine/sound | pub fn snd_deinit(ctx: &mut Ctx) | engine/sound.cpp|devilution::snd_deinit()
+engine/sound | pub fn music_stop(ctx: &mut Ctx) | engine/sound.cpp|devilution::music_stop()
+engine/sound | pub fn music_start(ctx: &mut Ctx, nTrack: u8) | engine/sound.cpp|devilution::music_start(_music_id nTrack)
+engine/render/scrollrt | pub fn calc_viewport_geometry(ctx: &mut Ctx) | engine/render/scrollrt.cpp|devilution::CalcViewportGeometry()
+diablo_ui/diabloui | pub fn ui_initialize(ctx: &mut Ctx) | DiabloUI/diabloui.cpp|devilution::UiInitialize()
+diablo_ui/diabloui | pub fn unload_ui_gfx(ctx: &mut Ctx) | DiabloUI/diabloui.cpp|devilution::UnloadUiGFX()
+diablo_ui/diabloui | pub fn load_small_selection_spinner(ctx: &mut Ctx) | DiabloUI/diabloui.cpp|devilution::LoadSmallSelectionSpinner()
+diablo_ui/diabloui | pub fn check_archives_up_to_date(ctx: &mut Ctx) | DiabloUI/diabloui.cpp|devilution::CheckArchivesUpToDate()
+diablo_ui/diabloui | pub fn ui_destroy(ctx: &mut Ctx) | DiabloUI/diabloui.cpp|devilution::UiDestroy()
+diablo_ui/selstart | pub fn ui_sel_start_up_game_option(ctx: &mut Ctx) | DiabloUI/selstart.cpp|devilution::UiSelStartUpGameOption()
+diablo_ui/title | pub fn ui_title_dialog(ctx: &mut Ctx) | DiabloUI/title.cpp|devilution::UiTitleDialog()
+effects | pub fn effects_cleanup_sfx(ctx: &mut Ctx) | effects.cpp|devilution::effects_cleanup_sfx()
+effects | pub fn sound_init(ctx: &mut Ctx) | effects.cpp|devilution::sound_init()
+effects | pub fn ui_sound_init(ctx: &mut Ctx) | effects.cpp|devilution::ui_sound_init()
+effects | pub fn stream_stop(ctx: &mut Ctx) | effects.cpp|devilution::stream_stop()
+items | pub fn init_item_gfx(ctx: &mut Ctx) | items.cpp|devilution::InitItemGFX()
+items | pub fn free_item_gfx(ctx: &mut Ctx) | items.cpp|devilution::FreeItemGFX()
+inv | pub fn use_belt_item_slot(ctx: &mut Ctx, i: usize) | diablo.cpp|devilution::InitKeymapActions() BeltItem lambda
+inv | pub fn use_belt_item(ctx: &mut Ctx, type_: i32) | inv.cpp|devilution::UseBeltItem(int type)
+gamemenu | pub fn gamemenu_save_game(ctx: &mut Ctx, b: bool) | gamemenu.cpp|devilution::gamemenu_save_game(bool bActivate)
+gamemenu | pub fn gamemenu_load_game(ctx: &mut Ctx, b: bool) | gamemenu.cpp|devilution::gamemenu_load_game(bool bActivate)
+gamemenu | pub fn gamemenu_quit_game(ctx: &mut Ctx, b: bool) | gamemenu.cpp|devilution::gamemenu_quit_game(bool bActivate)
+gamemenu | pub fn gamemenu_off(ctx: &mut Ctx) | gamemenu.cpp|devilution::gamemenu_off()
+player | pub fn stop_my_player(ctx: &mut Ctx) | diablo.cpp|devilution::InitKeymapActions() StopHero lambda
+qol/itemlabels | pub fn highlight_key_pressed(ctx: &mut Ctx, pressed: bool) | qol/itemlabels.cpp|devilution::HighlightKeyPressed(bool pressed)
+qol/itemlabels | pub fn toggle_item_label_highlight(ctx: &mut Ctx) | qol/itemlabels.cpp|devilution::ToggleItemLabelHighlight()
+qol/chatlog | pub fn toggle_chat_log(ctx: &mut Ctx) | qol/chatlog.cpp|devilution::ToggleChatLog()
+qol/chatlog | pub fn clear_chat_log_flag(ctx: &mut Ctx) | qol/chatlog.cpp|devilution::ChatLogFlag
+qol/xpbar | pub fn init_xp_bar(ctx: &mut Ctx) | qol/xpbar.cpp|devilution::InitXPBar()
+qol/xpbar | pub fn free_xp_bar(ctx: &mut Ctx) | qol/xpbar.cpp|devilution::FreeXPBar()
+qol/monhealthbar | pub fn init_monster_health_bar(ctx: &mut Ctx) | qol/monhealthbar.cpp|devilution::InitMonsterHealthBar()
+qol/monhealthbar | pub fn free_monster_health_bar(ctx: &mut Ctx) | qol/monhealthbar.cpp|devilution::FreeMonsterHealthBar()
+qol/stash | pub fn free_stash_gfx(ctx: &mut Ctx) | qol/stash.cpp|devilution::FreeStashGFX()
+qol/stash | pub fn sfile_write_stash(ctx: &mut Ctx) | pfile.cpp|devilution::sfile_write_stash()
+automap | pub fn do_auto_map(ctx: &mut Ctx) | automap.cpp|devilution::DoAutoMap()
+automap | pub fn set_automap_active(ctx: &mut Ctx, active: bool) | automap.cpp|devilution::AutomapActive
+help | pub fn help_key_pressed(ctx: &mut Ctx) | diablo.cpp|devilution::HelpKeyPressed()
+help | pub fn set_help_flag(ctx: &mut Ctx, v: bool) | help.cpp|devilution::HelpFlag
+capture | pub fn capture_screen(ctx: &mut Ctx) | capture.cpp|devilution::CaptureScreen()
+plrmsg | pub fn event_plr_msg(ctx: &mut Ctx, text: &str, style: crate::engine::render::text_render::UiFlags) | plrmsg.cpp|devilution::EventPlrMsg(string_view text, UiFlags style)
+error | pub fn clr_diablo_msg(ctx: &mut Ctx) | error.cpp|devilution::ClrDiabloMsg()
+error | pub fn cancel_current_diablo_msg(ctx: &mut Ctx) | error.cpp|devilution::CancelCurrentDiabloMsg()
+movie | pub fn play_movie(ctx: &mut Ctx, movie: &str, user_can_close: bool) | movie.cpp|devilution::play_movie(const char *pszMovie, bool userCanClose)
+menu | pub fn mainmenu_loop(ctx: &mut Ctx) | menu.cpp|devilution::mainmenu_loop()
+hwcursor | pub fn is_hardware_cursor(ctx: &Ctx) -> bool | hwcursor.hpp|devilution::IsHardwareCursor()
+hwcursor | pub fn set_hardware_cursor(ctx: &mut Ctx, cursor: CursorInfo) | hwcursor.cpp|devilution::SetHardwareCursor(CursorInfo cursorInfo)
+hwcursor | pub fn reinitialize_hardware_cursor(ctx: &mut Ctx) | hwcursor.cpp|devilution::ReinitializeHardwareCursor()
+monster | pub fn free_monsters(ctx: &mut Ctx) | monster.cpp|devilution::FreeMonsters()
+missiles | pub fn free_missile_gfx(ctx: &mut Ctx) | missiles.cpp|devilution::FreeMissileGFX()
+objects | pub fn free_object_gfx(ctx: &mut Ctx) | objects.cpp|devilution::FreeObjectGFX()
+towners | pub fn free_towner_gfx(ctx: &mut Ctx) | towners.cpp|devilution::FreeTownerGFX()
+doom | pub fn doom_close(ctx: &mut Ctx) | doom.cpp|devilution::doom_close()
+pfile | pub fn pfile_write_hero(ctx: &mut Ctx, write_game_data: bool) | pfile.cpp|devilution::pfile_write_hero(bool writeGameData)
+pfile | pub fn gb_valid_save_file(ctx: &Ctx) -> bool | pfile.cpp|devilution::gbValidSaveFile
+stores | pub fn stextflag_is_none(ctx: &Ctx) -> bool | stores.cpp|devilution::stextflag
+minitext | pub fn qtextflag(ctx: &Ctx) -> bool | minitext.cpp|devilution::qtextflag
+minitext | pub fn set_qtextflag(ctx: &mut Ctx, v: bool) | minitext.cpp|devilution::qtextflag
+levels/gendung | pub fn free_dungeon_gfx(ctx: &mut Ctx) | diablo.cpp|devilution::FreeGameMem() pDungeonCels/pMegaTiles/pSpecialCels
+levels/gendung | pub fn leveltype_is_town(ctx: &Ctx) -> bool | levels/gendung.cpp|devilution::leveltype
+multi | pub fn net_close(ctx: &mut Ctx) | multi.cpp|devilution::NetClose()
+storm/storm_net | pub fn snet_leave_game(ctx: &mut Ctx, type_: i32) -> bool | storm/storm_net.cpp|devilution::SNetLeaveGame(int type)
+storm/storm_net | pub fn snet_destroy(ctx: &mut Ctx) | storm/storm_net.cpp|devilution::SNetDestroy()

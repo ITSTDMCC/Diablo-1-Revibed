@@ -1,0 +1,19 @@
+# build output
+/target/
+
+# Never commit game data or anything derived from it (art, audio, screenshots, dumps).
+*.mpq
+*.MPQ
+*.pcx
+*.cel
+*.cl2
+*.clx
+*.smk
+*.wav
+*.png
+*.sv
+*.hsv
+/reference/
+/milestones/
+/screenshots/
+diablo.ini
