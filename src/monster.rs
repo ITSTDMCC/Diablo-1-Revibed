@@ -178,7 +178,7 @@ pub fn monster_level(ctx: &Ctx, m: usize, difficulty: _difficulty) -> u32 {
     let mon = &ctx.monster.Monsters[m];
     let mut base_level = monster_data(ctx, m).level as u32;
     if mon.is_unique() {
-        base_level = UniqueMonstersData[mon.uniqueType as i8 as usize].mlevel as u32;
+        base_level = UniqueMonstersData[mon.uniqueType.0 as usize].mlevel as u32;
         if base_level != 0 {
             base_level *= 2;
         } else {
@@ -225,8 +225,8 @@ pub fn is_walking(ctx: &Ctx, m: usize) -> bool {
 pub fn to_hit_special(ctx: &Ctx, m: usize, difficulty: _difficulty) -> u32 {
     let mon = &ctx.monster.Monsters[m];
     let mut base_to_hit_special = monster_data(ctx, m).toHitSpecial as u32;
-    if mon.is_unique() && UniqueMonstersData[mon.uniqueType as u8 as usize].customToHit != 0 {
-        base_to_hit_special = UniqueMonstersData[mon.uniqueType as u8 as usize].customToHit as u32;
+    if mon.is_unique() && UniqueMonstersData[mon.uniqueType.0 as usize].customToHit != 0 {
+        base_to_hit_special = UniqueMonstersData[mon.uniqueType.0 as usize].customToHit as u32;
     }
     if difficulty == DIFF_NIGHTMARE {
         base_to_hit_special += NightmareToHitBonus;
@@ -286,7 +286,7 @@ pub const GOLEM_HOLDING_CELL: Point = Point::new(1, 0);
 pub fn monster_name(ctx: &crate::ctx::Ctx, m: usize) -> String {
     let mon = &ctx.monster.Monsters[m];
     if mon.uniqueType != UniqueMonsterType::None {
-        return crate::utils::language::pgettext("monster", UniqueMonstersData[mon.uniqueType as i8 as usize].mName);
+        return crate::utils::language::pgettext("monster", UniqueMonstersData[mon.uniqueType.0 as usize].mName);
     }
     crate::utils::language::pgettext("monster", monster_data(ctx, m).name)
 }
@@ -779,7 +779,7 @@ fn get_monster_type_index(ctx: &Ctx, type_: _monster_id) -> usize {
 // @port monster.cpp|devilution::PlaceUniqueMonst(UniqueMonsterType uniqindex, size_t minionType, int bosspacksize) sha=30c3cfe0ee7b
 fn place_unique_monst(ctx: &mut Ctx, uniqindex: UniqueMonsterType, minion_type: usize, bosspacksize: i32) {
     let m = ctx.monster.ActiveMonsterCount;
-    let unique_monster_data = &UniqueMonstersData[uniqindex as usize];
+    let unique_monster_data = &UniqueMonstersData[uniqindex.0 as usize];
     let mut count = 0;
     let mut position;
     loop {
@@ -872,7 +872,7 @@ fn add_monster_type(ctx: &mut Ctx, type_: _monster_id, placeflag: placeflag) -> 
 /// Original: `AddMonsterType(UniqueMonsterType, placeflag)` (monster.cpp).
 // @port monster.cpp|devilution::AddMonsterType(UniqueMonsterType uniqueType, placeflag placeflag) sha=3a9631404a4c
 fn add_monster_type_unique(ctx: &mut Ctx, unique_type: UniqueMonsterType, placeflag: placeflag) -> usize {
-    add_monster_type(ctx, UniqueMonstersData[unique_type as usize].mtype, placeflag)
+    add_monster_type(ctx, UniqueMonstersData[unique_type.0 as usize].mtype, placeflag)
 }
 
 /// Original: `PlaceUniqueMonsters` (monster.cpp).
@@ -3737,7 +3737,7 @@ fn update_mode_stance(ctx: &mut Ctx, m: usize) -> bool {
 /// Original: `devilution::InitTRNForUniqueMonster` (monster.cpp).
 // @port monster.cpp|devilution::InitTRNForUniqueMonster(Monster &monster) sha=ccbf565e8f1e
 pub fn init_trn_for_unique_monster(ctx: &mut Ctx, m: usize) {
-    let name = UniqueMonstersData[ctx.monster.Monsters[m].uniqueType as usize].mTrnName.unwrap_or("");
+    let name = UniqueMonstersData[ctx.monster.Monsters[m].uniqueType.0 as usize].mTrnName.unwrap_or("");
     let filestr = format!("monsters\\monsters\\{name}.trn");
     let data = crate::engine::load_file::load_file_in_mem(ctx, &filestr).unwrap_or_default();
     let mut trn = [0u8; 256];
@@ -5181,7 +5181,7 @@ pub fn set_leader(ctx: &mut Ctx, m: usize, leader: Option<usize>) {
 // @port monster.h|devilution::Monster::hasLeashedMinions() sha=d26ca0bad6b0
 pub fn has_leashed_minions(ctx: &Ctx, m: usize) -> bool {
     let monster = &ctx.monster.Monsters[m];
-    monster.is_unique() && UniqueMonstersData[monster.uniqueType as usize].monsterPack == UniqueMonsterPack::Leashed
+    monster.is_unique() && UniqueMonstersData[monster.uniqueType.0 as usize].monsterPack == UniqueMonsterPack::Leashed
 }
 
 /// Original: `Monster::distanceToEnemy` (monster.cpp).

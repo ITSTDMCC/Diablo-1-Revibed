@@ -29,6 +29,9 @@ SKIP = {
 }
 # Unscoped enums used as bit flags (and with an enumerator named None).
 FORCE_FLAGS = {'AnimationDistributionFlags', 'MissileGraphicsFlags'}
+# Enum classes the original stores arbitrary values of the underlying type in (e.g. a unique
+# monster index that has no enumerator) -> newtype `struct X(pub T)` with associated consts.
+OPEN = {'UniqueMonsterType'}
 RUST_INT = {
     'uint8_t': 'u8', 'int8_t': 'i8', 'uint16_t': 'u16', 'int16_t': 'i16', 'uint32_t': 'u32', 'int32_t': 'i32',
     'int': 'i32', 'unsigned': 'u32', 'std::uint8_t': 'u8', 'std::int8_t': 'i8', '': 'i32',
@@ -136,6 +139,20 @@ def main():
                     out.append(f'impl std::ops::{tr} for {name} {{\n    type Output = {name};\n    fn {m}(self, o: {name}) -> {name} {{\n        {name}(self.0 {op} o.0)\n    }}\n}}')
                     out.append(f'impl std::ops::{tr}Assign for {name} {{\n    fn {m}_assign(&mut self, o: {name}) {{\n        self.0 = self.0 {op} o.0;\n    }}\n}}')
                 out.append(f'impl std::ops::Not for {name} {{\n    type Output = {name};\n    fn not(self) -> {name} {{\n        {name}(!self.0)\n    }}\n}}')
+            elif is_class and name in OPEN:
+                default = next((n for n, v, _ in members if v == 0), members[0][0])
+                out.append('#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]')
+                out.append(f'pub struct {name}(pub {rty});')
+                out.append(f'impl Default for {name} {{\n    fn default() -> Self {{\n        {name}::{default}\n    }}\n}}')
+                out.append(f'impl {name} {{')
+                for n, v, _ in members:
+                    out.append(f'    pub const {n}: {name} = {name}({v});')
+                out.append(f'    pub const fn from_repr(v: {rty}) -> Option<{name}> {{\n        Some({name}(v))\n    }}')
+                out.append(f'    pub const fn from_raw(v: {rty}) -> {name} {{\n        {name}(v)\n    }}')
+                out.append(f'    pub const fn raw(self) -> {rty} {{\n        self.0\n    }}')
+                out.append('}')
+                for n, v, _ in members:
+                    env[name + '::' + n] = v
             elif is_class:
                 real = [(n, v) for n, v, a in members if not a]
                 vals = {}

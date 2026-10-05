@@ -1443,7 +1443,7 @@ fn save_monster(ctx: &Ctx, file: &mut SaveHelper, m: usize, conversion: Option<&
     file.u32(monster.aiSeed);
     file.skip(4);
 
-    file.u8((monster.uniqueType as i16 as u8).wrapping_add(1));
+    file.u8(monster.uniqueType.0.wrapping_add(1));
     file.u8(monster.uniqTrans);
     file.i8(monster.corpseId);
 

@@ -1031,54 +1031,35 @@ pub const MFLAG_NOLIFESTEAL: monster_flag = 4096;
 
 // monster.h
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
-#[repr(u8)]
-pub enum UniqueMonsterType {
-    Garbud = 0,
-    SkeletonKing = 1,
-    Zhar = 2,
-    SnotSpill = 3,
-    Lazarus = 4,
-    RedVex = 5,
-    BlackJade = 6,
-    Lachdan = 7,
-    WarlordOfBlood = 8,
-    Butcher = 9,
-    HorkDemon = 10,
-    Defiler = 11,
-    NaKrul = 12,
-    None = 255,
-}
+pub struct UniqueMonsterType(pub u8);
 impl Default for UniqueMonsterType {
     fn default() -> Self {
         UniqueMonsterType::Garbud
     }
 }
 impl UniqueMonsterType {
+    pub const Garbud: UniqueMonsterType = UniqueMonsterType(0);
+    pub const SkeletonKing: UniqueMonsterType = UniqueMonsterType(1);
+    pub const Zhar: UniqueMonsterType = UniqueMonsterType(2);
+    pub const SnotSpill: UniqueMonsterType = UniqueMonsterType(3);
+    pub const Lazarus: UniqueMonsterType = UniqueMonsterType(4);
+    pub const RedVex: UniqueMonsterType = UniqueMonsterType(5);
+    pub const BlackJade: UniqueMonsterType = UniqueMonsterType(6);
+    pub const Lachdan: UniqueMonsterType = UniqueMonsterType(7);
+    pub const WarlordOfBlood: UniqueMonsterType = UniqueMonsterType(8);
+    pub const Butcher: UniqueMonsterType = UniqueMonsterType(9);
+    pub const HorkDemon: UniqueMonsterType = UniqueMonsterType(10);
+    pub const Defiler: UniqueMonsterType = UniqueMonsterType(11);
+    pub const NaKrul: UniqueMonsterType = UniqueMonsterType(12);
+    pub const None: UniqueMonsterType = UniqueMonsterType(255);
     pub const fn from_repr(v: u8) -> Option<UniqueMonsterType> {
-        match v {
-            0 => Some(UniqueMonsterType::Garbud),
-            1 => Some(UniqueMonsterType::SkeletonKing),
-            2 => Some(UniqueMonsterType::Zhar),
-            3 => Some(UniqueMonsterType::SnotSpill),
-            4 => Some(UniqueMonsterType::Lazarus),
-            5 => Some(UniqueMonsterType::RedVex),
-            6 => Some(UniqueMonsterType::BlackJade),
-            7 => Some(UniqueMonsterType::Lachdan),
-            8 => Some(UniqueMonsterType::WarlordOfBlood),
-            9 => Some(UniqueMonsterType::Butcher),
-            10 => Some(UniqueMonsterType::HorkDemon),
-            11 => Some(UniqueMonsterType::Defiler),
-            12 => Some(UniqueMonsterType::NaKrul),
-            255 => Some(UniqueMonsterType::None),
-            _ => Option::None,
-        }
+        Some(UniqueMonsterType(v))
     }
-    /// Panics on a value that is not an enumerator (the C++ cast would be UB-adjacent).
-    pub fn from_raw(v: u8) -> UniqueMonsterType {
-        Self::from_repr(v).unwrap_or_else(|| panic!("invalid UniqueMonsterType {v}"))
+    pub const fn from_raw(v: u8) -> UniqueMonsterType {
+        UniqueMonsterType(v)
     }
     pub const fn raw(self) -> u8 {
-        self as u8
+        self.0
     }
 }
 

@@ -135,6 +135,10 @@ pub struct Ctx {
     pub themes: crate::levels::themes::ThemesState,
     /// levels/drlg_l1.cpp
     pub drlg_l1: crate::levels::drlg_l1::DrlgL1State,
+    /// levels/drlg_l2.cpp
+    pub drlg_l2: crate::levels::drlg_l2::DrlgL2State,
+    /// levels/drlg_l3.cpp
+    pub drlg_l3: crate::levels::drlg_l3::DrlgL3State,
     /// levels/drlg_l4.cpp
     pub drlg_l4: crate::levels::drlg_l4::DrlgL4State,
     /// movie.cpp
@@ -210,6 +214,8 @@ impl Ctx {
             modifier_hints: Default::default(),
             themes: Default::default(),
             drlg_l1: Default::default(),
+            drlg_l2: Default::default(),
+            drlg_l3: Default::default(),
             drlg_l4: Default::default(),
             movie: Default::default(),
         }

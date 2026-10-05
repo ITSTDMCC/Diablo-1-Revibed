@@ -99,30 +99,45 @@ pub struct ShadowStruct {
     pub nv3: u8,
 }
 
-/// `Bitset2d<DMAXX, DMAXY>`
+/// `Bitset2d<DMAXX, DMAXY>`: bit `y * DMAXX + x`. As in the original (whose `size_t` index wraps),
+/// coordinates one step outside a row land in the neighbouring row; an index outside the whole
+/// set panics where `std::bitset` throws `std::out_of_range`.
 #[derive(Clone)]
 pub struct Bitset2d {
-    bits: [[bool; DMAXY]; DMAXX],
+    bits: [bool; DMAXX * DMAXY],
 }
 
 impl Default for Bitset2d {
     fn default() -> Self {
-        Bitset2d { bits: [[false; DMAXY]; DMAXX] }
+        Bitset2d { bits: [false; DMAXX * DMAXY] }
     }
 }
 
 impl Bitset2d {
+    fn index(x: i32, y: i32) -> usize {
+        let i = y as i64 * DMAXX as i64 + x as i64;
+        assert!((0..(DMAXX * DMAXY) as i64).contains(&i), "bitset::test: out_of_range");
+        i as usize
+    }
     pub fn test(&self, x: i32, y: i32) -> bool {
-        self.bits[x as usize][y as usize]
+        self.bits[Self::index(x, y)]
     }
     pub fn set(&mut self, x: i32, y: i32) {
-        self.bits[x as usize][y as usize] = true;
+        self.bits[Self::index(x, y)] = true;
     }
     pub fn set_value(&mut self, x: i32, y: i32, v: bool) {
-        self.bits[x as usize][y as usize] = v;
+        self.bits[Self::index(x, y)] = v;
+    }
+    /// `reset(x, y)`
+    pub fn reset_at(&mut self, x: i32, y: i32) {
+        self.bits[Self::index(x, y)] = false;
     }
     pub fn reset(&mut self) {
-        self.bits = [[false; DMAXY]; DMAXX];
+        self.bits = [false; DMAXX * DMAXY];
+    }
+    /// `count`
+    pub fn count(&self) -> usize {
+        self.bits.iter().filter(|&&b| b).count()
     }
 }
 
@@ -984,4 +999,33 @@ pub fn is_tile_visible(ctx: &Ctx, position: Point) -> bool {
 // @port levels/gendung.h|devilution::IsTileLit(Point position) sha=fd368f94b97f
 pub fn is_tile_lit(ctx: &Ctx, position: Point) -> bool {
     dflag_has(ctx, position, DungeonFlag::Lit)
+}
+
+/// `dungeon[x][y]` as the generators' unchecked C++ reads see it: the flat index `x * DMAXY + y`
+/// into `dungeon`, continuing into `pdungeon` (declared right after it in gendung.cpp; inferred
+/// layout) and reading 0 before the start.
+pub fn dungeon_flat(ctx: &Ctx, x: i32, y: i32) -> u8 {
+    let (w, h) = (DMAXX as i32, DMAXY as i32);
+    let idx = x * h + y;
+    if (0..w * h).contains(&idx) {
+        ctx.gendung.dungeon[(idx / h) as usize][(idx % h) as usize]
+    } else if (w * h..2 * w * h).contains(&idx) {
+        let i = idx - w * h;
+        ctx.gendung.pdungeon[(i / h) as usize][(i % h) as usize]
+    } else {
+        0
+    }
+}
+
+/// `dungeon[x][y] = v` for the generators' unchecked C++ writes (see `dungeon_flat`); writes
+/// outside both arrays are dropped.
+pub fn set_dungeon_flat(ctx: &mut Ctx, x: i32, y: i32, v: u8) {
+    let (w, h) = (DMAXX as i32, DMAXY as i32);
+    let idx = x * h + y;
+    if (0..w * h).contains(&idx) {
+        ctx.gendung.dungeon[(idx / h) as usize][(idx % h) as usize] = v;
+    } else if (w * h..2 * w * h).contains(&idx) {
+        let i = idx - w * h;
+        ctx.gendung.pdungeon[(i / h) as usize][(i % h) as usize] = v;
+    }
 }
