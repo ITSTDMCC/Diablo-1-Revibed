@@ -103,6 +103,8 @@ pub struct DiabloUiState {
     pub selyesno: crate::diablo_ui::selyesno::SelYesNoState,
     /// multi/selgame.cpp
     pub selgame: crate::diablo_ui::selgame::SelGameState,
+    /// settingsmenu.cpp
+    pub settingsmenu: crate::diablo_ui::settingsmenu::SettingsMenuState,
 }
 
 impl Default for DiabloUiState {
@@ -143,6 +145,7 @@ impl Default for DiabloUiState {
             mainmenu: Default::default(),
             selhero: Default::default(),
             selok: Default::default(),
+            settingsmenu: Default::default(),
             selyesno: Default::default(),
             selgame: Default::default(),
         }

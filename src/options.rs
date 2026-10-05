@@ -356,6 +356,11 @@ pub trait OptionEntry {
     fn set_active_list_index(&mut self, _index: usize) -> Option<OptionCallback> {
         None
     }
+    /// `static_cast<OptionEntryBoolean *>(p)->SetValue(!**p)`: only booleans implement it.
+    #[must_use]
+    fn toggle_boolean(&mut self) -> Option<OptionCallback> {
+        None
+    }
 }
 
 pub struct OptionEntryBoolean {
@@ -412,6 +417,9 @@ impl OptionEntry for OptionEntryBoolean {
     // @port options.cpp|devilution::OptionEntryBoolean::SaveToIni(string_view category) sha=c2b92be08f84
     fn save_to_ini(&self, io: &mut IniIo, category: &str) {
         io.set_bool(category, &self.base.key, self.value);
+    }
+    fn toggle_boolean(&mut self) -> Option<OptionCallback> {
+        self.set_value(!self.value)
     }
 }
 
@@ -2451,6 +2459,25 @@ pub const CATEGORY_ORDER: [&str; 12] =
     ["Language", "StartUp", "Graphics", "Audio", "Diablo", "Hellfire", "Game", "Controller", "Network", "NetMsg", "Keymapping", "Padmapping"];
 
 impl Options {
+    /// `GetCategories()[i]` by key.
+    pub fn category(&self, key: &str) -> &OptionCategoryBase {
+        match key {
+            "Language" => &self.language.category,
+            "StartUp" => &self.start_up.category,
+            "Graphics" => &self.graphics.category,
+            "Audio" => &self.audio.category,
+            "Diablo" => &self.diablo.category,
+            "Hellfire" => &self.hellfire.category,
+            "Game" => &self.gameplay.category,
+            "Controller" => &self.controller.category,
+            "Network" => &self.network.category,
+            "NetMsg" => &self.chat.category,
+            "Keymapping" => &self.keymapper.category,
+            "Padmapping" => &self.padmapper.category,
+            _ => panic!("unknown option category {key}"),
+        }
+    }
+
     /// `GetCategories()[i]->GetEntries()` for the plain (non-mapper) categories.
     pub fn entries_of(&mut self, category: &str) -> Vec<&mut dyn OptionEntry> {
         match category {

@@ -168,22 +168,22 @@ DiabloUI/selyesno.cpp|devilution::SelyesnoFree(),ported,,,src/diablo_ui/selyesno
 DiabloUI/selyesno.cpp|devilution::SelyesnoSelect(int value),ported,,,src/diablo_ui/selyesno.rs
 DiabloUI/selyesno.cpp|devilution::SelyesnoEsc(),ported,,,src/diablo_ui/selyesno.rs
 "DiabloUI/selyesno.cpp|devilution::UiSelHeroYesNoDialog(const char *title, const char *body)",ported,,,src/diablo_ui/selyesno.rs
-DiabloUI/settingsmenu.cpp|devilution::IsValidEntry(OptionEntryBase *pOptionEntry),pending,,,
-DiabloUI/settingsmenu.cpp|devilution::CreateDrawStringFormatArgForEntry(OptionEntryBase *pEntry),pending,,,
-DiabloUI/settingsmenu.cpp|devilution::NeedsTwoLinesToDisplayOption(std::vector<DrawStringFormatArg> &formatArgs),pending,,,
-DiabloUI/settingsmenu.cpp|devilution::CleanUpSettingsUI(),pending,,,
-DiabloUI/settingsmenu.cpp|devilution::GoBackOneMenuLevel(),pending,,,
-DiabloUI/settingsmenu.cpp|devilution::StartPadEntryTimer(),pending,,,
-DiabloUI/settingsmenu.cpp|devilution::StopPadEntryTimer(),pending,,,
-DiabloUI/settingsmenu.cpp|devilution::UpdatePadEntryTimerText(),pending,,,
-DiabloUI/settingsmenu.cpp|devilution::UpdateDescription(const OptionEntryBase &option),pending,,,
-DiabloUI/settingsmenu.cpp|devilution::UpdateDescription(const OptionCategoryBase &category),pending,,,
-DiabloUI/settingsmenu.cpp|devilution::ItemFocused(int value),pending,,,
-"DiabloUI/settingsmenu.cpp|devilution::ChangeOptionValue(OptionEntryBase *pOption, size_t listIndex)",pending,,,
-DiabloUI/settingsmenu.cpp|devilution::ItemSelected(int value),pending,,,
-DiabloUI/settingsmenu.cpp|devilution::EscPressed(),pending,,,
-DiabloUI/settingsmenu.cpp|devilution::FullscreenChanged(),pending,,,
-DiabloUI/settingsmenu.cpp|devilution::UiSettingsMenu(),pending,,,
+DiabloUI/settingsmenu.cpp|devilution::IsValidEntry(OptionEntryBase *pOptionEntry),ported,,,src/diablo_ui/settingsmenu.rs
+DiabloUI/settingsmenu.cpp|devilution::CreateDrawStringFormatArgForEntry(OptionEntryBase *pEntry),ported,,,src/diablo_ui/settingsmenu.rs
+DiabloUI/settingsmenu.cpp|devilution::NeedsTwoLinesToDisplayOption(std::vector<DrawStringFormatArg> &formatArgs),ported,,,src/diablo_ui/settingsmenu.rs
+DiabloUI/settingsmenu.cpp|devilution::CleanUpSettingsUI(),ported,,,src/diablo_ui/settingsmenu.rs
+DiabloUI/settingsmenu.cpp|devilution::GoBackOneMenuLevel(),ported,,,src/diablo_ui/settingsmenu.rs
+DiabloUI/settingsmenu.cpp|devilution::StartPadEntryTimer(),ported,,,src/diablo_ui/settingsmenu.rs
+DiabloUI/settingsmenu.cpp|devilution::StopPadEntryTimer(),ported,,,src/diablo_ui/settingsmenu.rs
+DiabloUI/settingsmenu.cpp|devilution::UpdatePadEntryTimerText(),ported,,,src/diablo_ui/settingsmenu.rs
+DiabloUI/settingsmenu.cpp|devilution::UpdateDescription(const OptionEntryBase &option),ported,,,src/diablo_ui/settingsmenu.rs
+DiabloUI/settingsmenu.cpp|devilution::UpdateDescription(const OptionCategoryBase &category),ported,,,src/diablo_ui/settingsmenu.rs
+DiabloUI/settingsmenu.cpp|devilution::ItemFocused(int value),ported,,,src/diablo_ui/settingsmenu.rs
+"DiabloUI/settingsmenu.cpp|devilution::ChangeOptionValue(OptionEntryBase *pOption, size_t listIndex)",ported,,,src/diablo_ui/settingsmenu.rs
+DiabloUI/settingsmenu.cpp|devilution::ItemSelected(int value),ported,,,src/diablo_ui/settingsmenu.rs
+DiabloUI/settingsmenu.cpp|devilution::EscPressed(),ported,,,src/diablo_ui/settingsmenu.rs
+DiabloUI/settingsmenu.cpp|devilution::FullscreenChanged(),ported,,,src/diablo_ui/settingsmenu.rs
+DiabloUI/settingsmenu.cpp|devilution::UiSettingsMenu(),ported,,,src/diablo_ui/settingsmenu.rs
 DiabloUI/title.cpp|devilution::TitleLoad(),ported,,,src/diablo_ui/title.rs
 DiabloUI/title.cpp|devilution::TitleFree(),ported,,,src/diablo_ui/title.rs
 DiabloUI/title.cpp|devilution::UiTitleDialog(),ported,,,src/diablo_ui/title.rs
@@ -1706,9 +1706,9 @@ init.cpp|devilution::LoadLanguageArchive(),ported,,,src/init.rs
 init.cpp|devilution::LoadGameArchives(),ported,,,src/init.rs
 init.cpp|devilution::init_create_window(),ported,,,src/init.rs
 init.cpp|devilution::MainWndProc(const SDL_Event &event),ported,,,src/init.rs
-init.h|devilution::HaveSpawn(),pending,,,
-init.h|devilution::HaveDiabdat(),pending,,,
-init.h|devilution::HaveHellfire(),pending,,,
+init.h|devilution::HaveSpawn(),ported,,,src/init.rs
+init.h|devilution::HaveDiabdat(),ported,,,src/init.rs
+init.h|devilution::HaveHellfire(),ported,,,src/init.rs
 init.h|devilution::HaveExtraFonts(),ported,,,src/engine/render/text_render.rs
 init.h|devilution::AreExtraFontsOutOfDate(),ported,,,src/init.rs
 interfac.cpp|devilution::GetCutSceneFromLevelType(dungeon_type type),ported,,,src/interfac.rs

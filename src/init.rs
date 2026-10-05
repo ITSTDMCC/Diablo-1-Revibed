@@ -202,6 +202,24 @@ pub fn init_create_window(ctx: &mut Ctx) {
     // SDL_DisableScreenSaver: winit keeps the screen awake while the window has focus.
 }
 
+/// Original: `devilution::HaveSpawn` (init.h).
+// @port init.h|devilution::HaveSpawn() sha=5b2b46b5e460
+pub fn have_spawn(ctx: &Ctx) -> bool {
+    ctx.init.archives.spawn_mpq.is_some()
+}
+
+/// Original: `devilution::HaveDiabdat` (init.h).
+// @port init.h|devilution::HaveDiabdat() sha=c49a7817a879
+pub fn have_diabdat(ctx: &Ctx) -> bool {
+    ctx.init.archives.diabdat_mpq.is_some()
+}
+
+/// Original: `devilution::HaveHellfire` (init.h).
+// @port init.h|devilution::HaveHellfire() sha=efe988bceb74
+pub fn have_hellfire(ctx: &Ctx) -> bool {
+    ctx.init.archives.hellfire_mpq.is_some()
+}
+
 /// Original: `devilution::MainWndProc` (init.cpp). `SDL_WINDOWEVENT_CLOSE` arrives as `Event::Quit`,
 /// which the event loops handle before this.
 // @port init.cpp|devilution::MainWndProc(const SDL_Event &event) sha=445c8066f620
