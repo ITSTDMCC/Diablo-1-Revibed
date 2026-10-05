@@ -115,6 +115,43 @@ run the normal build, still pass byte for byte).
 - Test hooks: `DIABLO_FREEMOVE_TRACE=1` prints the player's state every tick; input scripts can
   hold the mouse with `press <x> <y>` / `release <x> <y>`.
 
+#### First-person view (same build, key X)
+
+Asked for by the owner on 2026-10-05 as an optional gameplay feature; `src/firstperson.rs`.
+
+- Drawn instead of `DrawGame` in `DrawView` with a column raycaster into the 8-bit back buffer;
+  the panels and overlays are drawn over it as usual (floating damage numbers are skipped).
+- Level art: each level piece is rendered once with `RenderTile` into a 64 x (MicroTileLen/2 x 32)
+  picture (twice, on black and on white, to find its transparent pixels). A 3D point at (fx, fy)
+  from a tile centre and height h takes the picture's pixel at its isometric projection
+  (32 + (fx - fy) x 32, H - 16 + (fx + fy) x 16 - h x 45.25). Walls stand on the back edges of the
+  tiles (x - 0.5 for the picture's left half, y - 0.5 for the right half), as the art draws them;
+  a half counts as a wall when it has more than 64 pixels above the floor diamond. Wall art on a
+  tile the hero can walk (an archway) is only drawn above 1.9 tiles, as its painted opening would
+  otherwise hide what is behind it.
+- Shading: the game's light tables with `dLight` of the tile (the wall's or the tile in front of
+  it, whichever is lighter), plus distance fog in town, where `dLight` is 0 everywhere.
+- Sprites: items, objects (not doors), monsters (found per tile as `DrawMonsterHelper` finds them,
+  so walking monsters are placed by the original's walking offset), NPCs in town and missiles are
+  upright billboards, depth-tested per pixel. A monster's sprite is swapped for the direction it
+  shows the viewer (the isometric camera looks North; the turn relative to that is applied).
+  Visibility follows the original: unlit monsters are hidden unless the hero has infravision.
+- Aiming: `CheckCursMove` takes the tile from the first-person view when it is on: the monster,
+  item or object drawn under the mouse, else the floor point under it (or just in front of the
+  wall there). The rest of `CheckCursMove` and the click handlers are unchanged.
+- Movement: W/A/S/D drive the free movement's stick direction relative to the view. The tile
+  rules let the hero stand right at a wall, so in this view moves that come closer than 0.3 tiles
+  to a wall (solid at waist height) are refused, and the eye sits up to 0.4 tiles behind the hero.
+- Keys: X toggles (only where free movement is active: single player); W/A/S/D are taken before
+  the keymapper while the view is on.
+- Known limits: the isometric art is a picture of 3D shapes seen from one side, so wall caps and
+  town houses look like sheared planes, arch openings are solid below 1.9 tiles, sprites are flat
+  and pixelated up close, the player's own sprite is not drawn, there is no ceiling.
+- Test hooks: `DIABLO_FP_YAW=<degrees>|monster` sets the view direction when the view is switched
+  on (`monster`: the nearest monster or NPC in plain sight); `DIABLO_FP_DUMP=<dir>` writes every
+  level piece picture as PPM; input scripts can hold keys with `keydown <key>` / `keyup <key>`;
+  `tools/input_scripts/first_person.txt` walks around town and dungeon level 2.
+
 ### Both builds
 
 Behaviour the owner would notice:

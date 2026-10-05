@@ -1,0 +1,17 @@
+300 key 13
+500 key 13
+700 text Mover
+710 key 13
+900 key 13
+1100 key 120
+1200 keydown 119
+1300 keyup 119
+1350 keydown 100
+1380 keyup 100
+1400 warp 2
+1750 keydown 119
+1850 keyup 119
+1900 keydown 100
+1950 keyup 100
+2000 keydown 119
+2100 keyup 119

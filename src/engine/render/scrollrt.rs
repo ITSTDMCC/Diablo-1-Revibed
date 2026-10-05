@@ -19,7 +19,7 @@ pub struct ScrollrtState {
     /// `AutoMapShowItems`
     pub AutoMapShowItems: bool,
     /// `MissilesAtRenderingTile` (tile, missile index), in iteration order
-    missiles_at_rendering_tile: Vec<(Point, usize)>,
+    pub(crate) missiles_at_rendering_tile: Vec<(Point, usize)>,
     /// `dRendered`
     d_rendered: Box<[[bool; MAXDUNY]; MAXDUNX]>,
     /// `PrevCursorRect`
@@ -147,7 +147,7 @@ fn update_missile_renderer_data(ctx: &mut Ctx, mi: usize) {
 /// `std::unordered_multimap`; libstdc++ inserts a new element in front of the elements with an
 /// equal key, so missiles on one tile are visited newest first, which the lookup reproduces.
 // @port engine/render/scrollrt.cpp|devilution::UpdateMissilesRendererData() sha=9a93f30568e6
-fn update_missiles_renderer_data(ctx: &mut Ctx) {
+pub(crate) fn update_missiles_renderer_data(ctx: &mut Ctx) {
     ctx.scrollrt.missiles_at_rendering_tile.clear();
     for mi in 0..ctx.missiles.Missiles.len() {
         update_missile_renderer_data(ctx, mi);
@@ -946,15 +946,20 @@ fn zoom_view(ctx: &Ctx, out: &Surface) {
 // @port engine/render/scrollrt.cpp|devilution::DrawView(const Surface &out, Point startPosition) sha=f2935d3b6f0b
 fn draw_view(ctx: &mut Ctx, out: &Surface, mut start_position: Point) {
     let mut offset = Displacement::default();
-    calc_first_tile_position(ctx, &mut start_position, &mut offset);
-    draw_game(ctx, out, start_position, offset);
+    let first_person = crate::firstperson::draw(ctx, &out.subregion_y(0, ctx.dx.gn_viewport_height));
+    if !first_person {
+        calc_first_tile_position(ctx, &mut start_position, &mut offset);
+        draw_game(ctx, out, start_position, offset);
+    }
     if crate::automap::automap_active(ctx) {
         let vh = ctx.dx.gn_viewport_height;
         crate::automap::draw_automap(ctx, &out.subregion_y(0, vh));
     }
     crate::qol::itemlabels::draw_item_name_labels(ctx, out);
     crate::qol::monhealthbar::draw_monster_health_bar(ctx, out);
-    crate::qol::floatingnumbers::draw_floating_numbers(ctx, out, start_position, offset);
+    if !first_person {
+        crate::qol::floatingnumbers::draw_floating_numbers(ctx, out, start_position, offset);
+    }
 
     if !crate::stores::stextflag_is_none(ctx) && !crate::minitext::qtextflag(ctx) {
         crate::stores::draw_s_text(ctx, out);

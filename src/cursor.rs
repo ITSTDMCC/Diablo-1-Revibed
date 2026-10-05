@@ -343,9 +343,14 @@ pub fn check_curs_move(ctx: &mut Ctx) {
     let ty = sy / crate::engine::render::dun_render::TILE_HEIGHT;
     crate::engine::render::scrollrt::shift_grid(&mut mx, &mut my, tx, ty);
     // Shift position to match diamond grid aligment
-    let px = sx % crate::engine::render::dun_render::TILE_WIDTH;
-    let py = sy % crate::engine::render::dun_render::TILE_HEIGHT;
+    let mut px = sx % crate::engine::render::dun_render::TILE_WIDTH;
+    let mut py = sy % crate::engine::render::dun_render::TILE_HEIGHT;
     crate::freemove::set_cursor_point(ctx, Point::new(mx, my), px, py);
+    if let Some((t, point)) = crate::firstperson::pick(ctx, mouse) {
+        // first-person view: what is under the mouse there
+        (mx, my, px, py) = (t.x, t.y, 0, 0);
+        ctx.freemove.cursor_point = Some(point);
+    }
     let flipy = py < (px / 2);
     if flipy {
         my -= 1;

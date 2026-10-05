@@ -11,6 +11,7 @@ pub mod control;
 pub mod controls;
 pub mod dvlnet;
 pub mod freemove;
+pub mod firstperson;
 pub mod ctx;
 pub mod diablo;
 pub mod diablo_game;

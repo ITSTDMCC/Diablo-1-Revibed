@@ -330,6 +330,9 @@ fn release_key(ctx: &mut Ctx, vkey: i32) {
     if ctx.diablo.sgn_timeout_curs != CURSOR_NONE {
         return;
     }
+    if crate::firstperson::release_key(ctx, vkey) {
+        return;
+    }
     crate::options::keymapper_key_released(ctx, vkey);
 }
 
@@ -406,6 +409,9 @@ fn press_key(ctx: &mut Ctx, vkey: i32, mod_state: u16) {
         return;
     }
     if ctx.diablo.sgn_timeout_curs != CURSOR_NONE {
+        return;
+    }
+    if ctx.diablo.pause_mode != 2 && crate::firstperson::press_key(ctx, vkey) {
         return;
     }
     crate::options::keymapper_key_pressed(ctx, vkey as u32);

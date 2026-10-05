@@ -359,6 +359,9 @@ fn try_move(ctx: &mut Ctx, pnum: usize, new: (f32, f32)) -> bool {
         if (cand.0 - pos.0).abs() < 1e-4 && (cand.1 - pos.1).abs() < 1e-4 {
             continue;
         }
+        if crate::firstperson::too_close_to_wall(ctx, pos, cand) {
+            continue;
+        }
         let t = rounded(cand);
         if t == tile {
             ctx.freemove.pos = cand;
@@ -372,7 +375,7 @@ fn try_move(ctx: &mut Ctx, pnum: usize, new: (f32, f32)) -> bool {
     }
     // blocked: go up to the edge of the current tile
     let clamped = (new.0.clamp(tile.x as f32 - EDGE, tile.x as f32 + EDGE), new.1.clamp(tile.y as f32 - EDGE, tile.y as f32 + EDGE));
-    if (clamped.0 - pos.0).abs() > 1e-3 || (clamped.1 - pos.1).abs() > 1e-3 {
+    if ((clamped.0 - pos.0).abs() > 1e-3 || (clamped.1 - pos.1).abs() > 1e-3) && !crate::firstperson::too_close_to_wall(ctx, pos, clamped) {
         ctx.freemove.pos = clamped;
         return true;
     }
@@ -395,6 +398,18 @@ pub fn tick(ctx: &mut Ctx, pnum: usize) {
         eprintln!("FREEMODE t={} mode={} da={} tile=({},{}) wps={} frame={}/{} goal={:?} face={:?}", ctx.platform.ticks(), p._pmode, p.destAction, p.position.tile.x, p.position.tile.y, ctx.freemove.waypoints.len(), p.AnimInfo.currentFrame, p.AnimInfo.numberOfFrames, ctx.freemove.goal, ctx.freemove.walk_anim);
     }
     let standing = ctx.players.Players[pnum]._pmode == PM_STAND && !ctx.players.Players[pnum]._pInvincible;
+    if let Some(v) = crate::firstperson::movement(ctx) {
+        // first-person view: W/A/S/D
+        if v == (0.0, 0.0) {
+            ctx.freemove.stick = None;
+        } else {
+            ctx.freemove.stick = Some(v);
+            if standing {
+                ctx.freemove.waypoints.clear();
+                ctx.freemove.stop_next_to = None;
+            }
+        }
+    }
     if !standing {
         ctx.freemove.waypoints.clear();
         ctx.freemove.stop_next_to = None;

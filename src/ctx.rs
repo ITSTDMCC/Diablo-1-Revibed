@@ -147,6 +147,8 @@ pub struct Ctx {
     pub svid: crate::storm::storm_svid::SvidState,
     /// Free movement (not in the original; feature `free-movement`)
     pub freemove: crate::freemove::FreeMoveState,
+    /// First-person view (not in the original; feature `free-movement`)
+    pub firstperson: crate::firstperson::FirstPersonState,
 }
 
 impl Ctx {
@@ -161,6 +163,7 @@ impl Ctx {
             control: Default::default(),
             controls: Default::default(),
             freemove: Default::default(),
+            firstperson: Default::default(),
             demo: Default::default(),
             dx: Default::default(),
             rng: DiabloRng::default(),
