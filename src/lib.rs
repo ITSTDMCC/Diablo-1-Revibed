@@ -12,6 +12,7 @@ pub mod ctx;
 pub mod diablo;
 pub mod diablo_ui;
 pub mod encrypt;
+pub mod enums;
 pub mod engine;
 pub mod cursor;
 pub mod hwcursor;
@@ -29,6 +30,7 @@ pub mod port;
 pub mod qol;
 pub mod spells;
 pub mod storm;
+pub mod tables;
 #[doc(hidden)]
 pub mod test_data;
 pub mod utils;

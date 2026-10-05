@@ -19,7 +19,7 @@ const STEREO_SEPARATION: f32 = 6000.0;
 pub const ATTENUATION_MIN: i32 = -6400;
 
 /// Original: `PanLogToLinear` (utils/soundsample.cpp).
-// @port utils/soundsample.cpp|devilution::PanLogToLinear(int logPan)
+// @port utils/soundsample.cpp|devilution::PanLogToLinear(int logPan) sha=08695714def1
 fn pan_log_to_linear(log_pan: i32) -> f32 {
     if log_pan == 0 {
         return 0.0;
@@ -34,14 +34,14 @@ fn remap(in_min: f32, in_max: f32, out_min: f32, out_max: f32, v: f32) -> f32 {
 }
 
 /// Original: `VolumeLogToLinear` (utils/soundsample.cpp).
-// @port utils/soundsample.cpp|devilution::VolumeLogToLinear(int logVolume, int logMin, int logMax)
+// @port utils/soundsample.cpp|devilution::VolumeLogToLinear(int logVolume, int logMin, int logMax) sha=146f3e98ac70
 fn volume_log_to_linear(log_volume: i32, log_min: i32, log_max: i32) -> f32 {
     let log_scaled = remap(log_min as f32, log_max as f32, MILLIBEL_MIN, MILLIBEL_MAX, log_volume as f32);
     LOG_BASE.powf(log_scaled / VOLUME_SCALE)
 }
 
 /// Original: `CreateStream` (utils/soundsample.cpp): MP3 needs a decoder the port does not have.
-// @port utils/soundsample.cpp|devilution::CreateStream(SDL_RWops *handle, bool isMp3)
+// @port utils/soundsample.cpp|devilution::CreateStream(SDL_RWops *handle, bool isMp3) sha=b2aabffda3e1
 fn create_stream(data: &[u8], is_mp3: bool) -> Result<Stream, String> {
     if is_mp3 {
         return Err("MP3 audio is not supported".into());
@@ -66,13 +66,13 @@ impl SoundSample {
     }
 
     /// Original: `SoundSample::Release` (utils/soundsample.cpp).
-    // @port utils/soundsample.cpp|devilution::SoundSample::Release()
+    // @port utils/soundsample.cpp|devilution::SoundSample::Release() sha=41eb7c621dc8
     pub fn release(&mut self) {
         self.stream = None;
     }
 
     /// Original: `SoundSample::IsPlaying` (utils/soundsample.cpp).
-    // @port utils/soundsample.cpp|devilution::SoundSample::IsPlaying()
+    // @port utils/soundsample.cpp|devilution::SoundSample::IsPlaying() sha=573032431a8c
     pub fn is_playing(&self) -> bool {
         self.stream.as_ref().is_some_and(|s| s.is_playing())
     }
@@ -82,14 +82,14 @@ impl SoundSample {
     }
 
     /// Original: `SoundSample::Play` (utils/soundsample.cpp). 0 iterations loops.
-    // @port utils/soundsample.cpp|devilution::SoundSample::Play(int numIterations)
+    // @port utils/soundsample.cpp|devilution::SoundSample::Play(int numIterations) sha=9348b139e6e2
     pub fn play(&mut self, num_iterations: i32) -> bool {
         self.stream.as_ref().expect("stream").play(num_iterations)
     }
 
     /// Original: `SoundSample::SetChunkStream` (utils/soundsample.cpp). The file is decoded up
     /// front instead of streamed.
-    // @port utils/soundsample.cpp|devilution::SoundSample::SetChunkStream(std::string filePath, bool isMp3, bool logErrors)
+    // @port utils/soundsample.cpp|devilution::SoundSample::SetChunkStream(std::string filePath, bool isMp3, bool logErrors) sha=9459943e599c
     pub fn set_chunk_stream(&mut self, ctx: &mut Ctx, file_path: &str, is_mp3: bool, log_errors: bool) -> i32 {
         let handle = crate::engine::assets::open_asset(ctx, file_path);
         if !handle.ok() {
@@ -118,7 +118,7 @@ impl SoundSample {
     }
 
     /// Original: `SoundSample::SetChunk` (utils/soundsample.cpp).
-    // @port utils/soundsample.cpp|devilution::SoundSample::SetChunk(ArraySharedPtr<std::uint8_t> fileData, std::size_t dwBytes, bool isMp3)
+    // @port utils/soundsample.cpp|devilution::SoundSample::SetChunk(ArraySharedPtr<std::uint8_t> fileData, std::size_t dwBytes, bool isMp3) sha=5dd6b13b73f2
     pub fn set_chunk(&mut self, file_data: Vec<u8>, is_mp3: bool) -> i32 {
         self.is_mp3 = is_mp3;
         self.streaming = false;
@@ -162,13 +162,13 @@ impl SoundSample {
     }
 
     /// Original: `SoundSample::SetVolume` (utils/soundsample.cpp).
-    // @port utils/soundsample.cpp|devilution::SoundSample::SetVolume(int logVolume, int logMin, int logMax)
+    // @port utils/soundsample.cpp|devilution::SoundSample::SetVolume(int logVolume, int logMin, int logMax) sha=2f95bafc3231
     pub fn set_volume(&mut self, log_volume: i32, log_min: i32, log_max: i32) {
         self.stream.as_ref().expect("stream").set_volume(volume_log_to_linear(log_volume, log_min, log_max));
     }
 
     /// Original: `SoundSample::SetStereoPosition` (utils/soundsample.cpp).
-    // @port utils/soundsample.cpp|devilution::SoundSample::SetStereoPosition(int logPan)
+    // @port utils/soundsample.cpp|devilution::SoundSample::SetStereoPosition(int logPan) sha=340bc5278fcf
     pub fn set_stereo_position(&mut self, log_pan: i32) {
         self.stream.as_ref().expect("stream").set_stereo_position(pan_log_to_linear(log_pan));
     }
@@ -182,7 +182,7 @@ impl SoundSample {
     }
 
     /// Original: `SoundSample::GetLength` (utils/soundsample.cpp): duration in ms.
-    // @port utils/soundsample.cpp|devilution::SoundSample::GetLength()
+    // @port utils/soundsample.cpp|devilution::SoundSample::GetLength() sha=c7cac83ea70d
     pub fn get_length(&self) -> i32 {
         match &self.stream {
             None => 0,

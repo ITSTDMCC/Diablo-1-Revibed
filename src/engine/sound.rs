@@ -131,7 +131,7 @@ fn cap_volume(volume: i32) -> i32 {
 
 /// Original: `DuplicateSound` (engine/sound.cpp). Finished duplicates are dropped here and in
 /// `ClearDuplicateSounds` (the original erases them from a finish callback).
-// @port engine/sound.cpp|devilution::DuplicateSound(const SoundSample &sound)
+// @port engine/sound.cpp|devilution::DuplicateSound(const SoundSample &sound) sha=fb9c4623227f
 fn duplicate_sound(ctx: &mut Ctx, sound: &SoundSample) -> Option<usize> {
     ctx.sound.duplicate_sounds.retain(|d| d.is_playing());
     let mut duplicate = SoundSample::default();

@@ -4,6 +4,7 @@ pub mod backbuffer_state;
 pub mod demomode;
 pub mod dx;
 pub mod events;
+pub mod geometry;
 pub mod load_file;
 pub mod palette;
 pub mod random;

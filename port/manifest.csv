@@ -1044,7 +1044,7 @@ engine/backbuffer_state.cpp|devilution::RedrawComponent(PanelDrawComponent compo
 engine/backbuffer_state.cpp|devilution::IsRedrawComponent(PanelDrawComponent component),ported,,,src/engine/backbuffer_state.rs
 engine/backbuffer_state.cpp|devilution::RedrawComponentComplete(PanelDrawComponent component),ported,,,src/engine/backbuffer_state.rs
 engine/backbuffer_state.cpp|devilution::GetDrawnCursor(),ported,,,src/engine/backbuffer_state.rs
-engine/circle.hpp|devilution::Circle::contains(Point point),pending,,,
+engine/circle.hpp|devilution::Circle::contains(Point point),ported,,,src/engine/geometry.rs
 "engine/clx_sprite.hpp|devilution::ClxSprite::ClxSprite(const uint8_t *data, uint32_t dataSize)",pending,,,
 engine/clx_sprite.hpp|devilution::ClxSprite::width(),pending,,,
 engine/clx_sprite.hpp|devilution::ClxSprite::height(),pending,,,
@@ -1127,47 +1127,47 @@ engine/demomode.cpp|devilution::demo::RecordGameLoopResult(bool runGameLoop),pen
 "engine/demomode.cpp|devilution::demo::RecordMessage(const SDL_Event &event, uint16_t modState)",pending,,,
 engine/demomode.cpp|devilution::demo::NotifyGameLoopStart(),pending,,,
 engine/demomode.cpp|devilution::demo::NotifyGameLoopEnd(),pending,,,
-engine/direction.cpp|devilution::DirectionToString(Direction direction),pending,,,
-engine/direction.hpp|devilution::Left(Direction facing),pending,,,
-engine/direction.hpp|devilution::Right(Direction facing),pending,,,
-engine/direction.hpp|devilution::Opposite(Direction facing),pending,,,
-engine/displacement.hpp|devilution::DisplacementOf::DisplacementOf(DisplacementOf<DisplacementDeltaT> other),pending,,,
-"engine/displacement.hpp|devilution::DisplacementOf::DisplacementOf(DeltaT deltaX, DeltaT deltaY)",pending,,,
-engine/displacement.hpp|devilution::DisplacementOf::DisplacementOf(DeltaT delta),pending,,,
-engine/displacement.hpp|devilution::DisplacementOf::DisplacementOf(const SizeOf<SizeT> &size),pending,,,
-engine/displacement.hpp|devilution::DisplacementOf::DisplacementOf(Direction direction),pending,,,
-engine/displacement.hpp|devilution::DisplacementOf::operator==(const DisplacementOf<DisplacementDeltaT> &other),pending,,,
-engine/displacement.hpp|devilution::DisplacementOf::operator!=(const DisplacementOf<DisplacementDeltaT> &other),pending,,,
-engine/displacement.hpp|devilution::DisplacementOf::operator+=(DisplacementOf<DisplacementDeltaT> displacement),pending,,,
-engine/displacement.hpp|devilution::DisplacementOf::operator-=(DisplacementOf<DisplacementDeltaT> displacement),pending,,,
-engine/displacement.hpp|devilution::DisplacementOf::operator*=(const int factor),pending,,,
-engine/displacement.hpp|devilution::DisplacementOf::operator*=(const float factor),pending,,,
-engine/displacement.hpp|devilution::DisplacementOf::operator*=(const DisplacementOf<DeltaU> factor),pending,,,
-engine/displacement.hpp|devilution::DisplacementOf::operator/=(const int factor),pending,,,
-engine/displacement.hpp|devilution::DisplacementOf::operator/=(const float factor),pending,,,
-engine/displacement.hpp|devilution::DisplacementOf::magnitude(),pending,,,
-engine/displacement.hpp|devilution::DisplacementOf::worldToScreen(),pending,,,
-engine/displacement.hpp|devilution::DisplacementOf::screenToWorld(),pending,,,
-engine/displacement.hpp|devilution::DisplacementOf::screenToMissile(),pending,,,
-engine/displacement.hpp|devilution::DisplacementOf::screenToLight(),pending,,,
-engine/displacement.hpp|devilution::DisplacementOf::worldToNormalScreen(),pending,,,
-engine/displacement.hpp|devilution::DisplacementOf::Rotate(int quadrants),pending,,,
-engine/displacement.hpp|devilution::DisplacementOf::flipX(),pending,,,
-engine/displacement.hpp|devilution::DisplacementOf::flipY(),pending,,,
-engine/displacement.hpp|devilution::DisplacementOf::flipXY(),pending,,,
-engine/displacement.hpp|devilution::DisplacementOf::fromDirection(Direction direction),pending,,,
-"engine/displacement.hpp|devilution::operator+(DisplacementOf<DisplacementDeltaT> a, DisplacementOf<OtherDisplacementDeltaT> b)",pending,,,
-"engine/displacement.hpp|devilution::operator-(DisplacementOf<DisplacementDeltaT> a, DisplacementOf<OtherDisplacementDeltaT> b)",pending,,,
-"engine/displacement.hpp|devilution::operator*(DisplacementOf<DisplacementDeltaT> a, const int factor)",pending,,,
-"engine/displacement.hpp|devilution::operator*(DisplacementOf<DisplacementDeltaT> a, const float factor)",pending,,,
-"engine/displacement.hpp|devilution::operator*(DisplacementOf<DisplacementDeltaT> a, const DisplacementOf<DisplacementDeltaU> factor)",pending,,,
-"engine/displacement.hpp|devilution::operator/(DisplacementOf<DisplacementDeltaT> a, const int factor)",pending,,,
-"engine/displacement.hpp|devilution::operator/(DisplacementOf<DisplacementDeltaT> a, const float factor)",pending,,,
-engine/displacement.hpp|devilution::operator-(DisplacementOf<DisplacementDeltaT> a),pending,,,
-"engine/displacement.hpp|devilution::operator<<(DisplacementOf<DisplacementDeltaT> a, unsigned factor)",pending,,,
-"engine/displacement.hpp|devilution::operator>>(DisplacementOf<DisplacementDeltaT> a, unsigned factor)",pending,,,
-engine/displacement.hpp|devilution::abs(DisplacementOf<DisplacementDeltaT> a),pending,,,
-engine/displacement.hpp|devilution::normalized(),pending,,,
+engine/direction.cpp|devilution::DirectionToString(Direction direction),ported,,,src/engine/geometry.rs
+engine/direction.hpp|devilution::Left(Direction facing),ported,,,src/engine/geometry.rs
+engine/direction.hpp|devilution::Right(Direction facing),ported,,,src/engine/geometry.rs
+engine/direction.hpp|devilution::Opposite(Direction facing),ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::DisplacementOf::DisplacementOf(DisplacementOf<DisplacementDeltaT> other),ported,,,src/engine/geometry.rs
+"engine/displacement.hpp|devilution::DisplacementOf::DisplacementOf(DeltaT deltaX, DeltaT deltaY)",ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::DisplacementOf::DisplacementOf(DeltaT delta),ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::DisplacementOf::DisplacementOf(const SizeOf<SizeT> &size),ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::DisplacementOf::DisplacementOf(Direction direction),ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::DisplacementOf::operator==(const DisplacementOf<DisplacementDeltaT> &other),ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::DisplacementOf::operator!=(const DisplacementOf<DisplacementDeltaT> &other),ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::DisplacementOf::operator+=(DisplacementOf<DisplacementDeltaT> displacement),ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::DisplacementOf::operator-=(DisplacementOf<DisplacementDeltaT> displacement),ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::DisplacementOf::operator*=(const int factor),ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::DisplacementOf::operator*=(const float factor),ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::DisplacementOf::operator*=(const DisplacementOf<DeltaU> factor),ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::DisplacementOf::operator/=(const int factor),ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::DisplacementOf::operator/=(const float factor),ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::DisplacementOf::magnitude(),ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::DisplacementOf::worldToScreen(),ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::DisplacementOf::screenToWorld(),ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::DisplacementOf::screenToMissile(),ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::DisplacementOf::screenToLight(),ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::DisplacementOf::worldToNormalScreen(),ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::DisplacementOf::Rotate(int quadrants),ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::DisplacementOf::flipX(),ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::DisplacementOf::flipY(),ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::DisplacementOf::flipXY(),ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::DisplacementOf::fromDirection(Direction direction),ported,,,src/engine/geometry.rs
+"engine/displacement.hpp|devilution::operator+(DisplacementOf<DisplacementDeltaT> a, DisplacementOf<OtherDisplacementDeltaT> b)",ported,,,src/engine/geometry.rs
+"engine/displacement.hpp|devilution::operator-(DisplacementOf<DisplacementDeltaT> a, DisplacementOf<OtherDisplacementDeltaT> b)",ported,,,src/engine/geometry.rs
+"engine/displacement.hpp|devilution::operator*(DisplacementOf<DisplacementDeltaT> a, const int factor)",ported,,,src/engine/geometry.rs
+"engine/displacement.hpp|devilution::operator*(DisplacementOf<DisplacementDeltaT> a, const float factor)",ported,,,src/engine/geometry.rs
+"engine/displacement.hpp|devilution::operator*(DisplacementOf<DisplacementDeltaT> a, const DisplacementOf<DisplacementDeltaU> factor)",ported,,,src/engine/geometry.rs
+"engine/displacement.hpp|devilution::operator/(DisplacementOf<DisplacementDeltaT> a, const int factor)",ported,,,src/engine/geometry.rs
+"engine/displacement.hpp|devilution::operator/(DisplacementOf<DisplacementDeltaT> a, const float factor)",ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::operator-(DisplacementOf<DisplacementDeltaT> a),ported,,,src/engine/geometry.rs
+"engine/displacement.hpp|devilution::operator<<(DisplacementOf<DisplacementDeltaT> a, unsigned factor)",ported,,,src/engine/geometry.rs
+"engine/displacement.hpp|devilution::operator>>(DisplacementOf<DisplacementDeltaT> a, unsigned factor)",ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::abs(DisplacementOf<DisplacementDeltaT> a),ported,,,src/engine/geometry.rs
+engine/displacement.hpp|devilution::normalized(),ported,,,src/engine/geometry.rs
 engine/dx.cpp|devilution::CanRenderDirectlyToOutputSurface(),pending,,,
 engine/dx.cpp|devilution::LimitFrameRate(),ported,,,src/engine/dx.rs
 engine/dx.cpp|devilution::dx_init(),ported,,,src/engine/dx.rs
@@ -1250,54 +1250,54 @@ engine/path.cpp|devilution::IsTileOccupied(Point position),pending,,,
 "engine/path.cpp|devilution::FindPath(tl::function_ref<bool(Point)> posOk, Point startPosition, Point destinationPosition, int8_t path[MaxPathLength])",pending,,,
 "engine/path.cpp|devilution::path_solid_pieces(Point startPosition, Point destinationPosition)",pending,,,
 "engine/path.cpp|devilution::FindClosestValidPosition(tl::function_ref<bool(Point)> posOk, Point startingPosition, unsigned int minimumRadius, unsigned int maximumRadius)",pending,,,
-engine/point.hpp|devilution::PointOf::PointOf(PointOf<PointCoordT> other),pending,,,
-"engine/point.hpp|devilution::PointOf::PointOf(CoordT x, CoordT y)",pending,,,
-engine/point.hpp|devilution::PointOf::operator==(const PointOf<PointCoordT> &other),pending,,,
-engine/point.hpp|devilution::PointOf::operator!=(const PointOf<PointCoordT> &other),pending,,,
-engine/point.hpp|devilution::PointOf::operator+=(const DisplacementOf<DisplacementDeltaT> &displacement),pending,,,
-engine/point.hpp|devilution::PointOf::operator+=(Direction direction),pending,,,
-engine/point.hpp|devilution::PointOf::operator-=(const DisplacementOf<DisplacementDeltaT> &displacement),pending,,,
-engine/point.hpp|devilution::PointOf::operator*=(const float factor),pending,,,
-engine/point.hpp|devilution::PointOf::operator*=(const int factor),pending,,,
-engine/point.hpp|devilution::PointOf::operator-(),pending,,,
-engine/point.hpp|devilution::PointOf::ApproxDistance(PointOf<PointCoordT> other),pending,,,
-engine/point.hpp|devilution::PointOf::ExactDistance(PointOf<PointCoordT> other),pending,,,
-engine/point.hpp|devilution::PointOf::ManhattanDistance(PointOf<PointCoordT> other),pending,,,
-engine/point.hpp|devilution::PointOf::WalkingDistance(PointOf<PointCoordT> other),pending,,,
-engine/point.hpp|devilution::PointOf::megaToWorld(),pending,,,
-engine/point.hpp|devilution::PointOf::worldToMega(),pending,,,
-"engine/point.hpp|devilution::operator+(PointOf<PointCoordT> a, DisplacementOf<DisplacementDeltaT> displacement)",pending,,,
-"engine/point.hpp|devilution::operator+(PointOf<PointCoordT> a, Direction direction)",pending,,,
-"engine/point.hpp|devilution::operator-(PointOf<PointCoordT> a, PointOf<OtherPointCoordT> b)",pending,,,
-"engine/point.hpp|devilution::operator-(PointOf<PointCoordT> a, DisplacementOf<DisplacementDeltaT> displacement)",pending,,,
-"engine/point.hpp|devilution::operator*(PointOf<PointCoordT> a, const float factor)",pending,,,
-"engine/point.hpp|devilution::operator*(PointOf<PointCoordT> a, const int factor)",pending,,,
-engine/point.hpp|devilution::abs(PointOf<PointCoordT> a),pending,,,
-"engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleIteratorBase::PointsInRectangleIteratorBase(PointOf<CoordT> origin, int majorDimension, int majorIndex, int minorIndex)",pending,,,
-"engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleIteratorBase::PointsInRectangleIteratorBase(PointOf<CoordT> origin, int majorDimension, int index = 0)",pending,,,
-engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleIteratorBase::Increment(),pending,,,
-engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleIteratorBase::Decrement(),pending,,,
-engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleIteratorBase::Offset(difference_type delta),pending,,,
-engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleRange::PointsInRectangleRange(RectangleOf<CoordT> region),pending,,,
-engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleRange::cbegin(),pending,,,
-engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleRange::begin(),pending,,,
-engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleRange::cend(),pending,,,
-engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleRange::end(),pending,,,
-engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleRange::crbegin(),pending,,,
-engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleRange::rbegin(),pending,,,
-engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleRange::crend(),pending,,,
-engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleRange::rend(),pending,,,
-engine/points_in_rectangle_range.hpp|devilution::PointsInRectangle(RectangleOf<CoordT> region),pending,,,
-engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleColMajorRange::PointsInRectangleColMajorRange(RectangleOf<CoordT> region),pending,,,
-engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleColMajorRange::cbegin(),pending,,,
-engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleColMajorRange::begin(),pending,,,
-engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleColMajorRange::cend(),pending,,,
-engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleColMajorRange::end(),pending,,,
-engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleColMajorRange::crbegin(),pending,,,
-engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleColMajorRange::rbegin(),pending,,,
-engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleColMajorRange::crend(),pending,,,
-engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleColMajorRange::rend(),pending,,,
-engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleColMajor(RectangleOf<CoordT> region),pending,,,
+engine/point.hpp|devilution::PointOf::PointOf(PointOf<PointCoordT> other),ported,,,src/engine/geometry.rs
+"engine/point.hpp|devilution::PointOf::PointOf(CoordT x, CoordT y)",ported,,,src/engine/geometry.rs
+engine/point.hpp|devilution::PointOf::operator==(const PointOf<PointCoordT> &other),ported,,,src/engine/geometry.rs
+engine/point.hpp|devilution::PointOf::operator!=(const PointOf<PointCoordT> &other),ported,,,src/engine/geometry.rs
+engine/point.hpp|devilution::PointOf::operator+=(const DisplacementOf<DisplacementDeltaT> &displacement),ported,,,src/engine/geometry.rs
+engine/point.hpp|devilution::PointOf::operator+=(Direction direction),ported,,,src/engine/geometry.rs
+engine/point.hpp|devilution::PointOf::operator-=(const DisplacementOf<DisplacementDeltaT> &displacement),ported,,,src/engine/geometry.rs
+engine/point.hpp|devilution::PointOf::operator*=(const float factor),ported,,,src/engine/geometry.rs
+engine/point.hpp|devilution::PointOf::operator*=(const int factor),ported,,,src/engine/geometry.rs
+engine/point.hpp|devilution::PointOf::operator-(),ported,,,src/engine/geometry.rs
+engine/point.hpp|devilution::PointOf::ApproxDistance(PointOf<PointCoordT> other),ported,,,src/engine/geometry.rs
+engine/point.hpp|devilution::PointOf::ExactDistance(PointOf<PointCoordT> other),ported,,,src/engine/geometry.rs
+engine/point.hpp|devilution::PointOf::ManhattanDistance(PointOf<PointCoordT> other),ported,,,src/engine/geometry.rs
+engine/point.hpp|devilution::PointOf::WalkingDistance(PointOf<PointCoordT> other),ported,,,src/engine/geometry.rs
+engine/point.hpp|devilution::PointOf::megaToWorld(),ported,,,src/engine/geometry.rs
+engine/point.hpp|devilution::PointOf::worldToMega(),ported,,,src/engine/geometry.rs
+"engine/point.hpp|devilution::operator+(PointOf<PointCoordT> a, DisplacementOf<DisplacementDeltaT> displacement)",ported,,,src/engine/geometry.rs
+"engine/point.hpp|devilution::operator+(PointOf<PointCoordT> a, Direction direction)",ported,,,src/engine/geometry.rs
+"engine/point.hpp|devilution::operator-(PointOf<PointCoordT> a, PointOf<OtherPointCoordT> b)",ported,,,src/engine/geometry.rs
+"engine/point.hpp|devilution::operator-(PointOf<PointCoordT> a, DisplacementOf<DisplacementDeltaT> displacement)",ported,,,src/engine/geometry.rs
+"engine/point.hpp|devilution::operator*(PointOf<PointCoordT> a, const float factor)",ported,,,src/engine/geometry.rs
+"engine/point.hpp|devilution::operator*(PointOf<PointCoordT> a, const int factor)",ported,,,src/engine/geometry.rs
+engine/point.hpp|devilution::abs(PointOf<PointCoordT> a),ported,,,src/engine/geometry.rs
+"engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleIteratorBase::PointsInRectangleIteratorBase(PointOf<CoordT> origin, int majorDimension, int majorIndex, int minorIndex)",replaced,engine/geometry.rs points_in_rectangle*,C++ iterator classes become Rust iterator adaptors,
+"engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleIteratorBase::PointsInRectangleIteratorBase(PointOf<CoordT> origin, int majorDimension, int index = 0)",replaced,engine/geometry.rs points_in_rectangle*,C++ iterator classes become Rust iterator adaptors,
+engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleIteratorBase::Increment(),replaced,engine/geometry.rs points_in_rectangle*,C++ iterator classes become Rust iterator adaptors,
+engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleIteratorBase::Decrement(),replaced,engine/geometry.rs points_in_rectangle*,C++ iterator classes become Rust iterator adaptors,
+engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleIteratorBase::Offset(difference_type delta),replaced,engine/geometry.rs points_in_rectangle*,C++ iterator classes become Rust iterator adaptors,
+engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleRange::PointsInRectangleRange(RectangleOf<CoordT> region),replaced,engine/geometry.rs points_in_rectangle*,C++ iterator classes become Rust iterator adaptors,
+engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleRange::cbegin(),replaced,engine/geometry.rs points_in_rectangle*,C++ iterator classes become Rust iterator adaptors,
+engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleRange::begin(),replaced,engine/geometry.rs points_in_rectangle*,C++ iterator classes become Rust iterator adaptors,
+engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleRange::cend(),replaced,engine/geometry.rs points_in_rectangle*,C++ iterator classes become Rust iterator adaptors,
+engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleRange::end(),replaced,engine/geometry.rs points_in_rectangle*,C++ iterator classes become Rust iterator adaptors,
+engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleRange::crbegin(),replaced,engine/geometry.rs points_in_rectangle*,C++ iterator classes become Rust iterator adaptors,
+engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleRange::rbegin(),replaced,engine/geometry.rs points_in_rectangle*,C++ iterator classes become Rust iterator adaptors,
+engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleRange::crend(),replaced,engine/geometry.rs points_in_rectangle*,C++ iterator classes become Rust iterator adaptors,
+engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleRange::rend(),replaced,engine/geometry.rs points_in_rectangle*,C++ iterator classes become Rust iterator adaptors,
+engine/points_in_rectangle_range.hpp|devilution::PointsInRectangle(RectangleOf<CoordT> region),replaced,engine/geometry.rs points_in_rectangle*,C++ iterator classes become Rust iterator adaptors,
+engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleColMajorRange::PointsInRectangleColMajorRange(RectangleOf<CoordT> region),replaced,engine/geometry.rs points_in_rectangle*,C++ iterator classes become Rust iterator adaptors,
+engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleColMajorRange::cbegin(),replaced,engine/geometry.rs points_in_rectangle*,C++ iterator classes become Rust iterator adaptors,
+engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleColMajorRange::begin(),replaced,engine/geometry.rs points_in_rectangle*,C++ iterator classes become Rust iterator adaptors,
+engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleColMajorRange::cend(),replaced,engine/geometry.rs points_in_rectangle*,C++ iterator classes become Rust iterator adaptors,
+engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleColMajorRange::end(),replaced,engine/geometry.rs points_in_rectangle*,C++ iterator classes become Rust iterator adaptors,
+engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleColMajorRange::crbegin(),replaced,engine/geometry.rs points_in_rectangle*,C++ iterator classes become Rust iterator adaptors,
+engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleColMajorRange::rbegin(),replaced,engine/geometry.rs points_in_rectangle*,C++ iterator classes become Rust iterator adaptors,
+engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleColMajorRange::crend(),replaced,engine/geometry.rs points_in_rectangle*,C++ iterator classes become Rust iterator adaptors,
+engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleColMajorRange::rend(),replaced,engine/geometry.rs points_in_rectangle*,C++ iterator classes become Rust iterator adaptors,
+engine/points_in_rectangle_range.hpp|devilution::PointsInRectangleColMajor(RectangleOf<CoordT> region),replaced,engine/geometry.rs points_in_rectangle*,C++ iterator classes become Rust iterator adaptors,
 engine/random.cpp|devilution::SetRndSeed(uint32_t seed),ported,,,src/engine/random.rs
 engine/random.cpp|devilution::GetLCGEngineState(),ported,,,src/engine/random.rs
 engine/random.cpp|devilution::DiscardRandomValues(unsigned count),ported,,,src/engine/random.rs
@@ -1308,12 +1308,12 @@ engine/random.cpp|devilution::FlipCoin(unsigned frequency),ported,,,src/engine/r
 engine/random.hpp|devilution::PickRandomlyAmong(const std::initializer_list<T> &values),ported,,,src/engine/random.rs
 engine/random.hpp|devilution::RandomIntLessThan(int32_t v),ported,,,src/engine/random.rs
 "engine/random.hpp|devilution::RandomIntBetween(int32_t min, int32_t max, bool halfOpen = false)",ported,,,src/engine/random.rs
-"engine/rectangle.hpp|devilution::RectangleOf::RectangleOf(PointOf<CoordT> position, SizeOf<SizeT> size)",pending,,,
-"engine/rectangle.hpp|devilution::RectangleOf::RectangleOf(PointOf<CoordT> center, SizeT radius)",pending,,,
-engine/rectangle.hpp|devilution::RectangleOf::contains(PointOf<PointCoordT> point),pending,,,
-"engine/rectangle.hpp|devilution::RectangleOf::contains(T x, T y)",pending,,,
-engine/rectangle.hpp|devilution::RectangleOf::Center(),pending,,,
-engine/rectangle.hpp|devilution::RectangleOf::inset(DisplacementOf<SizeT> factor),pending,,,
+"engine/rectangle.hpp|devilution::RectangleOf::RectangleOf(PointOf<CoordT> position, SizeOf<SizeT> size)",ported,,,src/engine/geometry.rs
+"engine/rectangle.hpp|devilution::RectangleOf::RectangleOf(PointOf<CoordT> center, SizeT radius)",ported,,,src/engine/geometry.rs
+engine/rectangle.hpp|devilution::RectangleOf::contains(PointOf<PointCoordT> point),ported,,,src/engine/geometry.rs
+"engine/rectangle.hpp|devilution::RectangleOf::contains(T x, T y)",ported,,,src/engine/geometry.rs
+engine/rectangle.hpp|devilution::RectangleOf::Center(),ported,,,src/engine/geometry.rs
+engine/rectangle.hpp|devilution::RectangleOf::inset(DisplacementOf<SizeT> factor),ported,,,src/engine/geometry.rs
 "engine/render/automap_render.cpp|devilution::DrawMapLine(const Surface &out, Point from, int height, std::uint8_t colorIndex)",pending,,,
 "engine/render/automap_render.cpp|devilution::DrawMapLineSteep(const Surface &out, Point from, int width, std::uint8_t colorIndex)",pending,,,
 "engine/render/automap_render.cpp|devilution::DrawMapLineNE(const Surface &out, Point from, int height, std::uint8_t colorIndex)",pending,,,
@@ -1525,22 +1525,22 @@ engine/render/text_render.hpp|devilution::DrawStringFormatArg::GetIntValue(),pen
 engine/render/text_render.hpp|devilution::DrawStringFormatArg::GetFlags(),pending,,,
 "engine/render/text_render.hpp|devilution::DrawString(const Surface &out, string_view text, const Point &position, UiFlags flags = UiFlags::None, int spacing = 1, int lineHeight = -1)",ported,,,src/engine/render/text_render.rs
 "engine/render/text_render.hpp|devilution::DrawStringWithColors(const Surface &out, string_view fmt, std::vector<DrawStringFormatArg> args, const Rectangle &rect, UiFlags flags = UiFlags::None, int spacing = 1, int lineHeight = -1)",pending,,,
-"engine/size.hpp|devilution::SizeOf::SizeOf(SizeT width, SizeT height)",pending,,,
-engine/size.hpp|devilution::SizeOf::SizeOf(SizeT size),pending,,,
-engine/size.hpp|devilution::SizeOf::operator==(const SizeOf<SizeT> &other),pending,,,
-engine/size.hpp|devilution::SizeOf::operator!=(const SizeOf<SizeT> &other),pending,,,
-engine/size.hpp|devilution::SizeOf::operator+=(SizeT factor),pending,,,
-engine/size.hpp|devilution::SizeOf::operator-=(SizeT factor),pending,,,
-engine/size.hpp|devilution::SizeOf::operator*=(SizeT factor),pending,,,
-engine/size.hpp|devilution::SizeOf::operator*=(float factor),pending,,,
-engine/size.hpp|devilution::SizeOf::operator/=(SizeT factor),pending,,,
-"engine/size.hpp|devilution::SizeOf::operator+(SizeOf<SizeT> a, SizeT factor)",pending,,,
-"engine/size.hpp|devilution::SizeOf::operator-(SizeOf<SizeT> a, SizeT factor)",pending,,,
-"engine/size.hpp|devilution::SizeOf::operator*(SizeOf<SizeT> a, SizeT factor)",pending,,,
-"engine/size.hpp|devilution::SizeOf::operator/(SizeOf<SizeT> a, SizeT factor)",pending,,,
+"engine/size.hpp|devilution::SizeOf::SizeOf(SizeT width, SizeT height)",ported,,,src/engine/geometry.rs
+engine/size.hpp|devilution::SizeOf::SizeOf(SizeT size),ported,,,src/engine/geometry.rs
+engine/size.hpp|devilution::SizeOf::operator==(const SizeOf<SizeT> &other),ported,,,src/engine/geometry.rs
+engine/size.hpp|devilution::SizeOf::operator!=(const SizeOf<SizeT> &other),ported,,,src/engine/geometry.rs
+engine/size.hpp|devilution::SizeOf::operator+=(SizeT factor),ported,,,src/engine/geometry.rs
+engine/size.hpp|devilution::SizeOf::operator-=(SizeT factor),ported,,,src/engine/geometry.rs
+engine/size.hpp|devilution::SizeOf::operator*=(SizeT factor),ported,,,src/engine/geometry.rs
+engine/size.hpp|devilution::SizeOf::operator*=(float factor),ported,,,src/engine/geometry.rs
+engine/size.hpp|devilution::SizeOf::operator/=(SizeT factor),ported,,,src/engine/geometry.rs
+"engine/size.hpp|devilution::SizeOf::operator+(SizeOf<SizeT> a, SizeT factor)",ported,,,src/engine/geometry.rs
+"engine/size.hpp|devilution::SizeOf::operator-(SizeOf<SizeT> a, SizeT factor)",ported,,,src/engine/geometry.rs
+"engine/size.hpp|devilution::SizeOf::operator*(SizeOf<SizeT> a, SizeT factor)",ported,,,src/engine/geometry.rs
+"engine/size.hpp|devilution::SizeOf::operator/(SizeOf<SizeT> a, SizeT factor)",ported,,,src/engine/geometry.rs
 engine/sound.cpp|devilution::GetMp3Path(const char *path),ported,,,src/engine/sound.rs
 "engine/sound.cpp|devilution::LoadAudioFile(const char *path, bool stream, bool errorDialog, SoundSample &result)",ported,,,src/engine/sound.rs
-engine/sound.cpp|devilution::DuplicateSound(const SoundSample &sound),pending,,,
+engine/sound.cpp|devilution::DuplicateSound(const SoundSample &sound),ported,,,src/engine/sound.rs
 engine/sound.cpp|devilution::CapVolume(int volume),ported,,,src/engine/sound.rs
 engine/sound.cpp|devilution::ClearDuplicateSounds(),ported,,,src/engine/sound.rs
 "engine/sound.cpp|devilution::snd_play_snd(TSnd *pSnd, int lVolume, int lPan)",ported,,,src/engine/sound.rs
@@ -4374,18 +4374,18 @@ utils/sdl_thread.h|devilution::SdlThread::join(),replaced,engine layer (window/i
 "utils/sdl_wrap.h|devilution::SDLWrap::ConvertSurfaceFormat(SDL_Surface *src, Uint32 pixel_format, Uint32 flags)",replaced,engine layer (window/input/thread),SDL2 wrapper; replaced by the engine's equivalents,
 "utils/sdl_wrap.h|devilution::SDLWrap::CreateTexture(SDL_Renderer *renderer, Uint32 format, int access, int w, int h)",replaced,engine layer (window/input/thread),SDL2 wrapper; replaced by the engine's equivalents,
 utils/sdl_wrap.h|devilution::SDLWrap::AllocPalette(int ncolors = 256),replaced,engine layer (window/input/thread),SDL2 wrapper; replaced by the engine's equivalents,
-utils/soundsample.cpp|devilution::PanLogToLinear(int logPan),pending,,,
+utils/soundsample.cpp|devilution::PanLogToLinear(int logPan),ported,,,src/utils/soundsample.rs
 utils/soundsample.cpp|devilution::CreateDecoder(bool isMp3),pending,,,
-"utils/soundsample.cpp|devilution::CreateStream(SDL_RWops *handle, bool isMp3)",pending,,,
-"utils/soundsample.cpp|devilution::VolumeLogToLinear(int logVolume, int logMin, int logMax)",pending,,,
-utils/soundsample.cpp|devilution::SoundSample::Release(),pending,,,
-utils/soundsample.cpp|devilution::SoundSample::IsPlaying(),pending,,,
-utils/soundsample.cpp|devilution::SoundSample::Play(int numIterations),pending,,,
-"utils/soundsample.cpp|devilution::SoundSample::SetChunkStream(std::string filePath, bool isMp3, bool logErrors)",pending,,,
-"utils/soundsample.cpp|devilution::SoundSample::SetChunk(ArraySharedPtr<std::uint8_t> fileData, std::size_t dwBytes, bool isMp3)",pending,,,
-"utils/soundsample.cpp|devilution::SoundSample::SetVolume(int logVolume, int logMin, int logMax)",pending,,,
-utils/soundsample.cpp|devilution::SoundSample::SetStereoPosition(int logPan),pending,,,
-utils/soundsample.cpp|devilution::SoundSample::GetLength(),pending,,,
+"utils/soundsample.cpp|devilution::CreateStream(SDL_RWops *handle, bool isMp3)",ported,,,src/utils/soundsample.rs
+"utils/soundsample.cpp|devilution::VolumeLogToLinear(int logVolume, int logMin, int logMax)",ported,,,src/utils/soundsample.rs
+utils/soundsample.cpp|devilution::SoundSample::Release(),ported,,,src/utils/soundsample.rs
+utils/soundsample.cpp|devilution::SoundSample::IsPlaying(),ported,,,src/utils/soundsample.rs
+utils/soundsample.cpp|devilution::SoundSample::Play(int numIterations),ported,,,src/utils/soundsample.rs
+"utils/soundsample.cpp|devilution::SoundSample::SetChunkStream(std::string filePath, bool isMp3, bool logErrors)",ported,,,src/utils/soundsample.rs
+"utils/soundsample.cpp|devilution::SoundSample::SetChunk(ArraySharedPtr<std::uint8_t> fileData, std::size_t dwBytes, bool isMp3)",ported,,,src/utils/soundsample.rs
+"utils/soundsample.cpp|devilution::SoundSample::SetVolume(int logVolume, int logMin, int logMax)",ported,,,src/utils/soundsample.rs
+utils/soundsample.cpp|devilution::SoundSample::SetStereoPosition(int logPan),ported,,,src/utils/soundsample.rs
+utils/soundsample.cpp|devilution::SoundSample::GetLength(),ported,,,src/utils/soundsample.rs
 utils/soundsample.h|devilution::SoundSample::IsLoaded(),pending,,,
 utils/soundsample.h|devilution::SoundSample::SetFinishCallback(Aulib::Stream::Callback &&callback),pending,,,
 utils/soundsample.h|devilution::SoundSample::IsStreaming(),pending,,,

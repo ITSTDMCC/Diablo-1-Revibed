@@ -40,3 +40,15 @@ pub fn leveltype_is_town(ctx: &Ctx) -> bool {
     ctx.gendung.leveltype == DungeonType::Town
 }
 
+
+/// The C `dungeon_type` enumerators, for data tables that store the raw value.
+pub mod dtype {
+    pub const DTYPE_TOWN: i8 = 0;
+    pub const DTYPE_CATHEDRAL: i8 = 1;
+    pub const DTYPE_CATACOMBS: i8 = 2;
+    pub const DTYPE_CAVES: i8 = 3;
+    pub const DTYPE_HELL: i8 = 4;
+    pub const DTYPE_NEST: i8 = 5;
+    pub const DTYPE_CRYPT: i8 = 6;
+    pub const DTYPE_NONE: i8 = -1;
+}
