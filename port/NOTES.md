@@ -161,6 +161,10 @@ Asked for by the owner on 2026-10-05 as an optional gameplay feature; `src/first
   doorway itself is a dark opening (the cathedral's right-hand doors), only the sprite's columns.
   The plain wall stands behind it, around and above the door. Archways and open doors seen from
   behind show plain brick above the opening.
+- Speed: the view is worked out at most 960 pixels wide and scaled up by whole pixels (a
+  2560-pixel screen gets a third of the width), so a large screen does not slow the game;
+  `DIABLO_FP_RENDER_WIDTH` changes the limit for tests.
+- Doors are clickable where they are drawn: each view pixel remembers the door tile drawn there.
 - Test hook `DIABLO_FP_DOOR=front|back`: switching the view on puts the hero two tiles in front
   of / behind the level's first door, facing it.
 - A half counts as a wall when art stands on the edge low down (3 of 16 samples at 0.25 tiles:

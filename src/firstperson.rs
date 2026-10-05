@@ -45,6 +45,8 @@ const HERO_VIEW_CUT: f32 = 26.0;
 const HERO_VIEW_X: f32 = 0.58;
 /// How far around the mouse a click still finds a monster, item or object (pixels).
 const PICK_SLACK: i32 = 10;
+/// The widest the 3D view is worked out at (pixels); larger screens scale it up.
+const MAX_RENDER_WIDTH: f32 = 960.0;
 /// Turning speed, degrees per second.
 const TURN_DEG_PER_S: f32 = 150.0;
 /// How far behind the hero the eye is, at most (tiles).
@@ -65,7 +67,7 @@ struct PieceTex {
     /// and the picture row it stands on.
     prop: Option<(i32, i32, i32)>,
     /// A door's picture: the picture columns showing the door, spread over the door's edge.
-    door_span: Option<(f32, f32)>,
+    door_span: Option<(f32, f32, bool)>,
     px: Vec<u8>,
     opaque: Vec<bool>,
 }
@@ -115,6 +117,11 @@ pub struct FirstPersonState {
     h: i32,
     horizon: f32,
     zbuf: Vec<f32>,
+    /// Screen pixels per view pixel, and the view drawn at that size.
+    step: i32,
+    small: OwnedSurface,
+    /// The door tile drawn at each view pixel (x * MAXDUNY + y + 1; 0 for none).
+    door_pick: Vec<u32>,
     pick: Vec<u16>,
     picked: Vec<(Point, Kind)>,
 }
@@ -493,7 +500,10 @@ fn door_tex(ctx: &Ctx, cache: &mut Vec<((usize, u32), Rc<PieceTex>)>, t: Point) 
             }
         }
         if cols.1 > cols.0 {
-            tex.door_span = Some((cols.0 as f32, cols.1 as f32 + 1.0));
+            // the columns are read on the plane of the half they are mostly in (a leaf drawn on
+            // the other half is sheared the other way)
+            let leaf_left = (cols.0 + cols.1) / 2 < 32;
+            tex.door_span = Some((cols.0 as f32, cols.1 as f32 + 1.0, leaf_left));
         }
     }
     let tex = Rc::new(tex);
@@ -1082,6 +1092,35 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
     if !active(ctx) {
         return false;
     }
+    // Drawn at most about 960 pixels wide (each pixel is worked out one by one) and scaled up,
+    // so a large screen does not slow the game down.
+    // (test hook `DIABLO_FP_RENDER_WIDTH` sets the limit)
+    let max_w = std::env::var("DIABLO_FP_RENDER_WIDTH").ok().and_then(|v| v.parse::<f32>().ok()).unwrap_or(MAX_RENDER_WIDTH);
+    let step = ((out.w() as f32 / max_w).ceil() as i32).max(1);
+    if step == 1 {
+        ctx.firstperson.step = 1;
+        return draw_view(ctx, out);
+    }
+    let (w, h) = (out.w() / step, out.h() / step);
+    let mut small = std::mem::take(&mut ctx.firstperson.small);
+    if small.w != w || small.h != h {
+        small = OwnedSurface::new(w, h);
+    }
+    ctx.firstperson.step = step;
+    draw_view(ctx, &small.view());
+    let sv = small.view();
+    for row in 0..out.h() {
+        let src = sv.row((row / step).min(h - 1));
+        let dst = out.row(row);
+        for (col, d) in dst.iter_mut().enumerate().take(out.w() as usize) {
+            *d = src[((col as i32 / step).min(w - 1)) as usize];
+        }
+    }
+    ctx.firstperson.small = small;
+    true
+}
+
+fn draw_view(ctx: &mut Ctx, out: &Surface) -> bool {
     let me = ctx.players.MyPlayer.expect("MyPlayer");
     update_turning(ctx);
     let key = (ctx.gendung.leveltype as u8, ctx.gendung.currlevel as i32, ctx.gendung.pDungeonCels.as_ref().map(|c| c.as_ptr() as usize).unwrap_or(0));
@@ -1111,7 +1150,8 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
     let focal = (w as f32 / 2.0) / half;
     let mut depth = vec![f32::MAX; (w * h) as usize];
     let q = (cam.0 + 0.5, cam.1 + 0.5);
-    let mut hits: Vec<(f32, f32, f32, Rc<PieceTex>, u8, f32, f32)> = Vec::new(); // dist, fx, fy, picture, light, lowest and highest height drawn
+    let mut hits: Vec<(f32, f32, f32, Rc<PieceTex>, u8, f32, f32, u32)> = Vec::new(); // dist, fx, fy, picture, light, lowest and highest height drawn, door tile
+    let mut door_pick = vec![0u32; (w * h) as usize];
     for col in 0..w {
         let camx = 2.0 * (col as f32 + 0.5) / w as f32 - 1.0;
         let ray = (fwd.0 + right.0 * camx * half, fwd.1 + right.1 * camx * half);
@@ -1165,20 +1205,20 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
                         let hp = (cam.0 + ray.0 * dist, cam.1 + ray.1 * dist);
                         let along = if xside { hp.1 - to.y as f32 } else { hp.0 - to.x as f32 };
                         let (fx, fy) = match tex.door_span {
-                            Some((s0, s1)) => {
+                            Some((s0, s1, leaf_left)) => {
                                 let t = (along + 0.5).clamp(0.0, 1.0);
-                                plane_point(left, if left { s1 - t * (s1 - s0) } else { s0 + t * (s1 - s0) })
+                                plane_point(leaf_left, if left { s1 - t * (s1 - s0) } else { s0 + t * (s1 - s0) })
                             }
                             None => if left { (-0.5, along) } else { (along, -0.5) },
                         };
                         let light = light_at(ctx, from).saturating_add(fog(ctx, dist));
                         let top = (if left { tex.left_top } else { tex.right_top }).min(ctx.firstperson.wall_height);
-                        hits.push((dist, fx, fy, tex, light, 0.0, top));
+                        hits.push((dist, fx, fy, tex, light, 0.0, top, (to.x as usize * MAXDUNY + to.y as usize + 1) as u32));
                         // the wall around and above the door
                         if let Some((plain, pl)) = ctx.firstperson.fallback.clone() {
                             let (px, py) = if pl { (-0.5, along) } else { (along, -0.5) };
                             let ptop = (if pl { plain.left_top } else { plain.right_top }).min(ctx.firstperson.wall_height);
-                            hits.push((dist, px, py, plain, light, 0.0, ptop));
+                            hits.push((dist, px, py, plain, light, 0.0, ptop, 0));
                         }
                         continue;
                     }
@@ -1194,7 +1234,7 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
                         let (fx, fy) = if left { (-0.5, along) } else { (along, -0.5) };
                         let light = light_at(ctx, from).saturating_add(fog(ctx, dist));
                         let top = (if left { tex.left_top } else { tex.right_top }).min(ctx.firstperson.wall_height);
-                        hits.push((dist, fx, fy, tex, light, 0.0, top));
+                        hits.push((dist, fx, fy, tex, light, 0.0, top, 0));
                         continue;
                     }
                 }
@@ -1221,18 +1261,19 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
             let light = light_at(ctx, owner).min(light_at(ctx, from)).saturating_add(fog(ctx, dist));
             let floor_of_art = if blocks(ctx, owner) { 0.0 } else { ARCH_TOP };
             let top = (if tex_left { tex.left_top } else { tex.right_top }).min(ctx.firstperson.wall_height);
-            hits.push((dist, fx, fy, tex, light, floor_of_art, top));
+            hits.push((dist, fx, fy, tex, light, floor_of_art, top, 0));
         }
         for row in 0..h {
             let dy = row as f32 + 0.5 - horizon;
             let mut colour: Option<(u8, f32)> = None;
-            for (dist, fx, fy, tex, light, lowest, highest) in &hits {
+            for (dist, fx, fy, tex, light, lowest, highest, door) in &hits {
                 let height = EYE - dy * dist / focal;
                 if height < *lowest || height > *highest {
                     continue;
                 }
                 if let Some(i) = wall_pixel(tex, *fx, *fy, height) {
                     colour = Some((shade(ctx, tex.px[i], *light), *dist));
+                    door_pick[(row * w + col) as usize] = *door;
                     break;
                 }
             }
@@ -1365,6 +1406,7 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
     s.h = h;
     s.horizon = horizon;
     s.zbuf = depth_at;
+    s.door_pick = door_pick;
     s.pick = pick;
     s.picked = picked;
     true
@@ -1373,10 +1415,11 @@ pub fn draw(ctx: &mut Ctx, out: &Surface) -> bool {
 /// The rows of the view the control panel leaves visible (it sits at the top in this view).
 fn visible_rows(ctx: &Ctx, h: i32) -> (f32, f32) {
     let panel = crate::control::get_main_panel(ctx);
+    let step = ctx.firstperson.step.max(1);
     if panel.y == 0 {
-        (panel.h.min(h / 2) as f32, h as f32)
+        ((panel.h / step).min(h / 2) as f32, h as f32)
     } else {
-        (0.0, panel.y.clamp(h / 2, h) as f32)
+        (0.0, (panel.y / step).clamp(h / 2, h) as f32)
     }
 }
 
@@ -1448,15 +1491,29 @@ pub fn pick(ctx: &Ctx, mouse: Point) -> Option<(Point, (f32, f32))> {
         return None;
     }
     let s = &ctx.firstperson;
+    let step = s.step.max(1);
+    let mouse = Point::new(mouse.x / step, mouse.y / step);
     if mouse.x < 0 || mouse.y < 0 || mouse.x >= s.w || mouse.y >= s.h || s.zbuf.len() != (s.w * s.h) as usize {
         return None;
+    }
+    // a door drawn under (or right next to) the mouse
+    for (dx, dy) in [(0, 0), (-1, 0), (1, 0), (0, -1), (0, 1)] {
+        let (x, y) = (mouse.x + dx, mouse.y + dy);
+        if x >= 0 && y >= 0 && x < s.w && y < s.h && s.door_pick.len() == s.zbuf.len() {
+            let d = s.door_pick[(y * s.w + x) as usize];
+            if d > 0 {
+                let t = Point::new(((d - 1) as usize / MAXDUNY) as i32, ((d - 1) as usize % MAXDUNY) as i32);
+                return Some((t, (t.x as f32, t.y as f32)));
+            }
+        }
     }
     let mut id = s.pick[(mouse.y * s.w + mouse.x) as usize];
     if id == 0 || s.picked[id as usize - 1].1 == Kind::Other {
         // nothing exactly under the mouse: the nearest monster, item or object close by
         let mut best = i32::MAX;
-        for dy in -PICK_SLACK..=PICK_SLACK {
-            for dx in -PICK_SLACK..=PICK_SLACK {
+        let slack = (PICK_SLACK / step).max(2);
+        for dy in -slack..=slack {
+            for dx in -slack..=slack {
                 let (x, y) = (mouse.x + dx, mouse.y + dy);
                 if x < 0 || y < 0 || x >= s.w || y >= s.h || dx * dx + dy * dy >= best {
                     continue;
