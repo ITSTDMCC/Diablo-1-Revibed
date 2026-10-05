@@ -584,6 +584,12 @@ pub fn game_event_handler(ctx: &mut Ctx, event: &Event, mod_state: u16) {
             ctx.diablo.mouse_position = (*x, *y);
             handle_mouse_button_up(ctx, *button, mod_state);
         }
+        Event::TestWarp(lvl) => {
+            // Test hook: behave like taking the stairs down into `lvl`.
+            if let Some(me) = ctx.players.MyPlayer {
+                crate::player::start_new_lvl(ctx, me, WM_DIABNEXTLVL, *lvl);
+            }
+        }
         Event::Custom(mode) => {
             if ctx.init.gb_is_multiplayer {
                 crate::pfile::pfile_write_hero(ctx, true);

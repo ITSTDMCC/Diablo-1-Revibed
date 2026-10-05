@@ -17,6 +17,8 @@ pub enum Event {
     FocusLost,
     /// A game event (`CustomEventToSdlEvent(interface_mode)`, interfac.cpp).
     Custom(crate::enums::interface_mode),
+    /// Test hook (input script `warp <level>`): enter that dungeon level as if taking the stairs down.
+    TestWarp(i32),
 }
 
 pub const BUTTON_LEFT: u8 = 1;

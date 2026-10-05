@@ -12,7 +12,8 @@
 //! - `DIABLO_SCREENSHOT_FRAMES=a,b` write `frame_<n>.png` for those presented frames
 //! - `DIABLO_SCREENSHOT_DIR=dir`    where screenshots go (default `screenshots`)
 //! - `DIABLO_INPUT_SCRIPT=file`     scripted input: lines `<frame> key <sdl keycode>`, `<frame> click <x> <y>`,
-//!                                  `<frame> move <x> <y>`, `<frame> text <string>`, `<frame> quit`
+//!                                  `<frame> move <x> <y>`, `<frame> text <string>`, `<frame> quit`,
+//!                                  `<frame> warp <level>` (enter a dungeon level directly)
 //! - `DIABLO_MAX_FRAMES=n`          send Quit after n presented frames
 //! - `DIABLO_NO_SAVE=1`, `DIABLO_NO_AUDIO=1` are read by the game code that owns saving/audio.
 
@@ -192,6 +193,7 @@ fn parse_script(text: &str) -> VecDeque<ScriptedEvent> {
                 vec![Event::MouseMotion { x: v[0], y: v[1] }]
             }
             "text" => vec![Event::TextInput(rest.to_string())],
+            "warp" => vec![Event::TestWarp(nums()[0])],
             "quit" => vec![Event::Quit],
             _ => panic!("input script line {}: unknown command {cmd}", n + 1),
         };

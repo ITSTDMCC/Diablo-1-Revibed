@@ -289,3 +289,5 @@ pub fn is_item_blocking_object_at_position(ctx: &Ctx, position: Point) -> bool {
 
 crate::pending_fn!(pub fn monst_check_doors(ctx: &mut Ctx, m: usize), "objects.cpp|devilution::MonstCheckDoors(const Monster &monster)");
 crate::pending_fn!(pub fn obj_change_map(ctx: &mut Ctx, x1: i32, y1: i32, x2: i32, y2: i32), "objects.cpp|devilution::ObjChangeMap(int x1, int y1, int x2, int y2)");
+crate::pending_fn!(pub fn add_l1_objs(ctx: &mut Ctx, x1: i32, y1: i32, x2: i32, y2: i32), "objects.cpp|devilution::AddL1Objs(int x1, int y1, int x2, int y2)");
+crate::pending_fn!(pub fn add_crypt_objects(ctx: &mut Ctx, x1: i32, y1: i32, x2: i32, y2: i32), "objects.cpp|devilution::AddCryptObjects(int x1, int y1, int x2, int y2)");
