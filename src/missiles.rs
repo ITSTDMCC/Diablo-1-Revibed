@@ -150,6 +150,7 @@ impl MissileFileData {
     }
 
     /// `spritesForDirection`
+    // @port misdat.h|devilution::MissileFileData::spritesForDirection(size_t direction) sha=489d2a40667e
     pub fn sprites_for_direction(&self, direction: usize) -> Option<ClxSpriteList> {
         let s = self.sprites.as_ref()?;
         Some(if s.is_sheet() { s.sheet().get(direction) } else { s.list().clone() })

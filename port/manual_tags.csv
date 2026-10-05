@@ -19,3 +19,5 @@ platform/locale.cpp|devilution::GetLocales(),src/platform/win32.rs,get_locales,0
 "msg.cpp|devilution::PrepareItemForNetwork(const Item &item, TCmdGItem &message)",src/msg.rs,prepare_item_for_network,0
 "msg.cpp|devilution::PrepareItemForNetwork(const Item &item, TCmdPItem &message)",src/msg.rs,prepare_item_for_network,0
 "msg.cpp|devilution::PrepareItemForNetwork(const Item &item, TCmdChItem &message)",src/msg.rs,prepare_item_for_network,0
+controls/controller_buttons.h|devilution::IsDPadButton(ControllerButton button),src/controls/controller_buttons.rs,is_dpad_button,0
+misdat.h|devilution::MissileFileData::spritesForDirection(size_t direction),src/missiles.rs,sprites_for_direction,0

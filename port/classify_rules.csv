@@ -1,0 +1,58 @@
+key_regex,status,replaced_by,reason
+^engine/clx_sprite\.hpp\|,replaced,src/engine/clx_sprite.rs,C++ view/owner/iterator classes over CLX buffers; the Rust types expose the same accessors over Rc<[u8]> buffers
+^engine/render/dun_render\.cpp\|,replaced,src/engine/render/dun_render.rs (render_tile),per-template render primitives folded into runtime-parameterised functions with the same branch structure
+^engine/render/dun_render\.hpp\|,replaced,src/engine/render/dun_render.rs (LevelCelBlock),bit-field accessors of LevelCelBlock
+^engine/render/blit_impl\.hpp\|,replaced,src/engine/render/clx_render.rs,blit functor templates inlined in the CLX renderer
+^engine/surface\.(hpp|cpp)\|,replaced,src/engine/surface.rs,SDL_Surface wrapper; the Rust Surface is a view over an owned pixel buffer
+^DiabloUI/ui_item\.h\|,replaced,src/diablo_ui/ui_item.rs (UiItem + UiKind),class hierarchy flattened into one enum; constructors and accessors become constructors and fields
+^inv_iterators\.hpp\|,replaced,Rust slice iterators,iterator classes over the player's item arrays; the Rust code iterates the arrays directly
+^engine/assets\.(hpp|cpp)\|,replaced,src/engine/assets.rs,SDL_RWops/AssetRef plumbing; assets are read into memory
+^mpq/mpq_sdl_rwops\.cpp\|,replaced,src/engine/assets.rs,SDL_RWops over MPQ files
+^utils/file_util\.,replaced,Rust std::fs,filesystem helpers
+^utils/console\.cpp\|,replaced,Rust std (eprintln!),console output helpers
+^utils/display\.,replaced,src/platform/bevy_front.rs,SDL renderer/output-surface management and output scaling
+^utils/png\.h\|,replaced,src/platform/png.rs,SDL_image PNG loading
+^utils/language\.(cpp|h)\|,replaced,src/utils/language.rs,.mo parsing helpers and hash functors; translations are loaded into a HashMap
+^utils/file_name_generator\.hpp\|,replaced,Rust format!,file name builder
+^loadsave\.cpp\|devilution::(LoadHelper|SaveHelper|SwapLE|SwapBE),replaced,src/loadsave.rs (LoadHelper/SaveHelper),templated readers/writers become typed methods (next_u32_le etc.)
+^hwcursor\.hpp\|,replaced,src/hwcursor.rs (CursorInfo),accessors are struct fields
+^gmenu\.h\|,replaced,src/gmenu.rs (TMenuItem),flag accessors are field operations
+^engine/render/text_render\.(hpp|cpp)\|devilution::(DrawStringFormatArg|FmtArgParser),replaced,src/engine/render/text_render.rs,accessor methods are struct fields
+^interfac\.cpp\|devilution::(RegisterCustomEvents|IsCustomEvent|GetCustomEvent|CustomEventToSdlEvent),replaced,platform::events::Event::Custom,SDL user-event registration
+^engine\.h\|devilution::Is(Any|None)Of,replaced,Rust matches!/slice::contains,variadic comparison helpers
+^inv\.h\|,replaced,src/inv.rs,predicate templates inlined at their call sites
+^codec\.cpp\|,replaced,src/codec.rs,signature and byte-swap helpers inlined in codec_decode/codec_encode
+^misdat\.cpp\|devilution::Repeat,replaced,tools/gen_misdat.py,constexpr table helper; the tables are generated
+^monstdat\.cpp\|devilution::Uniq,replaced,tools/gen_tables.py,table helper; the tables are generated
+^spelldat\.h\|,replaced,src/tables/spelldat.rs,accessors are struct fields
+^dvlnet/,pending,,not ported: network multiplayer (TCP and ZeroTier providers); single player runs on the loopback provider
+^DiabloUI/(multi/selconn|progress)\.cpp\|,pending,,not ported: network multiplayer (provider selection and connection progress dialogs)
+^(nthread\.cpp\|devilution::NthreadHandler|pack\.cpp\||tmsg\.cpp\||msg\.cpp\|devilution::(LogFailedPacket|TMegaPkt)),pending,,not ported: network multiplayer (packet threads and remote-player unpacking)
+^engine/demomode\.cpp\|,pending,,not ported: demo recording and playback (a developer test feature)
+^pfile\.cpp\|devilution::(CompareCounter|string_ends_with|CreateDetailDiffs|CompareSaves|pfile_compare_hero_demo),pending,,not ported: demo save comparison (a developer test feature)
+^controls/(devices/|controller_motion|game_controls\.cpp|axis_direction|modifier_hints),pending,,not ported: gamepad devices (the platform layer reads no gamepads)
+^controls/plrctrls\.cpp\|devilution::(RightStickAccumulator|IsStickMovementSignificant|GamepadTypeToString|LogGamepadChange),pending,,not ported: gamepad devices (the platform layer reads no gamepads)
+^DiabloUI/credits\.cpp\|devilution::CreditsRenderer::(~CreditsRenderer|Finished),replaced,src/diablo_ui/credits.rs (text_dialog),destructor and accessor folded into text_dialog and a field
+^DiabloUI/diabloui\.cpp\|devilution::ScrollBarState::ScrollBarState,replaced,src/diablo_ui/diabloui.rs (ScrollBarState::default),constructor
+"^DiabloUI/dialogs\.cpp\|devilution::UiErrorOkDialog\((string_view caption, string_view text, const std|string_view text, const std)",replaced,src/diablo_ui/dialogs.rs (ui_error_ok_dialog),overloads with a renderBehind list; callers use the bool overload and nothing is drawn behind the dialog (see NOTES.md)
+^controls/controller\.h\|devilution::ControllerButtonEvent::ControllerButtonEvent,replaced,src/controls/controller.rs (struct literal),constructor
+^controls/controller_buttons\.h\|devilution::ControllerButtonCombo::ControllerButtonCombo,replaced,src/controls/controller_buttons.rs (ControllerButtonCombo::single/new/default),constructors
+^controls/game_controls\.h\|devilution::GameAction::GameAction,replaced,src/controls/game_controls.rs (GameActionType),constructors
+^diablo\.cpp\|devilution::LogUnhandledEvent,replaced,none,verbose logging of unhandled SDL events
+^engine\.cpp\|devilution::DrawHalfTransparent(Aligned32)?BlendedRectTo,replaced,src/engine/mod.rs (draw_half_transparent_rect_to),the aligned 32-bit fast path and the unaligned path compute the same blended pixels; the port uses the unaligned loop
+^engine/dx\.cpp\|devilution::CanRenderDirectlyToOutputSurface,replaced,src/engine/dx.rs (render_directly_to_output_surface = false),the Bevy front always renders from the 8-bit back buffer
+"^engine/load_file\.hpp\|devilution::(LoadFileInMem\(const char \*path, T \*data\)|MultiFileLoader)",replaced,src/engine/load_file.rs and per-file loading in monster.rs,overload and loader template; monster graphics are loaded file by file (see NOTES.md)
+^engine/render/scrollrt\.cpp\|devilution::(PointHash|BlitCursor),replaced,src/engine/render/scrollrt.rs (draw_cursor),hash functor and cursor blit inlined
+^engine/world_tile\.hpp\|std::hash,replaced,Rust derive(Hash),hash functor
+^itemdat\.cpp\|devilution::ItemTypeToString,replaced,none,unused in the game code (no callers in 1.5.3)
+^main\.cpp\|__asan_default_options,replaced,none,AddressSanitizer build option
+^misdat\.h\|,replaced,src/missiles.rs,accessor
+^monster\.cpp\|devilution::Monster::getId,replaced,monster index (usize),monsters are addressed by index
+^player\.cpp\|devilution::Player::getId,replaced,player index (usize),players are addressed by index
+^mpq/mpq_writer\.(cpp|hpp)\|devilution::(ByteSwapHdr|MpqWriter::MpqWriter),replaced,src/mpq_writer.rs,byte swapping is done by to_le_bytes; constructor is MpqWriter::open
+^msg\.cpp\|devilution::(LocalLevel::LocalLevel|GetDeltaLevel\(const Player),replaced,src/msg.rs,constructor and overload; callers pass the player's level to get_delta_level
+^options\.(cpp|h)\|devilution::(KeymapperOptions::GetEntries|PadmapperOptions::GetEntries|OptionEntryListBase::OptionEntryListBase),replaced,src/options.rs (actions vectors),the mapper actions are listed from their Vec; list-entry base constructor folded into the entry types
+^qol/itemlabels\.cpp\|devilution::UsedX::,replaced,src/qol/itemlabels.rs (Vec<bool>),bitset helper
+^qol/stash\.h\|devilution::StashStruct::(GetPage|IsItemAtPosition),replaced,src/qol/stash.rs,accessors inlined at their call sites
+^utils/paths\.cpp\|devilution::paths::FromSDL,replaced,src/utils/paths.rs,SDL path string conversion
+^utils/soundsample\.(cpp|h)\|devilution::(CreateDecoder|SoundSample::SetFinishCallback),replaced,src/platform/audio.rs and engine/sound.rs,decoder factory (the port decodes WAV/MP3 data up front) and finish callback (finished duplicate sounds are pruned by polling)

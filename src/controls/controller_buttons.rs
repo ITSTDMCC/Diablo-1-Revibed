@@ -54,6 +54,7 @@ impl ControllerButtonCombo {
 }
 
 /// `IsDPadButton`
+// @port controls/controller_buttons.h|devilution::IsDPadButton(ControllerButton button) sha=460bfc2d585e
 pub fn is_dpad_button(b: ControllerButton) -> bool {
     matches!(b, ControllerButton::ButtonDpadUp | ControllerButton::ButtonDpadDown | ControllerButton::ButtonDpadLeft | ControllerButton::ButtonDpadRight)
 }
