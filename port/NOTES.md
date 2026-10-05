@@ -95,15 +95,20 @@ run the normal build, still pass byte for byte).
   steps), cutting corners where a straight line is clear (`line_clear`), ending at the exact
   cursor point for ground clicks. A destination that cannot be reached (a roof, a wall) is walked
   toward as far as possible. A walk keeps its route while the destination tile is unchanged.
-- The facing keeps its current direction until the heading is more than 37.5 degrees from it,
-  so routes that zigzag do not flip the sprite. Walking up to a monster/player/item/object stops when the player's tile is next to it;
+- Facing: the heading is smoothed over a few ticks and the facing keeps its direction until the
+  smoothed heading is more than 37.5 degrees from it, so corners, sliding and zigzag routes do
+  not flip the sprite. A walk goes straight to the cursor when nothing is in the way.
+- The walk animation runs only while the player really moves (pressing into a wall shows the
+  stand animation), and short pauses do not switch to standing. Which animation is showing is
+  checked by its sprites, not its frame count (some classes have equal stand and walk lengths). Walking up to a monster/player/item/object stops when the player's tile is next to it;
   `CheckNewPath` waits until then and starts the original action.
 - Collision: a tile may be entered if `PosOkPlayer` allows it; diagonal steps may not cut a solid
   corner. Blocked moves slide along one axis or stop at the edge of the current tile.
 - The sprite is drawn in the drawing pass of the southernmost tile it stands between (as the
   original's walking player is), with the player's own tile deciding visibility.
-- Speed 0.15 tiles per tick (x1.5 in town with "run in town"); the original covers a tile in about
-  8 ticks, diagonal steps more.
+- Speed: the original's step speeds (one step per 8 ticks: 1 tile along a tile axis, 1.41 along
+  a tile diagonal), interpolated for directions in between, so legs and ground keep pace; x1.5
+  in town with "run in town".
 - Single player only; in multiplayer the original movement is used. Demo files recorded with the
   original movement do not replay in this build.
 - Test hooks: `DIABLO_FREEMOVE_TRACE=1` prints the player's state every tick; input scripts can

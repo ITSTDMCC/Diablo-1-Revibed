@@ -22,8 +22,21 @@ use crate::levels::gendung::DungeonType;
 /// Whether this build has free movement.
 pub const ENABLED: bool = cfg!(feature = "free-movement");
 
-/// Tiles per game tick (the original covers one tile in about 8 ticks, diagonally more).
-const SPEED: f32 = 0.15;
+/// Walking speed: the original's walk takes 8 ticks per step, and a step covers one tile along
+/// a tile axis (a screen diagonal) or a tile diagonal (screen up/down/left/right, 1.41 tiles).
+/// Scaling by the direction's L1 length gives exactly those speeds in the eight directions and
+/// in between, so the legs keep pace with the ground as in the original.
+fn speed(dir: (f32, f32)) -> f32 {
+    let len = (dir.0 * dir.0 + dir.1 * dir.1).sqrt();
+    if len < 1e-6 {
+        return 0.0;
+    }
+    (dir.0.abs() + dir.1.abs()) / len / 8.0
+}
+/// Below this a tick's movement counts as standing (pressing into a wall).
+const MIN_MOVE: f32 = 0.02;
+/// Ticks without movement before the walk animation stops (no stand/walk flicker).
+const STOP_GRACE: u8 = 2;
 /// How close to a waypoint counts as reached.
 const ARRIVE: f32 = 0.05;
 /// How far into a tile next to a wall the player may stand (half a tile is the edge).
@@ -50,6 +63,10 @@ pub struct FreeMoveState {
     pub cursor_point: Option<(f32, f32)>,
     /// The destination of the walk in progress (`go_to`'s target and `endspace`).
     goal: Option<(Point, bool)>,
+    /// The heading, smoothed over a few ticks, that decides the facing.
+    heading: (f32, f32),
+    /// Ticks the player has not moved while the walk animation runs.
+    idle_ticks: u8,
 }
 
 /// Free movement applies to this player now.
@@ -247,14 +264,21 @@ pub fn go_to(ctx: &mut Ctx, pnum: usize, target: Point, endspace: bool) {
         ctx.freemove.stick = None;
         return;
     }
-    let route = find_route(ctx, pnum, from, target);
-    let mut waypoints: Vec<(f32, f32)> = route.iter().map(|&t| tile_f(t)).collect();
-    let reached = route.last().copied().unwrap_or(from) == target;
-    if endspace && reached {
-        let end = exact.unwrap_or(tile_f(target));
-        match waypoints.last_mut() {
-            Some(last) => *last = end,
-            None => waypoints.push(end), // a spot in the tile the player stands on
+    let pos = ctx.freemove.pos;
+    let end = exact.unwrap_or(tile_f(target));
+    let mut waypoints: Vec<(f32, f32)>;
+    if endspace && line_clear(ctx, pnum, pos, end) {
+        // nothing in the way: straight there
+        waypoints = vec![end];
+    } else {
+        let route = find_route(ctx, pnum, from, target);
+        waypoints = route.iter().map(|&t| tile_f(t)).collect();
+        let reached = route.last().copied().unwrap_or(from) == target;
+        if endspace && reached {
+            match waypoints.last_mut() {
+                Some(last) => *last = end,
+                None => waypoints.push(end), // a spot in the tile the player stands on
+            }
         }
     }
     let s = &mut ctx.freemove;
@@ -276,6 +300,18 @@ pub fn stick(ctx: &mut Ctx, dir: Option<(f32, f32)>) {
             ctx.freemove.stop_next_to = None;
         }
         _ => ctx.freemove.stick = None,
+    }
+}
+
+/// The walk animation for `dir` is what the player shows (another action or an equipment change
+/// may have replaced it).
+fn is_walk_anim(ctx: &Ctx, pnum: usize, dir: Option<Direction>) -> bool {
+    let Some(dir) = dir else { return false };
+    let p = &ctx.players.Players[pnum];
+    match (&p.AnimInfo.sprites, p.AnimationData[player_graphic::Walk as usize].sprites_for_direction(dir)) {
+        (Some(cur), Some(walk)) => cur.get(0) == walk.get(0),
+        // no graphics (headless runs): the frame count is all there is
+        _ => p.AnimInfo.numberOfFrames == p._pWFrames,
     }
 }
 
@@ -354,7 +390,7 @@ pub fn tick(ctx: &mut Ctx, pnum: usize) {
     ctx.freemove.prev_off = ctx.freemove.cur_off;
     if std::env::var_os("DIABLO_FREEMOVE_TRACE").is_some() {
         let p = &ctx.players.Players[pnum];
-        eprintln!("FREEMODE mode={} da={} dp={} tile=({},{})", p._pmode, p.destAction, p.destParam1, p.position.tile.x, p.position.tile.y);
+        eprintln!("FREEMODE t={} mode={} da={} tile=({},{}) wps={} frame={}/{} goal={:?} face={:?}", ctx.platform.ticks(), p._pmode, p.destAction, p.position.tile.x, p.position.tile.y, ctx.freemove.waypoints.len(), p.AnimInfo.currentFrame, p.AnimInfo.numberOfFrames, ctx.freemove.goal, ctx.freemove.walk_anim);
     }
     let standing = ctx.players.Players[pnum]._pmode == PM_STAND && !ctx.players.Players[pnum]._pInvincible;
     if !standing {
@@ -391,7 +427,8 @@ pub fn tick(ctx: &mut Ctx, pnum: usize) {
     let pos = ctx.freemove.pos;
     let mut step: Option<(f32, f32)> = None;
     if let Some(v) = ctx.freemove.stick {
-        step = Some((v.0 * SPEED, v.1 * SPEED));
+        let sp = speed(v);
+        step = Some((v.0 * sp, v.1 * sp));
     } else {
         // skip waypoints that can be reached in a straight line
         while ctx.freemove.waypoints.len() > 1 && line_clear(ctx, pnum, pos, ctx.freemove.waypoints[1]) {
@@ -400,11 +437,12 @@ pub fn tick(ctx: &mut Ctx, pnum: usize) {
         if let Some(&target) = ctx.freemove.waypoints.first() {
             let (dx, dy) = (target.0 - pos.0, target.1 - pos.1);
             let dist = (dx * dx + dy * dy).sqrt();
-            if dist <= ARRIVE.max(SPEED) {
+            let sp = speed((dx, dy));
+            if dist <= ARRIVE.max(sp) {
                 step = Some((dx, dy));
                 ctx.freemove.waypoints.remove(0);
             } else {
-                step = Some((dx / dist * SPEED, dy / dist * SPEED));
+                step = Some((dx / dist * sp, dy / dist * sp));
             }
         }
     }
@@ -419,19 +457,28 @@ pub fn tick(ctx: &mut Ctx, pnum: usize) {
                 // walled in: give up the destination
                 ctx.freemove.waypoints.clear();
             }
-            if ok { Some(s) } else { None }
+            let p2 = ctx.freemove.pos;
+            let d = (p2.0 - pos.0, p2.1 - pos.1);
+            if ok && (d.0 * d.0 + d.1 * d.1).sqrt() >= MIN_MOVE { Some(d) } else { None }
         }
         _ => None,
     };
 
     match moved {
         Some(s) => {
-            // the overall heading (toward the next point, not this tick's small step)
-            let heading = ctx.freemove.waypoints.first().map(|w| (w.0 - pos.0, w.1 - pos.1)).filter(|h| h.0.abs() + h.1.abs() > 0.3).unwrap_or(s);
-            let dir = facing(heading, ctx.freemove.walk_anim);
-            let p = &ctx.players.Players[pnum];
-            let walking_anim = p.AnimInfo.numberOfFrames == p._pWFrames;
+            ctx.freemove.idle_ticks = 0;
+            // the facing follows the heading smoothed over a few ticks, so single ticks of
+            // sideways movement (corners, sliding) do not turn the sprite
+            let len = (s.0 * s.0 + s.1 * s.1).sqrt();
+            let h = ctx.freemove.heading;
+            let fresh = ctx.freemove.walk_anim.is_none() || h == (0.0, 0.0);
+            let k = if fresh { 1.0 } else { 0.35 };
+            let nh = (h.0 * (1.0 - k) + s.0 / len * k, h.1 * (1.0 - k) + s.1 / len * k);
+            ctx.freemove.heading = nh;
+            let dir = facing(nh, ctx.freemove.walk_anim);
+            let walking_anim = is_walk_anim(ctx, pnum, ctx.freemove.walk_anim);
             if ctx.freemove.walk_anim != Some(dir) || !walking_anim {
+                let p = &ctx.players.Players[pnum];
                 let frame = if walking_anim { p.AnimInfo.currentFrame } else { 0 };
                 crate::player::new_plr_anim(ctx, pnum, player_graphic::Walk, dir, AnimationDistributionFlags::None, 0, 0);
                 ctx.players.Players[pnum].AnimInfo.currentFrame = frame;
@@ -447,12 +494,19 @@ pub fn tick(ctx: &mut Ctx, pnum: usize) {
             }
         }
         None => {
-            ctx.freemove.goal = None;
-            if ctx.freemove.walk_anim.take().is_some() {
-                let d = ctx.players.Players[pnum]._pdir;
-                crate::player::new_plr_anim(ctx, pnum, player_graphic::Stand, d, AnimationDistributionFlags::None, 0, 0);
+            let walking = step.is_some() && !ctx.freemove.waypoints.is_empty() || ctx.freemove.stick.is_some();
+            ctx.freemove.idle_ticks = ctx.freemove.idle_ticks.saturating_add(1);
+            if !walking || ctx.freemove.idle_ticks > STOP_GRACE {
+                if !walking {
+                    ctx.freemove.goal = None;
+                    ctx.freemove.waypoints.clear();
+                }
+                if ctx.freemove.walk_anim.take().is_some() {
+                    let d = ctx.players.Players[pnum]._pdir;
+                    crate::player::new_plr_anim(ctx, pnum, player_graphic::Stand, d, AnimationDistributionFlags::None, 0, 0);
+                }
+                ctx.freemove.heading = (0.0, 0.0);
             }
-            ctx.freemove.waypoints.clear();
         }
     }
 
