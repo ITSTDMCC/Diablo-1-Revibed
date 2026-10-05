@@ -1,59 +1,192 @@
-//! `Source/utils/soundsample.cpp`: one playable sound (a decoded chunk or a stream).
-//!
-//! The audio output backend (SDL_audiolib in the original) is not wired up yet: `audio_init`
-//! reports failure, so `gbSndInited` stays false and every sample fails to load, exactly the
-//! path the original takes when `Aulib::init` fails. See "Known differences" in port/NOTES.md.
+//! `Source/utils/soundsample.cpp`: one playable sound (a decoded chunk or a "stream").
+
+use std::sync::Arc;
+
+use crate::ctx::Ctx;
+use crate::platform::audio::{decode_wav, Pcm, Stream};
+use crate::platform::log;
+
+const LOG_BASE: f32 = 10.0;
+/// Picked so that a volume change of -10 dB results in half perceived loudness.
+const VOLUME_SCALE: f32 = 3321.9281;
+/// -100 dB (muted) to 0 dB (max. loudness), in millibel.
+const MILLIBEL_MIN: f32 = -10000.0;
+const MILLIBEL_MAX: f32 = 0.0;
+/// Stereo separation factor for left/right speaker panning.
+const STEREO_SEPARATION: f32 = 6000.0;
+
+/// `ATTENUATION_MIN` (engine/sound_defs.hpp)
+pub const ATTENUATION_MIN: i32 = -6400;
+
+/// Original: `PanLogToLinear` (utils/soundsample.cpp).
+// @port utils/soundsample.cpp|devilution::PanLogToLinear(int logPan)
+fn pan_log_to_linear(log_pan: i32) -> f32 {
+    if log_pan == 0 {
+        return 0.0;
+    }
+    let factor = LOG_BASE.powf(-(log_pan.abs() as f32) / STEREO_SEPARATION);
+    (1.0 - factor).copysign(log_pan as f32)
+}
+
+/// `math::Remap`
+fn remap(in_min: f32, in_max: f32, out_min: f32, out_max: f32, v: f32) -> f32 {
+    out_min + (v - in_min) * (out_max - out_min) / (in_max - in_min)
+}
+
+/// Original: `VolumeLogToLinear` (utils/soundsample.cpp).
+// @port utils/soundsample.cpp|devilution::VolumeLogToLinear(int logVolume, int logMin, int logMax)
+fn volume_log_to_linear(log_volume: i32, log_min: i32, log_max: i32) -> f32 {
+    let log_scaled = remap(log_min as f32, log_max as f32, MILLIBEL_MIN, MILLIBEL_MAX, log_volume as f32);
+    LOG_BASE.powf(log_scaled / VOLUME_SCALE)
+}
+
+/// Original: `CreateStream` (utils/soundsample.cpp): MP3 needs a decoder the port does not have.
+// @port utils/soundsample.cpp|devilution::CreateStream(SDL_RWops *handle, bool isMp3)
+fn create_stream(data: &[u8], is_mp3: bool) -> Result<Stream, String> {
+    if is_mp3 {
+        return Err("MP3 audio is not supported".into());
+    }
+    let pcm: Pcm = decode_wav(data)?;
+    Ok(Stream::new(Arc::new(pcm)))
+}
 
 /// `SoundSample`
 #[derive(Default)]
 pub struct SoundSample {
-    loaded: bool,
+    /// Set for streaming audio to allow for duplicating it.
+    file_path: String,
+    is_mp3: bool,
+    streaming: bool,
+    stream: Option<Stream>,
 }
 
 impl SoundSample {
-    /// `Aulib::init`: no backend yet.
-    pub fn audio_init(_sample_rate: i32, _channels: i32, _buffer_size: i32, _device: &str) -> Result<(), String> {
-        Err("no audio output backend".to_string())
-    }
-
     pub fn is_loaded(&self) -> bool {
-        self.loaded
+        self.stream.is_some()
     }
 
-    pub fn is_playing(&self) -> bool {
-        false
-    }
-
-    /// `SetChunkStream`: 0 on success.
-    pub fn set_chunk_stream(&mut self, _path: &str, _is_mp3: bool, _log_errors: bool) -> i32 {
-        -1
-    }
-
-    /// `SetChunk`: 0 on success.
-    pub fn set_chunk(&mut self, _data: Vec<u8>, _is_mp3: bool) -> i32 {
-        -1
-    }
-
+    /// Original: `SoundSample::Release` (utils/soundsample.cpp).
+    // @port utils/soundsample.cpp|devilution::SoundSample::Release()
     pub fn release(&mut self) {
-        self.loaded = false;
+        self.stream = None;
     }
 
-    pub fn stop(&mut self) {}
-
-    pub fn play(&mut self, _num_iterations: i32) -> bool {
-        false
+    /// Original: `SoundSample::IsPlaying` (utils/soundsample.cpp).
+    // @port utils/soundsample.cpp|devilution::SoundSample::IsPlaying()
+    pub fn is_playing(&self) -> bool {
+        self.stream.as_ref().is_some_and(|s| s.is_playing())
     }
 
-    pub fn play_with_volume_and_pan(&mut self, _log_sound_volume: i32, _log_user_volume: i32, _log_pan: i32) {}
+    pub fn is_streaming(&self) -> bool {
+        self.streaming
+    }
 
-    pub fn set_volume(&mut self, _volume: i32, _min: i32, _max: i32) {}
+    /// Original: `SoundSample::Play` (utils/soundsample.cpp). 0 iterations loops.
+    // @port utils/soundsample.cpp|devilution::SoundSample::Play(int numIterations)
+    pub fn play(&mut self, num_iterations: i32) -> bool {
+        self.stream.as_ref().expect("stream").play(num_iterations)
+    }
 
-    pub fn mute(&mut self) {}
+    /// Original: `SoundSample::SetChunkStream` (utils/soundsample.cpp). The file is decoded up
+    /// front instead of streamed.
+    // @port utils/soundsample.cpp|devilution::SoundSample::SetChunkStream(std::string filePath, bool isMp3, bool logErrors)
+    pub fn set_chunk_stream(&mut self, ctx: &mut Ctx, file_path: &str, is_mp3: bool, log_errors: bool) -> i32 {
+        let handle = crate::engine::assets::open_asset(ctx, file_path);
+        if !handle.ok() {
+            if log_errors {
+                log::error!("OpenAsset failed (from SoundSample::SetChunkStream) for {}", file_path);
+            }
+            return -1;
+        }
+        let data = handle.into_bytes();
+        self.file_path = file_path.to_string();
+        self.is_mp3 = is_mp3;
+        self.streaming = true;
+        match create_stream(&data, is_mp3) {
+            Ok(s) => {
+                self.stream = Some(s);
+                0
+            }
+            Err(e) => {
+                self.stream = None;
+                if log_errors {
+                    log::error!("Aulib::Stream::open (from SoundSample::SetChunkStream) for {}: {}", file_path, e);
+                }
+                -1
+            }
+        }
+    }
 
-    pub fn unmute(&mut self) {}
+    /// Original: `SoundSample::SetChunk` (utils/soundsample.cpp).
+    // @port utils/soundsample.cpp|devilution::SoundSample::SetChunk(ArraySharedPtr<std::uint8_t> fileData, std::size_t dwBytes, bool isMp3)
+    pub fn set_chunk(&mut self, file_data: Vec<u8>, is_mp3: bool) -> i32 {
+        self.is_mp3 = is_mp3;
+        self.streaming = false;
+        match create_stream(&file_data, is_mp3) {
+            Ok(s) => {
+                self.stream = Some(s);
+                0
+            }
+            Err(e) => {
+                self.stream = None;
+                log::error!("Aulib::Stream::open (from SoundSample::SetChunk): {}", e);
+                -1
+            }
+        }
+    }
 
-    /// Length in milliseconds.
+    /// `SoundSample::DuplicateFrom`: shares the decoded samples.
+    pub fn duplicate_from(&mut self, other: &SoundSample) -> i32 {
+        match &other.stream {
+            Some(s) => {
+                self.file_path = other.file_path.clone();
+                self.is_mp3 = other.is_mp3;
+                self.streaming = other.streaming;
+                self.stream = Some(Stream::new(s.pcm()));
+                0
+            }
+            None => -1,
+        }
+    }
+
+    /// `SoundSample::Stop`
+    pub fn stop(&mut self) {
+        self.stream.as_ref().expect("stream").stop();
+    }
+
+    /// `SoundSample::PlayWithVolumeAndPan`
+    pub fn play_with_volume_and_pan(&mut self, log_sound_volume: i32, log_user_volume: i32, log_pan: i32) -> bool {
+        self.set_volume(log_sound_volume + log_user_volume * (ATTENUATION_MIN / crate::engine::sound::VOLUME_MIN), ATTENUATION_MIN, 0);
+        self.set_stereo_position(log_pan);
+        self.play(1)
+    }
+
+    /// Original: `SoundSample::SetVolume` (utils/soundsample.cpp).
+    // @port utils/soundsample.cpp|devilution::SoundSample::SetVolume(int logVolume, int logMin, int logMax)
+    pub fn set_volume(&mut self, log_volume: i32, log_min: i32, log_max: i32) {
+        self.stream.as_ref().expect("stream").set_volume(volume_log_to_linear(log_volume, log_min, log_max));
+    }
+
+    /// Original: `SoundSample::SetStereoPosition` (utils/soundsample.cpp).
+    // @port utils/soundsample.cpp|devilution::SoundSample::SetStereoPosition(int logPan)
+    pub fn set_stereo_position(&mut self, log_pan: i32) {
+        self.stream.as_ref().expect("stream").set_stereo_position(pan_log_to_linear(log_pan));
+    }
+
+    pub fn mute(&mut self) {
+        self.stream.as_ref().expect("stream").mute();
+    }
+
+    pub fn unmute(&mut self) {
+        self.stream.as_ref().expect("stream").unmute();
+    }
+
+    /// Original: `SoundSample::GetLength` (utils/soundsample.cpp): duration in ms.
+    // @port utils/soundsample.cpp|devilution::SoundSample::GetLength()
     pub fn get_length(&self) -> i32 {
-        0
+        match &self.stream {
+            None => 0,
+            Some(s) => s.pcm().duration_ms(),
+        }
     }
 }

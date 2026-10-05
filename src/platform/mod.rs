@@ -16,6 +16,7 @@
 //! - `DIABLO_MAX_FRAMES=n`          send Quit after n presented frames
 //! - `DIABLO_NO_SAVE=1`, `DIABLO_NO_AUDIO=1` are read by the game code that owns saving/audio.
 
+pub mod audio;
 pub mod bevy_front;
 pub mod events;
 pub mod png;
@@ -44,15 +45,17 @@ pub mod display {
     }
 }
 
-/// `SDL_GetNumAudioDevices(false)`: the port lists only the system default device.
+/// `SDL_GetNumAudioDevices(false)`
 pub fn num_audio_devices() -> usize {
-    0
+    audio::output_device_names().len()
 }
 
 /// `SDL_GetAudioDeviceName(index - 1, false)`; index 0 is the default device ("").
 pub fn audio_device_name(index: usize) -> String {
-    let _ = index;
-    String::new()
+    if index == 0 {
+        return String::new();
+    }
+    audio::output_device_names().get(index - 1).cloned().unwrap_or_default()
 }
 
 /// Window state requests from the game thread to the front-end (SDL window calls).

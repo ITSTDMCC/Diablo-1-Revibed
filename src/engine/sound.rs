@@ -51,11 +51,13 @@ pub struct SoundState {
     /// `sgbSaveSoundOn` (monster.cpp)
     pub sgb_save_sound_on: bool,
     music: SoundSample,
+    /// `duplicateSounds`: copies of sounds that were already playing when triggered again.
+    duplicate_sounds: Vec<SoundSample>,
 }
 
 impl Default for SoundState {
     fn default() -> Self {
-        SoundState { gb_snd_inited: false, sgn_music_track: NUM_MUSIC, gb_music_on: true, gb_sound_on: true, sgb_save_sound_on: false, music: SoundSample::default() }
+        SoundState { gb_snd_inited: false, sgn_music_track: NUM_MUSIC, gb_music_on: true, gb_sound_on: true, sgb_save_sound_on: false, music: SoundSample::default(), duplicate_sounds: Vec::new() }
     }
 }
 
@@ -82,7 +84,7 @@ fn load_audio_file(ctx: &mut Ctx, path: &str, stream: bool, error_dialog: bool, 
         crate::appfat::err_dlg(ctx, "Audio file not found", &format!("{path}\n\n"), file!(), line!() as i32);
     }
     if stream {
-        if result.set_chunk_stream(&found_path, is_mp3, true) != 0 {
+        if result.set_chunk_stream(ctx, &found_path, is_mp3, true) != 0 {
             if error_dialog {
                 crate::appfat::err_dlg(ctx, "Failed to load audio file", &format!("{found_path}\n\n"), file!(), line!() as i32);
             }
@@ -127,8 +129,20 @@ fn cap_volume(volume: i32) -> i32 {
     volume.clamp(VOLUME_MIN, VOLUME_MAX)
 }
 
-/// Original: `devilution::snd_play_snd` (engine/sound.cpp). Duplicating a sound that is already
-/// playing needs the audio backend; without one nothing plays.
+/// Original: `DuplicateSound` (engine/sound.cpp). Finished duplicates are dropped here and in
+/// `ClearDuplicateSounds` (the original erases them from a finish callback).
+// @port engine/sound.cpp|devilution::DuplicateSound(const SoundSample &sound)
+fn duplicate_sound(ctx: &mut Ctx, sound: &SoundSample) -> Option<usize> {
+    ctx.sound.duplicate_sounds.retain(|d| d.is_playing());
+    let mut duplicate = SoundSample::default();
+    if duplicate.duplicate_from(sound) != 0 {
+        return None;
+    }
+    ctx.sound.duplicate_sounds.push(duplicate);
+    Some(ctx.sound.duplicate_sounds.len() - 1)
+}
+
+/// Original: `devilution::snd_play_snd` (engine/sound.cpp).
 // @port engine/sound.cpp|devilution::snd_play_snd(TSnd *pSnd, int lVolume, int lPan) sha=46b6227f8447
 pub fn snd_play_snd(ctx: &mut Ctx, p_snd: Option<&mut TSnd>, l_volume: i32, l_pan: i32) {
     let Some(p_snd) = p_snd else { return };
@@ -139,12 +153,13 @@ pub fn snd_play_snd(ctx: &mut Ctx, p_snd: Option<&mut TSnd>, l_volume: i32, l_pa
     if tc.wrapping_sub(p_snd.start_tc) < 80 {
         return;
     }
-    if p_snd.dsb.is_playing() {
-        // DuplicateSound: needs the backend.
-        return;
-    }
     let user_volume = ctx.options.audio.sound_volume.get();
-    p_snd.dsb.play_with_volume_and_pan(l_volume, user_volume, l_pan);
+    if p_snd.dsb.is_playing() {
+        let Some(i) = duplicate_sound(ctx, &p_snd.dsb) else { return };
+        ctx.sound.duplicate_sounds[i].play_with_volume_and_pan(l_volume, user_volume, l_pan);
+    } else {
+        p_snd.dsb.play_with_volume_and_pan(l_volume, user_volume, l_pan);
+    }
     p_snd.start_tc = tc;
 }
 
@@ -169,7 +184,7 @@ pub fn snd_init(ctx: &mut Ctx) {
     ctx.sound.gb_music_on = ctx.options.audio.music_volume.get() > VOLUME_MIN;
 
     let a = &ctx.options.audio;
-    if let Err(e) = SoundSample::audio_init(a.sample_rate.get(), a.channels.get(), a.buffer_size.get(), &a.device.get()) {
+    if let Err(e) = crate::platform::audio::init(a.sample_rate.get(), a.channels.get(), a.buffer_size.get(), &a.device.get()) {
         log::error!("Failed to initialize audio (Aulib::init): {}", e);
         return;
     }
@@ -179,6 +194,10 @@ pub fn snd_init(ctx: &mut Ctx) {
 /// Original: `devilution::snd_deinit` (engine/sound.cpp).
 // @port engine/sound.cpp|devilution::snd_deinit() sha=44476d98898a
 pub fn snd_deinit(ctx: &mut Ctx) {
+    if ctx.sound.gb_snd_inited {
+        crate::platform::audio::quit();
+        ctx.sound.duplicate_sounds.clear();
+    }
     ctx.sound.gb_snd_inited = false;
 }
 
@@ -314,7 +333,8 @@ pub fn music_unmute(ctx: &mut Ctx) {
     }
 }
 
-/// Original: `devilution::ClearDuplicateSounds` (engine/sound.cpp): no duplicates exist without
-/// the backend.
+/// Original: `devilution::ClearDuplicateSounds` (engine/sound.cpp).
 // @port engine/sound.cpp|devilution::ClearDuplicateSounds() sha=6f6d279ee71c
-pub fn clear_duplicate_sounds(_ctx: &mut Ctx) {}
+pub fn clear_duplicate_sounds(ctx: &mut Ctx) {
+    ctx.sound.duplicate_sounds.clear();
+}
