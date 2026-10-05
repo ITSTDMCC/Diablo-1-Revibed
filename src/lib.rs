@@ -9,6 +9,7 @@ pub mod appfat;
 pub mod bzip2;
 pub mod control;
 pub mod controls;
+pub mod dvlnet;
 pub mod ctx;
 pub mod diablo;
 pub mod diablo_game;
