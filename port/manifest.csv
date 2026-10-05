@@ -2419,166 +2419,166 @@ misdat.h|devilution::MissileFileData::FreeGFX(),ported,,,src/missiles.rs
 misdat.h|devilution::MissileFileData::spritesForDirection(size_t direction),pending,,,
 misdat.h|devilution::GetMissileData(MissileID missileId),pending,,,
 misdat.h|devilution::GetMissileSpriteData(MissileGraphicID graphicId),pending,,,
-"missiles.cpp|devilution::AddClassHealingBonus(int hp, HeroClass heroClass)",pending,,,
-"missiles.cpp|devilution::ScaleSpellEffect(int base, int spellLevel)",pending,,,
-"missiles.cpp|devilution::GenerateRndSum(int range, int iterations)",pending,,,
-"missiles.cpp|devilution::CheckBlock(Point from, Point to)",pending,,,
-"missiles.cpp|devilution::FindClosest(Point source, int rad)",pending,,,
-"missiles.cpp|devilution::Direction16Flip(Direction16 x, Direction16 pivot)",pending,,,
-"missiles.cpp|devilution::UpdateMissileVelocity(Missile &missile, Point destination, int velocityInPixels)",pending,,,
-missiles.cpp|devilution::PutMissile(Missile &missile),pending,,,
-missiles.cpp|devilution::UpdateMissilePos(Missile &missile),pending,,,
-missiles.cpp|devilution::MoveMissilePos(Missile &missile),pending,,,
-missiles.cpp|devilution::ProjectileMonsterDamage(Missile &missile),pending,,,
-missiles.cpp|devilution::ProjectileTrapDamage(Missile &missile),pending,,,
-"missiles.cpp|devilution::MonsterMHit(int pnum, int monsterId, int mindam, int maxdam, int dist, MissileID t, DamageType damageType, bool shift)",pending,,,
-"missiles.cpp|devilution::Plr2PlrMHit(const Player &player, int p, int mindam, int maxdam, int dist, MissileID mtype, DamageType damageType, bool shift, bool *blocked)",pending,,,
-missiles.cpp|devilution::RotateBlockedMissile(Missile &missile),pending,,,
-"missiles.cpp|devilution::CheckMissileCol(Missile &missile, DamageType damageType, int minDamage, int maxDamage, bool isDamageShifted, Point position, bool dontDeleteOnCollision)",pending,,,
-"missiles.cpp|devilution::MoveMissile(Missile &missile, tl::function_ref<bool(Point)> checkTile, bool ifCheckTileFailsDontMoveToTile = false)",pending,,,
-"missiles.cpp|devilution::MoveMissileAndCheckMissileCol(Missile &missile, DamageType damageType, int mindam, int maxdam, bool ignoreStart, bool ifCollidesDontMoveToHitTile)",pending,,,
-"missiles.cpp|devilution::SetMissAnim(Missile &missile, MissileGraphicID animtype)",pending,,,
-"missiles.cpp|devilution::AddRune(Missile &missile, Point dst, MissileID missileID)",pending,,,
-missiles.cpp|devilution::CheckIfTrig(Point position),pending,,,
-"missiles.cpp|devilution::GuardianTryFireAt(Missile &missile, Point target)",pending,,,
-"missiles.cpp|devilution::GrowWall(int playerId, Point position, Point target, MissileID type, int spellLevel, int damage)",pending,,,
-"missiles.cpp|devilution::SyncPositionWithParent(Missile &missile, const AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::SpawnLightning(Missile &missile, int dam)",pending,,,
-missiles.cpp|devilution::IsMissileBlockedByTile(Point tile),pending,,,
-"missiles.cpp|devilution::GetDamageAmt(SpellID i, int *mind, int *maxd)",pending,,,
-"missiles.cpp|devilution::GetDirection16(Point p1, Point p2)",pending,,,
-"missiles.cpp|devilution::MonsterTrapHit(int monsterId, int mindam, int maxdam, int dist, MissileID t, DamageType damageType, bool shift)",pending,,,
-"missiles.cpp|devilution::PlayerMHit(int pnum, Monster *monster, int dist, int mind, int maxd, MissileID mtype, DamageType damageType, bool shift, DeathReason deathReason, bool *blocked)",pending,,,
-"missiles.cpp|devilution::SetMissDir(Missile &missile, int dir)",pending,,,
+"missiles.cpp|devilution::AddClassHealingBonus(int hp, HeroClass heroClass)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::ScaleSpellEffect(int base, int spellLevel)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::GenerateRndSum(int range, int iterations)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::CheckBlock(Point from, Point to)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::FindClosest(Point source, int rad)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::Direction16Flip(Direction16 x, Direction16 pivot)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::UpdateMissileVelocity(Missile &missile, Point destination, int velocityInPixels)",ported,,,src/missiles.rs
+missiles.cpp|devilution::PutMissile(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::UpdateMissilePos(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::MoveMissilePos(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProjectileMonsterDamage(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProjectileTrapDamage(Missile &missile),ported,,,src/missiles.rs
+"missiles.cpp|devilution::MonsterMHit(int pnum, int monsterId, int mindam, int maxdam, int dist, MissileID t, DamageType damageType, bool shift)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::Plr2PlrMHit(const Player &player, int p, int mindam, int maxdam, int dist, MissileID mtype, DamageType damageType, bool shift, bool *blocked)",ported,,,src/missiles.rs
+missiles.cpp|devilution::RotateBlockedMissile(Missile &missile),ported,,,src/missiles.rs
+"missiles.cpp|devilution::CheckMissileCol(Missile &missile, DamageType damageType, int minDamage, int maxDamage, bool isDamageShifted, Point position, bool dontDeleteOnCollision)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::MoveMissile(Missile &missile, tl::function_ref<bool(Point)> checkTile, bool ifCheckTileFailsDontMoveToTile = false)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::MoveMissileAndCheckMissileCol(Missile &missile, DamageType damageType, int mindam, int maxdam, bool ignoreStart, bool ifCollidesDontMoveToHitTile)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::SetMissAnim(Missile &missile, MissileGraphicID animtype)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddRune(Missile &missile, Point dst, MissileID missileID)",ported,,,src/missiles.rs
+missiles.cpp|devilution::CheckIfTrig(Point position),ported,,,src/missiles.rs
+"missiles.cpp|devilution::GuardianTryFireAt(Missile &missile, Point target)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::GrowWall(int playerId, Point position, Point target, MissileID type, int spellLevel, int damage)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::SyncPositionWithParent(Missile &missile, const AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::SpawnLightning(Missile &missile, int dam)",ported,,,src/missiles.rs
+missiles.cpp|devilution::IsMissileBlockedByTile(Point tile),ported,,,src/missiles.rs
+"missiles.cpp|devilution::GetDamageAmt(SpellID i, int *mind, int *maxd)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::GetDirection16(Point p1, Point p2)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::MonsterTrapHit(int monsterId, int mindam, int maxdam, int dist, MissileID t, DamageType damageType, bool shift)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::PlayerMHit(int pnum, Monster *monster, int dist, int mind, int maxd, MissileID mtype, DamageType damageType, bool shift, DeathReason deathReason, bool *blocked)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::SetMissDir(Missile &missile, int dir)",ported,,,src/missiles.rs
 missiles.cpp|devilution::InitMissiles(),ported,,,src/missiles.rs
-"missiles.cpp|devilution::AddOpenNest(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddRuneOfFire(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddRuneOfLight(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddRuneOfNova(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddRuneOfImmolation(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddRuneOfStone(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddReflect(Missile &missile, AddMissileParameter &)",pending,,,
-"missiles.cpp|devilution::AddBerserk(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddHorkSpawn(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddJester(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddStealPotions(Missile &missile, AddMissileParameter &)",pending,,,
-"missiles.cpp|devilution::AddStealMana(Missile &missile, AddMissileParameter &)",pending,,,
-"missiles.cpp|devilution::AddSpectralArrow(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddWarp(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddLightningWall(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddBigExplosion(Missile &missile, AddMissileParameter &)",pending,,,
-"missiles.cpp|devilution::AddImmolation(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddLightningBow(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddMana(Missile &missile, AddMissileParameter &)",pending,,,
-"missiles.cpp|devilution::AddMagi(Missile &missile, AddMissileParameter &)",pending,,,
-"missiles.cpp|devilution::AddRingOfFire(Missile &missile, AddMissileParameter &)",pending,,,
-"missiles.cpp|devilution::AddSearch(Missile &missile, AddMissileParameter &)",pending,,,
-"missiles.cpp|devilution::AddChargedBoltBow(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddElementalArrow(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddArrow(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::UpdateVileMissPos(Missile &missile, Point dst)",pending,,,
-"missiles.cpp|devilution::AddPhasing(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddFirebolt(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddMagmaBall(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddTeleport(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddNovaBall(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddFireWall(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddFireball(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddLightningControl(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddLightning(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddMissileExplosion(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddWeaponExplosion(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddTownPortal(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddFlashBottom(Missile &missile, AddMissileParameter &)",pending,,,
-"missiles.cpp|devilution::AddFlashTop(Missile &missile, AddMissileParameter &)",pending,,,
-"missiles.cpp|devilution::AddManaShield(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddFlameWave(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddGuardian(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddChainLightning(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::InitMissileAnimationFromMonster(Missile &mis, Direction midir, const Monster &mon, MonsterGraphic graphic)",pending,,,
-"missiles.cpp|devilution::AddRhino(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddGenericMagicMissile(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddAcid(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddAcidPuddle(Missile &missile, AddMissileParameter &)",pending,,,
-"missiles.cpp|devilution::AddStoneCurse(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddGolem(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddApocalypseBoom(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddHealing(Missile &missile, AddMissileParameter &)",pending,,,
-"missiles.cpp|devilution::AddHealOther(Missile &missile, AddMissileParameter &)",pending,,,
-"missiles.cpp|devilution::AddElemental(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddIdentify(Missile &missile, AddMissileParameter &)",pending,,,
-"missiles.cpp|devilution::AddFireWallControl(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddInfravision(Missile &missile, AddMissileParameter &)",pending,,,
-"missiles.cpp|devilution::AddFlameWaveControl(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddNova(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddRage(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddItemRepair(Missile &missile, AddMissileParameter &)",pending,,,
-"missiles.cpp|devilution::AddStaffRecharge(Missile &missile, AddMissileParameter &)",pending,,,
-"missiles.cpp|devilution::AddTrapDisarm(Missile &missile, AddMissileParameter &)",pending,,,
-"missiles.cpp|devilution::AddApocalypse(Missile &missile, AddMissileParameter &)",pending,,,
-"missiles.cpp|devilution::AddInferno(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddInfernoControl(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddChargedBolt(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddHolyBolt(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddResurrect(Missile &missile, AddMissileParameter &)",pending,,,
-"missiles.cpp|devilution::AddResurrectBeam(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddTelekinesis(Missile &missile, AddMissileParameter &)",pending,,,
-"missiles.cpp|devilution::AddBoneSpirit(Missile &missile, AddMissileParameter &parameter)",pending,,,
-"missiles.cpp|devilution::AddRedPortal(Missile &missile, AddMissileParameter &)",pending,,,
-"missiles.cpp|devilution::AddDiabloApocalypse(Missile &missile, AddMissileParameter &)",pending,,,
-"missiles.cpp|devilution::AddMissile(Point src, Point dst, Direction midir, MissileID mitype, mienemy_type micaster, int id, int midam, int spllvl, Missile *parent, std::optional<_sfx_id> lSFX)",pending,,,
-missiles.cpp|devilution::ProcessElementalArrow(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessArrow(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessGenericProjectile(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessNovaBall(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessAcidPuddle(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessFireWall(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessFireball(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessHorkSpawn(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessRune(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessLightningWall(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessBigExplosion(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessLightningBow(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessRingOfFire(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessSearch(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessLightningWallControl(Missile &missile),pending,,,
-"missiles.cpp|devilution::ProcessNovaCommon(Missile &missile, MissileID projectileType)",pending,,,
-missiles.cpp|devilution::ProcessImmolation(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessNova(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessSpectralArrow(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessLightningControl(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessLightning(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessTownPortal(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessFlashBottom(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessFlashTop(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessFlameWave(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessGuardian(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessChainLightning(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessWeaponExplosion(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessMissileExplosion(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessAcidSplate(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessTeleport(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessStoneCurse(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessApocalypseBoom(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessRhino(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessFireWallControl(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessInfravision(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessApocalypse(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessFlameWaveControl(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessRage(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessInferno(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessInfernoControl(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessChargedBolt(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessHolyBolt(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessElemental(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessBoneSpirit(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessResurrectBeam(Missile &missile),pending,,,
-missiles.cpp|devilution::ProcessRedPortal(Missile &missile),pending,,,
+"missiles.cpp|devilution::AddOpenNest(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddRuneOfFire(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddRuneOfLight(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddRuneOfNova(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddRuneOfImmolation(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddRuneOfStone(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddReflect(Missile &missile, AddMissileParameter &)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddBerserk(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddHorkSpawn(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddJester(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddStealPotions(Missile &missile, AddMissileParameter &)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddStealMana(Missile &missile, AddMissileParameter &)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddSpectralArrow(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddWarp(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddLightningWall(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddBigExplosion(Missile &missile, AddMissileParameter &)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddImmolation(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddLightningBow(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddMana(Missile &missile, AddMissileParameter &)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddMagi(Missile &missile, AddMissileParameter &)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddRingOfFire(Missile &missile, AddMissileParameter &)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddSearch(Missile &missile, AddMissileParameter &)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddChargedBoltBow(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddElementalArrow(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddArrow(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::UpdateVileMissPos(Missile &missile, Point dst)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddPhasing(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddFirebolt(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddMagmaBall(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddTeleport(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddNovaBall(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddFireWall(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddFireball(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddLightningControl(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddLightning(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddMissileExplosion(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddWeaponExplosion(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddTownPortal(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddFlashBottom(Missile &missile, AddMissileParameter &)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddFlashTop(Missile &missile, AddMissileParameter &)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddManaShield(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddFlameWave(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddGuardian(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddChainLightning(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::InitMissileAnimationFromMonster(Missile &mis, Direction midir, const Monster &mon, MonsterGraphic graphic)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddRhino(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddGenericMagicMissile(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddAcid(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddAcidPuddle(Missile &missile, AddMissileParameter &)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddStoneCurse(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddGolem(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddApocalypseBoom(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddHealing(Missile &missile, AddMissileParameter &)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddHealOther(Missile &missile, AddMissileParameter &)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddElemental(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddIdentify(Missile &missile, AddMissileParameter &)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddFireWallControl(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddInfravision(Missile &missile, AddMissileParameter &)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddFlameWaveControl(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddNova(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddRage(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddItemRepair(Missile &missile, AddMissileParameter &)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddStaffRecharge(Missile &missile, AddMissileParameter &)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddTrapDisarm(Missile &missile, AddMissileParameter &)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddApocalypse(Missile &missile, AddMissileParameter &)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddInferno(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddInfernoControl(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddChargedBolt(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddHolyBolt(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddResurrect(Missile &missile, AddMissileParameter &)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddResurrectBeam(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddTelekinesis(Missile &missile, AddMissileParameter &)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddBoneSpirit(Missile &missile, AddMissileParameter &parameter)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddRedPortal(Missile &missile, AddMissileParameter &)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddDiabloApocalypse(Missile &missile, AddMissileParameter &)",ported,,,src/missiles.rs
+"missiles.cpp|devilution::AddMissile(Point src, Point dst, Direction midir, MissileID mitype, mienemy_type micaster, int id, int midam, int spllvl, Missile *parent, std::optional<_sfx_id> lSFX)",ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessElementalArrow(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessArrow(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessGenericProjectile(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessNovaBall(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessAcidPuddle(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessFireWall(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessFireball(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessHorkSpawn(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessRune(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessLightningWall(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessBigExplosion(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessLightningBow(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessRingOfFire(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessSearch(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessLightningWallControl(Missile &missile),ported,,,src/missiles.rs
+"missiles.cpp|devilution::ProcessNovaCommon(Missile &missile, MissileID projectileType)",ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessImmolation(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessNova(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessSpectralArrow(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessLightningControl(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessLightning(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessTownPortal(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessFlashBottom(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessFlashTop(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessFlameWave(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessGuardian(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessChainLightning(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessWeaponExplosion(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessMissileExplosion(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessAcidSplate(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessTeleport(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessStoneCurse(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessApocalypseBoom(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessRhino(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessFireWallControl(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessInfravision(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessApocalypse(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessFlameWaveControl(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessRage(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessInferno(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessInfernoControl(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessChargedBolt(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessHolyBolt(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessElemental(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessBoneSpirit(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessResurrectBeam(Missile &missile),ported,,,src/missiles.rs
+missiles.cpp|devilution::ProcessRedPortal(Missile &missile),ported,,,src/missiles.rs
 missiles.cpp|devilution::DeleteMissiles(),ported,,,src/missiles.rs
 missiles.cpp|devilution::ProcessManaShield(),ported,,,src/missiles.rs
 missiles.cpp|devilution::ProcessMissiles(),ported,,,src/missiles.rs
-missiles.cpp|devilution::missiles_process_charge(),pending,,,
-missiles.cpp|devilution::RedoMissileFlags(),pending,,,
+missiles.cpp|devilution::missiles_process_charge(),ported,,,src/missiles.rs
+missiles.cpp|devilution::RedoMissileFlags(),ported,,,src/missiles.rs
 missiles.h|devilution::MissilePosition::StopMissile(),pending,,,
 missiles.h|devilution::Missile::IsTrap(),pending,,,
 missiles.h|devilution::Missile::sourcePlayer(),pending,,,
