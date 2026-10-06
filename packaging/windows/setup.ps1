@@ -136,5 +136,5 @@ if (-not (Is-Good $mpqHere)) {
 # remembered only once everything is in place (the play scripts run the setup until then)
 [System.IO.File]::WriteAllText((Join-Path $here 'data-dir.txt'), $found, [System.Text.Encoding]::Default)
 
-Say "Setup is done.`n`nDiablo folder: $found`n`nStart the game with 'Play Diablo.bat'. Free movement (and the first-person view on X) is in Settings > Gameplay."
+Say "Setup is done.`n`nDiablo folder: $found`n`nStart the game with 'Play Diablo.bat'. Free movement (and the first-person view on X) is Settings > Gameplay > Diablo 2 Free Movement."
 exit 0

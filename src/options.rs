@@ -1635,7 +1635,7 @@ impl GameplayOptions {
             category: OptionCategoryBase::new("Game", "Gameplay", "Gameplay Settings"),
             tick_rate: OptionEntryInt::new("Speed", INVISIBLE, "Speed", "Gameplay ticks per second.", 20, &[]),
             run_in_town: b("Run in Town", CANT_CHANGE_IN_MULTI_PLAYER, "Run in Town", "Enable jogging/fast walking in town for Diablo and Hellfire. This option was introduced in the expansion.", false),
-            free_movement: b("Free Movement", CANT_CHANGE_IN_MULTI_PLAYER, "Free Movement", "Move in any direction like a modern action RPG (single player). Press X in game for the experimental first-person view. Not part of the original game.", false),
+            free_movement: b("Free Movement", CANT_CHANGE_IN_MULTI_PLAYER, "Diablo 2 Free Movement", "Move in any direction like a modern action RPG (single player). Press X in game for the experimental first-person view. Not part of the original game.", false),
             grab_input: b("Grab Input", NONE, "Grab Input", "When enabled mouse is locked to the game window.", false),
             theo_quest: b("Theo Quest", CANT_CHANGE_IN_GAME | ONLY_HELLFIRE, "Theo Quest", "Enable Little Girl quest.", false),
             cow_quest: b("Cow Quest", CANT_CHANGE_IN_GAME | ONLY_HELLFIRE, "Cow Quest", "Enable Jersey's quest. Lester the farmer is replaced by the Complete Nut.", false),
@@ -1694,13 +1694,13 @@ impl GameplayOptions {
     pub fn get_entries(&mut self) -> Vec<&mut dyn OptionEntry> {
         vec![
             &mut self.tick_rate,
+            &mut self.free_movement,
             &mut self.friendly_fire,
             &mut self.multiplayer_full_quests,
             &mut self.randomize_quests,
             &mut self.theo_quest,
             &mut self.cow_quest,
             &mut self.run_in_town,
-            &mut self.free_movement,
             &mut self.quick_cast,
             &mut self.test_bard,
             &mut self.test_barbarian,

@@ -60,7 +60,7 @@ jobs:
 
             1. Download `${{ env.NAME }}.zip` below and unzip it anywhere (not inside Program Files).
             2. Run **Setup.bat** once: it finds your Diablo folder (with `DIABDAT.MPQ`) and downloads `devilutionx.mpq` from the official DevilutionX 1.5.3 release.
-            3. Run **Play Diablo.bat**. F11 switches full screen on and off. Free movement (move in any direction; press X for the experimental first-person view) is in Settings > Gameplay.
+            3. Run **Play Diablo.bat**. F11 switches full screen on and off. Free movement (move in any direction; press X for the experimental first-person view) is Settings > Gameplay > Diablo 2 Free Movement.
 
             Only `DIABDAT.MPQ` is needed; Hellfire's files are optional (with all of them the game asks whether to play Diablo or Hellfire).
 

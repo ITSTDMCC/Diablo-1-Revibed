@@ -78,7 +78,7 @@ binary addresses unnamed.
 
 ## Known differences from the original
 
-### Free movement (*Settings > Gameplay > Free Movement*, off by default)
+### Free movement (*Settings > Gameplay > Diablo 2 Free Movement*, off by default; ini key `Free Movement`)
 
 Asked for by the owner on 2026-10-05 as a separate build where the player moves in any direction
 like a modern ARPG; on 2026-10-06 made a setting instead (one program, one launcher). With the

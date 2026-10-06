@@ -94,7 +94,7 @@ support.)
 
 ### Free movement (optional)
 
-Switch on *Settings > Gameplay > Free Movement* (off by default) and your hero moves in **any
+Switch on *Settings > Gameplay > Diablo 2 Free Movement* (first line) (off by default) and your hero moves in **any
 direction**, like a modern action RPG, instead of stepping from tile to tile in eight directions.
 Everything else is the original game. It can be switched on and off at any time.
 
@@ -107,7 +107,7 @@ Everything else is the original game. It can be switched on and off at any time.
   compatible with DevilutionX and with players who have it off.
 - Saves are the same with it on or off.
 
-**First-person view (experimental, with Free Movement on).** Press **X** to switch the dungeon
+**First-person view (experimental, with Diablo 2 Free Movement on).** Press **X** to switch the dungeon
 view to the hero's eyes and back.
 
 - **W / S** walk forward and back, **A / D** turn, **Shift + A / D** step sideways.
@@ -187,7 +187,7 @@ player may notice:
 - Multiplayer offers *Client-Server (TCP)* and *Offline*; DevilutionX's ZeroTier internet
   option is not available.
 - Touch controls are not supported.
-- The optional Free Movement setting (above) changes how the hero walks; with it off the hero moves
+- The optional Diablo 2 Free Movement setting (above) changes how the hero walks; with it off the hero moves
   exactly like the original.
 - Sound is mixed by the port's own simple mixer; it may sound very slightly different. MP3 music
   replacements are not supported.

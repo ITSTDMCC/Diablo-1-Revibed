@@ -15,7 +15,7 @@ Getting started
    "More info" > "Run anyway".)
 3. Play: double-click "Play Diablo.bat".
      - F11 switches between full screen and a window.
-     - Settings > Gameplay > Free Movement: move in any direction like a modern action RPG;
+     - Settings > Gameplay > Diablo 2 Free Movement (first line): move in any direction like a modern action RPG;
        with it on, X switches to an experimental first-person view.
      - Only DIABDAT.MPQ is needed. Hellfire is optional: with all its files (hellfire.mpq,
        hfmonk.mpq, hfmusic.mpq, hfvoice.mpq) the game asks once whether to play Diablo or
