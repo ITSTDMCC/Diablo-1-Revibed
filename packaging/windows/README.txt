@@ -24,7 +24,7 @@ Getting started
 Alternatively copy DIABDAT.MPQ into this folder and run diablo1_rs.exe directly.
 
 Controls, settings, saves and known differences: see the README on
-https://github.com/ITSTDMCC/diablo1_rs
+https://github.com/ITSTDMCC/Diablo-1-Revibed
 
 Settings (diablo.ini) and saves are kept in this folder.
 

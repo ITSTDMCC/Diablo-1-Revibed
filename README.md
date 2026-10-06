@@ -39,13 +39,17 @@ build needs about 3 GB of disk for the compiler's work files.
 
 1. Install your own copy of Diablo (GOG: *Diablo + Hellfire*).
 2. Download the latest `diablo1_rs-...-windows-x64.zip` from
-   [Releases](https://github.com/ITSTDMCC/diablo1_rs/releases) and unzip it anywhere (not inside
+   [Releases](https://github.com/ITSTDMCC/Diablo-1-Revibed/releases) and unzip it anywhere (not inside
    *Program Files*).
 3. Double-click **Setup.bat** once. It finds your Diablo folder (the one with `DIABDAT.MPQ`), or
    asks you to pick it, and downloads `devilutionx.mpq` from the official DevilutionX 1.5.3
    release (and checks it is the right file).
-4. Play with **Play Diablo.bat** (original movement) or **Play Diablo - Free Movement.bat** (move
-   in any direction; press **X** for the experimental first-person view).
+4. Play with **Play Diablo.bat**. **F11** switches between full screen and a window.
+
+Only `DIABDAT.MPQ` is needed: Hellfire's files (`hellfire.mpq`, `hfmonk.mpq`, `hfmusic.mpq`,
+`hfvoice.mpq`) are optional. With all of them the game asks once whether to play Diablo or
+Hellfire (change it later in *Settings > Start Up > Game Mode*); with none or only some of them it
+plays Diablo.
 
 No game data is in the download. To build it yourself instead, follow the setup below.
 
@@ -61,11 +65,11 @@ No game data is in the download. To build it yourself instead, follow the setup 
 3. **Install Rust.** Run the installer from <https://rustup.rs> and accept the defaults. When it
    offers to install the Visual Studio C++ Build Tools, say yes. Restart the terminal afterwards.
 4. **Get the port's source.** Either download it as a zip from
-   <https://github.com/ITSTDMCC/diablo1_rs> (green **Code** button, then **Download ZIP**) and
-   unpack it, for example to `C:\Games\diablo1_rs`, or clone it with Git:
+   <https://github.com/ITSTDMCC/Diablo-1-Revibed> (green **Code** button, then **Download ZIP**) and
+   unpack it, for example to `C:\Games\Diablo-1-Revibed`, or clone it with Git:
 
    ```
-   git clone https://github.com/ITSTDMCC/diablo1_rs C:\Games\diablo1_rs
+   git clone https://github.com/ITSTDMCC/Diablo-1-Revibed C:\Games\Diablo-1-Revibed
    ```
 5. **Build it.** Open *PowerShell* in that folder and run:
 
@@ -88,17 +92,11 @@ No game data is in the download. To build it yourself instead, follow the setup 
 and press a button. (`cargo build --release --no-default-features` builds without controller
 support.)
 
-### Free-movement build (optional)
+### Free movement (optional)
 
-A second build of the game where your hero moves in **any direction**, like a modern action RPG,
-instead of stepping from tile to tile in eight directions. Everything else is the original game.
-Build it into its own folder so it sits next to the normal build:
-
-```
-cargo build --release --features free-movement --target-dir target\free-movement
-```
-
-and start `target\free-movement\release\diablo1_rs.exe` with the same `--data-dir` as above.
+Switch on *Settings > Gameplay > Free Movement* (off by default) and your hero moves in **any
+direction**, like a modern action RPG, instead of stepping from tile to tile in eight directions.
+Everything else is the original game. It can be switched on and off at any time.
 
 - **Mouse:** click the ground to walk straight to that exact spot (around walls when needed), or
   hold the button and the hero follows the cursor. Clicking a monster, item, door or chest walks
@@ -106,13 +104,10 @@ and start `target\free-movement\release\diablo1_rs.exe` with the same `--data-di
 - **Controller:** the left stick walks in the stick's exact direction.
 - The hero slides along walls instead of stopping. Walking speed is close to the original's.
 - It applies to single player. Multiplayer games use the original movement, so they stay
-  compatible with the normal build and with DevilutionX.
-- It shares the normal build's settings and heroes (saves work in both).
-- With **Upscale** and **Fit to Screen** on (the defaults), the game's resolution follows the window:
-  full screen runs at your screen's own resolution, and resizing a window shows more of the
-  world instead of stretching the picture. The Resolution setting is not used then.
+  compatible with DevilutionX and with players who have it off.
+- Saves are the same with it on or off.
 
-**First-person view (experimental, free-movement build only).** Press **X** to switch the dungeon
+**First-person view (experimental, with Free Movement on).** Press **X** to switch the dungeon
 view to the hero's eyes and back.
 
 - **W / S** walk forward and back, **A / D** turn, **Shift + A / D** step sideways.
@@ -192,7 +187,7 @@ player may notice:
 - Multiplayer offers *Client-Server (TCP)* and *Offline*; DevilutionX's ZeroTier internet
   option is not available.
 - Touch controls are not supported.
-- The optional free-movement build (above) changes how the hero walks; the normal build moves
+- The optional Free Movement setting (above) changes how the hero walks; with it off the hero moves
   exactly like the original.
 - Sound is mixed by the port's own simple mixer; it may sound very slightly different. MP3 music
   replacements are not supported.
