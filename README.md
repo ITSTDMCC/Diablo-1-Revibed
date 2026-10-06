@@ -1,4 +1,4 @@
-# diablo1_rs
+# Diablo-1-Revibed
 
 A Rust port of **Diablo** (1996), translated function by function from the
 [DevilutionX 1.5.3](https://github.com/diasurgical/devilutionX/releases/tag/1.5.3) source code,
