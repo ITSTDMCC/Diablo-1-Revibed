@@ -33,7 +33,21 @@ an AMD Ryzen 5 5600X with a Radeon RX 9060 XT and 16 GB of RAM, where it never c
 loading the machine (an observation, not a measurement). The built program is about 50 MB; a
 build needs about 3 GB of disk for the compiler's work files.
 
-## Setup, from a fresh Windows install
+## Quick start (ready-made download)
+
+1. Install your own copy of Diablo (GOG: *Diablo + Hellfire*).
+2. Download the latest `diablo1_rs-...-windows-x64.zip` from
+   [Releases](https://github.com/ITSTDMCC/diablo1_rs/releases) and unzip it anywhere (not inside
+   *Program Files*).
+3. Double-click **Setup.bat** once. It finds your Diablo folder (the one with `DIABDAT.MPQ`), or
+   asks you to pick it, and downloads `devilutionx.mpq` from the official DevilutionX 1.5.3
+   release (and checks it is the right file).
+4. Play with **Play Diablo.bat** (original movement) or **Play Diablo - Free Movement.bat** (move
+   in any direction; press **X** for the experimental first-person view).
+
+No game data is in the download. To build it yourself instead, follow the setup below.
+
+## Setup, from a fresh Windows install (building it yourself)
 
 1. **Install your copy of Diablo.** In GOG Galaxy (or the GOG offline installer) install
    *Diablo + Hellfire*. Find its folder (by default `C:\Program Files (x86)\GOG Galaxy\Games\Diablo`)
