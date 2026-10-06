@@ -44,8 +44,13 @@ build needs about 3 GB of disk for the compiler's work files.
    `DIABDAT.MPQ`. Use the 1.5.3 file: other versions or modded copies may not match.
 3. **Install Rust.** Run the installer from <https://rustup.rs> and accept the defaults. When it
    offers to install the Visual Studio C++ Build Tools, say yes. Restart the terminal afterwards.
-4. **Get the port's source.** Clone or download this repository, for example to
-   `C:\Games\diablo1_rs`.
+4. **Get the port's source.** Either download it as a zip from
+   <https://github.com/ITSTDMCC/diablo1_rs> (green **Code** button, then **Download ZIP**) and
+   unpack it, for example to `C:\Games\diablo1_rs`, or clone it with Git:
+
+   ```
+   git clone https://github.com/ITSTDMCC/diablo1_rs C:\Games\diablo1_rs
+   ```
 5. **Build it.** Open *PowerShell* in that folder and run:
 
    ```
