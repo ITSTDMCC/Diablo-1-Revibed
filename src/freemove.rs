@@ -1,4 +1,4 @@
-//! Free movement (cargo feature `free-movement`, not part of the original): the player moves in
+//! Free movement (Settings > Gameplay > Free Movement, off by default; not part of the original): the player moves in
 //! any direction at a constant speed, like a modern action RPG, instead of stepping tile to tile
 //! in eight directions.
 //!
@@ -19,8 +19,10 @@ use crate::engine::geometry::{Direction, Displacement, Point};
 use crate::enums::*;
 use crate::levels::gendung::DungeonType;
 
-/// Whether this build has free movement.
-pub const ENABLED: bool = cfg!(feature = "free-movement");
+/// Free movement is switched on (Settings > Gameplay > Free Movement; off by default).
+pub fn enabled(ctx: &Ctx) -> bool {
+    ctx.options.gameplay.free_movement.get()
+}
 
 /// Walking speed: the original's walk takes 8 ticks per step, and a step covers one tile along
 /// a tile axis (a screen diagonal) or a tile diagonal (screen up/down/left/right, 1.41 tiles).
@@ -73,7 +75,7 @@ pub struct FreeMoveState {
 
 /// Free movement applies to this player now.
 pub fn active_for(ctx: &Ctx, pnum: usize) -> bool {
-    ENABLED && !ctx.init.gb_is_multiplayer && ctx.players.MyPlayer == Some(pnum)
+    enabled(ctx) && !ctx.init.gb_is_multiplayer && ctx.players.MyPlayer == Some(pnum)
 }
 
 fn world_to_screen(d: (f32, f32)) -> (f32, f32) {
@@ -179,6 +181,20 @@ fn reset_to_tile(ctx: &mut Ctx, pnum: usize) {
     s.goal = None;
     s.prev_off = (0.0, 0.0);
     s.cur_off = (0.0, 0.0);
+}
+
+/// Free movement was switched off in the settings: the player stands on its tile again.
+pub fn sync(ctx: &mut Ctx) {
+    let Some(me) = ctx.players.MyPlayer else { return };
+    if active_for(ctx, me) || (ctx.freemove.walk_anim.is_none() && ctx.freemove.waypoints.is_empty() && ctx.freemove.cur_off == (0.0, 0.0)) {
+        return;
+    }
+    reset_to_tile(ctx, me);
+    ctx.freemove.stick = None;
+    if ctx.freemove.walk_anim.take().is_some() && ctx.players.Players[me]._pmode == PM_STAND {
+        let d = ctx.players.Players[me]._pdir;
+        crate::player::new_plr_anim(ctx, me, player_graphic::Stand, d, AnimationDistributionFlags::None, 0, 0);
+    }
 }
 
 /// Tiles searched at most for one path (the original's `FindPath` gives up after 25 steps).
@@ -628,7 +644,7 @@ pub fn draw_position(ctx: &Ctx, pnum: usize) -> Option<(Point, Displacement)> {
 /// `CheckCursMove` found tile `base` with the cursor at (`px`, `py`) pixels inside the cell
 /// whose left corner is that tile's centre: remember the exact ground point.
 pub fn set_cursor_point(ctx: &mut Ctx, base: Point, px: i32, py: i32) {
-    if !ENABLED {
+    if !enabled(ctx) {
         return;
     }
     let d = screen_to_world((px as f32, (py - crate::engine::render::dun_render::TILE_HEIGHT / 2) as f32));

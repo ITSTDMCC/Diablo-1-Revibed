@@ -1267,7 +1267,7 @@ pub fn draw_and_blit(ctx: &mut Ctx) {
     if !ctx.diablo.gb_run_game || ctx.diablo.headless_mode {
         return;
     }
-    crate::utils::display::follow_window_size(ctx);
+    crate::firstperson::sync(ctx);
     let mut hgt = 0;
     let mut draw_health = is_redraw_component(ctx, PanelDrawComponent::Health);
     let mut draw_mana = is_redraw_component(ctx, PanelDrawComponent::Mana);

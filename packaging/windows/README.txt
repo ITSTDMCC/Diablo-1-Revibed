@@ -13,10 +13,13 @@ Getting started
        from the official DevilutionX 1.5.3 release and checks it.
    You only do this once. (Windows may warn about running a downloaded file: choose
    "More info" > "Run anyway".)
-3. Play:
-     - "Play Diablo.bat"                  - the original game and movement
-     - "Play Diablo - Free Movement.bat"  - move in any direction like a modern action RPG;
-                                            press X in game for an experimental first-person view
+3. Play: double-click "Play Diablo.bat".
+     - F11 switches between full screen and a window.
+     - Settings > Gameplay > Free Movement: move in any direction like a modern action RPG;
+       with it on, X switches to an experimental first-person view.
+     - Only DIABDAT.MPQ is needed. Hellfire is optional: with all its files (hellfire.mpq,
+       hfmonk.mpq, hfmusic.mpq, hfvoice.mpq) the game asks once whether to play Diablo or
+       Hellfire (Settings > Start Up > Game Mode); otherwise it plays Diablo.
 
 Alternatively copy DIABDAT.MPQ into this folder and run diablo1_rs.exe directly.
 

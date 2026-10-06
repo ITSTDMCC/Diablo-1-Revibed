@@ -145,9 +145,9 @@ pub struct Ctx {
     pub movie: crate::movie::MovieState,
     /// storm/storm_svid.cpp
     pub svid: crate::storm::storm_svid::SvidState,
-    /// Free movement (not in the original; feature `free-movement`)
+    /// Free movement (not in the original; Free Movement setting)
     pub freemove: crate::freemove::FreeMoveState,
-    /// First-person view (not in the original; feature `free-movement`)
+    /// First-person view (not in the original; Free Movement setting)
     pub firstperson: crate::firstperson::FirstPersonState,
 }
 

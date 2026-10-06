@@ -1,4 +1,4 @@
-//! First-person view (part of the `free-movement` build, not in the original): `X` switches the
+//! First-person view (with Free Movement on; not in the original): `X` switches the
 //! dungeon view to a first-person view from the hero's eyes, drawn with a column raycaster.
 //!
 //! The level's own art is reused: every level piece is drawn once, as the isometric renderer
@@ -126,6 +126,19 @@ pub struct FirstPersonState {
     picked: Vec<(Point, Kind)>,
 }
 
+/// Called before each in-game frame: when free movement was switched off in the settings (or the
+/// game turned multiplayer), the first-person view ends and the panel goes back down.
+pub fn sync(ctx: &mut Ctx) {
+    if ctx.firstperson.on && !active(ctx) {
+        ctx.firstperson.on = false;
+        ctx.firstperson.keys = Default::default();
+        crate::control::calculate_panel_areas(ctx);
+        crate::engine::render::scrollrt::calc_viewport_geometry(ctx);
+        crate::engine::backbuffer_state::redraw_everything(ctx);
+    }
+    crate::freemove::sync(ctx);
+}
+
 /// The first-person view is on.
 pub fn active(ctx: &Ctx) -> bool {
     ctx.firstperson.on && ctx.players.MyPlayer.is_some_and(|me| crate::freemove::active_for(ctx, me))
@@ -150,7 +163,7 @@ fn dir_angle(d: Direction) -> f32 {
 
 /// `PressKey`: returns true when the key was used here.
 pub fn press_key(ctx: &mut Ctx, vkey: i32) -> bool {
-    if !crate::freemove::ENABLED || ctx.control.talkflag {
+    if !crate::freemove::enabled(ctx) || ctx.control.talkflag {
         return false;
     }
     let me = match ctx.players.MyPlayer {

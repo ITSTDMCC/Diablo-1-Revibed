@@ -78,12 +78,15 @@ binary addresses unnamed.
 
 ## Known differences from the original
 
-### Free-movement build (`--features free-movement`, off by default)
+### Free movement (*Settings > Gameplay > Free Movement*, off by default)
 
-Asked for by the owner on 2026-10-05: a separate build where the player moves in any direction
-like a modern ARPG. The normal build is unaffected: the code is in `src/freemove.rs` and every hook
-checks `freemove::active_for`, which is false unless the feature is on (the parity tests, which
-run the normal build, still pass byte for byte).
+Asked for by the owner on 2026-10-05 as a separate build where the player moves in any direction
+like a modern ARPG; on 2026-10-06 made a setting instead (one program, one launcher). With the
+setting off the game is unaffected: the code is in `src/freemove.rs` and every hook checks
+`freemove::active_for`, which is false unless the setting is on (the parity tests, which run with
+default settings, still pass byte for byte). Switching it off mid-game puts the player back on
+its tile and ends the first-person view (`firstperson::sync` before each frame). The old cargo
+feature `free-movement` is kept as a no-op so existing build commands still work.
 
 - The game logic stays tile-based; the player also has a continuous position. The tile is the one
   the position rounds to (`dPlayer`, monsters, missiles, triggers, lighting and saves use it). The
@@ -114,14 +117,6 @@ run the normal build, still pass byte for byte).
   original movement do not replay in this build.
 - Test hooks: `DIABLO_FREEMOVE_TRACE=1` prints the player's state every tick; input scripts can
   hold the mouse with `press <x> <y>` / `release <x> <y>`.
-
-#### Resolution follows the window (same build)
-
-Asked for by the owner on 2026-10-05. With Upscale and Fit to Screen on, `GetPreferredWindowSize`
-uses the desktop resolution in full screen, and before each in-game frame
-(`follow_window_size`, called from `DrawAndBlit`) the game's resolution is set to the window's
-logical size (at least 640 x 480): screen geometry, panel areas, output and back buffers and the
-viewport are recalculated. The original keeps the Resolution option and scales the picture.
 
 #### First-person view (same build, key X)
 
@@ -207,6 +202,16 @@ Asked for by the owner on 2026-10-05 as an optional gameplay feature; `src/first
   on (`monster` / `door`: the nearest monster or NPC / door in plain sight); `DIABLO_FP_DUMP=<dir>` writes every
   level piece picture as PPM; input scripts can hold keys with `keydown <key>` / `keyup <key>`;
   `tools/input_scripts/first_person.txt` walks around town and dungeon level 2.
+
+### Small additions (all settings)
+
+- **F11** toggles full screen (the original uses Alt+Enter only, which still works).
+- Starting in full screen, the window is given the screen's size (the original's `SDL_CreateWindow`
+  gets the game's size; in the Bevy window that size was kept inside the full-screen mode, so the
+  picture did not fill the screen until full screen was switched off and on).
+- Hellfire files present but incomplete (`hellfire.mpq` without all of `hfmonk.mpq`,
+  `hfmusic.mpq`, `hfvoice.mpq`): the game runs as Diablo instead of stopping with "Some Hellfire
+  MPQs are missing" (unless `--hellfire` asks for Hellfire).
 
 ### Both builds
 

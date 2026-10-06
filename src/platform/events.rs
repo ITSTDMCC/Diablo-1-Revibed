@@ -92,6 +92,7 @@ pub mod keys {
     pub const SDLK_DELETE: i32 = 127;
     pub const SDLK_CAPSLOCK: i32 = sc(57);
     pub const SDLK_F1: i32 = sc(58);
+    pub const SDLK_F11: i32 = sc(68);
     pub const SDLK_F12: i32 = sc(69);
     pub const SDLK_PRINTSCREEN: i32 = sc(70);
     pub const SDLK_SCROLLLOCK: i32 = sc(71);

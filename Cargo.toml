@@ -31,7 +31,7 @@ cpal = "0.17"
 # default). `--no-default-features` builds without it.
 default = ["gamepad"]
 gamepad = ["bevy/bevy_gilrs"]
-# Move in any direction, like a modern action RPG (not part of the original; see port/NOTES.md).
+# (Free movement used to be a build feature; it is now the Free Movement option in the game.)
 free-movement = []
 
 [profile.dev]

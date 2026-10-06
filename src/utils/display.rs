@@ -85,43 +85,10 @@ fn calculate_ui_rectangle(ctx: &mut Ctx) {
 fn get_preferred_window_size(ctx: &mut Ctx) -> (i32, i32) {
     let (mut w, mut h) = if ctx.dx.force_resolution.0 != 0 { ctx.dx.force_resolution } else { ctx.options.graphics.resolution.get() };
     if ctx.options.graphics.upscale.get() && ctx.options.graphics.fit_to_screen.get() {
-        if follows_window(ctx) && ctx.options.graphics.fullscreen.get() && !ctx.platform.headless {
-            // free-movement build: full screen at the screen's own resolution
-            let m = win32::desktop_display_mode();
-            (w, h) = (m.w.max(m.h), m.w.min(m.h));
-        } else {
-            calculate_preferred_window_size(ctx, &mut w, &mut h);
-        }
+        calculate_preferred_window_size(ctx, &mut w, &mut h);
     }
     adjust_to_screen_geometry(ctx, (w, h));
     (w, h)
-}
-
-/// The game's resolution follows the window's size (free-movement build, with Upscale and Fit
-/// to Screen on; not in the original, which keeps the resolution option and scales the picture).
-fn follows_window(ctx: &Ctx) -> bool {
-    crate::freemove::ENABLED && ctx.options.graphics.upscale.get() && ctx.options.graphics.fit_to_screen.get()
-}
-
-/// Called before drawing a frame: when the window's size changed, the game's resolution changes
-/// with it, so a full-screen or resized window shows more of the world instead of a stretched
-/// picture (free-movement build).
-pub fn follow_window_size(ctx: &mut Ctx) {
-    if !follows_window(ctx) || !ctx.platform.window_created || !ctx.dx.has_renderer {
-        return;
-    }
-    let (w, h) = ctx.platform.current_window_size();
-    // the game's screens need at least 640 x 480
-    let (w, h) = (w.max(640), h.max(480));
-    if (w, h) == (ctx.dx.gn_screen_width, ctx.dx.gn_screen_height) || ctx.platform.current_window_size().0 <= 0 {
-        return;
-    }
-    adjust_to_screen_geometry(ctx, (w, h));
-    ctx.dx.output = vec![0; (w * h * 3) as usize];
-    crate::engine::dx::create_back_buffer(ctx);
-    crate::engine::render::scrollrt::calc_viewport_geometry(ctx);
-    crate::controls::touch::initialize_virtual_gamepad(ctx);
-    crate::engine::backbuffer_state::redraw_everything(ctx);
 }
 
 /// Original: `devilution::AdjustToScreenGeometry` (utils/display.cpp).

@@ -181,6 +181,22 @@ pub fn load_game_archives(ctx: &mut Ctx) {
     a.hfmusic_mpq = load_mpq(&paths, "hfmusic.mpq");
     a.hfvoice_mpq = load_mpq(&paths, "hfvoice.mpq");
     if ctx.init.gb_is_hellfire && (a.hfmonk_mpq.is_none() || a.hfmusic_mpq.is_none() || a.hfvoice_mpq.is_none()) {
+        if !ctx.init.force_hellfire {
+            // Not in the original (which stops with an error): with an incomplete set of Hellfire
+            // files the game runs as plain Diablo, which needs only DIABDAT.MPQ.
+            log::info!("Not all Hellfire MPQs were found (hellfire.mpq, hfmonk.mpq, hfmusic.mpq, hfvoice.mpq): playing Diablo");
+            ctx.init.gb_is_hellfire = false;
+            let a = &mut ctx.init.archives;
+            a.hellfire_mpq = None;
+            a.hfmonk_mpq = None;
+            a.hfbard_mpq = None;
+            a.hfbarb_mpq = None;
+            a.hfmusic_mpq = None;
+            a.hfvoice_mpq = None;
+            ctx.diablo.gb_bard = false;
+            ctx.diablo.gb_barbarian = false;
+            return;
+        }
         crate::diablo_ui::dialogs::ui_error_ok_dialog(
             ctx,
             &tr("Some Hellfire MPQs are missing"),

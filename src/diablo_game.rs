@@ -373,6 +373,11 @@ fn press_key(ctx: &mut Ctx, vkey: i32, mod_state: u16) {
         diablo_pause_game(ctx);
         return;
     }
+    if vkey == SDLK_F11 {
+        // not in the original (Alt+Enter only)
+        toggle_fullscreen(ctx);
+        return;
+    }
     if crate::gmenu::gmenu_presskeys(ctx, vkey) || crate::control::control_presskeys(ctx, vkey) {
         return;
     }

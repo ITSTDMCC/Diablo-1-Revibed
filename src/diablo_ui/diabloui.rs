@@ -536,8 +536,10 @@ pub fn ui_handle_events(ctx: &mut Ctx, event: &Event) {
         ctx.diablo.mouse_position = (*x, *y);
         return;
     }
-    if let Event::KeyDown { key: SDLK_RETURN, .. } = event {
-        if ctx.platform.is_key_down(SDLK_LALT) || ctx.platform.is_key_down(SDLK_RALT) {
+    // F11 toggles full screen too (not in the original, which uses Alt+Enter only)
+    let f11 = matches!(event, Event::KeyDown { key: SDLK_F11, .. });
+    if let Event::KeyDown { key: SDLK_RETURN | SDLK_F11, .. } = event {
+        if f11 || ctx.platform.is_key_down(SDLK_LALT) || ctx.platform.is_key_down(SDLK_RALT) {
             let full = crate::utils::display::is_full_screen(ctx);
             if let Some(cb) = ctx.options.graphics.fullscreen.set_value(!full) {
                 crate::options::run_option_callback(ctx, cb);

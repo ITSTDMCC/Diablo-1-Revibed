@@ -126,6 +126,15 @@ fn apply_commands(
             FrontCommand::CreateWindow { title, width, height, fullscreen, resizable } => {
                 window.title = title;
                 window.resolution = WindowResolution::new(width as u32, height as u32);
+                if fullscreen != Fullscreen::Windowed {
+                    // Full screen from the start: the window gets the screen's size. (Given the game's
+                    // size here, the window kept that size inside the full-screen mode, so the picture
+                    // did not fill the screen until full screen was switched off and on again.)
+                    let m = super::win32::desktop_display_mode();
+                    if m.w > 0 && m.h > 0 {
+                        window.resolution = WindowResolution::new(m.w as u32, m.h as u32);
+                    }
+                }
                 window.mode = mode_of(fullscreen);
                 window.resizable = resizable;
                 window.visible = true;
@@ -348,7 +357,7 @@ pub fn sdl_keycode(logical: &Key, code: KeyCode) -> i32 {
         KeyCode::F8 => SDLK_F1 + 7,
         KeyCode::F9 => SDLK_F1 + 8,
         KeyCode::F10 => SDLK_F1 + 9,
-        KeyCode::F11 => SDLK_F1 + 10,
+        KeyCode::F11 => SDLK_F11,
         KeyCode::F12 => SDLK_F12,
         KeyCode::PrintScreen => SDLK_PRINTSCREEN,
         KeyCode::ScrollLock => SDLK_SCROLLLOCK,
