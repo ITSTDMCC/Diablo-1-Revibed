@@ -38,8 +38,8 @@ build needs about 3 GB of disk for the compiler's work files.
 ## Quick start (ready-made download)
 
 1. Install your own copy of Diablo (GOG: *Diablo + Hellfire*).
-2. Download the latest `diablo1_rs-...-windows-x64.zip` from
-   [Releases](https://github.com/ITSTDMCC/Diablo-1-Revibed/releases) and unzip it anywhere (not inside
+2. Download the latest
+   [Release](https://github.com/ITSTDMCC/Diablo-1-Revibed/releases) and unzip it anywhere (not inside
    *Program Files*).
 3. Double-click **Setup.bat** once. It finds your Diablo folder (the one with `DIABDAT.MPQ`), or
    asks you to pick it, and downloads `devilutionx.mpq` from the official DevilutionX 1.5.3
