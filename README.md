@@ -127,9 +127,7 @@ view to the hero's eyes and back.
   rough: arches look solid below their top, town houses and trees look flat, and close-up sprites
   are blocky.
 
-### HD art
 
-Not available yet. The port shows the original 640x480 art (scaled to the window).
 
 ## Controls
 
@@ -197,7 +195,6 @@ player may notice:
 - Sound is mixed by the port's own simple mixer; it may sound very slightly different. MP3 music
   replacements are not supported.
 - Pasting from the clipboard into text fields does not work.
-- HD art does not exist yet.
 
 ## Building with an AI agent
 
