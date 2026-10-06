@@ -41,9 +41,8 @@ build needs about 3 GB of disk for the compiler's work files.
 2. Download the latest
    [Release](https://github.com/ITSTDMCC/Diablo-1-Revibed/releases) and unzip it anywhere (not inside
    *Program Files*).
-3. Double-click **Setup.bat** once. It finds your Diablo folder (the one with `DIABDAT.MPQ`), or
-   asks you to pick it, and downloads `devilutionx.mpq` from the official DevilutionX 1.5.3
-   release (and checks it is the right file).
+3. Copy your Diablo game files into the unzipped folder, next to `diablo1_rs.exe`: `DIABDAT.MPQ`
+   from your Diablo folder (by default `C:\Program Files (x86)\GOG Galaxy\Games\Diablo`).
 4. Play with **Play Diablo.bat**. **F11** switches between full screen and a window.
 
 Only `DIABDAT.MPQ` is needed: Hellfire's files (`hellfire.mpq`, `hfmonk.mpq`, `hfmusic.mpq`,
@@ -51,7 +50,9 @@ Only `DIABDAT.MPQ` is needed: Hellfire's files (`hellfire.mpq`, `hfmonk.mpq`, `h
 Hellfire (change it later in *Settings > Start Up > Game Mode*); with none or only some of them it
 plays Diablo.
 
-No game data is in the download. To build it yourself instead, follow the setup below.
+No Diablo game data is in the download. It includes `devilutionx.mpq` (DevilutionX's own fonts and
+interface pieces from the official DevilutionX 1.5.3 release). To build it yourself instead, follow
+the setup below.
 
 ## Setup, from a fresh Windows install (building it yourself)
 

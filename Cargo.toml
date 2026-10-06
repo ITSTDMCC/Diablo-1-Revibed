@@ -1,6 +1,6 @@
 [package]
 name = "diablo1_rs"
-version = "0.2.1"
+version = "0.3.0"
 edition = "2024"
 description = "Rust port of Diablo 1 (from the DevilutionX 1.5.3 source). Requires your own copy of the game data."
 publish = false

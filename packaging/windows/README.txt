@@ -1,41 +1,35 @@
-diablo1_rs - a Rust port of Diablo (1996) for Windows 10/11 (64-bit)
-=====================================================================
+Diablo-1-Revibed - a Rust port of Diablo (1996) for Windows 10/11 (64-bit)
+==========================================================================
 
-This zip contains NO game data. You need your own copy of Diablo: GOG sells it as
-"Diablo + Hellfire" (https://www.gog.com/en/game/diablo). Install it first.
+This zip contains NO Diablo game data. You need your own copy of Diablo: GOG sells it as
+"Diablo + Hellfire" (https://www.gog.com/en/game/diablo).
 
 Getting started
 ---------------
-1. Unzip this folder anywhere (for example C:\Games\diablo1_rs). Not inside "Program Files".
-2. Double-click "Setup.bat". It
-     - finds your Diablo folder (the one with DIABDAT.MPQ) or asks you to pick it, and
-     - downloads devilutionx.mpq (DevilutionX's fonts and interface pieces, about 10 MB)
-       from the official DevilutionX 1.5.3 release and checks it.
-   You only do this once. (Windows may warn about running a downloaded file: choose
+1. Unzip this folder anywhere (for example C:\Games\Diablo-1-Revibed). Not inside
+   "Program Files".
+2. Copy your Diablo game files into this folder, next to diablo1_rs.exe:
+     - DIABDAT.MPQ                                   (required)
+     - hellfire.mpq, hfmonk.mpq, hfmusic.mpq,
+       hfvoice.mpq                                   (optional, for Hellfire)
+   You find them in your Diablo installation folder, by default
+   C:\Program Files (x86)\GOG Galaxy\Games\Diablo
+3. Double-click "Play Diablo.bat". (Windows may warn about running a downloaded file: choose
    "More info" > "Run anyway".)
-3. Play: double-click "Play Diablo.bat".
-     - F11 switches between full screen and a window.
-     - Settings > Gameplay > Diablo 2 Free Movement (first line): move in any direction like a modern action RPG;
-       with it on, X switches to an experimental first-person view.
-     - Only DIABDAT.MPQ is needed. Hellfire is optional: with all its files (hellfire.mpq,
-       hfmonk.mpq, hfmusic.mpq, hfvoice.mpq) the game asks once whether to play Diablo or
-       Hellfire (Settings > Start Up > Game Mode); otherwise it plays Diablo.
 
-Alternatively copy DIABDAT.MPQ into this folder and run diablo1_rs.exe directly.
+Good to know
+------------
+- F11 switches between full screen and a window.
+- Settings > Gameplay > Diablo 2 Free Movement (first line): move in any direction like a modern
+  action RPG; with it on, X switches to an experimental first-person view.
+- With all four Hellfire files the game asks once whether to play Diablo or Hellfire
+  (change it later in Settings > Start Up > Game Mode). Without them, or with only some of
+  them, it plays Diablo.
+- Settings (diablo.ini) and saves are kept in this folder.
+- devilutionx.mpq (included) holds DevilutionX's own fonts and interface pieces, from the
+  official DevilutionX 1.5.3 release. It is not Blizzard game data.
 
-Controls, settings, saves and known differences: see the README on
-https://github.com/ITSTDMCC/Diablo-1-Revibed
-
-Settings (diablo.ini) and saves are kept in this folder.
-
-If something goes wrong
------------------------
-- "DIABDAT.MPQ was not found": install Diablo, then run Setup.bat again, or copy DIABDAT.MPQ
-  from your Diablo folder into this folder.
-- No download possible: get devilutionx-windows-x86_64.zip from
-  https://github.com/diasurgical/DevilutionX/releases/tag/1.5.3 and copy devilutionx.mpq from
-  it into this folder.
-- To pick a different Diablo folder, delete data-dir.txt and run Setup.bat again.
+Controls and known differences: see https://github.com/ITSTDMCC/Diablo-1-Revibed
 
 Licence
 -------
