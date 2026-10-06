@@ -16,8 +16,8 @@ with [Bevy](https://bevyengine.org/) 0.19 for the window and input.
 >   the Sustainable Use License: **free, non-commercial use only**. A copy of those terms is in
 >   [LICENSE-DevilutionX.md](LICENSE-DevilutionX.md). Not affiliated with Blizzard Entertainment,
 >   GOG or the DevilutionX team.
->   - I added a few features for QOL/experimentation. The movement system has been reworked to allow more freedom in traversing the dungeon. Hopefully you enjoy it!
->   - I also added a first person mode to see how plausible implementing it is. (Spoiler alert, not very good lol). I'll revisit it someday. Press X to activate it. 
+> - I added a few features for QOL/experimentation. The movement system has been reworked to allow more freedom in traversing the dungeon. Hopefully you enjoy it!
+> - I also added a first person mode to see how plausible implementing it is. (Spoiler alert, not very good lol). I'll revisit it someday. Press X to activate it. 
 
 ## Requirements
 
